@@ -2341,6 +2341,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/GTLRiOSFramework-Info.plist";
 				INSTALL_PATH = "@loader_path/Frameworks";
@@ -2364,6 +2365,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/GTLRiOSFramework-Info.plist";
 				INSTALL_PATH = "@loader_path/Frameworks";
