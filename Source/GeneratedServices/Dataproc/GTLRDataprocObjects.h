@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Dataproc API (dataproc/v1)
+//   Cloud Dataproc API (dataproc/v1)
 // Description:
 //   Manages Hadoop-based clusters and jobs on Google Cloud Platform.
 // Documentation:
@@ -25,6 +25,7 @@
 @class GTLRDataproc_ClusterMetrics;
 @class GTLRDataproc_ClusterMetrics_HdfsMetrics;
 @class GTLRDataproc_ClusterMetrics_YarnMetrics;
+@class GTLRDataproc_ClusterOperation;
 @class GTLRDataproc_ClusterOperationMetadata_Labels;
 @class GTLRDataproc_ClusterOperationStatus;
 @class GTLRDataproc_ClusterStatus;
@@ -65,6 +66,9 @@
 @class GTLRDataproc_SparkSqlJob_ScriptVariables;
 @class GTLRDataproc_Status;
 @class GTLRDataproc_Status_Details_Item;
+@class GTLRDataproc_WorkflowGraph;
+@class GTLRDataproc_WorkflowMetadata_Parameters;
+@class GTLRDataproc_WorkflowNode;
 @class GTLRDataproc_YarnApplication;
 
 // Generated comments include content from the discovery document; avoid them
@@ -163,7 +167,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_ClusterStatus_Substate_StaleStatus;
  *  Value: "UNHEALTHY"
  */
 GTLR_EXTERN NSString * const kGTLRDataproc_ClusterStatus_Substate_Unhealthy;
-/** Value: "UNSPECIFIED" */
+/**
+ *  The cluster substate is unknown.
+ *
+ *  Value: "UNSPECIFIED"
+ */
 GTLR_EXTERN NSString * const kGTLRDataproc_ClusterStatus_Substate_Unspecified;
 
 // ----------------------------------------------------------------------------
@@ -258,7 +266,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_JobStatus_Substate_StaleStatus;
  *  Value: "SUBMITTED"
  */
 GTLR_EXTERN NSString * const kGTLRDataproc_JobStatus_Substate_Submitted;
-/** Value: "UNSPECIFIED" */
+/**
+ *  The job substate is unknown.
+ *
+ *  Value: "UNSPECIFIED"
+ */
 GTLR_EXTERN NSString * const kGTLRDataproc_JobStatus_Substate_Unspecified;
 
 // ----------------------------------------------------------------------------
@@ -282,6 +294,75 @@ GTLR_EXTERN NSString * const kGTLRDataproc_LoggingConfig_DriverLogLevels_DriverL
 GTLR_EXTERN NSString * const kGTLRDataproc_LoggingConfig_DriverLogLevels_DriverLogLevel_Trace;
 /** Value: "WARN" */
 GTLR_EXTERN NSString * const kGTLRDataproc_LoggingConfig_DriverLogLevels_DriverLogLevel_Warn;
+
+// ----------------------------------------------------------------------------
+// GTLRDataproc_WorkflowMetadata.state
+
+/**
+ *  The operation is done; either cancelled or completed.
+ *
+ *  Value: "DONE"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowMetadata_State_Done;
+/**
+ *  The operation has been created.
+ *
+ *  Value: "PENDING"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowMetadata_State_Pending;
+/**
+ *  The operation is running.
+ *
+ *  Value: "RUNNING"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowMetadata_State_Running;
+/**
+ *  Unused.
+ *
+ *  Value: "UNKNOWN"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowMetadata_State_Unknown;
+
+// ----------------------------------------------------------------------------
+// GTLRDataproc_WorkflowNode.state
+
+/**
+ *  The node is awaiting prerequisite node to finish.
+ *
+ *  Value: "BLOCKED"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_Blocked;
+/**
+ *  The node completed successfully.
+ *
+ *  Value: "COMPLETED"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_Completed;
+/**
+ *  The node failed. A node can be marked FAILED because its ancestor or peer
+ *  failed.
+ *
+ *  Value: "FAILED"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_Failed;
+/**
+ *  State is unspecified.
+ *
+ *  Value: "NODE_STATE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_NodeStateUnspecified;
+/**
+ *  The node is runnable but not running.
+ *
+ *  Value: "RUNNABLE"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_Runnable;
+/**
+ *  The node is running.
+ *
+ *  Value: "RUNNING"
+ */
+GTLR_EXTERN NSString * const kGTLRDataproc_WorkflowNode_State_Running;
 
 // ----------------------------------------------------------------------------
 // GTLRDataproc_YarnApplication.state
@@ -343,7 +424,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 /**
  *  Specifies the type and number of accelerator cards attached to the instances
- *  of an instance group (see GPUs on Compute Engine).
+ *  of an instance. See GPUs on Compute Engine.
  */
 @interface GTLRDataproc_AcceleratorConfig : GTLRObject
 
@@ -356,11 +437,12 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 /**
  *  Full URL, partial URI, or short name of the accelerator type resource to
- *  expose to this instance. See Google Compute Engine AcceleratorTypes(
- *  /compute/docs/reference/beta/acceleratorTypes)Examples *
+ *  expose to this instance. See Compute Engine AcceleratorTypes.Examples:
  *  https://www.googleapis.com/compute/beta/projects/[project_id]/zones/us-east1-a/acceleratorTypes/nvidia-tesla-k80
- *  * projects/[project_id]/zones/us-east1-a/acceleratorTypes/nvidia-tesla-k80 *
- *  nvidia-tesla-k80
+ *  projects/[project_id]/zones/us-east1-a/acceleratorTypes/nvidia-tesla-k80
+ *  nvidia-tesla-k80Auto Zone Exception: If you are using the Cloud Dataproc
+ *  Auto Zone Placement feature, you must use the short name of the accelerator
+ *  type resource, for example, nvidia-tesla-k80.
  */
 @property(nonatomic, copy, nullable) NSString *acceleratorTypeUri;
 
@@ -376,7 +458,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 /**
  *  Describes the identifying information, config, and status of a cluster of
- *  Google Compute Engine instances.
+ *  Compute Engine instances.
  */
 @interface GTLRDataproc_Cluster : GTLRObject
 
@@ -387,7 +469,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, copy, nullable) NSString *clusterName;
 
 /**
- *  Output-only. A cluster UUID (Unique Universal Identifier). Cloud Dataproc
+ *  Output only. A cluster UUID (Unique Universal Identifier). Cloud Dataproc
  *  generates this value when it creates the cluster.
  */
 @property(nonatomic, copy, nullable) NSString *clusterUuid;
@@ -420,10 +502,10 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @property(nonatomic, copy, nullable) NSString *projectId;
 
-/** Output-only. Cluster status. */
+/** Output only. Cluster status. */
 @property(nonatomic, strong, nullable) GTLRDataproc_ClusterStatus *status;
 
-/** Output-only. The previous cluster status. */
+/** Output only. The previous cluster status. */
 @property(nonatomic, strong, nullable) NSArray<GTLRDataproc_ClusterStatus *> *statusHistory;
 
 @end
@@ -452,18 +534,18 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_ClusterConfig : GTLRObject
 
 /**
- *  Optional. A Google Cloud Storage staging bucket used for sharing generated
- *  SSH keys and config. If you do not specify a staging bucket, Cloud Dataproc
- *  will determine an appropriate Cloud Storage location (US, ASIA, or EU) for
- *  your cluster's staging bucket according to the Google Compute Engine zone
- *  where your cluster is deployed, and then it will create and manage this
+ *  Optional. A Cloud Storage staging bucket used for sharing generated SSH keys
+ *  and config. If you do not specify a staging bucket, Cloud Dataproc will
+ *  determine an appropriate Cloud Storage location (US, ASIA, or EU) for your
+ *  cluster's staging bucket according to the Google Compute Engine zone where
+ *  your cluster is deployed, and then it will create and manage this
  *  project-level, per-location bucket for you.
  */
 @property(nonatomic, copy, nullable) NSString *configBucket;
 
 /**
- *  Required. The shared Google Compute Engine config settings for all instances
- *  in a cluster.
+ *  Required. The shared Compute Engine config settings for all instances in a
+ *  cluster.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_GceClusterConfig *gceClusterConfig;
 
@@ -483,14 +565,14 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) NSArray<GTLRDataproc_NodeInitializationAction *> *initializationActions;
 
 /**
- *  Optional. The Google Compute Engine config settings for the master instance
- *  in a cluster.
+ *  Optional. The Compute Engine config settings for the master instance in a
+ *  cluster.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_InstanceGroupConfig *masterConfig;
 
 /**
- *  Optional. The Google Compute Engine config settings for additional worker
- *  instances in a cluster.
+ *  Optional. The Compute Engine config settings for additional worker instances
+ *  in a cluster.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_InstanceGroupConfig *secondaryWorkerConfig;
 
@@ -498,8 +580,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) GTLRDataproc_SoftwareConfig *softwareConfig;
 
 /**
- *  Optional. The Google Compute Engine config settings for worker instances in
- *  a cluster.
+ *  Optional. The Compute Engine config settings for worker instances in a
+ *  cluster.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_InstanceGroupConfig *workerConfig;
 
@@ -547,43 +629,64 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 
 /**
+ *  The cluster operation triggered by a workflow.
+ */
+@interface GTLRDataproc_ClusterOperation : GTLRObject
+
+/**
+ *  Output only. Indicates the operation is done.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *done;
+
+/** Output only. Error, if operation failed. */
+@property(nonatomic, copy, nullable) NSString *error;
+
+/** Output only. The id of the cluster operation. */
+@property(nonatomic, copy, nullable) NSString *operationId;
+
+@end
+
+
+/**
  *  Metadata describing the operation.
  */
 @interface GTLRDataproc_ClusterOperationMetadata : GTLRObject
 
-/** Output-only. Name of the cluster for the operation. */
+/** Output only. Name of the cluster for the operation. */
 @property(nonatomic, copy, nullable) NSString *clusterName;
 
-/** Output-only. Cluster UUID for the operation. */
+/** Output only. Cluster UUID for the operation. */
 @property(nonatomic, copy, nullable) NSString *clusterUuid;
 
 /**
- *  Output-only. Short description of operation.
+ *  Output only. Short description of operation.
  *
  *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
  */
 @property(nonatomic, copy, nullable) NSString *descriptionProperty;
 
-/** Output-only. Labels associated with the operation */
+/** Output only. Labels associated with the operation */
 @property(nonatomic, strong, nullable) GTLRDataproc_ClusterOperationMetadata_Labels *labels;
 
-/** Output-only. The operation type. */
+/** Output only. The operation type. */
 @property(nonatomic, copy, nullable) NSString *operationType;
 
-/** Output-only. Current operation status. */
+/** Output only. Current operation status. */
 @property(nonatomic, strong, nullable) GTLRDataproc_ClusterOperationStatus *status;
 
-/** Output-only. The previous operation status. */
+/** Output only. The previous operation status. */
 @property(nonatomic, strong, nullable) NSArray<GTLRDataproc_ClusterOperationStatus *> *statusHistory;
 
-/** Output-only. Errors encountered during operation execution. */
+/** Output only. Errors encountered during operation execution. */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *warnings;
 
 @end
 
 
 /**
- *  Output-only. Labels associated with the operation
+ *  Output only. Labels associated with the operation
  *
  *  @note This class is documented as having more properties of NSString. Use @c
  *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
@@ -599,14 +702,14 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @interface GTLRDataproc_ClusterOperationStatus : GTLRObject
 
-/** Output-only.A message containing any operation metadata details. */
+/** Output only. A message containing any operation metadata details. */
 @property(nonatomic, copy, nullable) NSString *details;
 
-/** Output-only. A message containing the detailed operation state. */
+/** Output only. A message containing the detailed operation state. */
 @property(nonatomic, copy, nullable) NSString *innerState;
 
 /**
- *  Output-only. A message containing the operation state.
+ *  Output only. A message containing the operation state.
  *
  *  Likely values:
  *    @arg @c kGTLRDataproc_ClusterOperationStatus_State_Done The operation is
@@ -620,7 +723,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @property(nonatomic, copy, nullable) NSString *state;
 
-/** Output-only. The time this state was entered. */
+/** Output only. The time this state was entered. */
 @property(nonatomic, strong, nullable) GTLRDateTime *stateStartTime;
 
 @end
@@ -631,11 +734,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @interface GTLRDataproc_ClusterStatus : GTLRObject
 
-/** Output-only. Optional details of cluster's state. */
+/** Output only. Optional details of cluster's state. */
 @property(nonatomic, copy, nullable) NSString *detail;
 
 /**
- *  Output-only. The cluster's state.
+ *  Output only. The cluster's state.
  *
  *  Likely values:
  *    @arg @c kGTLRDataproc_ClusterStatus_State_Creating The cluster is being
@@ -653,11 +756,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @property(nonatomic, copy, nullable) NSString *state;
 
-/** Output-only. Time when this state was entered. */
+/** Output only. Time when this state was entered. */
 @property(nonatomic, strong, nullable) GTLRDateTime *stateStartTime;
 
 /**
- *  Output-only. Additional state information that includes status reported by
+ *  Output only. Additional state information that includes status reported by
  *  the agent.
  *
  *  Likely values:
@@ -669,8 +772,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  *        known to be in an unhealthy state (for example, critical daemons are
  *        not running or HDFS capacity is exhausted).Applies to RUNNING state.
  *        (Value: "UNHEALTHY")
- *    @arg @c kGTLRDataproc_ClusterStatus_Substate_Unspecified Value
- *        "UNSPECIFIED"
+ *    @arg @c kGTLRDataproc_ClusterStatus_Substate_Unspecified The cluster
+ *        substate is unknown. (Value: "UNSPECIFIED")
  */
 @property(nonatomic, copy, nullable) NSString *substate;
 
@@ -690,8 +793,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_DiagnoseClusterResults : GTLRObject
 
 /**
- *  Output-only. The Google Cloud Storage URI of the diagnostic output. The
- *  output report is a plain text file with a summary of collected diagnostics.
+ *  Output only. The Cloud Storage URI of the diagnostic output. The output
+ *  report is a plain text file with a summary of collected diagnostics.
  */
 @property(nonatomic, copy, nullable) NSString *outputUri;
 
@@ -709,6 +812,13 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  *  Uses NSNumber of intValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *bootDiskSizeGb;
+
+/**
+ *  Optional. Type of the boot disk (default is "pd-standard"). Valid values:
+ *  "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent
+ *  Disk Hard Disk Drive).
+ */
+@property(nonatomic, copy, nullable) NSString *bootDiskType;
 
 /**
  *  Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are
@@ -738,8 +848,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 
 /**
- *  Common config settings for resources of Google Compute Engine cluster
- *  instances, applicable to all instances in the cluster.
+ *  Common config settings for resources of Compute Engine cluster instances,
+ *  applicable to all instances in the cluster.
  */
 @interface GTLRDataproc_GceClusterConfig : GTLRObject
 
@@ -756,19 +866,19 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) NSNumber *internalIpOnly;
 
 /**
- *  The Google Compute Engine metadata entries to add to all instances (see
- *  Project and instance metadata
+ *  The Compute Engine metadata entries to add to all instances (see Project and
+ *  instance metadata
  *  (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_GceClusterConfig_Metadata *metadata;
 
 /**
- *  Optional. The Google Compute Engine network to be used for machine
- *  communications. Cannot be specified with subnetwork_uri. If neither
- *  network_uri nor subnetwork_uri is specified, the "default" network of the
- *  project is used, if it exists. Cannot be a "Custom Subnet Network" (see
- *  Using Subnetworks for more information).A full URL, partial URI, or short
- *  name are valid. Examples:
+ *  Optional. The Compute Engine network to be used for machine communications.
+ *  Cannot be specified with subnetwork_uri. If neither network_uri nor
+ *  subnetwork_uri is specified, the "default" network of the project is used,
+ *  if it exists. Cannot be a "Custom Subnet Network" (see Using Subnetworks for
+ *  more information).A full URL, partial URI, or short name are valid.
+ *  Examples:
  *  https://www.googleapis.com/compute/v1/projects/[project_id]/regions/global/default
  *  projects/[project_id]/regions/global/default
  *  default
@@ -777,8 +887,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 /**
  *  Optional. The service account of the instances. Defaults to the default
- *  Google Compute Engine service account. Custom service accounts need
- *  permissions equivalent to the folloing IAM roles:
+ *  Compute Engine service account. Custom service accounts need permissions
+ *  equivalent to the following IAM roles:
  *  roles/logging.logWriter
  *  roles/storage.objectAdmin(see
  *  https://cloud.google.com/compute/docs/access/service-accounts#custom_service_accounts
@@ -788,9 +898,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, copy, nullable) NSString *serviceAccount;
 
 /**
- *  Optional. The URIs of service account scopes to be included in Google
- *  Compute Engine instances. The following base set of scopes is always
- *  included:
+ *  Optional. The URIs of service account scopes to be included in Compute
+ *  Engine instances. The following base set of scopes is always included:
  *  https://www.googleapis.com/auth/cloud.useraccounts.readonly
  *  https://www.googleapis.com/auth/devstorage.read_write
  *  https://www.googleapis.com/auth/logging.writeIf no scopes are specified, the
@@ -803,7 +912,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) NSArray<NSString *> *serviceAccountScopes;
 
 /**
- *  Optional. The Google Compute Engine subnetwork to be used for machine
+ *  Optional. The Compute Engine subnetwork to be used for machine
  *  communications. Cannot be specified with network_uri.A full URL, partial
  *  URI, or short name are valid. Examples:
  *  https://www.googleapis.com/compute/v1/projects/[project_id]/regions/us-east1/sub0
@@ -813,14 +922,13 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, copy, nullable) NSString *subnetworkUri;
 
 /**
- *  The Google Compute Engine tags to add to all instances (see Tagging
- *  instances).
+ *  The Compute Engine tags to add to all instances (see Tagging instances).
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *tags;
 
 /**
- *  Optional. The zone where the Google Compute Engine cluster will be located.
- *  On a create request, it is required in the "global" region. If omitted in a
+ *  Optional. The zone where the Compute Engine cluster will be located. On a
+ *  create request, it is required in the "global" region. If omitted in a
  *  non-global Cloud Dataproc region, the service will pick a zone in the
  *  corresponding Compute Engine region. On a get request, zone will always be
  *  present.A full URL, partial URI, or short name are valid. Examples:
@@ -834,8 +942,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 
 /**
- *  The Google Compute Engine metadata entries to add to all instances (see
- *  Project and instance metadata
+ *  The Compute Engine metadata entries to add to all instances (see Project and
+ *  instance metadata
  *  (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
  *
  *  @note This class is documented as having more properties of NSString. Use @c
@@ -998,13 +1106,13 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 
 /**
- *  Optional. The config settings for Google Compute Engine resources in an
- *  instance group, such as a master or worker group.
+ *  Optional. The config settings for Compute Engine resources in an instance
+ *  group, such as a master or worker group.
  */
 @interface GTLRDataproc_InstanceGroupConfig : GTLRObject
 
 /**
- *  Optional. The Google Compute Engine accelerator configuration for these
+ *  Optional. The Compute Engine accelerator configuration for these
  *  instances.Beta Feature: This feature is still under development. It may be
  *  changed before final release.
  */
@@ -1014,15 +1122,14 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) GTLRDataproc_DiskConfig *diskConfig;
 
 /**
- *  Output-only. The Google Compute Engine image resource used for cluster
- *  instances. Inferred from SoftwareConfig.image_version.
+ *  Optional. The Compute Engine image resource used for cluster instances. It
+ *  can be specified or may be inferred from SoftwareConfig.image_version.
  */
 @property(nonatomic, copy, nullable) NSString *imageUri;
 
 /**
- *  Optional. The list of instance names. Cloud Dataproc derives the names from
- *  cluster_name, num_instances, and the instance group if not set by user
- *  (recommended practice is to let Cloud Dataproc derive the name).
+ *  Output only. The list of instance names. Cloud Dataproc derives the names
+ *  from cluster_name, num_instances, and the instance group.
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *instanceNames;
 
@@ -1034,17 +1141,19 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) NSNumber *isPreemptible;
 
 /**
- *  Optional. The Google Compute Engine machine type used for cluster
- *  instances.A full URL, partial URI, or short name are valid. Examples:
+ *  Optional. The Compute Engine machine type used for cluster instances.A full
+ *  URL, partial URI, or short name are valid. Examples:
  *  https://www.googleapis.com/compute/v1/projects/[project_id]/zones/us-east1-a/machineTypes/n1-standard-2
  *  projects/[project_id]/zones/us-east1-a/machineTypes/n1-standard-2
- *  n1-standard-2
+ *  n1-standard-2Auto Zone Exception: If you are using the Cloud Dataproc Auto
+ *  Zone Placement feature, you must use the short name of the machine type
+ *  resource, for example, n1-standard-2.
  */
 @property(nonatomic, copy, nullable) NSString *machineTypeUri;
 
 /**
- *  Output-only. The config for Google Compute Engine Instance Group Manager
- *  that manages this group. This is only used for preemptible instance groups.
+ *  Output only. The config for Compute Engine Instance Group Manager that
+ *  manages this group. This is only used for preemptible instance groups.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_ManagedGroupConfig *managedGroupConfig;
 
@@ -1065,14 +1174,14 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_Job : GTLRObject
 
 /**
- *  Output-only. If present, the location of miscellaneous control files which
+ *  Output only. If present, the location of miscellaneous control files which
  *  may be used as part of job setup and handling. If not present, control files
  *  may be placed in the same location as driver_output_uri.
  */
 @property(nonatomic, copy, nullable) NSString *driverControlFilesUri;
 
 /**
- *  Output-only. A URI pointing to the location of the stdout of the job's
+ *  Output only. A URI pointing to the location of the stdout of the job's
  *  driver program.
  */
 @property(nonatomic, copy, nullable) NSString *driverOutputResourceUri;
@@ -1121,17 +1230,17 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) GTLRDataproc_SparkSqlJob *sparkSqlJob;
 
 /**
- *  Output-only. The job status. Additional application-specific status
+ *  Output only. The job status. Additional application-specific status
  *  information may be contained in the <code>type_job</code> and
  *  <code>yarn_applications</code> fields.
  */
 @property(nonatomic, strong, nullable) GTLRDataproc_JobStatus *status;
 
-/** Output-only. The previous job status. */
+/** Output only. The previous job status. */
 @property(nonatomic, strong, nullable) NSArray<GTLRDataproc_JobStatus *> *statusHistory;
 
 /**
- *  Output-only. The collection of YARN applications spun up by this job.Beta
+ *  Output only. The collection of YARN applications spun up by this job.Beta
  *  Feature: This report is available for testing purposes only. It may be
  *  changed before final release.
  */
@@ -1166,7 +1275,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, copy, nullable) NSString *clusterName;
 
 /**
- *  Output-only. A cluster UUID generated by the Cloud Dataproc service when the
+ *  Output only. A cluster UUID generated by the Cloud Dataproc service when the
  *  job is submitted.
  */
 @property(nonatomic, copy, nullable) NSString *clusterUuid;
@@ -1198,8 +1307,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 
 /**
- *  Job scheduling options.Beta Feature: These options are available for testing
- *  purposes only. They may be changed before final release.
+ *  Job scheduling options.
  */
 @interface GTLRDataproc_JobScheduling : GTLRObject
 
@@ -1222,13 +1330,13 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_JobStatus : GTLRObject
 
 /**
- *  Output-only. Optional job state details, such as an error description if the
+ *  Output only. Optional job state details, such as an error description if the
  *  state is <code>ERROR</code>.
  */
 @property(nonatomic, copy, nullable) NSString *details;
 
 /**
- *  Output-only. A state message specifying the overall job state.
+ *  Output only. A state message specifying the overall job state.
  *
  *  Likely values:
  *    @arg @c kGTLRDataproc_JobStatus_State_AttemptFailure Job attempt has
@@ -1257,11 +1365,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @property(nonatomic, copy, nullable) NSString *state;
 
-/** Output-only. The time when this state was entered. */
+/** Output only. The time when this state was entered. */
 @property(nonatomic, strong, nullable) GTLRDateTime *stateStartTime;
 
 /**
- *  Output-only. Additional state information, which includes status reported by
+ *  Output only. Additional state information, which includes status reported by
  *  the agent.
  *
  *  Likely values:
@@ -1276,7 +1384,8 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  *        "STALE_STATUS")
  *    @arg @c kGTLRDataproc_JobStatus_Substate_Submitted The Job is submitted to
  *        the agent.Applies to RUNNING state. (Value: "SUBMITTED")
- *    @arg @c kGTLRDataproc_JobStatus_Substate_Unspecified Value "UNSPECIFIED"
+ *    @arg @c kGTLRDataproc_JobStatus_Substate_Unspecified The job substate is
+ *        unknown. (Value: "UNSPECIFIED")
  */
 @property(nonatomic, copy, nullable) NSString *substate;
 
@@ -1294,7 +1403,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_ListClustersResponse : GTLRCollectionObject
 
 /**
- *  Output-only. The clusters in the project.
+ *  Output only. The clusters in the project.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.
@@ -1302,7 +1411,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @property(nonatomic, strong, nullable) NSArray<GTLRDataproc_Cluster *> *clusters;
 
 /**
- *  Output-only. This token is included in the response if there are more
+ *  Output only. This token is included in the response if there are more
  *  results to fetch. To fetch additional results, provide this value as the
  *  page_token in a subsequent ListClustersRequest.
  */
@@ -1322,7 +1431,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_ListJobsResponse : GTLRCollectionObject
 
 /**
- *  Output-only. Jobs list.
+ *  Output only. Jobs list.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.
@@ -1397,11 +1506,11 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @interface GTLRDataproc_ManagedGroupConfig : GTLRObject
 
-/** Output-only. The name of the Instance Group Manager for this group. */
+/** Output only. The name of the Instance Group Manager for this group. */
 @property(nonatomic, copy, nullable) NSString *instanceGroupManagerName;
 
 /**
- *  Output-only. The name of the Instance Template used for the Managed Instance
+ *  Output only. The name of the Instance Template used for the Managed Instance
  *  Group.
  */
 @property(nonatomic, copy, nullable) NSString *instanceTemplateName;
@@ -1415,7 +1524,7 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
  */
 @interface GTLRDataproc_NodeInitializationAction : GTLRObject
 
-/** Required. Google Cloud Storage URI of executable file. */
+/** Required. Cloud Storage URI of executable file. */
 @property(nonatomic, copy, nullable) NSString *executableFile;
 
 /**
@@ -1687,9 +1796,10 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 @interface GTLRDataproc_SoftwareConfig : GTLRObject
 
 /**
- *  Optional. The version of software inside the cluster. It must match the
- *  regular expression [0-9]+\\.[0-9]+. If unspecified, it defaults to the
- *  latest version (see Cloud Dataproc Versioning).
+ *  Optional. The version of software inside the cluster. It must be one of the
+ *  supported Cloud Dataproc Versions, such as "1.2" (including a subminor
+ *  version, such as "1.2.29"), or the "preview" version. If unspecified, it
+ *  defaults to the latest version.
  */
 @property(nonatomic, copy, nullable) NSString *imageVersion;
 
@@ -1947,6 +2057,132 @@ GTLR_EXTERN NSString * const kGTLRDataproc_YarnApplication_State_Submitted;
 
 /** Required. The job resource. */
 @property(nonatomic, strong, nullable) GTLRDataproc_Job *job;
+
+/**
+ *  Optional. A unique id used to identify the request. If the server receives
+ *  two SubmitJobRequest requests with the same id, then the second request will
+ *  be ignored and the first Job created and stored in the backend is
+ *  returned.It is recommended to always set this value to a UUID
+ *  (https://en.wikipedia.org/wiki/Universally_unique_identifier).The id must
+ *  contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
+ *  (-). The maximum length is 40 characters.
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+@end
+
+
+/**
+ *  The workflow graph.
+ */
+@interface GTLRDataproc_WorkflowGraph : GTLRObject
+
+/** Output only. The workflow nodes. */
+@property(nonatomic, strong, nullable) NSArray<GTLRDataproc_WorkflowNode *> *nodes;
+
+@end
+
+
+/**
+ *  A Cloud Dataproc workflow template resource.
+ */
+@interface GTLRDataproc_WorkflowMetadata : GTLRObject
+
+/** Output only. The name of the managed cluster. */
+@property(nonatomic, copy, nullable) NSString *clusterName;
+
+/** Output only. The create cluster operation metadata. */
+@property(nonatomic, strong, nullable) GTLRDataproc_ClusterOperation *createCluster;
+
+/** Output only. The delete cluster operation metadata. */
+@property(nonatomic, strong, nullable) GTLRDataproc_ClusterOperation *deleteCluster;
+
+/** Output only. The workflow graph. */
+@property(nonatomic, strong, nullable) GTLRDataproc_WorkflowGraph *graph;
+
+/** Map from parameter names to values that were used for those parameters. */
+@property(nonatomic, strong, nullable) GTLRDataproc_WorkflowMetadata_Parameters *parameters;
+
+/**
+ *  Output only. The workflow state.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDataproc_WorkflowMetadata_State_Done The operation is done;
+ *        either cancelled or completed. (Value: "DONE")
+ *    @arg @c kGTLRDataproc_WorkflowMetadata_State_Pending The operation has
+ *        been created. (Value: "PENDING")
+ *    @arg @c kGTLRDataproc_WorkflowMetadata_State_Running The operation is
+ *        running. (Value: "RUNNING")
+ *    @arg @c kGTLRDataproc_WorkflowMetadata_State_Unknown Unused. (Value:
+ *        "UNKNOWN")
+ */
+@property(nonatomic, copy, nullable) NSString *state;
+
+/**
+ *  Output only. The "resource name" of the template.
+ *
+ *  Remapped to 'templateProperty' to avoid language reserved word 'template'.
+ */
+@property(nonatomic, copy, nullable) NSString *templateProperty;
+
+/**
+ *  Output only. The version of template at the time of workflow instantiation.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *version;
+
+@end
+
+
+/**
+ *  Map from parameter names to values that were used for those parameters.
+ *
+ *  @note This class is documented as having more properties of NSString. Use @c
+ *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
+ *        of properties and then fetch them; or @c -additionalProperties to
+ *        fetch them all at once.
+ */
+@interface GTLRDataproc_WorkflowMetadata_Parameters : GTLRObject
+@end
+
+
+/**
+ *  The workflow node.
+ */
+@interface GTLRDataproc_WorkflowNode : GTLRObject
+
+/** Output only. The error detail. */
+@property(nonatomic, copy, nullable) NSString *error;
+
+/** Output only. The job id; populated after the node enters RUNNING state. */
+@property(nonatomic, copy, nullable) NSString *jobId;
+
+/** Output only. Node's prerequisite nodes. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *prerequisiteStepIds;
+
+/**
+ *  Output only. The node state.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_Blocked The node is awaiting
+ *        prerequisite node to finish. (Value: "BLOCKED")
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_Completed The node completed
+ *        successfully. (Value: "COMPLETED")
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_Failed The node failed. A node
+ *        can be marked FAILED because its ancestor or peer failed. (Value:
+ *        "FAILED")
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_NodeStateUnspecified State is
+ *        unspecified. (Value: "NODE_STATE_UNSPECIFIED")
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_Runnable The node is runnable but
+ *        not running. (Value: "RUNNABLE")
+ *    @arg @c kGTLRDataproc_WorkflowNode_State_Running The node is running.
+ *        (Value: "RUNNING")
+ */
+@property(nonatomic, copy, nullable) NSString *state;
+
+/** Output only. The name of the node. */
+@property(nonatomic, copy, nullable) NSString *stepId;
 
 @end
 

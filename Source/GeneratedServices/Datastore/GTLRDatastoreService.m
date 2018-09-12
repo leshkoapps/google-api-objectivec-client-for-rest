@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Datastore API (datastore/v1)
+//   Cloud Datastore API (datastore/v1)
 // Description:
 //   Accesses the schemaless NoSQL database to provide fully managed, robust,
 //   scalable storage for your application.
@@ -29,7 +29,7 @@ NSString * const kGTLRAuthScopeDatastoreCloudPlatform = @"https://www.googleapis
     // From discovery.
     self.rootURLString = @"https://datastore.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

@@ -25,6 +25,7 @@
 @class GTLRAndroidEnterprise_ApprovalUrlInfo;
 @class GTLRAndroidEnterprise_AppUpdateEvent;
 @class GTLRAndroidEnterprise_AppVersion;
+@class GTLRAndroidEnterprise_ConfigurationVariables;
 @class GTLRAndroidEnterprise_Device;
 @class GTLRAndroidEnterprise_Enterprise;
 @class GTLRAndroidEnterprise_Entitlement;
@@ -32,23 +33,29 @@
 @class GTLRAndroidEnterprise_Install;
 @class GTLRAndroidEnterprise_InstallFailureEvent;
 @class GTLRAndroidEnterprise_LocalizedText;
+@class GTLRAndroidEnterprise_MaintenanceWindow;
 @class GTLRAndroidEnterprise_ManagedConfiguration;
+@class GTLRAndroidEnterprise_ManagedConfigurationsSettings;
 @class GTLRAndroidEnterprise_ManagedProperty;
 @class GTLRAndroidEnterprise_ManagedPropertyBundle;
 @class GTLRAndroidEnterprise_NewDeviceEvent;
 @class GTLRAndroidEnterprise_NewPermissionsEvent;
 @class GTLRAndroidEnterprise_Notification;
 @class GTLRAndroidEnterprise_PageInfo;
+@class GTLRAndroidEnterprise_Policy;
 @class GTLRAndroidEnterprise_Product;
 @class GTLRAndroidEnterprise_ProductApprovalEvent;
 @class GTLRAndroidEnterprise_ProductAvailabilityChangeEvent;
 @class GTLRAndroidEnterprise_ProductPermission;
+@class GTLRAndroidEnterprise_ProductPolicy;
 @class GTLRAndroidEnterprise_ProductSigningCertificate;
+@class GTLRAndroidEnterprise_ProductVisibility;
 @class GTLRAndroidEnterprise_ServiceAccountKey;
 @class GTLRAndroidEnterprise_StoreCluster;
 @class GTLRAndroidEnterprise_StorePage;
 @class GTLRAndroidEnterprise_TokenPagination;
 @class GTLRAndroidEnterprise_User;
+@class GTLRAndroidEnterprise_VariableSet;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -119,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  The Android Device Policy configuration of an enterprise.
+ *  Deprecated and unused.
  */
 @interface GTLRAndroidEnterprise_AndroidDevicePolicyConfig : GTLRObject
 
@@ -129,11 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy, nullable) NSString *kind;
 
-/**
- *  The state of Android Device Policy. "enabled" indicates that Android Device
- *  Policy is enabled for the enterprise and the EMM is allowed to manage
- *  devices with Android Device Policy, while "disabled" means that it cannot.
- */
+/** Deprecated and unused. */
 @property(nonatomic, copy, nullable) NSString *state;
 
 @end
@@ -308,6 +311,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRAndroidEnterprise_AppVersion : GTLRObject
 
 /**
+ *  The track that this app was published in. For example if track is "alpha",
+ *  this is an alpha version of the app.
+ */
+@property(nonatomic, copy, nullable) NSString *track;
+
+/**
  *  Unique increasing identifier for the app version.
  *
  *  Uses NSNumber of intValue.
@@ -347,10 +356,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  A configuration variables resource contains the managed configuration
+ *  settings ID to be applied to a single user, as well as the variable set that
+ *  is attributed to the user. The variable set will be used to replace
+ *  placeholders in the managed configuration settings.
+ */
+@interface GTLRAndroidEnterprise_ConfigurationVariables : GTLRObject
+
+/**
+ *  Identifies what kind of resource this is. Value: the fixed string
+ *  "androidenterprise#configurationVariables".
+ */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/** The ID of the managed configurations settings. */
+@property(nonatomic, copy, nullable) NSString *mcmId;
+
+/** The variable set that is attributed to the user. */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_VariableSet *> *variableSet;
+
+@end
+
+
+/**
  *  A Devices resource represents a mobile device managed by the EMM and
  *  belonging to a specific enterprise user.
- *  This collection cannot be modified via the API. It is automatically
- *  populated as devices are set up to be managed.
  */
 @interface GTLRAndroidEnterprise_Device : GTLRObject
 
@@ -381,6 +411,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  but the profile is itself not owned by a DPC.
  */
 @property(nonatomic, copy, nullable) NSString *managementType;
+
+/** The policy enforced on the device. */
+@property(nonatomic, strong, nullable) GTLRAndroidEnterprise_Policy *policy;
 
 @end
 
@@ -590,23 +623,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  A group license object indicates a product that an enterprise admin has
- *  approved for use in the enterprise. The product may be free or paid. For
- *  free products, a group license object is created in these cases: if the
- *  enterprise admin approves a product in Google Play, if the product is added
- *  to a collection, or if an entitlement for the product is created for a user
- *  via the API. For paid products, a group license object is only created as
- *  part of the first bulk purchase of that product in Google Play by the
- *  enterprise admin.
- *  The API can be used to query group licenses; the available information
- *  includes the total number of licenses purchased (for paid products) and the
- *  total number of licenses that have been provisioned, that is, the total
- *  number of user entitlements in existence for the product.
- *  Group license objects are never deleted. If, for example, a free app is
- *  added to a collection and then removed, the group license will remain,
- *  allowing the enterprise admin to keep track of any remaining entitlements.
- *  An enterprise admin may indicate they are no longer interested in the group
- *  license by marking it as unapproved in Google Play.
+ *  Group license objects allow you to keep track of licenses (called
+ *  entitlements) for both free and paid apps. For a free app, a group license
+ *  is created when an enterprise admin first approves the product in Google
+ *  Play or when the first entitlement for the product is created for a user via
+ *  the API. For a paid app, a group license object is only created when an
+ *  enterprise admin purchases the product in Google Play for the first time.
+ *  Use the API to query group licenses. A Grouplicenses resource includes the
+ *  total number of licenses purchased (paid apps only) and the total number of
+ *  licenses currently in use. In other words, the total number of Entitlements
+ *  that exist for the product.
+ *  Only one group license object is created per product and group license
+ *  objects are never deleted. If a product is unapproved, its group license
+ *  remains. This allows enterprise admins to keep track of any remaining
+ *  entitlements for the product.
  */
 @interface GTLRAndroidEnterprise_GroupLicense : GTLRObject
 
@@ -824,11 +854,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  A managed configuration resource contains the set of managed properties that
- *  have been configured for an Android app. The app's developer would have
- *  defined configurable properties in the managed configurations schema.
+ *  Maintenance window for managed Google Play Accounts. This allows Play store
+ *  to update the apps on the foreground in the designated window.
+ */
+@interface GTLRAndroidEnterprise_MaintenanceWindow : GTLRObject
+
+/**
+ *  Duration of the maintenance window, in milliseconds. The duration must be
+ *  between 30 minutes and 24 hours (inclusive).
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *durationMs;
+
+/**
+ *  Start time of the maintenance window, in milliseconds after midnight on the
+ *  device. Windows can span midnight.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *startTimeAfterMidnightMs;
+
+@end
+
+
+/**
+ *  A managed configuration resource contains the set of managed properties
+ *  defined by the app developer in the app's managed configurations schema, as
+ *  well as any configuration variables defined for the user.
  */
 @interface GTLRAndroidEnterprise_ManagedConfiguration : GTLRObject
+
+/**
+ *  Contains the ID of the managed configuration profile and the set of
+ *  configuration variables (if any) defined for the user.
+ */
+@property(nonatomic, strong, nullable) GTLRAndroidEnterprise_ConfigurationVariables *configurationVariables;
 
 /**
  *  Identifies what kind of resource this is. Value: the fixed string
@@ -878,6 +939,60 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** A managed configuration for an app for a specific user. */
 @property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ManagedConfiguration *> *managedConfigurationForUser;
+
+@end
+
+
+/**
+ *  A managed configurations settings resource contains the set of managed
+ *  properties that have been configured for an Android app to be applied to a
+ *  set of users. The app's developer would have defined configurable properties
+ *  in the managed configurations schema.
+ */
+@interface GTLRAndroidEnterprise_ManagedConfigurationsSettings : GTLRObject
+
+/**
+ *  Identifies what kind of resource this is. Value: the fixed string
+ *  "androidenterprise#managedConfigurationsSettings".
+ */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/**
+ *  The last updated time of the managed configuration settings in milliseconds
+ *  since 1970-01-01T00:00:00Z.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *lastUpdatedTimestampMillis;
+
+/** The set of managed properties for this configuration. */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ManagedProperty *> *managedProperty;
+
+/** The ID of the managed configurations settings. */
+@property(nonatomic, copy, nullable) NSString *mcmId;
+
+/** The name of the managed configurations settings. */
+@property(nonatomic, copy, nullable) NSString *name;
+
+@end
+
+
+/**
+ *  The managed configurations settings for a product.
+ */
+@interface GTLRAndroidEnterprise_ManagedConfigurationsSettingsListResponse : GTLRObject
+
+/**
+ *  Identifies what kind of resource this is. Value: the fixed string
+ *  "androidenterprise#managedConfigurationsSettingsListResponse".
+ */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/**
+ *  A managed configurations settings for an app that may be assigned to a group
+ *  of users in an enterprise.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ManagedConfigurationsSettings *> *managedConfigurationsSettings;
 
 @end
 
@@ -954,6 +1069,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The Android ID of the device. This field will always be present. */
 @property(nonatomic, copy, nullable) NSString *deviceId;
+
+/** Policy app on the device. */
+@property(nonatomic, copy, nullable) NSString *dpcPackageName;
 
 /**
  *  Identifies the extent to which the device is controlled by an Android EMM in
@@ -1133,6 +1251,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  The device policy for a given managed device.
+ */
+@interface GTLRAndroidEnterprise_Policy : GTLRObject
+
+/**
+ *  The auto-update policy for apps installed on the device. "choiceToTheUser"
+ *  allows the device's user to configure the app update policy. "always"
+ *  enables auto updates. "never" disables auto updates. "wifiOnly" enables auto
+ *  updates only when the device is connected to wifi.
+ */
+@property(nonatomic, copy, nullable) NSString *autoUpdatePolicy;
+
+/**
+ *  The maintenance window defining when apps running in the foreground should
+ *  be updated.
+ */
+@property(nonatomic, strong, nullable) GTLRAndroidEnterprise_MaintenanceWindow *maintenanceWindow;
+
+/**
+ *  The availability granted to the device for the specified products. "all"
+ *  gives the device access to all products, regardless of approval status.
+ *  "all" does not enable automatic visibility of "alpha" or "beta" tracks.
+ *  "whitelist" grants the device access the products specified in
+ *  productPolicy[]. Only products that are approved or products that were
+ *  previously approved (products with revoked approval) by the enterprise can
+ *  be whitelisted. If no value is provided, the availability set at the user
+ *  level is applied by default.
+ */
+@property(nonatomic, copy, nullable) NSString *productAvailabilityPolicy;
+
+/** The list of product policies. */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ProductPolicy *> *productPolicy;
+
+@end
+
+
+/**
  *  A Products resource represents an app in the Google Play store that is
  *  available to at least some users in the enterprise. (Some apps are
  *  restricted to a single enterprise, and no information about them is made
@@ -1143,14 +1298,30 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GTLRAndroidEnterprise_Product : GTLRObject
 
-/**
- *  App versions currently available for this product. The returned list
- *  contains only public versions. Alpha and beta versions are not included.
- */
+/** App versions currently available for this product. */
 @property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_AppVersion *> *appVersion;
 
 /** The name of the author of the product (for example, the app developer). */
 @property(nonatomic, copy, nullable) NSString *authorName;
+
+/** The countries which this app is available in. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *availableCountries;
+
+/** The tracks that are visible to the enterprise. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *availableTracks;
+
+/** The app category (e.g. RACING, SOCIAL, etc.) */
+@property(nonatomic, copy, nullable) NSString *category;
+
+/** The content rating for this app. */
+@property(nonatomic, copy, nullable) NSString *contentRating;
+
+/**
+ *  The localized promotional description, if available.
+ *
+ *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
+ */
+@property(nonatomic, copy, nullable) NSString *descriptionProperty;
 
 /** A link to the (consumer) Google Play details page for the product. */
 @property(nonatomic, copy, nullable) NSString *detailsUrl;
@@ -1178,6 +1349,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *kind;
 
 /**
+ *  The approximate time (within 7 days) the app was last published, expressed
+ *  in milliseconds since epoch.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *lastUpdatedTimestampMillis;
+
+/**
+ *  The minimum Android SDK necessary to run the app.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *minAndroidSdkVersion;
+
+/** A list of permissions required by the app. */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ProductPermission *> *permissions;
+
+/**
  *  A string of the form app:<package name>. For example,
  *  app:com.google.android.gm represents the Gmail app.
  */
@@ -1190,12 +1379,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy, nullable) NSString *productPricing;
 
+/** A description of the recent changes made to the app. */
+@property(nonatomic, copy, nullable) NSString *recentChanges;
+
 /**
  *  Deprecated.
  *
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *requiresContainerApp;
+
+/** A list of screenshot links representing the app. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *screenshotUrls;
 
 /** The certificate used to sign this product. */
 @property(nonatomic, strong, nullable) GTLRAndroidEnterprise_ProductSigningCertificate *signingCertificate;
@@ -1298,6 +1493,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  The policy for a product.
+ */
+@interface GTLRAndroidEnterprise_ProductPolicy : GTLRObject
+
+/** The ID of the product. For example, "app:com.google.android.gm". */
+@property(nonatomic, copy, nullable) NSString *productId;
+
+/**
+ *  Grants visibility to the specified track(s) of the product to the device.
+ *  The track available to the device is based on the following order of
+ *  preference: alpha, beta, production. For example, if an app has a prod
+ *  version, a beta version and an alpha version and the enterprise has been
+ *  granted visibility to both the alpha and beta tracks, if tracks is {"beta",
+ *  "production"} then the beta version of the app is made available to the
+ *  device. If there are no app versions in the specified track adding the
+ *  "alpha" and "beta" values to the list of tracks will have no effect. Note
+ *  that the enterprise requires access to alpha and/or beta tracks before users
+ *  can be granted visibility to apps in those tracks.
+ *  The allowed sets are: {} (considered equivalent to {"production"})
+ *  {"production"} {"beta", "production"} {"alpha", "beta", "production"} The
+ *  order of elements is not relevant. Any other set of tracks will be rejected
+ *  with an error.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *tracks;
+
+@end
+
+
+/**
  *  GTLRAndroidEnterprise_ProductsApproveRequest
  */
 @interface GTLRAndroidEnterprise_ProductsApproveRequest : GTLRObject
@@ -1352,6 +1576,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  ProductVisibility to enable "alpha" or "beta" tracks per user.
  */
 @property(nonatomic, copy, nullable) NSString *productSetBehavior;
+
+/**
+ *  Additional list of product IDs making up the product set. Unlike the
+ *  productID array, in this list It's possible to specify which tracks (alpha,
+ *  beta, production) of a product are visible to the user. See
+ *  ProductVisibility and its fields for more information. Specifying the same
+ *  product ID both here and in the productId array is not allowed and it will
+ *  result in an error.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRAndroidEnterprise_ProductVisibility *> *productVisibility;
 
 @end
 
@@ -1416,6 +1650,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Pagination information for token pagination. */
 @property(nonatomic, strong, nullable) GTLRAndroidEnterprise_TokenPagination *tokenPagination;
+
+@end
+
+
+/**
+ *  A product to be made visible to a user.
+ */
+@interface GTLRAndroidEnterprise_ProductVisibility : GTLRObject
+
+/**
+ *  The product ID to make visible to the user. Required for each item in the
+ *  productVisibility list.
+ */
+@property(nonatomic, copy, nullable) NSString *productId;
+
+/**
+ *  Grants visibility to the specified track(s) of the product to the user. The
+ *  track available to the user is based on the following order of preference:
+ *  alpha, beta, production. For example, if an app has a prod version, a beta
+ *  version and an alpha version and the enterprise has been granted visibility
+ *  to both the alpha and beta tracks, if tracks is {"beta", "production"} the
+ *  user will be able to install the app and they will get the beta version of
+ *  the app. If there are no app versions in the specified track adding the
+ *  "alpha" and "beta" values to the list of tracks will have no effect. Note
+ *  that the enterprise requires access to alpha and/or beta tracks before users
+ *  can be granted visibility to apps in those tracks.
+ *  The allowed sets are: {} (considered equivalent to {"production"})
+ *  {"production"} {"beta", "production"} {"alpha", "beta", "production"} The
+ *  order of elements is not relevant. Any other set of tracks will be rejected
+ *  with an error.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *tracks;
 
 @end
 
@@ -1789,6 +2055,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The unique ID for the user. */
 @property(nonatomic, copy, nullable) NSString *userId;
+
+@end
+
+
+/**
+ *  A variable set is a key-value pair of EMM-provided placeholders and its
+ *  corresponding value, which is attributed to a user. For example, $FIRSTNAME
+ *  could be a placeholder, and its value could be Alice. Placeholders should
+ *  start with a '$' sign and should be alphanumeric only.
+ */
+@interface GTLRAndroidEnterprise_VariableSet : GTLRObject
+
+/**
+ *  Identifies what kind of resource this is. Value: the fixed string
+ *  "androidenterprise#variableSet".
+ */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/** The placeholder string; defined by EMM. */
+@property(nonatomic, copy, nullable) NSString *placeholder;
+
+/** The value of the placeholder, specific to the user. */
+@property(nonatomic, copy, nullable) NSString *userValue;
 
 @end
 

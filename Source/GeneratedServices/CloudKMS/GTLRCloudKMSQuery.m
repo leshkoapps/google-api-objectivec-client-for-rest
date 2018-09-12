@@ -2,16 +2,34 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Key Management Service (KMS) API (cloudkms/v1)
+//   Cloud Key Management Service (KMS) API (cloudkms/v1)
 // Description:
-//   Manages encryption for your cloud services the same way you do on-premises.
-//   You can generate, use, rotate, and destroy AES256 encryption keys.
+//   Cloud KMS allows you to keep cryptographic keys in one central cloud
+//   service, for direct use by other cloud resources and applications. With
+//   Cloud KMS you are the ultimate custodian of your data, you can manage
+//   encryption in the cloud the same way you do on-premises, and you have a
+//   provable and monitorable root of trust over your data.
 // Documentation:
 //   https://cloud.google.com/kms/
 
 #import "GTLRCloudKMSQuery.h"
 
 #import "GTLRCloudKMSObjects.h"
+
+// ----------------------------------------------------------------------------
+// Constants
+
+// versionView
+NSString * const kGTLRCloudKMSVersionViewCryptoKeyVersionViewUnspecified = @"CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED";
+NSString * const kGTLRCloudKMSVersionViewFull                  = @"FULL";
+
+// view
+NSString * const kGTLRCloudKMSViewCryptoKeyVersionViewUnspecified = @"CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED";
+NSString * const kGTLRCloudKMSViewFull                         = @"FULL";
+
+// ----------------------------------------------------------------------------
+// Query Classes
+//
 
 @implementation GTLRCloudKMSQuery
 
@@ -88,6 +106,56 @@
 
 @end
 
+@implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsAsymmetricDecrypt
+
+@dynamic name;
+
++ (instancetype)queryWithObject:(GTLRCloudKMS_AsymmetricDecryptRequest *)object
+                           name:(NSString *)name {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}:asymmetricDecrypt";
+  GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsAsymmetricDecrypt *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.name = name;
+  query.expectedObjectClass = [GTLRCloudKMS_AsymmetricDecryptResponse class];
+  query.loggingName = @"cloudkms.projects.locations.keyRings.cryptoKeys.cryptoKeyVersions.asymmetricDecrypt";
+  return query;
+}
+
+@end
+
+@implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsAsymmetricSign
+
+@dynamic name;
+
++ (instancetype)queryWithObject:(GTLRCloudKMS_AsymmetricSignRequest *)object
+                           name:(NSString *)name {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}:asymmetricSign";
+  GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsAsymmetricSign *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.name = name;
+  query.expectedObjectClass = [GTLRCloudKMS_AsymmetricSignResponse class];
+  query.loggingName = @"cloudkms.projects.locations.keyRings.cryptoKeys.cryptoKeyVersions.asymmetricSign";
+  return query;
+}
+
+@end
+
 @implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsCreate
 
 @dynamic parent;
@@ -157,9 +225,28 @@
 
 @end
 
+@implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsGetPublicKey
+
+@dynamic name;
+
++ (instancetype)queryWithName:(NSString *)name {
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}/publicKey";
+  GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsGetPublicKey *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.name = name;
+  query.expectedObjectClass = [GTLRCloudKMS_PublicKey class];
+  query.loggingName = @"cloudkms.projects.locations.keyRings.cryptoKeys.cryptoKeyVersions.getPublicKey";
+  return query;
+}
+
+@end
+
 @implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsList
 
-@dynamic pageSize, pageToken, parent;
+@dynamic pageSize, pageToken, parent, view;
 
 + (instancetype)queryWithParent:(NSString *)parent {
   NSArray *pathParams = @[ @"parent" ];
@@ -316,7 +403,7 @@
 
 @implementation GTLRCloudKMSQuery_ProjectsLocationsKeyRingsCryptoKeysList
 
-@dynamic pageSize, pageToken, parent;
+@dynamic pageSize, pageToken, parent, versionView;
 
 + (instancetype)queryWithParent:(NSString *)parent {
   NSArray *pathParams = @[ @"parent" ];

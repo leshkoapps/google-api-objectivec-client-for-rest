@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Identity and Access Management (IAM) API (iam/v1)
+//   Identity and Access Management (IAM) API (iam/v1)
 // Description:
 //   Manages identity and access control for Google Cloud Platform resources,
 //   including the creation of service accounts, which you can use to
@@ -29,7 +29,7 @@ NSString * const kGTLRAuthScopeIamCloudPlatform = @"https://www.googleapis.com/a
     // From discovery.
     self.rootURLString = @"https://iam.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

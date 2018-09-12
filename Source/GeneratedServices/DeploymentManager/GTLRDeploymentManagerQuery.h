@@ -22,7 +22,7 @@
 @class GTLRDeploymentManager_Deployment;
 @class GTLRDeploymentManager_DeploymentsCancelPreviewRequest;
 @class GTLRDeploymentManager_DeploymentsStopRequest;
-@class GTLRDeploymentManager_Policy;
+@class GTLRDeploymentManager_GlobalSetPolicyRequest;
 @class GTLRDeploymentManager_TestPermissionsRequest;
 
 // Generated comments include content from the discovery document; avoid them
@@ -94,7 +94,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsCancelPreview
+ *  @return GTLRDeploymentManagerQuery_DeploymentsCancelPreview
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_DeploymentsCancelPreviewRequest *)object
                         project:(NSString *)project
@@ -141,7 +141,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsDelete
+ *  @return GTLRDeploymentManagerQuery_DeploymentsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                       deployment:(NSString *)deployment;
@@ -177,7 +177,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsGet
+ *  @return GTLRDeploymentManagerQuery_DeploymentsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                       deployment:(NSString *)deployment;
@@ -213,7 +213,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project Project ID for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsGetIamPolicy
+ *  @return GTLRDeploymentManagerQuery_DeploymentsGetIamPolicy
  */
 + (instancetype)queryWithProject:(NSString *)project
                         resource:(NSString *)resource;
@@ -233,6 +233,19 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 @interface GTLRDeploymentManagerQuery_DeploymentsInsert : GTLRDeploymentManagerQuery
 // Previous library name was
 //   +[GTLQueryDeploymentManager queryForDeploymentsInsertWithObject:project:]
+
+/**
+ *  Sets the policy to use for creating new resources.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDeploymentManagerCreatePolicyAcquire Value "ACQUIRE"
+ *    @arg @c kGTLRDeploymentManagerCreatePolicyCreateOrAcquire Value
+ *        "CREATE_OR_ACQUIRE"
+ *
+ *  @note If not set, the documented server-side default will be
+ *        kGTLRDeploymentManagerCreatePolicyCreateOrAcquire.
+ */
+@property(nonatomic, copy, nullable) NSString *createPolicy;
 
 /**
  *  If set to true, creates a deployment and creates "shell" resources but does
@@ -258,7 +271,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *    query.
  *  @param project The project ID for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsInsert
+ *  @return GTLRDeploymentManagerQuery_DeploymentsInsert
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_Deployment *)object
                         project:(NSString *)project;
@@ -281,25 +294,22 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 //   +[GTLQueryDeploymentManager queryForDeploymentsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -342,7 +352,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *
  *  @param project The project ID for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsList
+ *  @return GTLRDeploymentManagerQuery_DeploymentsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -424,7 +434,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsPatch
+ *  @return GTLRDeploymentManagerQuery_DeploymentsPatch
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_Deployment *)object
                         project:(NSString *)project
@@ -458,13 +468,14 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  Sets the access control policy on the specified resource. Replaces any
  *  existing policy.
  *
- *  @param object The @c GTLRDeploymentManager_Policy to include in the query.
+ *  @param object The @c GTLRDeploymentManager_GlobalSetPolicyRequest to include
+ *    in the query.
  *  @param project Project ID for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsSetIamPolicy
+ *  @return GTLRDeploymentManagerQuery_DeploymentsSetIamPolicy
  */
-+ (instancetype)queryWithObject:(GTLRDeploymentManager_Policy *)object
++ (instancetype)queryWithObject:(GTLRDeploymentManager_GlobalSetPolicyRequest *)object
                         project:(NSString *)project
                        resource:(NSString *)resource;
 
@@ -501,7 +512,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsStop
+ *  @return GTLRDeploymentManagerQuery_DeploymentsStop
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_DeploymentsStopRequest *)object
                         project:(NSString *)project
@@ -538,7 +549,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project Project ID for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsTestIamPermissions
+ *  @return GTLRDeploymentManagerQuery_DeploymentsTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_TestPermissionsRequest *)object
                         project:(NSString *)project
@@ -618,7 +629,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_DeploymentsUpdate
+ *  @return GTLRDeploymentManagerQuery_DeploymentsUpdate
  */
 + (instancetype)queryWithObject:(GTLRDeploymentManager_Deployment *)object
                         project:(NSString *)project
@@ -659,7 +670,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param deployment The name of the deployment for this request.
  *  @param manifest The name of the manifest for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_ManifestsGet
+ *  @return GTLRDeploymentManagerQuery_ManifestsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                       deployment:(NSString *)deployment
@@ -686,25 +697,22 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 @property(nonatomic, copy, nullable) NSString *deployment;
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -748,7 +756,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_ManifestsList
+ *  @return GTLRDeploymentManagerQuery_ManifestsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -788,7 +796,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param operation The name of the operation for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_OperationsGet
+ *  @return GTLRDeploymentManagerQuery_OperationsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                        operation:(NSString *)operation;
@@ -811,25 +819,22 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 //   +[GTLQueryDeploymentManager queryForOperationsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -872,7 +877,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *
  *  @param project The project ID for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_OperationsList
+ *  @return GTLRDeploymentManagerQuery_OperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -915,7 +920,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param deployment The name of the deployment for this request.
  *  @param resource The name of the resource for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_ResourcesGet
+ *  @return GTLRDeploymentManagerQuery_ResourcesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                       deployment:(NSString *)deployment
@@ -942,25 +947,22 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 @property(nonatomic, copy, nullable) NSString *deployment;
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1004,7 +1006,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *  @param project The project ID for this request.
  *  @param deployment The name of the deployment for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_ResourcesList
+ *  @return GTLRDeploymentManagerQuery_ResourcesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1031,25 +1033,22 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
 //   +[GTLQueryDeploymentManager queryForTypesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1092,7 +1091,7 @@ GTLR_EXTERN NSString * const kGTLRDeploymentManagerDeletePolicyDelete;
  *
  *  @param project The project ID for this request.
  *
- *  @returns GTLRDeploymentManagerQuery_TypesList
+ *  @return GTLRDeploymentManagerQuery_TypesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

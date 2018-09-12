@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Safe Browsing API (safebrowsing/v4)
+//   Safe Browsing API (safebrowsing/v4)
 // Description:
 //   Enables client applications to check web resources (most commonly URLs)
 //   against Google-generated lists of unsafe web resources.
@@ -72,6 +72,26 @@
   query.bodyObject = object;
   query.expectedObjectClass = [GTLRSafeBrowsing_FindFullHashesResponse class];
   query.loggingName = @"safebrowsing.fullHashes.find";
+  return query;
+}
+
+@end
+
+@implementation GTLRSafeBrowsingQuery_ThreatHitsCreate
+
++ (instancetype)queryWithObject:(GTLRSafeBrowsing_ThreatHit *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"v4/threatHits";
+  GTLRSafeBrowsingQuery_ThreatHitsCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRSafeBrowsing_Empty class];
+  query.loggingName = @"safebrowsing.threatHits.create";
   return query;
 }
 

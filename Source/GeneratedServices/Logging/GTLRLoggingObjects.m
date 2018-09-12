@@ -4,7 +4,7 @@
 // API:
 //   Stackdriver Logging API (logging/v2)
 // Description:
-//   Writes log entries and manages your Stackdriver Logging configuration.
+//   Writes log entries and manages your Logging configuration.
 // Documentation:
 //   https://cloud.google.com/logging/docs/
 
@@ -49,12 +49,73 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_V1   = @"V1";
 NSString * const kGTLRLogging_LogSink_OutputVersionFormat_V2   = @"V2";
 NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecified = @"VERSION_FORMAT_UNSPECIFIED";
 
+// GTLRLogging_MetricDescriptor.metricKind
+NSString * const kGTLRLogging_MetricDescriptor_MetricKind_Cumulative = @"CUMULATIVE";
+NSString * const kGTLRLogging_MetricDescriptor_MetricKind_Delta = @"DELTA";
+NSString * const kGTLRLogging_MetricDescriptor_MetricKind_Gauge = @"GAUGE";
+NSString * const kGTLRLogging_MetricDescriptor_MetricKind_MetricKindUnspecified = @"METRIC_KIND_UNSPECIFIED";
+
+// GTLRLogging_MetricDescriptor.valueType
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_Bool  = @"BOOL";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_Distribution = @"DISTRIBUTION";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_Double = @"DOUBLE";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_Int64 = @"INT64";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_Money = @"MONEY";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_String = @"STRING";
+NSString * const kGTLRLogging_MetricDescriptor_ValueType_ValueTypeUnspecified = @"VALUE_TYPE_UNSPECIFIED";
+
+// GTLRLogging_MetricDescriptorMetadata.launchStage
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_Alpha = @"ALPHA";
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_Beta = @"BETA";
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_Deprecated = @"DEPRECATED";
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_EarlyAccess = @"EARLY_ACCESS";
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_Ga = @"GA";
+NSString * const kGTLRLogging_MetricDescriptorMetadata_LaunchStage_LaunchStageUnspecified = @"LAUNCH_STAGE_UNSPECIFIED";
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_BucketOptions
+//
+
+@implementation GTLRLogging_BucketOptions
+@dynamic explicitBuckets, exponentialBuckets, linearBuckets;
+@end
+
+
 // ----------------------------------------------------------------------------
 //
 //   GTLRLogging_Empty
 //
 
 @implementation GTLRLogging_Empty
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_Explicit
+//
+
+@implementation GTLRLogging_Explicit
+@dynamic bounds;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"bounds" : [NSNumber class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_Exponential
+//
+
+@implementation GTLRLogging_Exponential
+@dynamic growthFactor, numFiniteBuckets, scale;
 @end
 
 
@@ -80,6 +141,38 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_Linear
+//
+
+@implementation GTLRLogging_Linear
+@dynamic numFiniteBuckets, offset, width;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_ListExclusionsResponse
+//
+
+@implementation GTLRLogging_ListExclusionsResponse
+@dynamic exclusions, nextPageToken;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"exclusions" : [GTLRLogging_LogExclusion class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"exclusions";
 }
 
 @end
@@ -216,9 +309,9 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 //
 
 @implementation GTLRLogging_LogEntry
-@dynamic httpRequest, insertId, jsonPayload, labels, logName, operation,
-         protoPayload, receiveTimestamp, resource, severity, sourceLocation,
-         textPayload, timestamp, trace;
+@dynamic httpRequest, insertId, jsonPayload, labels, logName, metadata,
+         operation, protoPayload, receiveTimestamp, resource, severity,
+         sourceLocation, spanId, textPayload, timestamp, trace;
 @end
 
 
@@ -291,6 +384,21 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRLogging_LogExclusion
+//
+
+@implementation GTLRLogging_LogExclusion
+@dynamic descriptionProperty, disabled, filter, name;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRLogging_LogLine
 //
 
@@ -305,10 +413,25 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 //
 
 @implementation GTLRLogging_LogMetric
-@dynamic descriptionProperty, filter, name, version;
+@dynamic bucketOptions, descriptionProperty, filter, labelExtractors,
+         metricDescriptor, name, valueExtractor, version;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_LogMetric_LabelExtractors
+//
+
+@implementation GTLRLogging_LogMetric_LabelExtractors
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
 }
 
 @end
@@ -322,6 +445,39 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 @implementation GTLRLogging_LogSink
 @dynamic destination, endTime, filter, includeChildren, name,
          outputVersionFormat, startTime, writerIdentity;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_MetricDescriptor
+//
+
+@implementation GTLRLogging_MetricDescriptor
+@dynamic descriptionProperty, displayName, labels, metadata, metricKind, name,
+         type, unit, valueType;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"labels" : [GTLRLogging_LabelDescriptor class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_MetricDescriptorMetadata
+//
+
+@implementation GTLRLogging_MetricDescriptorMetadata
+@dynamic ingestDelay, launchStage, samplePeriod;
 @end
 
 
@@ -373,6 +529,44 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRLogging_MonitoredResourceMetadata
+//
+
+@implementation GTLRLogging_MonitoredResourceMetadata
+@dynamic systemLabels, userLabels;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_MonitoredResourceMetadata_SystemLabels
+//
+
+@implementation GTLRLogging_MonitoredResourceMetadata_SystemLabels
+
++ (Class)classForAdditionalProperties {
+  return [NSObject class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRLogging_MonitoredResourceMetadata_UserLabels
+//
+
+@implementation GTLRLogging_MonitoredResourceMetadata_UserLabels
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRLogging_RequestLog
 //
 
@@ -381,8 +575,8 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
          httpVersion, instanceId, instanceIndex, ip, latency, line, megaCycles,
          method, moduleId, nickname, pendingTime, referrer, requestId, resource,
          responseSize, sourceReference, startTime, status, taskName,
-         taskQueueName, traceId, urlMapEntry, userAgent, versionId,
-         wasLoadingRequest;
+         taskQueueName, traceId, traceSampled, urlMapEntry, userAgent,
+         versionId, wasLoadingRequest;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -421,7 +615,7 @@ NSString * const kGTLRLogging_LogSink_OutputVersionFormat_VersionFormatUnspecifi
 //
 
 @implementation GTLRLogging_WriteLogEntriesRequest
-@dynamic entries, labels, logName, partialSuccess, resource;
+@dynamic dryRun, entries, labels, logName, partialSuccess, resource;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{

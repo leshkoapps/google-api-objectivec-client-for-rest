@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Retrieves line items in CSV format.
+ *  Retrieves line items in CSV format. TrueView line items are not supported.
  *
  *  Method: doubleclickbidmanager.lineitems.downloadlineitems
  *
@@ -56,19 +56,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRDoubleClickBidManager_DownloadLineItemsResponse.
  *
- *  Retrieves line items in CSV format.
+ *  Retrieves line items in CSV format. TrueView line items are not supported.
  *
  *  @param object The @c GTLRDoubleClickBidManager_DownloadLineItemsRequest to
  *    include in the query.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_LineitemsDownloadlineitems
+ *  @return GTLRDoubleClickBidManagerQuery_LineitemsDownloadlineitems
  */
 + (instancetype)queryWithObject:(GTLRDoubleClickBidManager_DownloadLineItemsRequest *)object;
 
 @end
 
 /**
- *  Uploads line items in CSV format.
+ *  Uploads line items in CSV format. TrueView line items are not supported.
  *
  *  Method: doubleclickbidmanager.lineitems.uploadlineitems
  *
@@ -82,12 +82,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRDoubleClickBidManager_UploadLineItemsResponse.
  *
- *  Uploads line items in CSV format.
+ *  Uploads line items in CSV format. TrueView line items are not supported.
  *
  *  @param object The @c GTLRDoubleClickBidManager_UploadLineItemsRequest to
  *    include in the query.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_LineitemsUploadlineitems
+ *  @return GTLRDoubleClickBidManagerQuery_LineitemsUploadlineitems
  */
 + (instancetype)queryWithObject:(GTLRDoubleClickBidManager_UploadLineItemsRequest *)object;
 
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRDoubleClickBidManager_Query to include in the
  *    query.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_QueriesCreatequery
+ *  @return GTLRDoubleClickBidManagerQuery_QueriesCreatequery
  */
 + (instancetype)queryWithObject:(GTLRDoubleClickBidManager_Query *)object;
 
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param queryId Query ID to delete.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_QueriesDeletequery
+ *  @return GTLRDoubleClickBidManagerQuery_QueriesDeletequery
  */
 + (instancetype)queryWithQueryId:(long long)queryId;
 
@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param queryId Query ID to retrieve.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_QueriesGetquery
+ *  @return GTLRDoubleClickBidManagerQuery_QueriesGetquery
  */
 + (instancetype)queryWithQueryId:(long long)queryId;
 
@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Retrieves stored queries.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_QueriesListqueries
+ *  @return GTLRDoubleClickBidManagerQuery_QueriesListqueries
  */
 + (instancetype)query;
 
@@ -224,7 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    the query.
  *  @param queryId Query ID to run.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_QueriesRunquery
+ *  @return GTLRDoubleClickBidManagerQuery_QueriesRunquery
  */
 + (instancetype)queryWithObject:(GTLRDoubleClickBidManager_RunQueryRequest *)object
                         queryId:(long long)queryId;
@@ -253,7 +253,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param queryId Query ID with which the reports are associated.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_ReportsListreports
+ *  @return GTLRDoubleClickBidManagerQuery_ReportsListreports
  */
 + (instancetype)queryWithQueryId:(long long)queryId;
 
@@ -279,7 +279,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRDoubleClickBidManager_DownloadRequest to include in
  *    the query.
  *
- *  @returns GTLRDoubleClickBidManagerQuery_SdfDownload
+ *  @return GTLRDoubleClickBidManagerQuery_SdfDownload
  */
 + (instancetype)queryWithObject:(GTLRDoubleClickBidManager_DownloadRequest *)object;
 

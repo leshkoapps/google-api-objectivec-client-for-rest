@@ -2,11 +2,11 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Container Builder API (cloudbuild/v1)
+//   Cloud Build API (cloudbuild/v1)
 // Description:
-//   Builds container images in the cloud.
+//   Creates and manages builds on Google Cloud Platform.
 // Documentation:
-//   https://cloud.google.com/container-builder/docs/
+//   https://cloud.google.com/cloud-build/docs/
 
 #import "GTLRCloudBuild.h"
 
@@ -27,7 +27,7 @@ NSString * const kGTLRAuthScopeCloudBuildCloudPlatform = @"https://www.googleapi
     // From discovery.
     self.rootURLString = @"https://cloudbuild.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

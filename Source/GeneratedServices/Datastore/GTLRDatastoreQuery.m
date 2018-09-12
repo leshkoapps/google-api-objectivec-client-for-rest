@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Datastore API (datastore/v1)
+//   Cloud Datastore API (datastore/v1)
 // Description:
 //   Accesses the schemaless NoSQL database to provide fully managed, robust,
 //   scalable storage for your application.
@@ -89,6 +89,98 @@
   query.projectId = projectId;
   query.expectedObjectClass = [GTLRDatastore_CommitResponse class];
   query.loggingName = @"datastore.projects.commit";
+  return query;
+}
+
+@end
+
+@implementation GTLRDatastoreQuery_ProjectsExport
+
+@dynamic projectId;
+
++ (instancetype)queryWithObject:(GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesRequest *)object
+                      projectId:(NSString *)projectId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"projectId" ];
+  NSString *pathURITemplate = @"v1/projects/{projectId}:export";
+  GTLRDatastoreQuery_ProjectsExport *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.projectId = projectId;
+  query.expectedObjectClass = [GTLRDatastore_GoogleLongrunningOperation class];
+  query.loggingName = @"datastore.projects.export";
+  return query;
+}
+
+@end
+
+@implementation GTLRDatastoreQuery_ProjectsImport
+
+@dynamic projectId;
+
++ (instancetype)queryWithObject:(GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesRequest *)object
+                      projectId:(NSString *)projectId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"projectId" ];
+  NSString *pathURITemplate = @"v1/projects/{projectId}:import";
+  GTLRDatastoreQuery_ProjectsImport *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.projectId = projectId;
+  query.expectedObjectClass = [GTLRDatastore_GoogleLongrunningOperation class];
+  query.loggingName = @"datastore.projects.import";
+  return query;
+}
+
+@end
+
+@implementation GTLRDatastoreQuery_ProjectsIndexesGet
+
+@dynamic indexId, projectId;
+
++ (instancetype)queryWithProjectId:(NSString *)projectId
+                           indexId:(NSString *)indexId {
+  NSArray *pathParams = @[
+    @"indexId", @"projectId"
+  ];
+  NSString *pathURITemplate = @"v1/projects/{projectId}/indexes/{indexId}";
+  GTLRDatastoreQuery_ProjectsIndexesGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.projectId = projectId;
+  query.indexId = indexId;
+  query.expectedObjectClass = [GTLRDatastore_GoogleDatastoreAdminV1Index class];
+  query.loggingName = @"datastore.projects.indexes.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRDatastoreQuery_ProjectsIndexesList
+
+@dynamic filter, pageSize, pageToken, projectId;
+
++ (instancetype)queryWithProjectId:(NSString *)projectId {
+  NSArray *pathParams = @[ @"projectId" ];
+  NSString *pathURITemplate = @"v1/projects/{projectId}/indexes";
+  GTLRDatastoreQuery_ProjectsIndexesList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.projectId = projectId;
+  query.expectedObjectClass = [GTLRDatastore_GoogleDatastoreAdminV1ListIndexesResponse class];
+  query.loggingName = @"datastore.projects.indexes.list";
   return query;
 }
 
@@ -190,6 +282,31 @@
   query.name = name;
   query.expectedObjectClass = [GTLRDatastore_GoogleLongrunningListOperationsResponse class];
   query.loggingName = @"datastore.projects.operations.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRDatastoreQuery_ProjectsReserveIds
+
+@dynamic projectId;
+
++ (instancetype)queryWithObject:(GTLRDatastore_ReserveIdsRequest *)object
+                      projectId:(NSString *)projectId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"projectId" ];
+  NSString *pathURITemplate = @"v1/projects/{projectId}:reserveIds";
+  GTLRDatastoreQuery_ProjectsReserveIds *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.projectId = projectId;
+  query.expectedObjectClass = [GTLRDatastore_ReserveIdsResponse class];
+  query.loggingName = @"datastore.projects.reserveIds";
   return query;
 }
 

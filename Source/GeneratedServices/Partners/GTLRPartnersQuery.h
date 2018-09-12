@@ -38,32 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Constants - For some of the query classes' properties below.
 
 // ----------------------------------------------------------------------------
-// examType
-
-/** Value: "CERTIFICATION_EXAM_TYPE_UNSPECIFIED" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCertificationExamTypeUnspecified;
-/** Value: "CET_ADWORDS_ADVANCED_DISPLAY" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetAdwordsAdvancedDisplay;
-/** Value: "CET_ADWORDS_ADVANCED_SEARCH" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetAdwordsAdvancedSearch;
-/** Value: "CET_ADWORDS_FUNDAMENTALS" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetAdwordsFundamentals;
-/** Value: "CET_ANALYTICS" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetAnalytics;
-/** Value: "CET_DIGITAL_SALES" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetDigitalSales;
-/** Value: "CET_DOUBLECLICK" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetDoubleclick;
-/** Value: "CET_MOBILE" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetMobile;
-/** Value: "CET_MOBILE_SITES" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetMobileSites;
-/** Value: "CET_SHOPPING" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetShopping;
-/** Value: "CET_VIDEO_ADS" */
-GTLR_EXTERN NSString * const kGTLRPartnersExamTypeCetVideoAds;
-
-// ----------------------------------------------------------------------------
 // gpsMotivations
 
 /** Value: "GPSM_HELP_WITH_ADVERTISING" */
@@ -234,7 +208,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  Lists analytics data for a user's associated company.
  *  Should only be called within the context of an authorized logged in user.
  *
- *  @returns GTLRPartnersQuery_AnalyticsList
+ *  @return GTLRPartnersQuery_AnalyticsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -264,7 +238,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  @param object The @c GTLRPartners_LogMessageRequest to include in the query.
  *
- *  @returns GTLRPartnersQuery_ClientMessagesLog
+ *  @return GTLRPartnersQuery_ClientMessagesLog
  */
 + (instancetype)queryWithObject:(GTLRPartners_LogMessageRequest *)object;
 
@@ -351,7 +325,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  @param companyId The ID of the company to retrieve.
  *
- *  @returns GTLRPartnersQuery_CompaniesGet
+ *  @return GTLRPartnersQuery_CompaniesGet
  */
 + (instancetype)queryWithCompanyId:(NSString *)companyId;
 
@@ -377,7 +351,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  @param object The @c GTLRPartners_CreateLeadRequest to include in the query.
  *  @param companyId The ID of the company to contact.
  *
- *  @returns GTLRPartnersQuery_CompaniesLeadsCreate
+ *  @return GTLRPartnersQuery_CompaniesLeadsCreate
  */
 + (instancetype)queryWithObject:(GTLRPartners_CreateLeadRequest *)object
                       companyId:(NSString *)companyId;
@@ -602,103 +576,13 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  Lists companies.
  *
- *  @returns GTLRPartnersQuery_CompaniesList
+ *  @return GTLRPartnersQuery_CompaniesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
  *        information.
  */
 + (instancetype)query;
-
-@end
-
-/**
- *  Gets an Exam Token for a Partner's user to take an exam in the Exams System
- *
- *  Method: partners.exams.getToken
- */
-@interface GTLRPartnersQuery_ExamsGetToken : GTLRPartnersQuery
-// Previous library name was
-//   +[GTLQueryPartners queryForExamsGetTokenWithexamType:]
-
-/**
- *  The exam type we are requesting a token for.
- *
- *  Likely values:
- *    @arg @c kGTLRPartnersExamTypeCertificationExamTypeUnspecified Value
- *        "CERTIFICATION_EXAM_TYPE_UNSPECIFIED"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsFundamentals Value
- *        "CET_ADWORDS_FUNDAMENTALS"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsAdvancedSearch Value
- *        "CET_ADWORDS_ADVANCED_SEARCH"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsAdvancedDisplay Value
- *        "CET_ADWORDS_ADVANCED_DISPLAY"
- *    @arg @c kGTLRPartnersExamTypeCetVideoAds Value "CET_VIDEO_ADS"
- *    @arg @c kGTLRPartnersExamTypeCetDoubleclick Value "CET_DOUBLECLICK"
- *    @arg @c kGTLRPartnersExamTypeCetAnalytics Value "CET_ANALYTICS"
- *    @arg @c kGTLRPartnersExamTypeCetShopping Value "CET_SHOPPING"
- *    @arg @c kGTLRPartnersExamTypeCetMobile Value "CET_MOBILE"
- *    @arg @c kGTLRPartnersExamTypeCetDigitalSales Value "CET_DIGITAL_SALES"
- *    @arg @c kGTLRPartnersExamTypeCetMobileSites Value "CET_MOBILE_SITES"
- */
-@property(nonatomic, copy, nullable) NSString *examType;
-
-/** Experiment IDs the current request belongs to. */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *requestMetadataExperimentIds;
-
-/** Locale to use for the current request. */
-@property(nonatomic, copy, nullable) NSString *requestMetadataLocale;
-
-/** Google Partners session ID. */
-@property(nonatomic, copy, nullable) NSString *requestMetadataPartnersSessionId;
-
-/**
- *  Identifier to indicate where the traffic comes from.
- *  An identifier has multiple letters created by a team which redirected the
- *  traffic to us.
- */
-@property(nonatomic, copy, nullable) NSString *requestMetadataTrafficSourceTrafficSourceId;
-
-/**
- *  Second level identifier to indicate where the traffic comes from.
- *  An identifier has multiple letters created by a team which redirected the
- *  traffic to us.
- */
-@property(nonatomic, copy, nullable) NSString *requestMetadataTrafficSourceTrafficSubId;
-
-/** IP address to use instead of the user's geo-located IP address. */
-@property(nonatomic, copy, nullable) NSString *requestMetadataUserOverridesIpAddress;
-
-/** Logged-in user ID to impersonate instead of the user's ID. */
-@property(nonatomic, copy, nullable) NSString *requestMetadataUserOverridesUserId;
-
-/**
- *  Fetches a @c GTLRPartners_ExamToken.
- *
- *  Gets an Exam Token for a Partner's user to take an exam in the Exams System
- *
- *  @param examType The exam type we are requesting a token for.
- *
- *  Likely values for @c examType:
- *    @arg @c kGTLRPartnersExamTypeCertificationExamTypeUnspecified Value
- *        "CERTIFICATION_EXAM_TYPE_UNSPECIFIED"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsFundamentals Value
- *        "CET_ADWORDS_FUNDAMENTALS"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsAdvancedSearch Value
- *        "CET_ADWORDS_ADVANCED_SEARCH"
- *    @arg @c kGTLRPartnersExamTypeCetAdwordsAdvancedDisplay Value
- *        "CET_ADWORDS_ADVANCED_DISPLAY"
- *    @arg @c kGTLRPartnersExamTypeCetVideoAds Value "CET_VIDEO_ADS"
- *    @arg @c kGTLRPartnersExamTypeCetDoubleclick Value "CET_DOUBLECLICK"
- *    @arg @c kGTLRPartnersExamTypeCetAnalytics Value "CET_ANALYTICS"
- *    @arg @c kGTLRPartnersExamTypeCetShopping Value "CET_SHOPPING"
- *    @arg @c kGTLRPartnersExamTypeCetMobile Value "CET_MOBILE"
- *    @arg @c kGTLRPartnersExamTypeCetDigitalSales Value "CET_DIGITAL_SALES"
- *    @arg @c kGTLRPartnersExamTypeCetMobileSites Value "CET_MOBILE_SITES"
- *
- *  @returns GTLRPartnersQuery_ExamsGetToken
- */
-+ (instancetype)queryWithExamType:(NSString *)examType;
 
 @end
 
@@ -767,7 +651,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  Lists advertiser leads for a user's associated company.
  *  Should only be called within the context of an authorized logged in user.
  *
- *  @returns GTLRPartnersQuery_LeadsList
+ *  @return GTLRPartnersQuery_LeadsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -840,7 +724,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  Lists the Historical Offers for the current user (or user's entire company)
  *
- *  @returns GTLRPartnersQuery_OffersHistoryList
+ *  @return GTLRPartnersQuery_OffersHistoryList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -893,7 +777,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  Lists the Offers available for the current user
  *
- *  @returns GTLRPartnersQuery_OffersList
+ *  @return GTLRPartnersQuery_OffersList
  */
 + (instancetype)query;
 
@@ -916,7 +800,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  @param object The @c GTLRPartners_LogUserEventRequest to include in the
  *    query.
  *
- *  @returns GTLRPartnersQuery_UserEventsLog
+ *  @return GTLRPartnersQuery_UserEventsLog
  */
 + (instancetype)queryWithObject:(GTLRPartners_LogUserEventRequest *)object;
 
@@ -975,7 +859,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  @param userId The ID of the user. Can be set to <code>me</code> to mean
  *    the currently authenticated user.
  *
- *  @returns GTLRPartnersQuery_UsersCreateCompanyRelation
+ *  @return GTLRPartnersQuery_UsersCreateCompanyRelation
  */
 + (instancetype)queryWithObject:(GTLRPartners_CompanyRelation *)object
                          userId:(NSString *)userId;
@@ -1034,7 +918,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  @param userId The ID of the user. Can be set to <code>me</code> to mean
  *    the currently authenticated user.
  *
- *  @returns GTLRPartnersQuery_UsersDeleteCompanyRelation
+ *  @return GTLRPartnersQuery_UsersDeleteCompanyRelation
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1103,7 +987,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *    the currently
  *    authenticated user.
  *
- *  @returns GTLRPartnersQuery_UsersGet
+ *  @return GTLRPartnersQuery_UsersGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1152,7 +1036,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  Lists states for current user.
  *
- *  @returns GTLRPartnersQuery_UserStatesList
+ *  @return GTLRPartnersQuery_UserStatesList
  */
 + (instancetype)query;
 
@@ -1205,7 +1089,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  @param object The @c GTLRPartners_UserProfile to include in the query.
  *
- *  @returns GTLRPartnersQuery_UsersUpdateProfile
+ *  @return GTLRPartnersQuery_UsersUpdateProfile
  */
 + (instancetype)queryWithObject:(GTLRPartners_UserProfile *)object;
 
@@ -1256,7 +1140,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *  Gets Partners Status of the logged in user's agency.
  *  Should only be called if the logged in user is the admin of the agency.
  *
- *  @returns GTLRPartnersQuery_V2GetPartnersstatus
+ *  @return GTLRPartnersQuery_V2GetPartnersstatus
  */
 + (instancetype)query;
 
@@ -1317,7 +1201,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  @param object The @c GTLRPartners_Company to include in the query.
  *
- *  @returns GTLRPartnersQuery_V2UpdateCompanies
+ *  @return GTLRPartnersQuery_V2UpdateCompanies
  */
 + (instancetype)queryWithObject:(GTLRPartners_Company *)object;
 
@@ -1377,7 +1261,7 @@ GTLR_EXTERN NSString * const kGTLRPartnersViewCvGooglePartnerSearch;
  *
  *  @param object The @c GTLRPartners_Lead to include in the query.
  *
- *  @returns GTLRPartnersQuery_V2UpdateLeads
+ *  @return GTLRPartnersQuery_V2UpdateLeads
  */
 + (instancetype)queryWithObject:(GTLRPartners_Lead *)object;
 

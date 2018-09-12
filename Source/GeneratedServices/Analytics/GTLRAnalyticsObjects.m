@@ -146,6 +146,49 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAnalytics_AccountTreeRequest
+//
+
+@implementation GTLRAnalytics_AccountTreeRequest
+@dynamic accountName, accountSettings, kind, profileName, timezone,
+         webpropertyName, websiteUrl;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAnalytics_AccountTreeRequest_AccountSettings
+//
+
+@implementation GTLRAnalytics_AccountTreeRequest_AccountSettings
+@dynamic shareAnonymouslyWithOthers, shareWithGoogleProducts,
+         shareWithSpecialists, shareWithSupport;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAnalytics_AccountTreeResponse
+//
+
+@implementation GTLRAnalytics_AccountTreeResponse
+@dynamic account, accountSettings, kind, profile, webproperty;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAnalytics_AccountTreeResponse_AccountSettings
+//
+
+@implementation GTLRAnalytics_AccountTreeResponse_AccountSettings
+@dynamic shareAnonymouslyWithOthers, shareWithGoogleProducts,
+         shareWithSpecialists, shareWithSupport;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAnalytics_AdWordsAccount
 //
 
@@ -965,6 +1008,26 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAnalytics_HashClientIdRequest
+//
+
+@implementation GTLRAnalytics_HashClientIdRequest
+@dynamic clientId, kind, webPropertyId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAnalytics_HashClientIdResponse
+//
+
+@implementation GTLRAnalytics_HashClientIdResponse
+@dynamic clientId, hashedClientId, kind, webPropertyId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAnalytics_IncludeConditions
 //
 
@@ -1552,6 +1615,32 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAnalytics_UserDeletionRequest
+//
+
+@implementation GTLRAnalytics_UserDeletionRequest
+@dynamic deletionRequestTime, firebaseProjectId, identifier, kind,
+         webPropertyId;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAnalytics_UserDeletionRequest_Id
+//
+
+@implementation GTLRAnalytics_UserDeletionRequest_Id
+@dynamic type, userId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAnalytics_UserRef
 //
 
@@ -1590,9 +1679,10 @@
 //
 
 @implementation GTLRAnalytics_Webproperty
-@dynamic accountId, childLink, created, defaultProfileId, identifier,
-         industryVertical, internalWebPropertyId, kind, level, name, parentLink,
-         permissions, profileCount, selfLink, starred, updated, websiteUrl;
+@dynamic accountId, childLink, created, dataRetentionResetOnNewActivity,
+         dataRetentionTtl, defaultProfileId, identifier, industryVertical,
+         internalWebPropertyId, kind, level, name, parentLink, permissions,
+         profileCount, selfLink, starred, updated, websiteUrl;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };

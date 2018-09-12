@@ -21,6 +21,7 @@
 @class GTLRGmail_AutoForwarding;
 @class GTLRGmail_BatchDeleteMessagesRequest;
 @class GTLRGmail_BatchModifyMessagesRequest;
+@class GTLRGmail_Delegate;
 @class GTLRGmail_Draft;
 @class GTLRGmail_Filter;
 @class GTLRGmail_ForwardingAddress;
@@ -124,7 +125,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    35MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersDraftsCreate
+ *  @return GTLRGmailQuery_UsersDraftsCreate
  */
 + (instancetype)queryWithObject:(GTLRGmail_Draft *)object
                          userId:(NSString *)userId
@@ -173,7 +174,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the draft to delete.
  *
- *  @returns GTLRGmailQuery_UsersDraftsDelete
+ *  @return GTLRGmailQuery_UsersDraftsDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -233,7 +234,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the draft to retrieve.
  *
- *  @returns GTLRGmailQuery_UsersDraftsGet
+ *  @return GTLRGmailQuery_UsersDraftsGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -295,7 +296,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersDraftsList
+ *  @return GTLRGmailQuery_UsersDraftsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -340,7 +341,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    35MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersDraftsSend
+ *  @return GTLRGmailQuery_UsersDraftsSend
  */
 + (instancetype)queryWithObject:(GTLRGmail_Draft *)object
                          userId:(NSString *)userId
@@ -389,7 +390,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    35MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersDraftsUpdate
+ *  @return GTLRGmailQuery_UsersDraftsUpdate
  */
 + (instancetype)queryWithObject:(GTLRGmail_Draft *)object
                          userId:(NSString *)userId
@@ -430,7 +431,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersGetProfile
+ *  @return GTLRGmailQuery_UsersGetProfile
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -507,7 +508,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersHistoryList
+ *  @return GTLRGmailQuery_UsersHistoryList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -548,7 +549,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersLabelsCreate
+ *  @return GTLRGmailQuery_UsersLabelsCreate
  */
 + (instancetype)queryWithObject:(GTLRGmail_Label *)object
                          userId:(NSString *)userId;
@@ -596,7 +597,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the label to delete.
  *
- *  @returns GTLRGmailQuery_UsersLabelsDelete
+ *  @return GTLRGmailQuery_UsersLabelsDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -643,7 +644,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the label to retrieve.
  *
- *  @returns GTLRGmailQuery_UsersLabelsGet
+ *  @return GTLRGmailQuery_UsersLabelsGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -682,7 +683,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersLabelsList
+ *  @return GTLRGmailQuery_UsersLabelsList
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -727,7 +728,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the label to update.
  *
- *  @returns GTLRGmailQuery_UsersLabelsPatch
+ *  @return GTLRGmailQuery_UsersLabelsPatch
  */
 + (instancetype)queryWithObject:(GTLRGmail_Label *)object
                          userId:(NSString *)userId
@@ -774,7 +775,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the label to update.
  *
- *  @returns GTLRGmailQuery_UsersLabelsUpdate
+ *  @return GTLRGmailQuery_UsersLabelsUpdate
  */
 + (instancetype)queryWithObject:(GTLRGmail_Label *)object
                          userId:(NSString *)userId
@@ -824,7 +825,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param messageId The ID of the message containing the attachment.
  *  @param identifier The ID of the attachment.
  *
- *  @returns GTLRGmailQuery_UsersMessagesAttachmentsGet
+ *  @return GTLRGmailQuery_UsersMessagesAttachmentsGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                       messageId:(NSString *)messageId
@@ -865,7 +866,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersMessagesBatchDelete
+ *  @return GTLRGmailQuery_UsersMessagesBatchDelete
  */
 + (instancetype)queryWithObject:(GTLRGmail_BatchDeleteMessagesRequest *)object
                          userId:(NSString *)userId;
@@ -904,7 +905,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersMessagesBatchModify
+ *  @return GTLRGmailQuery_UsersMessagesBatchModify
  */
 + (instancetype)queryWithObject:(GTLRGmail_BatchModifyMessagesRequest *)object
                          userId:(NSString *)userId;
@@ -950,7 +951,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the message to delete.
  *
- *  @returns GTLRGmailQuery_UsersMessagesDelete
+ *  @return GTLRGmailQuery_UsersMessagesDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -1013,7 +1014,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the message to retrieve.
  *
- *  @returns GTLRGmailQuery_UsersMessagesGet
+ *  @return GTLRGmailQuery_UsersMessagesGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -1093,7 +1094,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    50MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersMessagesImport
+ *  @return GTLRGmailQuery_UsersMessagesImport
  */
 + (instancetype)queryWithObject:(GTLRGmail_Message *)object
                          userId:(NSString *)userId
@@ -1156,7 +1157,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    50MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersMessagesInsert
+ *  @return GTLRGmailQuery_UsersMessagesInsert
  */
 + (instancetype)queryWithObject:(GTLRGmail_Message *)object
                          userId:(NSString *)userId
@@ -1225,7 +1226,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersMessagesList
+ *  @return GTLRGmailQuery_UsersMessagesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1273,7 +1274,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the message to modify.
  *
- *  @returns GTLRGmailQuery_UsersMessagesModify
+ *  @return GTLRGmailQuery_UsersMessagesModify
  */
 + (instancetype)queryWithObject:(GTLRGmail_ModifyMessageRequest *)object
                          userId:(NSString *)userId
@@ -1317,7 +1318,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    35MB. Accepted MIME type: message/rfc822
  *
- *  @returns GTLRGmailQuery_UsersMessagesSend
+ *  @return GTLRGmailQuery_UsersMessagesSend
  */
 + (instancetype)queryWithObject:(GTLRGmail_Message *)object
                          userId:(NSString *)userId
@@ -1362,7 +1363,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the message to Trash.
  *
- *  @returns GTLRGmailQuery_UsersMessagesTrash
+ *  @return GTLRGmailQuery_UsersMessagesTrash
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -1406,10 +1407,216 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the message to remove from Trash.
  *
- *  @returns GTLRGmailQuery_UsersMessagesUntrash
+ *  @return GTLRGmailQuery_UsersMessagesUntrash
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
+
+@end
+
+/**
+ *  Adds a delegate with its verification status set directly to accepted,
+ *  without sending any verification email. The delegate user must be a member
+ *  of the same G Suite organization as the delegator user.
+ *  Gmail imposes limtations on the number of delegates and delegators each user
+ *  in a G Suite organization can have. These limits depend on your
+ *  organization, but in general each user can have up to 25 delegates and up to
+ *  10 delegators.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  Also note that when a new delegate is created, there may be up to a one
+ *  minute delay before the new delegate is available for use.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  Method: gmail.users.settings.delegates.create
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeGmailSettingsSharing
+ */
+@interface GTLRGmailQuery_UsersSettingsDelegatesCreate : GTLRGmailQuery
+// Previous library name was
+//   +[GTLQueryGmail queryForUsersSettingsDelegatesCreateWithObject:userId:]
+
+/**
+ *  User's email address. The special value "me" can be used to indicate the
+ *  authenticated user.
+ *
+ *  @note If not set, the documented server-side default will be me.
+ */
+@property(nonatomic, copy, nullable) NSString *userId;
+
+/**
+ *  Fetches a @c GTLRGmail_Delegate.
+ *
+ *  Adds a delegate with its verification status set directly to accepted,
+ *  without sending any verification email. The delegate user must be a member
+ *  of the same G Suite organization as the delegator user.
+ *  Gmail imposes limtations on the number of delegates and delegators each user
+ *  in a G Suite organization can have. These limits depend on your
+ *  organization, but in general each user can have up to 25 delegates and up to
+ *  10 delegators.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  Also note that when a new delegate is created, there may be up to a one
+ *  minute delay before the new delegate is available for use.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  @param object The @c GTLRGmail_Delegate to include in the query.
+ *  @param userId User's email address. The special value "me" can be used to
+ *    indicate the authenticated user. (Default me)
+ *
+ *  @return GTLRGmailQuery_UsersSettingsDelegatesCreate
+ */
++ (instancetype)queryWithObject:(GTLRGmail_Delegate *)object
+                         userId:(NSString *)userId;
+
+@end
+
+/**
+ *  Removes the specified delegate (which can be of any verification status),
+ *  and revokes any verification that may have been required for using it.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  Method: gmail.users.settings.delegates.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeGmailSettingsSharing
+ */
+@interface GTLRGmailQuery_UsersSettingsDelegatesDelete : GTLRGmailQuery
+// Previous library name was
+//   +[GTLQueryGmail queryForUsersSettingsDelegatesDeleteWithuserId:delegateEmail:]
+
+/** The email address of the user to be removed as a delegate. */
+@property(nonatomic, copy, nullable) NSString *delegateEmail;
+
+/**
+ *  User's email address. The special value "me" can be used to indicate the
+ *  authenticated user.
+ *
+ *  @note If not set, the documented server-side default will be me.
+ */
+@property(nonatomic, copy, nullable) NSString *userId;
+
+/**
+ *  Upon successful completion, the callback's object and error parameters will
+ *  be nil. This query does not fetch an object.
+ *
+ *  Removes the specified delegate (which can be of any verification status),
+ *  and revokes any verification that may have been required for using it.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  @param userId User's email address. The special value "me" can be used to
+ *    indicate the authenticated user. (Default me)
+ *  @param delegateEmail The email address of the user to be removed as a
+ *    delegate.
+ *
+ *  @return GTLRGmailQuery_UsersSettingsDelegatesDelete
+ */
++ (instancetype)queryWithUserId:(NSString *)userId
+                  delegateEmail:(NSString *)delegateEmail;
+
+@end
+
+/**
+ *  Gets the specified delegate.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  Method: gmail.users.settings.delegates.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeGmailMailGoogleCom
+ *    @c kGTLRAuthScopeGmailModify
+ *    @c kGTLRAuthScopeGmailReadonly
+ *    @c kGTLRAuthScopeGmailSettingsBasic
+ */
+@interface GTLRGmailQuery_UsersSettingsDelegatesGet : GTLRGmailQuery
+// Previous library name was
+//   +[GTLQueryGmail queryForUsersSettingsDelegatesGetWithuserId:delegateEmail:]
+
+/**
+ *  The email address of the user whose delegate relationship is to be
+ *  retrieved.
+ */
+@property(nonatomic, copy, nullable) NSString *delegateEmail;
+
+/**
+ *  User's email address. The special value "me" can be used to indicate the
+ *  authenticated user.
+ *
+ *  @note If not set, the documented server-side default will be me.
+ */
+@property(nonatomic, copy, nullable) NSString *userId;
+
+/**
+ *  Fetches a @c GTLRGmail_Delegate.
+ *
+ *  Gets the specified delegate.
+ *  Note that a delegate user must be referred to by their primary email
+ *  address, and not an email alias.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  @param userId User's email address. The special value "me" can be used to
+ *    indicate the authenticated user. (Default me)
+ *  @param delegateEmail The email address of the user whose delegate
+ *    relationship is to be retrieved.
+ *
+ *  @return GTLRGmailQuery_UsersSettingsDelegatesGet
+ */
++ (instancetype)queryWithUserId:(NSString *)userId
+                  delegateEmail:(NSString *)delegateEmail;
+
+@end
+
+/**
+ *  Lists the delegates for the specified account.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  Method: gmail.users.settings.delegates.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeGmailMailGoogleCom
+ *    @c kGTLRAuthScopeGmailModify
+ *    @c kGTLRAuthScopeGmailReadonly
+ *    @c kGTLRAuthScopeGmailSettingsBasic
+ */
+@interface GTLRGmailQuery_UsersSettingsDelegatesList : GTLRGmailQuery
+// Previous library name was
+//   +[GTLQueryGmail queryForUsersSettingsDelegatesListWithuserId:]
+
+/**
+ *  User's email address. The special value "me" can be used to indicate the
+ *  authenticated user.
+ *
+ *  @note If not set, the documented server-side default will be me.
+ */
+@property(nonatomic, copy, nullable) NSString *userId;
+
+/**
+ *  Fetches a @c GTLRGmail_ListDelegatesResponse.
+ *
+ *  Lists the delegates for the specified account.
+ *  This method is only available to service account clients that have been
+ *  delegated domain-wide authority.
+ *
+ *  @param userId User's email address. The special value "me" can be used to
+ *    indicate the authenticated user. (Default me)
+ *
+ *  @return GTLRGmailQuery_UsersSettingsDelegatesList
+ */
++ (instancetype)queryWithUserId:(NSString *)userId;
 
 @end
 
@@ -1442,7 +1649,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsFiltersCreate
+ *  @return GTLRGmailQuery_UsersSettingsFiltersCreate
  */
 + (instancetype)queryWithObject:(GTLRGmail_Filter *)object
                          userId:(NSString *)userId;
@@ -1486,7 +1693,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the filter to be deleted.
  *
- *  @returns GTLRGmailQuery_UsersSettingsFiltersDelete
+ *  @return GTLRGmailQuery_UsersSettingsFiltersDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -1532,7 +1739,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the filter to be fetched.
  *
- *  @returns GTLRGmailQuery_UsersSettingsFiltersGet
+ *  @return GTLRGmailQuery_UsersSettingsFiltersGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -1570,7 +1777,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsFiltersList
+ *  @return GTLRGmailQuery_UsersSettingsFiltersList
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1615,7 +1822,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsForwardingAddressesCreate
+ *  @return GTLRGmailQuery_UsersSettingsForwardingAddressesCreate
  */
 + (instancetype)queryWithObject:(GTLRGmail_ForwardingAddress *)object
                          userId:(NSString *)userId;
@@ -1661,7 +1868,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param forwardingEmail The forwarding address to be deleted.
  *
- *  @returns GTLRGmailQuery_UsersSettingsForwardingAddressesDelete
+ *  @return GTLRGmailQuery_UsersSettingsForwardingAddressesDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                 forwardingEmail:(NSString *)forwardingEmail;
@@ -1703,7 +1910,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param forwardingEmail The forwarding address to be retrieved.
  *
- *  @returns GTLRGmailQuery_UsersSettingsForwardingAddressesGet
+ *  @return GTLRGmailQuery_UsersSettingsForwardingAddressesGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                 forwardingEmail:(NSString *)forwardingEmail;
@@ -1741,7 +1948,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsForwardingAddressesList
+ *  @return GTLRGmailQuery_UsersSettingsForwardingAddressesList
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1778,7 +1985,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsGetAutoForwarding
+ *  @return GTLRGmailQuery_UsersSettingsGetAutoForwarding
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1815,7 +2022,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsGetImap
+ *  @return GTLRGmailQuery_UsersSettingsGetImap
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1852,7 +2059,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsGetPop
+ *  @return GTLRGmailQuery_UsersSettingsGetPop
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1889,7 +2096,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsGetVacation
+ *  @return GTLRGmailQuery_UsersSettingsGetVacation
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -1940,7 +2147,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsCreate
+ *  @return GTLRGmailQuery_UsersSettingsSendAsCreate
  */
 + (instancetype)queryWithObject:(GTLRGmail_SendAs *)object
                          userId:(NSString *)userId;
@@ -1986,7 +2193,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param sendAsEmail The send-as alias to be deleted.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsDelete
+ *  @return GTLRGmailQuery_UsersSettingsSendAsDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail;
@@ -2030,7 +2237,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param sendAsEmail The send-as alias to be retrieved.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsGet
+ *  @return GTLRGmailQuery_UsersSettingsSendAsGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail;
@@ -2072,7 +2279,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsList
+ *  @return GTLRGmailQuery_UsersSettingsSendAsList
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -2120,7 +2327,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param sendAsEmail The send-as alias to be updated.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsPatch
+ *  @return GTLRGmailQuery_UsersSettingsSendAsPatch
  */
 + (instancetype)queryWithObject:(GTLRGmail_SendAs *)object
                          userId:(NSString *)userId
@@ -2174,7 +2381,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    mail sent using this alias.
  *  @param identifier The immutable ID for the SmimeInfo.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsSmimeInfoDelete
+ *  @return GTLRGmailQuery_UsersSettingsSendAsSmimeInfoDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail
@@ -2230,7 +2437,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    mail sent using this alias.
  *  @param identifier The immutable ID for the SmimeInfo.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsSmimeInfoGet
+ *  @return GTLRGmailQuery_UsersSettingsSendAsSmimeInfoGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail
@@ -2278,7 +2485,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param sendAsEmail The email address that appears in the "From:" header for
  *    mail sent using this alias.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsSmimeInfoInsert
+ *  @return GTLRGmailQuery_UsersSettingsSendAsSmimeInfoInsert
  */
 + (instancetype)queryWithObject:(GTLRGmail_SmimeInfo *)object
                          userId:(NSString *)userId
@@ -2326,7 +2533,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param sendAsEmail The email address that appears in the "From:" header for
  *    mail sent using this alias.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsSmimeInfoList
+ *  @return GTLRGmailQuery_UsersSettingsSendAsSmimeInfoList
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail;
@@ -2379,7 +2586,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    mail sent using this alias.
  *  @param identifier The immutable ID for the SmimeInfo.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsSmimeInfoSetDefault
+ *  @return GTLRGmailQuery_UsersSettingsSendAsSmimeInfoSetDefault
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail
@@ -2427,7 +2634,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param sendAsEmail The send-as alias to be updated.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsUpdate
+ *  @return GTLRGmailQuery_UsersSettingsSendAsUpdate
  */
 + (instancetype)queryWithObject:(GTLRGmail_SendAs *)object
                          userId:(NSString *)userId
@@ -2474,7 +2681,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param sendAsEmail The send-as alias to be verified.
  *
- *  @returns GTLRGmailQuery_UsersSettingsSendAsVerify
+ *  @return GTLRGmailQuery_UsersSettingsSendAsVerify
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                     sendAsEmail:(NSString *)sendAsEmail;
@@ -2516,7 +2723,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsUpdateAutoForwarding
+ *  @return GTLRGmailQuery_UsersSettingsUpdateAutoForwarding
  */
 + (instancetype)queryWithObject:(GTLRGmail_AutoForwarding *)object
                          userId:(NSString *)userId;
@@ -2552,7 +2759,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsUpdateImap
+ *  @return GTLRGmailQuery_UsersSettingsUpdateImap
  */
 + (instancetype)queryWithObject:(GTLRGmail_ImapSettings *)object
                          userId:(NSString *)userId;
@@ -2588,7 +2795,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsUpdatePop
+ *  @return GTLRGmailQuery_UsersSettingsUpdatePop
  */
 + (instancetype)queryWithObject:(GTLRGmail_PopSettings *)object
                          userId:(NSString *)userId;
@@ -2624,7 +2831,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId User's email address. The special value "me" can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersSettingsUpdateVacation
+ *  @return GTLRGmailQuery_UsersSettingsUpdateVacation
  */
 + (instancetype)queryWithObject:(GTLRGmail_VacationSettings *)object
                          userId:(NSString *)userId;
@@ -2663,7 +2870,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersStop
+ *  @return GTLRGmailQuery_UsersStop
  */
 + (instancetype)queryWithUserId:(NSString *)userId;
 
@@ -2708,7 +2915,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier ID of the Thread to delete.
  *
- *  @returns GTLRGmailQuery_UsersThreadsDelete
+ *  @return GTLRGmailQuery_UsersThreadsDelete
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -2770,7 +2977,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the thread to retrieve.
  *
- *  @returns GTLRGmailQuery_UsersThreadsGet
+ *  @return GTLRGmailQuery_UsersThreadsGet
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -2838,7 +3045,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersThreadsList
+ *  @return GTLRGmailQuery_UsersThreadsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2888,7 +3095,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the thread to modify.
  *
- *  @returns GTLRGmailQuery_UsersThreadsModify
+ *  @return GTLRGmailQuery_UsersThreadsModify
  */
 + (instancetype)queryWithObject:(GTLRGmail_ModifyThreadRequest *)object
                          userId:(NSString *)userId
@@ -2933,7 +3140,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the thread to Trash.
  *
- *  @returns GTLRGmailQuery_UsersThreadsTrash
+ *  @return GTLRGmailQuery_UsersThreadsTrash
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -2977,7 +3184,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *    indicate the authenticated user. (Default me)
  *  @param identifier The ID of the thread to remove from Trash.
  *
- *  @returns GTLRGmailQuery_UsersThreadsUntrash
+ *  @return GTLRGmailQuery_UsersThreadsUntrash
  */
 + (instancetype)queryWithUserId:(NSString *)userId
                      identifier:(NSString *)identifier;
@@ -3016,7 +3223,7 @@ GTLR_EXTERN NSString * const kGTLRGmailInternalDateSourceReceivedTime;
  *  @param userId The user's email address. The special value me can be used to
  *    indicate the authenticated user. (Default me)
  *
- *  @returns GTLRGmailQuery_UsersWatch
+ *  @return GTLRGmailQuery_UsersWatch
  */
 + (instancetype)queryWithObject:(GTLRGmail_WatchRequest *)object
                          userId:(NSString *)userId;

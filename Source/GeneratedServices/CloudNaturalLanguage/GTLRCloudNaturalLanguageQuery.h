@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Natural Language API (language/v1)
+//   Cloud Natural Language API (language/v1)
 // Description:
 //   Provides natural language understanding technologies to developers.
 //   Examples include sentiment analysis, entity recognition, entity sentiment
@@ -21,9 +21,11 @@
 #endif
 
 @class GTLRCloudNaturalLanguage_AnalyzeEntitiesRequest;
+@class GTLRCloudNaturalLanguage_AnalyzeEntitySentimentRequest;
 @class GTLRCloudNaturalLanguage_AnalyzeSentimentRequest;
 @class GTLRCloudNaturalLanguage_AnalyzeSyntaxRequest;
 @class GTLRCloudNaturalLanguage_AnnotateTextRequest;
+@class GTLRCloudNaturalLanguage_ClassifyTextRequest;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -67,9 +69,38 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCloudNaturalLanguage_AnalyzeEntitiesRequest to
  *    include in the query.
  *
- *  @returns GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeEntities
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeEntities
  */
 + (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_AnalyzeEntitiesRequest *)object;
+
+@end
+
+/**
+ *  Finds entities, similar to AnalyzeEntities in the text and analyzes
+ *  sentiment associated with each entity and its mentions.
+ *
+ *  Method: language.documents.analyzeEntitySentiment
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCloudNaturalLanguageCloudLanguage
+ *    @c kGTLRAuthScopeCloudNaturalLanguageCloudPlatform
+ */
+@interface GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeEntitySentiment : GTLRCloudNaturalLanguageQuery
+// Previous library name was
+//   +[GTLQueryCloudNaturalLanguage queryForDocumentsAnalyzeEntitySentimentWithObject:]
+
+/**
+ *  Fetches a @c GTLRCloudNaturalLanguage_AnalyzeEntitySentimentResponse.
+ *
+ *  Finds entities, similar to AnalyzeEntities in the text and analyzes
+ *  sentiment associated with each entity and its mentions.
+ *
+ *  @param object The @c GTLRCloudNaturalLanguage_AnalyzeEntitySentimentRequest
+ *    to include in the query.
+ *
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeEntitySentiment
+ */
++ (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_AnalyzeEntitySentimentRequest *)object;
 
 @end
 
@@ -94,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCloudNaturalLanguage_AnalyzeSentimentRequest to
  *    include in the query.
  *
- *  @returns GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeSentiment
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeSentiment
  */
 + (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_AnalyzeSentimentRequest *)object;
 
@@ -125,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCloudNaturalLanguage_AnalyzeSyntaxRequest to
  *    include in the query.
  *
- *  @returns GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeSyntax
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsAnalyzeSyntax
  */
 + (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_AnalyzeSyntaxRequest *)object;
 
@@ -154,9 +185,36 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCloudNaturalLanguage_AnnotateTextRequest to include
  *    in the query.
  *
- *  @returns GTLRCloudNaturalLanguageQuery_DocumentsAnnotateText
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsAnnotateText
  */
 + (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_AnnotateTextRequest *)object;
+
+@end
+
+/**
+ *  Classifies a document into categories.
+ *
+ *  Method: language.documents.classifyText
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCloudNaturalLanguageCloudLanguage
+ *    @c kGTLRAuthScopeCloudNaturalLanguageCloudPlatform
+ */
+@interface GTLRCloudNaturalLanguageQuery_DocumentsClassifyText : GTLRCloudNaturalLanguageQuery
+// Previous library name was
+//   +[GTLQueryCloudNaturalLanguage queryForDocumentsClassifyTextWithObject:]
+
+/**
+ *  Fetches a @c GTLRCloudNaturalLanguage_ClassifyTextResponse.
+ *
+ *  Classifies a document into categories.
+ *
+ *  @param object The @c GTLRCloudNaturalLanguage_ClassifyTextRequest to include
+ *    in the query.
+ *
+ *  @return GTLRCloudNaturalLanguageQuery_DocumentsClassifyText
+ */
++ (instancetype)queryWithObject:(GTLRCloudNaturalLanguage_ClassifyTextRequest *)object;
 
 @end
 

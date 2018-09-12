@@ -2,11 +2,23 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Vault API (vault/v1)
+//   G Suite Vault API (vault/v1)
+// Description:
+//   Archiving and eDiscovery for G Suite.
 // Documentation:
-//   https://apps.google.com/products/vault/
+//   https://developers.google.com/vault
 
 #import "GTLRVault.h"
+
+// ----------------------------------------------------------------------------
+// Authorization scopes
+
+NSString * const kGTLRAuthScopeVaultEdiscovery         = @"https://www.googleapis.com/auth/ediscovery";
+NSString * const kGTLRAuthScopeVaultEdiscoveryReadonly = @"https://www.googleapis.com/auth/ediscovery.readonly";
+
+// ----------------------------------------------------------------------------
+//   GTLRVaultService
+//
 
 @implementation GTLRVaultService
 
@@ -16,7 +28,7 @@
     // From discovery.
     self.rootURLString = @"https://vault.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

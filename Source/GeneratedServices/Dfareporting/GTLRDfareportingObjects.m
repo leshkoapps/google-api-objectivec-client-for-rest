@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   DCM/DFA Reporting And Trafficking API (dfareporting/v2.8)
+//   DCM/DFA Reporting And Trafficking API (dfareporting/v3.2)
 // Description:
 //   Manages your DoubleClick Campaign Manager ad campaigns and reports.
 // Documentation:
@@ -61,6 +61,7 @@ NSString * const kGTLRDfareporting_Ad_Compatibility_App        = @"APP";
 NSString * const kGTLRDfareporting_Ad_Compatibility_AppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareporting_Ad_Compatibility_Display    = @"DISPLAY";
 NSString * const kGTLRDfareporting_Ad_Compatibility_DisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareporting_Ad_Compatibility_InStreamAudio = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareporting_Ad_Compatibility_InStreamVideo = @"IN_STREAM_VIDEO";
 
 // GTLRDfareporting_Ad.type
@@ -74,6 +75,7 @@ NSString * const kGTLRDfareporting_AdSlot_Compatibility_App    = @"APP";
 NSString * const kGTLRDfareporting_AdSlot_Compatibility_AppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareporting_AdSlot_Compatibility_Display = @"DISPLAY";
 NSString * const kGTLRDfareporting_AdSlot_Compatibility_DisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareporting_AdSlot_Compatibility_InStreamAudio = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareporting_AdSlot_Compatibility_InStreamVideo = @"IN_STREAM_VIDEO";
 
 // GTLRDfareporting_AdSlot.paymentSourceType
@@ -178,6 +180,7 @@ NSString * const kGTLRDfareporting_Creative_Compatibility_App  = @"APP";
 NSString * const kGTLRDfareporting_Creative_Compatibility_AppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareporting_Creative_Compatibility_Display = @"DISPLAY";
 NSString * const kGTLRDfareporting_Creative_Compatibility_DisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareporting_Creative_Compatibility_InStreamAudio = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareporting_Creative_Compatibility_InStreamVideo = @"IN_STREAM_VIDEO";
 
 // GTLRDfareporting_Creative.type
@@ -190,6 +193,7 @@ NSString * const kGTLRDfareporting_Creative_Type_DisplayRedirect = @"DISPLAY_RED
 NSString * const kGTLRDfareporting_Creative_Type_FlashInpage   = @"FLASH_INPAGE";
 NSString * const kGTLRDfareporting_Creative_Type_Html5Banner   = @"HTML5_BANNER";
 NSString * const kGTLRDfareporting_Creative_Type_Image         = @"IMAGE";
+NSString * const kGTLRDfareporting_Creative_Type_InstreamAudio = @"INSTREAM_AUDIO";
 NSString * const kGTLRDfareporting_Creative_Type_InstreamVideo = @"INSTREAM_VIDEO";
 NSString * const kGTLRDfareporting_Creative_Type_InstreamVideoRedirect = @"INSTREAM_VIDEO_REDIRECT";
 NSString * const kGTLRDfareporting_Creative_Type_InternalRedirect = @"INTERNAL_REDIRECT";
@@ -309,6 +313,11 @@ NSString * const kGTLRDfareporting_CreativeAsset_DurationType_AssetDurationTypeA
 NSString * const kGTLRDfareporting_CreativeAsset_DurationType_AssetDurationTypeCustom = @"ASSET_DURATION_TYPE_CUSTOM";
 NSString * const kGTLRDfareporting_CreativeAsset_DurationType_AssetDurationTypeNone = @"ASSET_DURATION_TYPE_NONE";
 
+// GTLRDfareporting_CreativeAsset.orientation
+NSString * const kGTLRDfareporting_CreativeAsset_Orientation_Landscape = @"LANDSCAPE";
+NSString * const kGTLRDfareporting_CreativeAsset_Orientation_Portrait = @"PORTRAIT";
+NSString * const kGTLRDfareporting_CreativeAsset_Orientation_Square = @"SQUARE";
+
 // GTLRDfareporting_CreativeAsset.positionLeftUnit
 NSString * const kGTLRDfareporting_CreativeAsset_PositionLeftUnit_OffsetUnitPercent = @"OFFSET_UNIT_PERCENT";
 NSString * const kGTLRDfareporting_CreativeAsset_PositionLeftUnit_OffsetUnitPixel = @"OFFSET_UNIT_PIXEL";
@@ -325,8 +334,10 @@ NSString * const kGTLRDfareporting_CreativeAsset_Role_AdditionalImage = @"ADDITI
 NSString * const kGTLRDfareporting_CreativeAsset_Role_AlternateVideo = @"ALTERNATE_VIDEO";
 NSString * const kGTLRDfareporting_CreativeAsset_Role_BackupImage = @"BACKUP_IMAGE";
 NSString * const kGTLRDfareporting_CreativeAsset_Role_Other    = @"OTHER";
+NSString * const kGTLRDfareporting_CreativeAsset_Role_ParentAudio = @"PARENT_AUDIO";
 NSString * const kGTLRDfareporting_CreativeAsset_Role_ParentVideo = @"PARENT_VIDEO";
 NSString * const kGTLRDfareporting_CreativeAsset_Role_Primary  = @"PRIMARY";
+NSString * const kGTLRDfareporting_CreativeAsset_Role_TranscodedAudio = @"TRANSCODED_AUDIO";
 NSString * const kGTLRDfareporting_CreativeAsset_Role_TranscodedVideo = @"TRANSCODED_VIDEO";
 
 // GTLRDfareporting_CreativeAsset.startTimeType
@@ -339,6 +350,7 @@ NSString * const kGTLRDfareporting_CreativeAsset_WindowMode_Transparent = @"TRAN
 NSString * const kGTLRDfareporting_CreativeAsset_WindowMode_Window = @"WINDOW";
 
 // GTLRDfareporting_CreativeAssetId.type
+NSString * const kGTLRDfareporting_CreativeAssetId_Type_Audio  = @"AUDIO";
 NSString * const kGTLRDfareporting_CreativeAssetId_Type_Flash  = @"FLASH";
 NSString * const kGTLRDfareporting_CreativeAssetId_Type_Html   = @"HTML";
 NSString * const kGTLRDfareporting_CreativeAssetId_Type_HtmlImage = @"HTML_IMAGE";
@@ -581,9 +593,11 @@ NSString * const kGTLRDfareporting_CustomFloodlightVariable_Type_U98 = @"U98";
 NSString * const kGTLRDfareporting_CustomFloodlightVariable_Type_U99 = @"U99";
 
 // GTLRDfareporting_DateRange.relativeDateRange
+NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last14Days = @"LAST_14_DAYS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last24Months = @"LAST_24_MONTHS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last30Days = @"LAST_30_DAYS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last365Days = @"LAST_365_DAYS";
+NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last60Days = @"LAST_60_DAYS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last7Days = @"LAST_7_DAYS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_Last90Days = @"LAST_90_DAYS";
 NSString * const kGTLRDfareporting_DateRange_RelativeDateRange_MonthToDate = @"MONTH_TO_DATE";
@@ -668,6 +682,7 @@ NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_DbmAdvert
 NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_DbmPartner = @"DBM_PARTNER";
 NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_DcmAccount = @"DCM_ACCOUNT";
 NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_DcmAdvertiser = @"DCM_ADVERTISER";
+NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_DfpNetworkCode = @"DFP_NETWORK_CODE";
 NSString * const kGTLRDfareporting_EncryptionInfo_EncryptionEntityType_EncryptionEntityTypeUnknown = @"ENCRYPTION_ENTITY_TYPE_UNKNOWN";
 
 // GTLRDfareporting_EncryptionInfo.encryptionSource
@@ -715,6 +730,11 @@ NSString * const kGTLRDfareporting_FloodlightActivity_CountingMethod_UniqueCount
 // GTLRDfareporting_FloodlightActivity.floodlightActivityGroupType
 NSString * const kGTLRDfareporting_FloodlightActivity_FloodlightActivityGroupType_Counter = @"COUNTER";
 NSString * const kGTLRDfareporting_FloodlightActivity_FloodlightActivityGroupType_Sale = @"SALE";
+
+// GTLRDfareporting_FloodlightActivity.floodlightTagType
+NSString * const kGTLRDfareporting_FloodlightActivity_FloodlightTagType_GlobalSiteTag = @"GLOBAL_SITE_TAG";
+NSString * const kGTLRDfareporting_FloodlightActivity_FloodlightTagType_Iframe = @"IFRAME";
+NSString * const kGTLRDfareporting_FloodlightActivity_FloodlightTagType_Image = @"IMAGE";
 
 // GTLRDfareporting_FloodlightActivity.tagFormat
 NSString * const kGTLRDfareporting_FloodlightActivity_TagFormat_Html = @"HTML";
@@ -857,6 +877,11 @@ NSString * const kGTLRDfareporting_ListPopulationTerm_Type_CustomVariableTerm = 
 NSString * const kGTLRDfareporting_ListPopulationTerm_Type_ListMembershipTerm = @"LIST_MEMBERSHIP_TERM";
 NSString * const kGTLRDfareporting_ListPopulationTerm_Type_ReferrerTerm = @"REFERRER_TERM";
 
+// GTLRDfareporting_MobileApp.directory
+NSString * const kGTLRDfareporting_MobileApp_Directory_AppleAppStore = @"APPLE_APP_STORE";
+NSString * const kGTLRDfareporting_MobileApp_Directory_GooglePlayStore = @"GOOGLE_PLAY_STORE";
+NSString * const kGTLRDfareporting_MobileApp_Directory_Unknown = @"UNKNOWN";
+
 // GTLRDfareporting_ObjectFilter.status
 NSString * const kGTLRDfareporting_ObjectFilter_Status_All     = @"ALL";
 NSString * const kGTLRDfareporting_ObjectFilter_Status_Assigned = @"ASSIGNED";
@@ -876,6 +901,7 @@ NSString * const kGTLRDfareporting_Placement_Compatibility_App = @"APP";
 NSString * const kGTLRDfareporting_Placement_Compatibility_AppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareporting_Placement_Compatibility_Display = @"DISPLAY";
 NSString * const kGTLRDfareporting_Placement_Compatibility_DisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareporting_Placement_Compatibility_InStreamAudio = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareporting_Placement_Compatibility_InStreamVideo = @"IN_STREAM_VIDEO";
 
 // GTLRDfareporting_Placement.paymentSource
@@ -1226,6 +1252,11 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Mp4    = @"MP4";
 NSString * const kGTLRDfareporting_VideoFormat_FileType_Threegpp = @"THREEGPP";
 NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
+// GTLRDfareporting_VideoSettings.orientation
+NSString * const kGTLRDfareporting_VideoSettings_Orientation_Any = @"ANY";
+NSString * const kGTLRDfareporting_VideoSettings_Orientation_Landscape = @"LANDSCAPE";
+NSString * const kGTLRDfareporting_VideoSettings_Orientation_Portrait = @"PORTRAIT";
+
 // ----------------------------------------------------------------------------
 //
 //   GTLRDfareporting_Account
@@ -1555,6 +1586,28 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDfareporting_AdvertiserLandingPagesListResponse
+//
+
+@implementation GTLRDfareporting_AdvertiserLandingPagesListResponse
+@dynamic kind, landingPages, nextPageToken;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"landingPages" : [GTLRDfareporting_LandingPage class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"landingPages";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDfareporting_AdvertisersListResponse
 //
 
@@ -1652,10 +1705,10 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
          audienceSegmentGroups, billingInvoiceCode,
          clickThroughUrlSuffixProperties, comment, createInfo, creativeGroupIds,
          creativeOptimizationConfiguration,
-         defaultClickThroughEventTagProperties, endDate, eventTagOverrides,
-         externalId, identifier, idDimensionValue, kind, lastModifiedInfo,
-         lookbackConfiguration, name, nielsenOcrEnabled, startDate,
-         subaccountId, traffickerEmails;
+         defaultClickThroughEventTagProperties, defaultLandingPageId, endDate,
+         eventTagOverrides, externalId, identifier, idDimensionValue, kind,
+         lastModifiedInfo, lookbackConfiguration, name, nielsenOcrEnabled,
+         startDate, subaccountId, traffickerEmails;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
@@ -1803,7 +1856,7 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_ClickTag
-@dynamic eventName, name, value;
+@dynamic clickThroughUrl, eventName, name;
 @end
 
 
@@ -1948,7 +2001,8 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 @dynamic childDirectedTreatment, customVariables, encryptedUserId,
          encryptedUserIdCandidates, floodlightActivityId,
          floodlightConfigurationId, gclid, kind, limitAdTracking,
-         mobileDeviceId, ordinal, quantity, timestampMicros, value;
+         mobileDeviceId, nonPersonalizedAd, ordinal, quantity, timestampMicros,
+         treatmentForUnderage, value;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -2095,9 +2149,9 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_Creative
-@dynamic accountId, active, adParameters, adTagKeys, advertiserId,
-         allowScriptAccess, archived, artworkType, authoringSource,
-         authoringTool, autoAdvanceImages, backgroundColor,
+@dynamic accountId, active, additionalSizes, adParameters, adTagKeys,
+         advertiserId, allowScriptAccess, archived, artworkType,
+         authoringSource, authoringTool, autoAdvanceImages, backgroundColor,
          backupImageClickThroughUrl, backupImageFeatures,
          backupImageReportingLabel, backupImageTargetWindow, clickTags,
          commercialId, companionCreatives, compatibility, convertFlashToHtml5,
@@ -2105,14 +2159,14 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
          creativeFieldAssignments, customKeyValues, dynamicAssetSelection,
          exitCustomEvents, fsCommand, htmlCode, htmlCodeLocked, identifier,
          idDimensionValue, kind, lastModifiedInfo, latestTraffickedCreativeId,
-         name, overrideCss, progressOffset, redirectUrl, renderingId,
-         renderingIdDimensionValue, requiredFlashPluginVersion,
-         requiredFlashVersion, size, skipOffset, skippable, sslCompliant,
-         sslOverride, studioAdvertiserId, studioCreativeId,
-         studioTraffickedCreativeId, subaccountId,
+         mediaDescription, mediaDuration, name, overrideCss, politeLoadAssetId,
+         progressOffset, redirectUrl, renderingId, renderingIdDimensionValue,
+         requiredFlashPluginVersion, requiredFlashVersion, size, skipOffset,
+         skippable, sslCompliant, sslOverride, studioAdvertiserId,
+         studioCreativeId, studioTraffickedCreativeId, subaccountId,
          thirdPartyBackupImageImpressionsUrl, thirdPartyRichMediaImpressionsUrl,
          thirdPartyUrls, timerCustomEvents, totalFileSize, type, universalAdId,
-         version, videoDescription, videoDuration;
+         version;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
@@ -2120,6 +2174,7 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"additionalSizes" : [GTLRDfareporting_Size class],
     @"adTagKeys" : [NSString class],
     @"backupImageFeatures" : [NSString class],
     @"clickTags" : [GTLRDfareporting_ClickTag class],
@@ -2145,16 +2200,17 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_CreativeAsset
-@dynamic actionScript3, active, alignment, artworkType, assetIdentifier,
-         backupImageExit, bitRate, childAssetType, collapsedSize,
-         companionCreativeIds, customStartTimeValue, detectedFeatures,
-         displayType, duration, durationType, expandedDimension, fileSize,
-         flashVersion, hideFlashObjects, hideSelectionBoxes, horizontallyLocked,
-         identifier, idDimensionValue, mimeType, offset, originalBackup,
-         position, positionLeftUnit, positionTopUnit, progressiveServingUrl,
-         pushdown, pushdownDuration, role, size, sslCompliant, startTimeType,
-         streamingServingUrl, transparency, verticallyLocked, videoDuration,
-         windowMode, zIndex, zipFilename, zipFilesize;
+@dynamic actionScript3, active, additionalSizes, alignment, artworkType,
+         assetIdentifier, backupImageExit, bitRate, childAssetType,
+         collapsedSize, companionCreativeIds, customStartTimeValue,
+         detectedFeatures, displayType, duration, durationType,
+         expandedDimension, fileSize, flashVersion, hideFlashObjects,
+         hideSelectionBoxes, horizontallyLocked, identifier, idDimensionValue,
+         mediaDuration, mimeType, offset, orientation, originalBackup, position,
+         positionLeftUnit, positionTopUnit, progressiveServingUrl, pushdown,
+         pushdownDuration, role, size, sslCompliant, startTimeType,
+         streamingServingUrl, transparency, verticallyLocked, windowMode,
+         zIndex, zipFilename, zipFilesize;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
@@ -2162,6 +2218,7 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"additionalSizes" : [GTLRDfareporting_Size class],
     @"companionCreativeIds" : [NSNumber class],
     @"detectedFeatures" : [NSString class]
   };
@@ -2249,13 +2306,24 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDfareporting_CreativeClickThroughUrl
+//
+
+@implementation GTLRDfareporting_CreativeClickThroughUrl
+@dynamic computedClickThroughUrl, customClickThroughUrl, landingPageId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDfareporting_CreativeCustomEvent
 //
 
 @implementation GTLRDfareporting_CreativeCustomEvent
 @dynamic advertiserCustomEventId, advertiserCustomEventName,
-         advertiserCustomEventType, artworkLabel, artworkType, exitUrl,
-         identifier, popupWindowProperties, targetType, videoReportingId;
+         advertiserCustomEventType, artworkLabel, artworkType,
+         exitClickThroughUrl, identifier, popupWindowProperties, targetType,
+         videoReportingId;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
@@ -2541,6 +2609,24 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
   NSDictionary<NSString *, Class> *map = @{
     @"daysOfWeek" : [NSString class],
     @"hoursOfDay" : [NSNumber class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDfareporting_DeepLink
+//
+
+@implementation GTLRDfareporting_DeepLink
+@dynamic appUrl, fallbackUrl, kind, mobileApp, remarketingListIds;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"remarketingListIds" : [NSNumber class]
   };
   return map;
 }
@@ -2934,7 +3020,7 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_FloodlightActivitiesGenerateTagResponse
-@dynamic floodlightActivityTag, kind;
+@dynamic floodlightActivityTag, globalSiteTagGlobalSnippet, kind;
 @end
 
 
@@ -2970,9 +3056,9 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
          countingMethod, defaultTags, expectedUrl, floodlightActivityGroupId,
          floodlightActivityGroupName, floodlightActivityGroupTagString,
          floodlightActivityGroupType, floodlightConfigurationId,
-         floodlightConfigurationIdDimensionValue, hidden, identifier,
-         idDimensionValue, imageTagEnabled, kind, name, notes, publisherTags,
-         secure, sslCompliant, sslRequired, subaccountId, tagFormat, tagString,
+         floodlightConfigurationIdDimensionValue, floodlightTagType, hidden,
+         identifier, idDimensionValue, kind, name, notes, publisherTags, secure,
+         sslCompliant, sslRequired, subaccountId, tagFormat, tagString,
          userDefinedVariableTypes;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
@@ -3230,30 +3316,15 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_LandingPage
-@dynamic defaultProperty, identifier, kind, name, url;
+@dynamic advertiserId, archived, deepLinks, identifier, kind, name, url;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
-  NSDictionary<NSString *, NSString *> *map = @{
-    @"defaultProperty" : @"default",
-    @"identifier" : @"id"
-  };
-  return map;
+  return @{ @"identifier" : @"id" };
 }
-
-@end
-
-
-// ----------------------------------------------------------------------------
-//
-//   GTLRDfareporting_LandingPagesListResponse
-//
-
-@implementation GTLRDfareporting_LandingPagesListResponse
-@dynamic kind, landingPages;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
-    @"landingPages" : [GTLRDfareporting_LandingPage class]
+    @"deepLinks" : [GTLRDfareporting_DeepLink class]
   };
   return map;
 }
@@ -3427,6 +3498,43 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
     @"metros" : [GTLRDfareporting_Metro class]
   };
   return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDfareporting_MobileApp
+//
+
+@implementation GTLRDfareporting_MobileApp
+@dynamic directory, identifier, kind, publisherName, title;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDfareporting_MobileAppsListResponse
+//
+
+@implementation GTLRDfareporting_MobileAppsListResponse
+@dynamic kind, mobileApps, nextPageToken;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"mobileApps" : [GTLRDfareporting_MobileApp class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"mobileApps";
 }
 
 @end
@@ -3716,11 +3824,11 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_Placement
-@dynamic accountId, adBlockingOptOut, advertiserId, advertiserIdDimensionValue,
-         archived, campaignId, campaignIdDimensionValue, comment, compatibility,
-         contentCategoryId, createInfo, directorySiteId,
-         directorySiteIdDimensionValue, externalId, identifier,
-         idDimensionValue, keyName, kind, lastModifiedInfo,
+@dynamic accountId, adBlockingOptOut, additionalSizes, advertiserId,
+         advertiserIdDimensionValue, archived, campaignId,
+         campaignIdDimensionValue, comment, compatibility, contentCategoryId,
+         createInfo, directorySiteId, directorySiteIdDimensionValue, externalId,
+         identifier, idDimensionValue, keyName, kind, lastModifiedInfo,
          lookbackConfiguration, name, paymentApproved, paymentSource,
          placementGroupId, placementGroupIdDimensionValue, placementStrategyId,
          pricingSchedule, primary, publisherUpdateInfo, siteId,
@@ -3734,6 +3842,7 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"additionalSizes" : [GTLRDfareporting_Size class],
     @"tagFormats" : [NSString class]
   };
   return map;
@@ -5033,5 +5142,6 @@ NSString * const kGTLRDfareporting_VideoFormat_FileType_Webm   = @"WEBM";
 //
 
 @implementation GTLRDfareporting_VideoSettings
-@dynamic companionSettings, kind, skippableSettings, transcodeSettings;
+@dynamic companionSettings, kind, orientation, skippableSettings,
+         transcodeSettings;
 @end

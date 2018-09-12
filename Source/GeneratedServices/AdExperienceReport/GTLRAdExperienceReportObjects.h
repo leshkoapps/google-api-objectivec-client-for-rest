@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Ad Experience Report API (adexperiencereport/v1)
+//   Ad Experience Report API (adexperiencereport/v1)
 // Description:
 //   View Ad Experience Report data, and get a list of sites that have a
 //   significant number of annoying ads.
@@ -31,28 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // ----------------------------------------------------------------------------
 // Constants - For some of the classes' properties below.
-
-// ----------------------------------------------------------------------------
-// GTLRAdExperienceReport_PlatformSummary.abusiveStatus
-
-/**
- *  Failing.
- *
- *  Value: "FAILING"
- */
-GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Failing;
-/**
- *  Passing.
- *
- *  Value: "PASSING"
- */
-GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Passing;
-/**
- *  Not reviewed.
- *
- *  Value: "UNKNOWN"
- */
-GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Unknown;
 
 // ----------------------------------------------------------------------------
 // GTLRAdExperienceReport_PlatformSummary.betterAdsStatus
@@ -123,6 +101,8 @@ GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_FilterStatu
 GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionA;
 /** Value: "REGION_B" */
 GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionB;
+/** Value: "REGION_C" */
+GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionC;
 /** Value: "REGION_UNKNOWN" */
 GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionUnknown;
 
@@ -130,19 +110,6 @@ GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_Regi
  *  Summary of the ad experience rating of a site for a specific platform.
  */
 @interface GTLRAdExperienceReport_PlatformSummary : GTLRObject
-
-/**
- *  The status of the site reviewed for abusive ads.
- *
- *  Likely values:
- *    @arg @c kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Failing
- *        Failing. (Value: "FAILING")
- *    @arg @c kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Passing
- *        Passing. (Value: "PASSING")
- *    @arg @c kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Unknown Not
- *        reviewed. (Value: "UNKNOWN")
- */
-@property(nonatomic, copy, nullable) NSString *abusiveStatus;
 
 /**
  *  The status of the site reviewed for the Better Ads Standards.
@@ -200,6 +167,7 @@ GTLR_EXTERN NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_Regi
 
 /**
  *  Response message for GetSiteSummary.
+ *  Do not confuse with same message in google.chrome.abusiveexperiencereport.v1
  */
 @interface GTLRAdExperienceReport_SiteSummaryResponse : GTLRObject
 

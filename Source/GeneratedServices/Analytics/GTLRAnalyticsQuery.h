@@ -19,6 +19,7 @@
 #endif
 
 @class GTLRAnalytics_AccountTicket;
+@class GTLRAnalytics_AccountTreeRequest;
 @class GTLRAnalytics_CustomDimension;
 @class GTLRAnalytics_CustomMetric;
 @class GTLRAnalytics_DataimportDeleteUploadDataRequest;
@@ -27,10 +28,12 @@
 @class GTLRAnalytics_Experiment;
 @class GTLRAnalytics_Filter;
 @class GTLRAnalytics_Goal;
+@class GTLRAnalytics_HashClientIdRequest;
 @class GTLRAnalytics_Profile;
 @class GTLRAnalytics_ProfileFilterLink;
 @class GTLRAnalytics_RemarketingAudience;
 @class GTLRAnalytics_UnsampledReport;
+@class GTLRAnalytics_UserDeletionRequest;
 @class GTLRAnalytics_Webproperty;
 
 // Generated comments include content from the discovery document; avoid them
@@ -213,7 +216,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param metrics A comma-separated list of Analytics metrics. E.g.,
  *    'ga:sessions,ga:pageviews'. At least one metric must be specified.
  *
- *  @returns GTLRAnalyticsQuery_DataGaGet
+ *  @return GTLRAnalyticsQuery_DataGaGet
  */
 + (instancetype)queryWithIds:(NSString *)ids
                    startDate:(NSString *)startDate
@@ -320,7 +323,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    E.g., 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric
  *    must be specified.
  *
- *  @returns GTLRAnalyticsQuery_DataMcfGet
+ *  @return GTLRAnalyticsQuery_DataMcfGet
  */
 + (instancetype)queryWithIds:(NSString *)ids
                    startDate:(NSString *)startDate
@@ -384,7 +387,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param metrics A comma-separated list of real time metrics. E.g.,
  *    'rt:activeUsers'. At least one metric must be specified.
  *
- *  @returns GTLRAnalyticsQuery_DataRealtimeGet
+ *  @return GTLRAnalyticsQuery_DataRealtimeGet
  */
 + (instancetype)queryWithIds:(NSString *)ids
                      metrics:(NSString *)metrics;
@@ -419,7 +422,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *
  *  Lists all accounts to which the user has access.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountsList
+ *  @return GTLRAnalyticsQuery_ManagementAccountsList
  */
 + (instancetype)query;
 
@@ -457,7 +460,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  Lists account summaries (lightweight tree comprised of
  *  accounts/properties/profiles) to which the user has access.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountSummariesList
+ *  @return GTLRAnalyticsQuery_ManagementAccountSummariesList
  */
 + (instancetype)query;
 
@@ -490,7 +493,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to delete the user link for.
  *  @param linkId Link ID to delete the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountUserLinksDelete
+ *  @return GTLRAnalyticsQuery_ManagementAccountUserLinksDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                             linkId:(NSString *)linkId;
@@ -520,7 +523,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param object The @c GTLRAnalytics_EntityUserLink to include in the query.
  *  @param accountId Account ID to create the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountUserLinksInsert
+ *  @return GTLRAnalyticsQuery_ManagementAccountUserLinksInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId;
@@ -559,7 +562,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *
  *  @param accountId Account ID to retrieve the user links for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountUserLinksList
+ *  @return GTLRAnalyticsQuery_ManagementAccountUserLinksList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -592,11 +595,38 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to update the account-user link for.
  *  @param linkId Link ID to update the account-user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementAccountUserLinksUpdate
+ *  @return GTLRAnalyticsQuery_ManagementAccountUserLinksUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId
                          linkId:(NSString *)linkId;
+
+@end
+
+/**
+ *  Hashes the given Client ID.
+ *
+ *  Method: analytics.management.clientId.hashClientId
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeAnalyticsEdit
+ *    @c kGTLRAuthScopeAnalyticsReadonly
+ */
+@interface GTLRAnalyticsQuery_ManagementClientIdHashClientId : GTLRAnalyticsQuery
+// Previous library name was
+//   +[GTLQueryAnalytics queryForManagementClientIdHashClientIdWithObject:]
+
+/**
+ *  Fetches a @c GTLRAnalytics_HashClientIdResponse.
+ *
+ *  Hashes the given Client ID.
+ *
+ *  @param object The @c GTLRAnalytics_HashClientIdRequest to include in the
+ *    query.
+ *
+ *  @return GTLRAnalyticsQuery_ManagementClientIdHashClientId
+ */
++ (instancetype)queryWithObject:(GTLRAnalytics_HashClientIdRequest *)object;
 
 @end
 
@@ -638,7 +668,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property Id for the custom data sources to
  *    retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDataSourcesList
+ *  @return GTLRAnalyticsQuery_ManagementCustomDataSourcesList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -676,7 +706,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID for the custom dimension to retrieve.
  *  @param customDimensionId The ID of the custom dimension to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDimensionsGet
+ *  @return GTLRAnalyticsQuery_ManagementCustomDimensionsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -711,7 +741,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID for the custom dimension to create.
  *  @param webPropertyId Web property ID for the custom dimension to create.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDimensionsInsert
+ *  @return GTLRAnalyticsQuery_ManagementCustomDimensionsInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomDimension *)object
                       accountId:(NSString *)accountId
@@ -755,7 +785,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID for the custom dimensions to retrieve.
  *  @param webPropertyId Web property ID for the custom dimensions to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDimensionsList
+ *  @return GTLRAnalyticsQuery_ManagementCustomDimensionsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -802,7 +832,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param customDimensionId Custom dimension ID for the custom dimension to
  *    update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDimensionsPatch
+ *  @return GTLRAnalyticsQuery_ManagementCustomDimensionsPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomDimension *)object
                       accountId:(NSString *)accountId
@@ -851,7 +881,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param customDimensionId Custom dimension ID for the custom dimension to
  *    update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomDimensionsUpdate
+ *  @return GTLRAnalyticsQuery_ManagementCustomDimensionsUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomDimension *)object
                       accountId:(NSString *)accountId
@@ -891,7 +921,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID for the custom metric to retrieve.
  *  @param customMetricId The ID of the custom metric to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomMetricsGet
+ *  @return GTLRAnalyticsQuery_ManagementCustomMetricsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -926,7 +956,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID for the custom metric to create.
  *  @param webPropertyId Web property ID for the custom dimension to create.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomMetricsInsert
+ *  @return GTLRAnalyticsQuery_ManagementCustomMetricsInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomMetric *)object
                       accountId:(NSString *)accountId
@@ -970,7 +1000,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID for the custom metrics to retrieve.
  *  @param webPropertyId Web property ID for the custom metrics to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomMetricsList
+ *  @return GTLRAnalyticsQuery_ManagementCustomMetricsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -1016,7 +1046,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID for the custom metric to update.
  *  @param customMetricId Custom metric ID for the custom metric to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomMetricsPatch
+ *  @return GTLRAnalyticsQuery_ManagementCustomMetricsPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomMetric *)object
                       accountId:(NSString *)accountId
@@ -1064,7 +1094,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID for the custom metric to update.
  *  @param customMetricId Custom metric ID for the custom metric to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementCustomMetricsUpdate
+ *  @return GTLRAnalyticsQuery_ManagementCustomMetricsUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_CustomMetric *)object
                       accountId:(NSString *)accountId
@@ -1109,7 +1139,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to which the experiment belongs
  *  @param experimentId ID of the experiment to delete
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsDelete
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1154,7 +1184,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to retrieve the experiment for.
  *  @param experimentId Experiment ID to retrieve the experiment for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsGet
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1195,7 +1225,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to create the experiment for.
  *  @param profileId View (Profile) ID to create the experiment for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsInsert
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Experiment *)object
                       accountId:(NSString *)accountId
@@ -1245,7 +1275,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to retrieve experiments for.
  *  @param profileId View (Profile) ID to retrieve experiments for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsList
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1289,7 +1319,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID of the experiment to update.
  *  @param experimentId Experiment ID of the experiment to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsPatch
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Experiment *)object
                       accountId:(NSString *)accountId
@@ -1335,7 +1365,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID of the experiment to update.
  *  @param experimentId Experiment ID of the experiment to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementExperimentsUpdate
+ *  @return GTLRAnalyticsQuery_ManagementExperimentsUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Experiment *)object
                       accountId:(NSString *)accountId
@@ -1371,7 +1401,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to delete the filter for.
  *  @param filterId ID of the filter to be deleted.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersDelete
+ *  @return GTLRAnalyticsQuery_ManagementFiltersDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                           filterId:(NSString *)filterId;
@@ -1405,7 +1435,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to retrieve filters for.
  *  @param filterId Filter ID to retrieve filters for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersGet
+ *  @return GTLRAnalyticsQuery_ManagementFiltersGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                           filterId:(NSString *)filterId;
@@ -1435,7 +1465,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param object The @c GTLRAnalytics_Filter to include in the query.
  *  @param accountId Account ID to create filter for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersInsert
+ *  @return GTLRAnalyticsQuery_ManagementFiltersInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Filter *)object
                       accountId:(NSString *)accountId;
@@ -1474,7 +1504,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *
  *  @param accountId Account ID to retrieve filters for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersList
+ *  @return GTLRAnalyticsQuery_ManagementFiltersList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -1507,7 +1537,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to which the filter belongs.
  *  @param filterId ID of the filter to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersPatch
+ *  @return GTLRAnalyticsQuery_ManagementFiltersPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Filter *)object
                       accountId:(NSString *)accountId
@@ -1542,7 +1572,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to which the filter belongs.
  *  @param filterId ID of the filter to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementFiltersUpdate
+ *  @return GTLRAnalyticsQuery_ManagementFiltersUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Filter *)object
                       accountId:(NSString *)accountId
@@ -1585,7 +1615,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to retrieve the goal for.
  *  @param goalId Goal ID to retrieve the goal for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementGoalsGet
+ *  @return GTLRAnalyticsQuery_ManagementGoalsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1625,7 +1655,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to create the goal for.
  *  @param profileId View (Profile) ID to create the goal for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementGoalsInsert
+ *  @return GTLRAnalyticsQuery_ManagementGoalsInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Goal *)object
                       accountId:(NSString *)accountId
@@ -1692,7 +1722,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    specific view (profile) ID or '~all', which refers to all the views
  *    (profiles) that user has access to.
  *
- *  @returns GTLRAnalyticsQuery_ManagementGoalsList
+ *  @return GTLRAnalyticsQuery_ManagementGoalsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1735,7 +1765,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to update the goal.
  *  @param goalId Index of the goal to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementGoalsPatch
+ *  @return GTLRAnalyticsQuery_ManagementGoalsPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Goal *)object
                       accountId:(NSString *)accountId
@@ -1780,7 +1810,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to update the goal.
  *  @param goalId Index of the goal to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementGoalsUpdate
+ *  @return GTLRAnalyticsQuery_ManagementGoalsUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Goal *)object
                       accountId:(NSString *)accountId
@@ -1826,7 +1856,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId Profile ID to which the filter link belongs.
  *  @param linkId ID of the profile filter link to delete.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksDelete
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1870,7 +1900,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId Profile ID to retrieve filter link for.
  *  @param linkId ID of the profile filter link.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksGet
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -1911,7 +1941,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property Id to create profile filter link for.
  *  @param profileId Profile ID to create filter link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksInsert
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_ProfileFilterLink *)object
                       accountId:(NSString *)accountId
@@ -1971,7 +2001,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    specific profile ID or '~all', which refers to all the profiles that user
  *    has access to.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksList
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2017,7 +2047,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId Profile ID to which filter link belongs
  *  @param linkId ID of the profile filter link to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksPatch
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_ProfileFilterLink *)object
                       accountId:(NSString *)accountId
@@ -2063,7 +2093,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId Profile ID to which filter link belongs
  *  @param linkId ID of the profile filter link to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileFilterLinksUpdate
+ *  @return GTLRAnalyticsQuery_ManagementProfileFilterLinksUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_ProfileFilterLink *)object
                       accountId:(NSString *)accountId
@@ -2104,7 +2134,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to delete the view (profile) for.
  *  @param profileId ID of the view (profile) to be deleted.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesDelete
+ *  @return GTLRAnalyticsQuery_ManagementProfilesDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2143,7 +2173,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to retrieve the view (profile) for.
  *  @param profileId View (Profile) ID to retrieve the view (profile) for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesGet
+ *  @return GTLRAnalyticsQuery_ManagementProfilesGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2178,7 +2208,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to create the view (profile) for.
  *  @param webPropertyId Web property ID to create the view (profile) for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesInsert
+ *  @return GTLRAnalyticsQuery_ManagementProfilesInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Profile *)object
                       accountId:(NSString *)accountId
@@ -2235,7 +2265,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    Can either be a specific web property ID or '~all', which refers to all
  *    the web properties to which the user has access.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesList
+ *  @return GTLRAnalyticsQuery_ManagementProfilesList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -2273,7 +2303,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to which the view (profile) belongs
  *  @param profileId ID of the view (profile) to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesPatch
+ *  @return GTLRAnalyticsQuery_ManagementProfilesPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Profile *)object
                       accountId:(NSString *)accountId
@@ -2313,7 +2343,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to which the view (profile) belongs
  *  @param profileId ID of the view (profile) to be updated.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfilesUpdate
+ *  @return GTLRAnalyticsQuery_ManagementProfilesUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Profile *)object
                       accountId:(NSString *)accountId
@@ -2357,7 +2387,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to delete the user link for.
  *  @param linkId Link ID to delete the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileUserLinksDelete
+ *  @return GTLRAnalyticsQuery_ManagementProfileUserLinksDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2397,7 +2427,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web Property ID to create the user link for.
  *  @param profileId View (Profile) ID to create the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileUserLinksInsert
+ *  @return GTLRAnalyticsQuery_ManagementProfileUserLinksInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId
@@ -2458,7 +2488,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    Can either be a specific profile ID or '~all', which refers to all the
  *    profiles that user has access to.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileUserLinksList
+ *  @return GTLRAnalyticsQuery_ManagementProfileUserLinksList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2501,7 +2531,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile ID) to update the user link for.
  *  @param linkId Link ID to update the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementProfileUserLinksUpdate
+ *  @return GTLRAnalyticsQuery_ManagementProfileUserLinksUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId
@@ -2543,7 +2573,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    belongs.
  *  @param remarketingAudienceId The ID of the remarketing audience to delete.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudienceDelete
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudienceDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2583,7 +2613,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    retrieve.
  *  @param remarketingAudienceId The ID of the remarketing audience to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudienceGet
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudienceGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2621,7 +2651,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID for which to create the remarketing
  *    audience.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudienceInsert
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudienceInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_RemarketingAudience *)object
                       accountId:(NSString *)accountId
@@ -2675,7 +2705,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId The web property ID of the remarketing audiences to
  *    retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudienceList
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudienceList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -2717,7 +2747,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    update.
  *  @param remarketingAudienceId The ID of the remarketing audience to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudiencePatch
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudiencePatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_RemarketingAudience *)object
                       accountId:(NSString *)accountId
@@ -2759,7 +2789,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    update.
  *  @param remarketingAudienceId The ID of the remarketing audience to update.
  *
- *  @returns GTLRAnalyticsQuery_ManagementRemarketingAudienceUpdate
+ *  @return GTLRAnalyticsQuery_ManagementRemarketingAudienceUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_RemarketingAudience *)object
                       accountId:(NSString *)accountId
@@ -2796,7 +2826,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *
  *  Lists segments to which the user has access.
  *
- *  @returns GTLRAnalyticsQuery_ManagementSegmentsList
+ *  @return GTLRAnalyticsQuery_ManagementSegmentsList
  */
 + (instancetype)query;
 
@@ -2837,7 +2867,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to delete the unsampled report for.
  *  @param unsampledReportId ID of the unsampled report to be deleted.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUnsampledReportsDelete
+ *  @return GTLRAnalyticsQuery_ManagementUnsampledReportsDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2882,7 +2912,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to retrieve unsampled report for.
  *  @param unsampledReportId ID of the unsampled report to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUnsampledReportsGet
+ *  @return GTLRAnalyticsQuery_ManagementUnsampledReportsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -2923,7 +2953,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to create the unsampled report for.
  *  @param profileId View (Profile) ID to create the unsampled report for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUnsampledReportsInsert
+ *  @return GTLRAnalyticsQuery_ManagementUnsampledReportsInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_UnsampledReport *)object
                       accountId:(NSString *)accountId
@@ -2985,7 +3015,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param profileId View (Profile) ID to retrieve unsampled reports for. Must
  *    be a specific view (profile) ID, ~all is not supported.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUnsampledReportsList
+ *  @return GTLRAnalyticsQuery_ManagementUnsampledReportsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3028,7 +3058,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param customDataSourceId Custom data source Id for the uploads to be
  *    deleted.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUploadsDeleteUploadData
+ *  @return GTLRAnalyticsQuery_ManagementUploadsDeleteUploadData
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_DataimportDeleteUploadDataRequest *)object
                       accountId:(NSString *)accountId
@@ -3073,7 +3103,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param customDataSourceId Custom data source Id for upload to retrieve.
  *  @param uploadId Upload Id to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUploadsGet
+ *  @return GTLRAnalyticsQuery_ManagementUploadsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3123,7 +3153,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property Id for the uploads to retrieve.
  *  @param customDataSourceId Custom data source Id for uploads to retrieve.
  *
- *  @returns GTLRAnalyticsQuery_ManagementUploadsList
+ *  @return GTLRAnalyticsQuery_ManagementUploadsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3165,7 +3195,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param uploadParameters The media to include in this query. Maximum size
  *    1GB. Accepted MIME type: application/octet-stream
  *
- *  @returns GTLRAnalyticsQuery_ManagementUploadsUploadData
+ *  @return GTLRAnalyticsQuery_ManagementUploadsUploadData
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3201,7 +3231,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to retrieve the web property for.
  *  @param webPropertyId ID to retrieve the web property for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertiesGet
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertiesGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -3235,7 +3265,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param object The @c GTLRAnalytics_Webproperty to include in the query.
  *  @param accountId Account ID to create the web property for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertiesInsert
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertiesInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Webproperty *)object
                       accountId:(NSString *)accountId;
@@ -3280,7 +3310,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    specific account ID or '~all', which refers to all the accounts that user
  *    has access to.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertiesList
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertiesList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -3313,7 +3343,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to which the web property belongs
  *  @param webPropertyId Web property ID
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertiesPatch
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertiesPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Webproperty *)object
                       accountId:(NSString *)accountId
@@ -3348,7 +3378,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to which the web property belongs
  *  @param webPropertyId Web property ID
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertiesUpdate
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertiesUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_Webproperty *)object
                       accountId:(NSString *)accountId
@@ -3387,7 +3417,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to delete the AdWords link for.
  *  @param webPropertyAdWordsLinkId Web property AdWords link ID.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksDelete
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3426,7 +3456,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to retrieve the AdWords link for.
  *  @param webPropertyAdWordsLinkId Web property-AdWords link ID.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksGet
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3462,7 +3492,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId ID of the Google Analytics account to create the link for.
  *  @param webPropertyId Web property ID to create the link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksInsert
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityAdWordsLink *)object
                       accountId:(NSString *)accountId
@@ -3508,7 +3538,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId ID of the account which the given web property belongs to.
  *  @param webPropertyId Web property ID to retrieve the AdWords links for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksList
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -3549,7 +3579,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to retrieve the AdWords link for.
  *  @param webPropertyAdWordsLinkId Web property-AdWords link ID.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksPatch
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksPatch
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityAdWordsLink *)object
                       accountId:(NSString *)accountId
@@ -3590,7 +3620,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to retrieve the AdWords link for.
  *  @param webPropertyAdWordsLinkId Web property-AdWords link ID.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksUpdate
+ *  @return GTLRAnalyticsQuery_ManagementWebPropertyAdWordsLinksUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityAdWordsLink *)object
                       accountId:(NSString *)accountId
@@ -3630,7 +3660,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web Property ID to delete the user link for.
  *  @param linkId Link ID to delete the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertyUserLinksDelete
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertyUserLinksDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId
@@ -3665,7 +3695,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param accountId Account ID to create the user link for.
  *  @param webPropertyId Web Property ID to create the user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertyUserLinksInsert
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertyUserLinksInsert
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId
@@ -3717,7 +3747,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *    retrieve. Can either be a specific web property ID or '~all', which refers
  *    to all the web properties that user has access to.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertyUserLinksList
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertyUserLinksList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      webPropertyId:(NSString *)webPropertyId;
@@ -3755,7 +3785,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param webPropertyId Web property ID to update the account-user link for.
  *  @param linkId Link ID to update the account-user link for.
  *
- *  @returns GTLRAnalyticsQuery_ManagementWebpropertyUserLinksUpdate
+ *  @return GTLRAnalyticsQuery_ManagementWebpropertyUserLinksUpdate
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_EntityUserLink *)object
                       accountId:(NSString *)accountId
@@ -3792,7 +3822,7 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *  @param reportType Report type. Allowed Values: 'ga'. Where 'ga' corresponds
  *    to the Core Reporting API
  *
- *  @returns GTLRAnalyticsQuery_MetadataColumnsList
+ *  @return GTLRAnalyticsQuery_MetadataColumnsList
  */
 + (instancetype)queryWithReportType:(NSString *)reportType;
 
@@ -3817,9 +3847,61 @@ GTLR_EXTERN NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision;
  *
  *  @param object The @c GTLRAnalytics_AccountTicket to include in the query.
  *
- *  @returns GTLRAnalyticsQuery_ProvisioningCreateAccountTicket
+ *  @return GTLRAnalyticsQuery_ProvisioningCreateAccountTicket
  */
 + (instancetype)queryWithObject:(GTLRAnalytics_AccountTicket *)object;
+
+@end
+
+/**
+ *  Provision account.
+ *
+ *  Method: analytics.provisioning.createAccountTree
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeAnalyticsProvision
+ */
+@interface GTLRAnalyticsQuery_ProvisioningCreateAccountTree : GTLRAnalyticsQuery
+// Previous library name was
+//   +[GTLQueryAnalytics queryForProvisioningCreateAccountTreeWithObject:]
+
+/**
+ *  Fetches a @c GTLRAnalytics_AccountTreeResponse.
+ *
+ *  Provision account.
+ *
+ *  @param object The @c GTLRAnalytics_AccountTreeRequest to include in the
+ *    query.
+ *
+ *  @return GTLRAnalyticsQuery_ProvisioningCreateAccountTree
+ */
++ (instancetype)queryWithObject:(GTLRAnalytics_AccountTreeRequest *)object;
+
+@end
+
+/**
+ *  Insert or update a user deletion requests.
+ *
+ *  Method: analytics.userDeletion.userDeletionRequest.upsert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeAnalyticsUserDeletion
+ */
+@interface GTLRAnalyticsQuery_UserDeletionUserDeletionRequestUpsert : GTLRAnalyticsQuery
+// Previous library name was
+//   +[GTLQueryAnalytics queryForUserDeletionUserDeletionRequestUpsertWithObject:]
+
+/**
+ *  Fetches a @c GTLRAnalytics_UserDeletionRequest.
+ *
+ *  Insert or update a user deletion requests.
+ *
+ *  @param object The @c GTLRAnalytics_UserDeletionRequest to include in the
+ *    query.
+ *
+ *  @return GTLRAnalyticsQuery_UserDeletionUserDeletionRequestUpsert
+ */
++ (instancetype)queryWithObject:(GTLRAnalytics_UserDeletionRequest *)object;
 
 @end
 

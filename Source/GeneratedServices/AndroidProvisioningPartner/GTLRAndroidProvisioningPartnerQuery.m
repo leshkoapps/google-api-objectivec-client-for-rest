@@ -4,8 +4,8 @@
 // API:
 //   Android Device Provisioning Partner API (androiddeviceprovisioning/v1)
 // Description:
-//   Automates reseller integration into Zero Touch Provisioning by assigning
-//   devices to customers and creating device reports.
+//   Automates Android zero-touch enrollment for device resellers, customers,
+//   and EMMs.
 // Documentation:
 //   https://developers.google.com/zero-touch/
 
@@ -16,6 +16,262 @@
 @implementation GTLRAndroidProvisioningPartnerQuery
 
 @dynamic fields;
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsCreate
+
+@dynamic parent;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_Configuration *)object
+                         parent:(NSString *)parent {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/configurations";
+  GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Configuration class];
+  query.loggingName = @"androiddeviceprovisioning.customers.configurations.create";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsDelete
+
+@dynamic name;
+
++ (instancetype)queryWithName:(NSString *)name {
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}";
+  GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsDelete *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.name = name;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Empty class];
+  query.loggingName = @"androiddeviceprovisioning.customers.configurations.delete";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsGet
+
+@dynamic name;
+
++ (instancetype)queryWithName:(NSString *)name {
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}";
+  GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.name = name;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Configuration class];
+  query.loggingName = @"androiddeviceprovisioning.customers.configurations.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsList
+
+@dynamic parent;
+
++ (instancetype)queryWithParent:(NSString *)parent {
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/configurations";
+  GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_CustomerListConfigurationsResponse class];
+  query.loggingName = @"androiddeviceprovisioning.customers.configurations.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsPatch
+
+@dynamic name, updateMask;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_Configuration *)object
+                           name:(NSString *)name {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}";
+  GTLRAndroidProvisioningPartnerQuery_CustomersConfigurationsPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.name = name;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Configuration class];
+  query.loggingName = @"androiddeviceprovisioning.customers.configurations.patch";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDevicesApplyConfiguration
+
+@dynamic parent;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_CustomerApplyConfigurationRequest *)object
+                         parent:(NSString *)parent {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/devices:applyConfiguration";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDevicesApplyConfiguration *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Empty class];
+  query.loggingName = @"androiddeviceprovisioning.customers.devices.applyConfiguration";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDevicesGet
+
+@dynamic name;
+
++ (instancetype)queryWithName:(NSString *)name {
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDevicesGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.name = name;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Device class];
+  query.loggingName = @"androiddeviceprovisioning.customers.devices.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDevicesList
+
+@dynamic pageSize, pageToken, parent;
+
++ (instancetype)queryWithParent:(NSString *)parent {
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/devices";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDevicesList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_CustomerListDevicesResponse class];
+  query.loggingName = @"androiddeviceprovisioning.customers.devices.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDevicesRemoveConfiguration
+
+@dynamic parent;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_CustomerRemoveConfigurationRequest *)object
+                         parent:(NSString *)parent {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/devices:removeConfiguration";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDevicesRemoveConfiguration *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Empty class];
+  query.loggingName = @"androiddeviceprovisioning.customers.devices.removeConfiguration";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDevicesUnclaim
+
+@dynamic parent;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_CustomerUnclaimDeviceRequest *)object
+                         parent:(NSString *)parent {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/devices:unclaim";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDevicesUnclaim *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Empty class];
+  query.loggingName = @"androiddeviceprovisioning.customers.devices.unclaim";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersDpcsList
+
+@dynamic parent;
+
++ (instancetype)queryWithParent:(NSString *)parent {
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/dpcs";
+  GTLRAndroidProvisioningPartnerQuery_CustomersDpcsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_CustomerListDpcsResponse class];
+  query.loggingName = @"androiddeviceprovisioning.customers.dpcs.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_CustomersList
+
+@dynamic pageSize, pageToken;
+
++ (instancetype)query {
+  NSString *pathURITemplate = @"v1/customers";
+  GTLRAndroidProvisioningPartnerQuery_CustomersList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:nil];
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_CustomerListCustomersResponse class];
+  query.loggingName = @"androiddeviceprovisioning.customers.list";
+  return query;
+}
 
 @end
 
@@ -33,6 +289,31 @@
   query.name = name;
   query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Operation class];
   query.loggingName = @"androiddeviceprovisioning.operations.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_PartnersCustomersCreate
+
+@dynamic parent;
+
++ (instancetype)queryWithObject:(GTLRAndroidProvisioningPartner_CreateCustomerRequest *)object
+                         parent:(NSString *)parent {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/customers";
+  GTLRAndroidProvisioningPartnerQuery_PartnersCustomersCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Company class];
+  query.loggingName = @"androiddeviceprovisioning.partners.customers.create";
   return query;
 }
 
@@ -275,6 +556,44 @@
   query.partnerId = partnerId;
   query.expectedObjectClass = [GTLRAndroidProvisioningPartner_Operation class];
   query.loggingName = @"androiddeviceprovisioning.partners.devices.updateMetadataAsync";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_PartnersVendorsCustomersList
+
+@dynamic pageSize, pageToken, parent;
+
++ (instancetype)queryWithParent:(NSString *)parent {
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/customers";
+  GTLRAndroidProvisioningPartnerQuery_PartnersVendorsCustomersList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_ListVendorCustomersResponse class];
+  query.loggingName = @"androiddeviceprovisioning.partners.vendors.customers.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidProvisioningPartnerQuery_PartnersVendorsList
+
+@dynamic pageSize, pageToken, parent;
+
++ (instancetype)queryWithParent:(NSString *)parent {
+  NSArray *pathParams = @[ @"parent" ];
+  NSString *pathURITemplate = @"v1/{+parent}/vendors";
+  GTLRAndroidProvisioningPartnerQuery_PartnersVendorsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.parent = parent;
+  query.expectedObjectClass = [GTLRAndroidProvisioningPartner_ListVendorsResponse class];
+  query.loggingName = @"androiddeviceprovisioning.partners.vendors.list";
   return query;
 }
 

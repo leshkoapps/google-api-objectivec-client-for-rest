@@ -22,6 +22,7 @@
 @class GTLRIdentityToolkit_RelyingpartyCreateAuthUriRequest;
 @class GTLRIdentityToolkit_RelyingpartyDeleteAccountRequest;
 @class GTLRIdentityToolkit_RelyingpartyDownloadAccountRequest;
+@class GTLRIdentityToolkit_RelyingpartyEmailLinkSigninRequest;
 @class GTLRIdentityToolkit_RelyingpartyGetAccountInfoRequest;
 @class GTLRIdentityToolkit_RelyingpartyResetPasswordRequest;
 @class GTLRIdentityToolkit_RelyingpartySendVerificationCodeRequest;
@@ -72,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyCreateAuthUriRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyCreateAuthUri
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyCreateAuthUri
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyCreateAuthUriRequest *)object;
 
@@ -98,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyDeleteAccountRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyDeleteAccount
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyDeleteAccount
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyDeleteAccountRequest *)object;
 
@@ -125,9 +126,35 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyDownloadAccountRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyDownloadAccount
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyDownloadAccount
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyDownloadAccountRequest *)object;
+
+@end
+
+/**
+ *  Reset password for a user.
+ *
+ *  Method: identitytoolkit.relyingparty.emailLinkSignin
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeIdentityToolkitCloudPlatform
+ */
+@interface GTLRIdentityToolkitQuery_RelyingpartyEmailLinkSignin : GTLRIdentityToolkitQuery
+// Previous library name was
+//   +[GTLQueryIdentityToolkit queryForRelyingpartyEmailLinkSigninWithObject:]
+
+/**
+ *  Fetches a @c GTLRIdentityToolkit_EmailLinkSigninResponse.
+ *
+ *  Reset password for a user.
+ *
+ *  @param object The @c GTLRIdentityToolkit_RelyingpartyEmailLinkSigninRequest
+ *    to include in the query.
+ *
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyEmailLinkSignin
+ */
++ (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyEmailLinkSigninRequest *)object;
 
 @end
 
@@ -151,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyGetAccountInfoRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyGetAccountInfo
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyGetAccountInfo
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyGetAccountInfoRequest *)object;
 
@@ -177,7 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_Relyingparty to include in the
  *    query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyGetOobConfirmationCode
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyGetOobConfirmationCode
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_Relyingparty *)object;
 
@@ -206,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Get project configuration.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyGetProjectConfig
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyGetProjectConfig
  */
 + (instancetype)query;
 
@@ -229,7 +256,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Get token signing public key.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyGetPublicKeys
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyGetPublicKeys
  */
 + (instancetype)query;
 
@@ -252,7 +279,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Get recaptcha secure param.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyGetRecaptchaParam
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyGetRecaptchaParam
  */
 + (instancetype)query;
 
@@ -278,7 +305,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyResetPasswordRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyResetPassword
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyResetPassword
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyResetPasswordRequest *)object;
 
@@ -305,7 +332,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    GTLRIdentityToolkit_RelyingpartySendVerificationCodeRequest to include in
  *    the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartySendVerificationCode
+ *  @return GTLRIdentityToolkitQuery_RelyingpartySendVerificationCode
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartySendVerificationCodeRequest *)object;
 
@@ -331,7 +358,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartySetAccountInfoRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartySetAccountInfo
+ *  @return GTLRIdentityToolkitQuery_RelyingpartySetAccountInfo
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartySetAccountInfoRequest *)object;
 
@@ -357,7 +384,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartySetProjectConfigRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartySetProjectConfig
+ *  @return GTLRIdentityToolkitQuery_RelyingpartySetProjectConfig
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartySetProjectConfigRequest *)object;
 
@@ -383,7 +410,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartySignOutUserRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartySignOutUser
+ *  @return GTLRIdentityToolkitQuery_RelyingpartySignOutUser
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartySignOutUserRequest *)object;
 
@@ -409,7 +436,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartySignupNewUserRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartySignupNewUser
+ *  @return GTLRIdentityToolkitQuery_RelyingpartySignupNewUser
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartySignupNewUserRequest *)object;
 
@@ -436,7 +463,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyUploadAccountRequest to
  *    include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyUploadAccount
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyUploadAccount
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyUploadAccountRequest *)object;
 
@@ -462,7 +489,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyVerifyAssertionRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyVerifyAssertion
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyVerifyAssertion
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyVerifyAssertionRequest *)object;
 
@@ -489,7 +516,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    GTLRIdentityToolkit_RelyingpartyVerifyCustomTokenRequest to include in the
  *    query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyVerifyCustomToken
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyVerifyCustomToken
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyVerifyCustomTokenRequest *)object;
 
@@ -515,7 +542,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRIdentityToolkit_RelyingpartyVerifyPasswordRequest
  *    to include in the query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyVerifyPassword
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyVerifyPassword
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyVerifyPasswordRequest *)object;
 
@@ -544,7 +571,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    GTLRIdentityToolkit_RelyingpartyVerifyPhoneNumberRequest to include in the
  *    query.
  *
- *  @returns GTLRIdentityToolkitQuery_RelyingpartyVerifyPhoneNumber
+ *  @return GTLRIdentityToolkitQuery_RelyingpartyVerifyPhoneNumber
  */
 + (instancetype)queryWithObject:(GTLRIdentityToolkit_RelyingpartyVerifyPhoneNumberRequest *)object;
 

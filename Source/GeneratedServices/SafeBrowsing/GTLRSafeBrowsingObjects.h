@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Safe Browsing API (safebrowsing/v4)
+//   Safe Browsing API (safebrowsing/v4)
 // Description:
 //   Enables client applications to check web resources (most commonly URLs)
 //   against Google-generated lists of unsafe web resources.
@@ -34,6 +34,8 @@
 @class GTLRSafeBrowsing_ThreatInfo;
 @class GTLRSafeBrowsing_ThreatListDescriptor;
 @class GTLRSafeBrowsing_ThreatMatch;
+@class GTLRSafeBrowsing_ThreatSource;
+@class GTLRSafeBrowsing_UserInfo;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -237,11 +239,23 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_Soci
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_SubresourceFilter;
 /**
+ *  Entities that are suspected to present a threat.
+ *
+ *  Value: "SUSPICIOUS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_Suspicious;
+/**
  *  Unknown.
  *
  *  Value: "THREAT_TYPE_UNSPECIFIED"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_ThreatTypeUnspecified;
+/**
+ *  Trick-to-bill threat list.
+ *
+ *  Value: "TRICK_TO_BILL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_TrickToBill;
 /**
  *  Unwanted software threat type.
  *
@@ -455,11 +469,23 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_Soc
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_SubresourceFilter;
 /**
+ *  Entities that are suspected to present a threat.
+ *
+ *  Value: "SUSPICIOUS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_Suspicious;
+/**
  *  Unknown.
  *
  *  Value: "THREAT_TYPE_UNSPECIFIED"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_ThreatTypeUnspecified;
+/**
+ *  Trick-to-bill threat list.
+ *
+ *  Value: "TRICK_TO_BILL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_TrickToBill;
 /**
  *  Unwanted software threat type.
  *
@@ -488,6 +514,166 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatEntrySet_CompressionType_Ra
  *  Value: "RICE"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatEntrySet_CompressionType_Rice;
+
+// ----------------------------------------------------------------------------
+// GTLRSafeBrowsing_ThreatHit.platformType
+
+/**
+ *  Threat posed to all defined platforms.
+ *
+ *  Value: "ALL_PLATFORMS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_AllPlatforms;
+/**
+ *  Threat posed to Android.
+ *
+ *  Value: "ANDROID"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Android;
+/**
+ *  Threat posed to at least one of the defined platforms.
+ *
+ *  Value: "ANY_PLATFORM"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_AnyPlatform;
+/**
+ *  Threat posed to Chrome.
+ *
+ *  Value: "CHROME"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Chrome;
+/**
+ *  Threat posed to iOS.
+ *
+ *  Value: "IOS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Ios;
+/**
+ *  Threat posed to Linux.
+ *
+ *  Value: "LINUX"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Linux;
+/**
+ *  Threat posed to OS X.
+ *
+ *  Value: "OSX"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Osx;
+/**
+ *  Unknown platform.
+ *
+ *  Value: "PLATFORM_TYPE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_PlatformTypeUnspecified;
+/**
+ *  Threat posed to Windows.
+ *
+ *  Value: "WINDOWS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_PlatformType_Windows;
+
+// ----------------------------------------------------------------------------
+// GTLRSafeBrowsing_ThreatHit.threatType
+
+/**
+ *  API abuse threat type.
+ *
+ *  Value: "API_ABUSE"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_ApiAbuse;
+/**
+ *  List used for offline APK checks in PAM.
+ *
+ *  Value: "APK_MALWARE_OFFLINE"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_ApkMalwareOffline;
+/**
+ *  Client incident threat type.
+ *
+ *  Value: "CLIENT_INCIDENT"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_ClientIncident;
+/**
+ *  Whitelist used when detecting client incident threats.
+ *  This enum was never launched and should be re-used for the next list.
+ *
+ *  Value: "CLIENT_INCIDENT_WHITELIST"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_ClientIncidentWhitelist;
+/**
+ *  Client side download detection whitelist threat type.
+ *
+ *  Value: "CSD_DOWNLOAD_WHITELIST"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_CsdDownloadWhitelist;
+/**
+ *  Client side detection whitelist threat type.
+ *
+ *  Value: "CSD_WHITELIST"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_CsdWhitelist;
+/**
+ *  Malicious binary threat type.
+ *
+ *  Value: "MALICIOUS_BINARY"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_MaliciousBinary;
+/**
+ *  Malware threat type.
+ *
+ *  Value: "MALWARE"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_Malware;
+/**
+ *  Potentially harmful application threat type.
+ *
+ *  Value: "POTENTIALLY_HARMFUL_APPLICATION"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_PotentiallyHarmfulApplication;
+/**
+ *  Social engineering threat type.
+ *
+ *  Value: "SOCIAL_ENGINEERING"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_SocialEngineering;
+/**
+ *  Social engineering threat type for internal use.
+ *
+ *  Value: "SOCIAL_ENGINEERING_INTERNAL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_SocialEngineeringInternal;
+/**
+ *  Patterns to be used for activating the subresource filter. Interstitial
+ *  will not be shown for patterns from this list.
+ *
+ *  Value: "SUBRESOURCE_FILTER"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_SubresourceFilter;
+/**
+ *  Entities that are suspected to present a threat.
+ *
+ *  Value: "SUSPICIOUS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_Suspicious;
+/**
+ *  Unknown.
+ *
+ *  Value: "THREAT_TYPE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_ThreatTypeUnspecified;
+/**
+ *  Trick-to-bill threat list.
+ *
+ *  Value: "TRICK_TO_BILL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_TrickToBill;
+/**
+ *  Unwanted software threat type.
+ *
+ *  Value: "UNWANTED_SOFTWARE"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatHit_ThreatType_UnwantedSoftware;
 
 // ----------------------------------------------------------------------------
 // GTLRSafeBrowsing_ThreatInfo.platformTypes
@@ -556,8 +742,12 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_SocialEngi
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_SocialEngineeringInternal;
 /** Value: "SUBRESOURCE_FILTER" */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_SubresourceFilter;
+/** Value: "SUSPICIOUS" */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_Suspicious;
 /** Value: "THREAT_TYPE_UNSPECIFIED" */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_ThreatTypeUnspecified;
+/** Value: "TRICK_TO_BILL" */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_TrickToBill;
 /** Value: "UNWANTED_SOFTWARE" */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatInfo_ThreatTypes_UnwantedSoftware;
 
@@ -743,11 +933,23 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_S
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_SubresourceFilter;
 /**
+ *  Entities that are suspected to present a threat.
+ *
+ *  Value: "SUSPICIOUS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_Suspicious;
+/**
  *  Unknown.
  *
  *  Value: "THREAT_TYPE_UNSPECIFIED"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_ThreatTypeUnspecified;
+/**
+ *  Trick-to-bill threat list.
+ *
+ *  Value: "TRICK_TO_BILL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_TrickToBill;
 /**
  *  Unwanted software threat type.
  *
@@ -937,17 +1139,65 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_SocialEngi
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_SubresourceFilter;
 /**
+ *  Entities that are suspected to present a threat.
+ *
+ *  Value: "SUSPICIOUS"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_Suspicious;
+/**
  *  Unknown.
  *
  *  Value: "THREAT_TYPE_UNSPECIFIED"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_ThreatTypeUnspecified;
 /**
+ *  Trick-to-bill threat list.
+ *
+ *  Value: "TRICK_TO_BILL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_TrickToBill;
+/**
  *  Unwanted software threat type.
  *
  *  Value: "UNWANTED_SOFTWARE"
  */
 GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSoftware;
+
+// ----------------------------------------------------------------------------
+// GTLRSafeBrowsing_ThreatSource.type
+
+/**
+ *  The URL that matched the threat list (for which GetFullHash returned a
+ *  valid hash).
+ *
+ *  Value: "MATCHING_URL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatSource_Type_MatchingUrl;
+/**
+ *  A redirect URL that was fetched before hitting the final TAB_URL.
+ *
+ *  Value: "TAB_REDIRECT"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatSource_Type_TabRedirect;
+/**
+ *  A resource loaded within the final TAB_URL.
+ *
+ *  Value: "TAB_RESOURCE"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatSource_Type_TabResource;
+/**
+ *  The final top-level URL of the tab that the client was browsing when the
+ *  match occurred.
+ *
+ *  Value: "TAB_URL"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatSource_Type_TabUrl;
+/**
+ *  Unknown.
+ *
+ *  Value: "THREAT_SOURCE_TYPE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatSource_Type_ThreatSourceTypeUnspecified;
 
 /**
  *  The expected state of a client's local database.
@@ -989,6 +1239,18 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
 @interface GTLRSafeBrowsing_Constraints : GTLRObject
 
 /**
+ *  A client's physical location, expressed as a ISO 31166-1 alpha-2
+ *  region code.
+ */
+@property(nonatomic, copy, nullable) NSString *deviceLocation;
+
+/**
+ *  Requests the lists for a specific language. Expects ISO 639 alpha-2
+ *  format.
+ */
+@property(nonatomic, copy, nullable) NSString *language;
+
+/**
  *  Sets the maximum number of entries that the client is willing to have
  *  in the local database. This should be a power of 2 between 2**10 and
  *  2**20. If zero, no database size limit is set.
@@ -1016,6 +1278,19 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
 /** The compression types supported by the client. */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *supportedCompressions;
 
+@end
+
+
+/**
+ *  A generic empty message that you can re-use to avoid defining duplicated
+ *  empty messages in your APIs. A typical example is to use it as the request
+ *  or the response type of an API method. For instance:
+ *  service Foo {
+ *  rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
+ *  }
+ *  The JSON representation for `Empty` is empty JSON object `{}`.
+ */
+@interface GTLRSafeBrowsing_Empty : GTLRObject
 @end
 
 
@@ -1243,8 +1518,12 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
  *        Interstitial
  *        will not be shown for patterns from this list. (Value:
  *        "SUBRESOURCE_FILTER")
+ *    @arg @c kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_Suspicious Entities
+ *        that are suspected to present a threat. (Value: "SUSPICIOUS")
  *    @arg @c kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_ThreatTypeUnspecified
  *        Unknown. (Value: "THREAT_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_TrickToBill
+ *        Trick-to-bill threat list. (Value: "TRICK_TO_BILL")
  *    @arg @c kGTLRSafeBrowsing_ListUpdateRequest_ThreatType_UnwantedSoftware
  *        Unwanted software threat type. (Value: "UNWANTED_SOFTWARE")
  */
@@ -1388,8 +1667,12 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
  *        Interstitial
  *        will not be shown for patterns from this list. (Value:
  *        "SUBRESOURCE_FILTER")
+ *    @arg @c kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_Suspicious
+ *        Entities that are suspected to present a threat. (Value: "SUSPICIOUS")
  *    @arg @c kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_ThreatTypeUnspecified
  *        Unknown. (Value: "THREAT_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_TrickToBill
+ *        Trick-to-bill threat list. (Value: "TRICK_TO_BILL")
  *    @arg @c kGTLRSafeBrowsing_ListUpdateResponse_ThreatType_UnwantedSoftware
  *        Unwanted software threat type. (Value: "UNWANTED_SOFTWARE")
  */
@@ -1485,7 +1768,8 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
 
 /**
  *  The offset of the first entry in the encoded data, or, if only a single
- *  integer was encoded, that single integer's value.
+ *  integer was encoded, that single integer's value. If the field is empty or
+ *  missing, assume zero.
  *
  *  Uses NSNumber of longLongValue.
  */
@@ -1595,6 +1879,100 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
  *  and stored as encoded_data.
  */
 @property(nonatomic, strong, nullable) GTLRSafeBrowsing_RiceDeltaEncoding *riceIndices;
+
+@end
+
+
+/**
+ *  GTLRSafeBrowsing_ThreatHit
+ */
+@interface GTLRSafeBrowsing_ThreatHit : GTLRObject
+
+/** Client-reported identification. */
+@property(nonatomic, strong, nullable) GTLRSafeBrowsing_ClientInfo *clientInfo;
+
+/**
+ *  The threat entry responsible for the hit. Full hash should be reported for
+ *  hash-based hits.
+ */
+@property(nonatomic, strong, nullable) GTLRSafeBrowsing_ThreatEntry *entry;
+
+/**
+ *  The platform type reported.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_AllPlatforms Threat posed
+ *        to all defined platforms. (Value: "ALL_PLATFORMS")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Android Threat posed to
+ *        Android. (Value: "ANDROID")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_AnyPlatform Threat posed
+ *        to at least one of the defined platforms. (Value: "ANY_PLATFORM")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Chrome Threat posed to
+ *        Chrome. (Value: "CHROME")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Ios Threat posed to iOS.
+ *        (Value: "IOS")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Linux Threat posed to
+ *        Linux. (Value: "LINUX")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Osx Threat posed to OS X.
+ *        (Value: "OSX")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_PlatformTypeUnspecified
+ *        Unknown platform. (Value: "PLATFORM_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_PlatformType_Windows Threat posed to
+ *        Windows. (Value: "WINDOWS")
+ */
+@property(nonatomic, copy, nullable) NSString *platformType;
+
+/** The resources related to the threat hit. */
+@property(nonatomic, strong, nullable) NSArray<GTLRSafeBrowsing_ThreatSource *> *resources;
+
+/**
+ *  The threat type reported.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_ApiAbuse API abuse threat
+ *        type. (Value: "API_ABUSE")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_ApkMalwareOffline List used
+ *        for offline APK checks in PAM. (Value: "APK_MALWARE_OFFLINE")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_ClientIncident Client
+ *        incident threat type. (Value: "CLIENT_INCIDENT")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_ClientIncidentWhitelist
+ *        Whitelist used when detecting client incident threats.
+ *        This enum was never launched and should be re-used for the next list.
+ *        (Value: "CLIENT_INCIDENT_WHITELIST")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_CsdDownloadWhitelist Client
+ *        side download detection whitelist threat type. (Value:
+ *        "CSD_DOWNLOAD_WHITELIST")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_CsdWhitelist Client side
+ *        detection whitelist threat type. (Value: "CSD_WHITELIST")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_MaliciousBinary Malicious
+ *        binary threat type. (Value: "MALICIOUS_BINARY")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_Malware Malware threat
+ *        type. (Value: "MALWARE")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_PotentiallyHarmfulApplication
+ *        Potentially harmful application threat type. (Value:
+ *        "POTENTIALLY_HARMFUL_APPLICATION")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_SocialEngineering Social
+ *        engineering threat type. (Value: "SOCIAL_ENGINEERING")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_SocialEngineeringInternal
+ *        Social engineering threat type for internal use. (Value:
+ *        "SOCIAL_ENGINEERING_INTERNAL")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_SubresourceFilter Patterns
+ *        to be used for activating the subresource filter. Interstitial
+ *        will not be shown for patterns from this list. (Value:
+ *        "SUBRESOURCE_FILTER")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_Suspicious Entities that
+ *        are suspected to present a threat. (Value: "SUSPICIOUS")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_ThreatTypeUnspecified
+ *        Unknown. (Value: "THREAT_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_TrickToBill Trick-to-bill
+ *        threat list. (Value: "TRICK_TO_BILL")
+ *    @arg @c kGTLRSafeBrowsing_ThreatHit_ThreatType_UnwantedSoftware Unwanted
+ *        software threat type. (Value: "UNWANTED_SOFTWARE")
+ */
+@property(nonatomic, copy, nullable) NSString *threatType;
+
+/** Details about the user that encountered the threat. */
+@property(nonatomic, strong, nullable) GTLRSafeBrowsing_UserInfo *userInfo;
 
 @end
 
@@ -1711,8 +2089,12 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
  *        Interstitial
  *        will not be shown for patterns from this list. (Value:
  *        "SUBRESOURCE_FILTER")
+ *    @arg @c kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_Suspicious
+ *        Entities that are suspected to present a threat. (Value: "SUSPICIOUS")
  *    @arg @c kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_ThreatTypeUnspecified
  *        Unknown. (Value: "THREAT_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_TrickToBill
+ *        Trick-to-bill threat list. (Value: "TRICK_TO_BILL")
  *    @arg @c kGTLRSafeBrowsing_ThreatListDescriptor_ThreatType_UnwantedSoftware
  *        Unwanted software threat type. (Value: "UNWANTED_SOFTWARE")
  */
@@ -1821,12 +2203,72 @@ GTLR_EXTERN NSString * const kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSo
  *        Interstitial
  *        will not be shown for patterns from this list. (Value:
  *        "SUBRESOURCE_FILTER")
+ *    @arg @c kGTLRSafeBrowsing_ThreatMatch_ThreatType_Suspicious Entities that
+ *        are suspected to present a threat. (Value: "SUSPICIOUS")
  *    @arg @c kGTLRSafeBrowsing_ThreatMatch_ThreatType_ThreatTypeUnspecified
  *        Unknown. (Value: "THREAT_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRSafeBrowsing_ThreatMatch_ThreatType_TrickToBill Trick-to-bill
+ *        threat list. (Value: "TRICK_TO_BILL")
  *    @arg @c kGTLRSafeBrowsing_ThreatMatch_ThreatType_UnwantedSoftware Unwanted
  *        software threat type. (Value: "UNWANTED_SOFTWARE")
  */
 @property(nonatomic, copy, nullable) NSString *threatType;
+
+@end
+
+
+/**
+ *  A single resource related to a threat hit.
+ */
+@interface GTLRSafeBrowsing_ThreatSource : GTLRObject
+
+/** Referrer of the resource. Only set if the referrer is available. */
+@property(nonatomic, copy, nullable) NSString *referrer;
+
+/** The remote IP of the resource in ASCII format. Either IPv4 or IPv6. */
+@property(nonatomic, copy, nullable) NSString *remoteIp;
+
+/**
+ *  The type of source reported.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRSafeBrowsing_ThreatSource_Type_MatchingUrl The URL that
+ *        matched the threat list (for which GetFullHash returned a
+ *        valid hash). (Value: "MATCHING_URL")
+ *    @arg @c kGTLRSafeBrowsing_ThreatSource_Type_TabRedirect A redirect URL
+ *        that was fetched before hitting the final TAB_URL. (Value:
+ *        "TAB_REDIRECT")
+ *    @arg @c kGTLRSafeBrowsing_ThreatSource_Type_TabResource A resource loaded
+ *        within the final TAB_URL. (Value: "TAB_RESOURCE")
+ *    @arg @c kGTLRSafeBrowsing_ThreatSource_Type_TabUrl The final top-level URL
+ *        of the tab that the client was browsing when the
+ *        match occurred. (Value: "TAB_URL")
+ *    @arg @c kGTLRSafeBrowsing_ThreatSource_Type_ThreatSourceTypeUnspecified
+ *        Unknown. (Value: "THREAT_SOURCE_TYPE_UNSPECIFIED")
+ */
+@property(nonatomic, copy, nullable) NSString *type;
+
+/** The URL of the resource. */
+@property(nonatomic, copy, nullable) NSString *url;
+
+@end
+
+
+/**
+ *  Details about the user that encountered the threat.
+ */
+@interface GTLRSafeBrowsing_UserInfo : GTLRObject
+
+/** The UN M.49 region code associated with the user's location. */
+@property(nonatomic, copy, nullable) NSString *regionCode;
+
+/**
+ *  Unique user identifier defined by the client.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *userId;
 
 @end
 

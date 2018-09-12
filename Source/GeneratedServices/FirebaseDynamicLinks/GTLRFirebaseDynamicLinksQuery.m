@@ -18,6 +18,26 @@
 
 @end
 
+@implementation GTLRFirebaseDynamicLinksQuery_ManagedShortLinksCreate
+
++ (instancetype)queryWithObject:(GTLRFirebaseDynamicLinks_CreateManagedShortLinkRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"v1/managedShortLinks:create";
+  GTLRFirebaseDynamicLinksQuery_ManagedShortLinksCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRFirebaseDynamicLinks_CreateManagedShortLinkResponse class];
+  query.loggingName = @"firebasedynamiclinks.managedShortLinks.create";
+  return query;
+}
+
+@end
+
 @implementation GTLRFirebaseDynamicLinksQuery_ShortLinksCreate
 
 + (instancetype)queryWithObject:(GTLRFirebaseDynamicLinks_CreateShortDynamicLinkRequest *)object {
@@ -52,6 +72,26 @@
   query.dynamicLink = dynamicLink;
   query.expectedObjectClass = [GTLRFirebaseDynamicLinks_DynamicLinkStats class];
   query.loggingName = @"firebasedynamiclinks.getLinkStats";
+  return query;
+}
+
+@end
+
+@implementation GTLRFirebaseDynamicLinksQuery_V1InstallAttribution
+
++ (instancetype)queryWithObject:(GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"v1/installAttribution";
+  GTLRFirebaseDynamicLinksQuery_V1InstallAttribution *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse class];
+  query.loggingName = @"firebasedynamiclinks.installAttribution";
   return query;
 }
 

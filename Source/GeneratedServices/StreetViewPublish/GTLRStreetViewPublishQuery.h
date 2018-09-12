@@ -63,8 +63,15 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  CreatePhoto
  *  publishes the uploaded Photo to
  *  Street View on Google Maps.
+ *  Currently, the only way to set heading, pitch, and roll in CreatePhoto is
+ *  through the [Photo Sphere XMP
+ *  metadata](https://developers.google.com/streetview/spherical-metadata) in
+ *  the photo bytes. The `pose.heading`, `pose.pitch`, `pose.roll`,
+ *  `pose.altitude`, and `pose.level` fields in Pose are ignored for
+ *  CreatePhoto.
  *  This method returns the following error codes:
- *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed.
+ *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if
+ *  the uploaded photo is not a 360 photo.
  *  * google.rpc.Code.NOT_FOUND if the upload reference does not exist.
  *  * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the
  *  storage limit.
@@ -86,15 +93,22 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  CreatePhoto
  *  publishes the uploaded Photo to
  *  Street View on Google Maps.
+ *  Currently, the only way to set heading, pitch, and roll in CreatePhoto is
+ *  through the [Photo Sphere XMP
+ *  metadata](https://developers.google.com/streetview/spherical-metadata) in
+ *  the photo bytes. The `pose.heading`, `pose.pitch`, `pose.roll`,
+ *  `pose.altitude`, and `pose.level` fields in Pose are ignored for
+ *  CreatePhoto.
  *  This method returns the following error codes:
- *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed.
+ *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if
+ *  the uploaded photo is not a 360 photo.
  *  * google.rpc.Code.NOT_FOUND if the upload reference does not exist.
  *  * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the
  *  storage limit.
  *
  *  @param object The @c GTLRStreetViewPublish_Photo to include in the query.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotoCreate
+ *  @return GTLRStreetViewPublishQuery_PhotoCreate
  */
 + (instancetype)queryWithObject:(GTLRStreetViewPublish_Photo *)object;
 
@@ -130,7 +144,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *
  *  @param photoId Required. ID of the Photo.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotoDelete
+ *  @return GTLRStreetViewPublishQuery_PhotoDelete
  */
 + (instancetype)queryWithPhotoId:(NSString *)photoId;
 
@@ -144,6 +158,8 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  create the requested Photo.
  *  * google.rpc.Code.NOT_FOUND if the requested
  *  Photo does not exist.
+ *  * google.rpc.Code.UNAVAILABLE if the requested
+ *  Photo is still being indexed.
  *
  *  Method: streetviewpublish.photo.get
  *
@@ -178,10 +194,12 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  create the requested Photo.
  *  * google.rpc.Code.NOT_FOUND if the requested
  *  Photo does not exist.
+ *  * google.rpc.Code.UNAVAILABLE if the requested
+ *  Photo is still being indexed.
  *
  *  @param photoId Required. ID of the Photo.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotoGet
+ *  @return GTLRStreetViewPublishQuery_PhotoGet
  */
 + (instancetype)queryWithPhotoId:(NSString *)photoId;
 
@@ -235,7 +253,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  @param object The @c GTLRStreetViewPublish_BatchDeletePhotosRequest to
  *    include in the query.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotosBatchDelete
+ *  @return GTLRStreetViewPublishQuery_PhotosBatchDelete
  */
 + (instancetype)queryWithObject:(GTLRStreetViewPublish_BatchDeletePhotosRequest *)object;
 
@@ -304,7 +322,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  GetPhoto
  *  for specific failures that can occur per photo.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotosBatchGet
+ *  @return GTLRStreetViewPublishQuery_PhotosBatchGet
  */
 + (instancetype)query;
 
@@ -376,7 +394,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  @param object The @c GTLRStreetViewPublish_BatchUpdatePhotosRequest to
  *    include in the query.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotosBatchUpdate
+ *  @return GTLRStreetViewPublishQuery_PhotosBatchUpdate
  */
 + (instancetype)queryWithObject:(GTLRStreetViewPublish_BatchUpdatePhotosRequest *)object;
 
@@ -385,6 +403,8 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
 /**
  *  Lists all the Photos that belong to
  *  the user.
+ *  <aside class="note"><b>Note:</b> Recently created photos that are still
+ *  being indexed are not returned in the response.</aside>
  *
  *  Method: streetviewpublish.photos.list
  *
@@ -397,6 +417,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
 
 /**
  *  The filter expression. For example: `placeId=ChIJj61dQgK6j4AR4GeTYWZsKWw`.
+ *  The only filter supported at the moment is `placeId`.
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -434,8 +455,10 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *
  *  Lists all the Photos that belong to
  *  the user.
+ *  <aside class="note"><b>Note:</b> Recently created photos that are still
+ *  being indexed are not returned in the response.</aside>
  *
- *  @returns GTLRStreetViewPublishQuery_PhotosList
+ *  @return GTLRStreetViewPublishQuery_PhotosList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -494,7 +517,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *
  *  @param object The @c GTLRStreetViewPublish_Empty to include in the query.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotoStartUpload
+ *  @return GTLRStreetViewPublishQuery_PhotoStartUpload
  */
 + (instancetype)queryWithObject:(GTLRStreetViewPublish_Empty *)object;
 
@@ -504,7 +527,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  Updates the metadata of a Photo, such
  *  as pose, place association, connections, etc. Changing the pixels of a
  *  photo is not supported.
- *  Only the fields specified in
+ *  Only the fields specified in the
  *  updateMask
  *  field are used. If `updateMask` is not present, the update applies to all
  *  fields.
@@ -517,6 +540,8 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  create the requested photo.
  *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed.
  *  * google.rpc.Code.NOT_FOUND if the requested photo does not exist.
+ *  * google.rpc.Code.UNAVAILABLE if the requested
+ *  Photo is still being indexed.
  *
  *  Method: streetviewpublish.photo.update
  *
@@ -536,9 +561,11 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
 
 /**
  *  Mask that identifies fields on the photo metadata to update.
- *  If not present, the old Photo metadata will be entirely replaced with the
- *  new Photo metadata in this request. The update fails if invalid fields are
- *  specified. Multiple fields can be specified in a comma-delimited list.
+ *  If not present, the old Photo
+ *  metadata will be entirely replaced with the
+ *  new Photo metadata in this request.
+ *  The update fails if invalid fields are specified. Multiple fields can be
+ *  specified in a comma-delimited list.
  *  The following fields are valid:
  *  * `pose.heading`
  *  * `pose.latLngPair`
@@ -566,7 +593,7 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  Updates the metadata of a Photo, such
  *  as pose, place association, connections, etc. Changing the pixels of a
  *  photo is not supported.
- *  Only the fields specified in
+ *  Only the fields specified in the
  *  updateMask
  *  field are used. If `updateMask` is not present, the update applies to all
  *  fields.
@@ -579,11 +606,13 @@ GTLR_EXTERN NSString * const kGTLRStreetViewPublishViewIncludeDownloadUrl;
  *  create the requested photo.
  *  * google.rpc.Code.INVALID_ARGUMENT if the request is malformed.
  *  * google.rpc.Code.NOT_FOUND if the requested photo does not exist.
+ *  * google.rpc.Code.UNAVAILABLE if the requested
+ *  Photo is still being indexed.
  *
  *  @param object The @c GTLRStreetViewPublish_Photo to include in the query.
  *  @param identifier Required. A unique identifier for a photo.
  *
- *  @returns GTLRStreetViewPublishQuery_PhotoUpdate
+ *  @return GTLRStreetViewPublishQuery_PhotoUpdate
  */
 + (instancetype)queryWithObject:(GTLRStreetViewPublish_Photo *)object
                      identifier:(NSString *)identifier;

@@ -3256,7 +3256,8 @@ static BOOL IsCurrentQueue(dispatch_queue_t targetQueue) {
     @"arg" : @"mumble",
   } mutableCopy];
 
-  NSDictionary *baseHTTPHeaders = @{ @"User-Agent" : service.requestUserAgent };
+  NSString *userAgent = service.requestUserAgent;
+  NSDictionary *baseHTTPHeaders = @{ @"User-Agent" : userAgent };
   NSMutableDictionary *expectedHTTPHeaders = [baseHTTPHeaders mutableCopy];
 
   NSString *expectedURLString = @"https://www.test.com/api/path/foo?arg=mumble";
@@ -3320,6 +3321,14 @@ static BOOL IsCurrentQueue(dispatch_queue_t targetQueue) {
   service.APIKey = @"Abracadabra!";
   result = [service requestForQuery:query];
   expectedURLString = @"https://www.test.com/api/blah?key=Abracadabra%21";
+  XCTAssertEqualObjects(result.URL.absoluteString, expectedURLString);
+  XCTAssertEqualObjects(result.HTTPMethod, @"POST");
+  XCTAssertEqualObjects(result.allHTTPHeaderFields, expectedHTTPHeaders);
+
+  // Add an APIKey Restriction
+  service.APIKeyRestrictionBundleID = @"foo.bar.baz";
+  expectedHTTPHeaders[kXIosBundleIdHeader] = @"foo.bar.baz";
+  result = [service requestForQuery:query];
   XCTAssertEqualObjects(result.URL.absoluteString, expectedURLString);
   XCTAssertEqualObjects(result.HTTPMethod, @"POST");
   XCTAssertEqualObjects(result.allHTTPHeaderFields, expectedHTTPHeaders);
@@ -3520,7 +3529,7 @@ UIBackgroundTaskIdentifier gTaskID = 1000;
   if (_shouldExpireTasks) {
     dispatch_async(dispatch_get_main_queue(), ^{
       handler();
-      _numberOfExpiredTasks++;
+      self->_numberOfExpiredTasks++;
     });
   }
   return taskID;

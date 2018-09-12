@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Pub/Sub API (pubsub/v1)
+//   Cloud Pub/Sub API (pubsub/v1)
 // Description:
 //   Provides reliable, many-to-many, asynchronous messaging between
 //   applications.
@@ -20,14 +20,19 @@
 #endif
 
 @class GTLRPubsub_AcknowledgeRequest;
+@class GTLRPubsub_CreateSnapshotRequest;
 @class GTLRPubsub_ModifyAckDeadlineRequest;
 @class GTLRPubsub_ModifyPushConfigRequest;
 @class GTLRPubsub_PublishRequest;
 @class GTLRPubsub_PullRequest;
+@class GTLRPubsub_SeekRequest;
 @class GTLRPubsub_SetIamPolicyRequest;
 @class GTLRPubsub_Subscription;
 @class GTLRPubsub_TestIamPermissionsRequest;
 @class GTLRPubsub_Topic;
+@class GTLRPubsub_UpdateSnapshotRequest;
+@class GTLRPubsub_UpdateSubscriptionRequest;
+@class GTLRPubsub_UpdateTopicRequest;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -43,6 +48,165 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Selector specifying which fields to include in a partial response. */
 @property(nonatomic, copy, nullable) NSString *fields;
+
+@end
+
+/**
+ *  Creates a snapshot from the requested subscription.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  If the snapshot already exists, returns `ALREADY_EXISTS`.
+ *  If the requested subscription doesn't exist, returns `NOT_FOUND`.
+ *  If the backlog in the subscription is too old -- and the resulting snapshot
+ *  would expire in less than 1 hour -- then `FAILED_PRECONDITION` is returned.
+ *  See also the `Snapshot.expire_time` field. If the name is not provided in
+ *  the request, the server will assign a random
+ *  name for this snapshot on the same project as the subscription, conforming
+ *  to the [resource name
+ *  format](https://cloud.google.com/pubsub/docs/overview#names).
+ *  The generated
+ *  name is populated in the returned Snapshot object. Note that for REST API
+ *  requests, you must specify a name in the request.
+ *
+ *  Method: pubsub.projects.snapshots.create
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSnapshotsCreate : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSnapshotsCreateWithObject:name:]
+
+/**
+ *  Optional user-provided name for this snapshot.
+ *  If the name is not provided in the request, the server will assign a random
+ *  name for this snapshot on the same project as the subscription.
+ *  Note that for REST API requests, you must specify a name.
+ *  Format is `projects/{project}/snapshots/{snap}`.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Fetches a @c GTLRPubsub_Snapshot.
+ *
+ *  Creates a snapshot from the requested subscription.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  If the snapshot already exists, returns `ALREADY_EXISTS`.
+ *  If the requested subscription doesn't exist, returns `NOT_FOUND`.
+ *  If the backlog in the subscription is too old -- and the resulting snapshot
+ *  would expire in less than 1 hour -- then `FAILED_PRECONDITION` is returned.
+ *  See also the `Snapshot.expire_time` field. If the name is not provided in
+ *  the request, the server will assign a random
+ *  name for this snapshot on the same project as the subscription, conforming
+ *  to the [resource name
+ *  format](https://cloud.google.com/pubsub/docs/overview#names).
+ *  The generated
+ *  name is populated in the returned Snapshot object. Note that for REST API
+ *  requests, you must specify a name in the request.
+ *
+ *  @param object The @c GTLRPubsub_CreateSnapshotRequest to include in the
+ *    query.
+ *  @param name Optional user-provided name for this snapshot.
+ *    If the name is not provided in the request, the server will assign a
+ *    random
+ *    name for this snapshot on the same project as the subscription.
+ *    Note that for REST API requests, you must specify a name.
+ *    Format is `projects/{project}/snapshots/{snap}`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsCreate
+ */
++ (instancetype)queryWithObject:(GTLRPubsub_CreateSnapshotRequest *)object
+                           name:(NSString *)name;
+
+@end
+
+/**
+ *  Removes an existing snapshot. <br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  When the snapshot is deleted, all messages retained in the snapshot
+ *  are immediately dropped. After a snapshot is deleted, a new one may be
+ *  created with the same name, but the new one has no association with the old
+ *  snapshot or its subscription, unless the same subscription is specified.
+ *
+ *  Method: pubsub.projects.snapshots.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSnapshotsDelete : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSnapshotsDeleteWithsnapshot:]
+
+/**
+ *  The name of the snapshot to delete.
+ *  Format is `projects/{project}/snapshots/{snap}`.
+ */
+@property(nonatomic, copy, nullable) NSString *snapshot;
+
+/**
+ *  Fetches a @c GTLRPubsub_Empty.
+ *
+ *  Removes an existing snapshot. <br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  When the snapshot is deleted, all messages retained in the snapshot
+ *  are immediately dropped. After a snapshot is deleted, a new one may be
+ *  created with the same name, but the new one has no association with the old
+ *  snapshot or its subscription, unless the same subscription is specified.
+ *
+ *  @param snapshot The name of the snapshot to delete.
+ *    Format is `projects/{project}/snapshots/{snap}`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsDelete
+ */
++ (instancetype)queryWithSnapshot:(NSString *)snapshot;
+
+@end
+
+/**
+ *  Gets the configuration details of a snapshot.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  Method: pubsub.projects.snapshots.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSnapshotsGet : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSnapshotsGetWithsnapshot:]
+
+/**
+ *  The name of the snapshot to get.
+ *  Format is `projects/{project}/snapshots/{snap}`.
+ */
+@property(nonatomic, copy, nullable) NSString *snapshot;
+
+/**
+ *  Fetches a @c GTLRPubsub_Snapshot.
+ *
+ *  Gets the configuration details of a snapshot.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  @param snapshot The name of the snapshot to get.
+ *    Format is `projects/{project}/snapshots/{snap}`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsGet
+ */
++ (instancetype)queryWithSnapshot:(NSString *)snapshot;
 
 @end
 
@@ -78,9 +242,102 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSnapshotsGetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsGetIamPolicy
  */
 + (instancetype)queryWithResource:(NSString *)resource;
+
+@end
+
+/**
+ *  Lists the existing snapshots.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  Method: pubsub.projects.snapshots.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSnapshotsList : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSnapshotsListWithproject:]
+
+/** Maximum number of snapshots to return. */
+@property(nonatomic, assign) NSInteger pageSize;
+
+/**
+ *  The value returned by the last `ListSnapshotsResponse`; indicates that this
+ *  is a continuation of a prior `ListSnapshots` call, and that the system
+ *  should return the next page of data.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/**
+ *  The name of the project in which to list snapshots.
+ *  Format is `projects/{project-id}`.
+ */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRPubsub_ListSnapshotsResponse.
+ *
+ *  Lists the existing snapshots.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  @param project The name of the project in which to list snapshots.
+ *    Format is `projects/{project-id}`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Updates an existing snapshot.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  Note that certain properties of a snapshot are not modifiable.
+ *
+ *  Method: pubsub.projects.snapshots.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSnapshotsPatch : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSnapshotsPatchWithObject:name:]
+
+/** The name of the snapshot. */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Fetches a @c GTLRPubsub_Snapshot.
+ *
+ *  Updates an existing snapshot.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *  Note that certain properties of a snapshot are not modifiable.
+ *
+ *  @param object The @c GTLRPubsub_UpdateSnapshotRequest to include in the
+ *    query.
+ *  @param name The name of the snapshot.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsPatch
+ */
++ (instancetype)queryWithObject:(GTLRPubsub_UpdateSnapshotRequest *)object
+                           name:(NSString *)name;
 
 @end
 
@@ -115,7 +372,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSnapshotsSetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRPubsub_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -162,7 +419,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSnapshotsTestIamPermissions
+ *  @return GTLRPubsubQuery_ProjectsSnapshotsTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRPubsub_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;
@@ -207,7 +464,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The subscription whose message is being acknowledged.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsAcknowledge
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsAcknowledge
  */
 + (instancetype)queryWithObject:(GTLRPubsub_AcknowledgeRequest *)object
                    subscription:(NSString *)subscription;
@@ -215,7 +472,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Creates a subscription to a given topic.
+ *  Creates a subscription to a given topic. See the
+ *  <a href="/pubsub/docs/admin#resource_names"> resource name rules</a>.
  *  If the subscription already exists, returns `ALREADY_EXISTS`.
  *  If the corresponding topic doesn't exist, returns `NOT_FOUND`.
  *  If the name is not provided in the request, the server will assign a random
@@ -248,7 +506,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRPubsub_Subscription.
  *
- *  Creates a subscription to a given topic.
+ *  Creates a subscription to a given topic. See the
+ *  <a href="/pubsub/docs/admin#resource_names"> resource name rules</a>.
  *  If the subscription already exists, returns `ALREADY_EXISTS`.
  *  If the corresponding topic doesn't exist, returns `NOT_FOUND`.
  *  If the name is not provided in the request, the server will assign a random
@@ -266,7 +525,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters
  *    in length, and it must not start with `"goog"`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsCreate
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsCreate
  */
 + (instancetype)queryWithObject:(GTLRPubsub_Subscription *)object
                            name:(NSString *)name;
@@ -308,7 +567,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The subscription to delete.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsDelete
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsDelete
  */
 + (instancetype)queryWithSubscription:(NSString *)subscription;
 
@@ -341,7 +600,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The name of the subscription to get.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsGet
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsGet
  */
 + (instancetype)queryWithSubscription:(NSString *)subscription;
 
@@ -379,7 +638,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsGetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsGetIamPolicy
  */
 + (instancetype)queryWithResource:(NSString *)resource;
 
@@ -409,8 +668,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /**
- *  The name of the cloud project that subscriptions belong to.
- *  Format is `projects/{project}`.
+ *  The name of the project in which to list subscriptions.
+ *  Format is `projects/{project-id}`.
  */
 @property(nonatomic, copy, nullable) NSString *project;
 
@@ -419,10 +678,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Lists matching subscriptions.
  *
- *  @param project The name of the cloud project that subscriptions belong to.
- *    Format is `projects/{project}`.
+ *  @param project The name of the project in which to list subscriptions.
+ *    Format is `projects/{project-id}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsList
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -469,7 +728,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The name of the subscription.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsModifyAckDeadline
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsModifyAckDeadline
  */
 + (instancetype)queryWithObject:(GTLRPubsub_ModifyAckDeadlineRequest *)object
                    subscription:(NSString *)subscription;
@@ -513,7 +772,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The name of the subscription.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsModifyPushConfig
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsModifyPushConfig
  */
 + (instancetype)queryWithObject:(GTLRPubsub_ModifyPushConfigRequest *)object
                    subscription:(NSString *)subscription;
@@ -521,8 +780,53 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Pulls messages from the server. Returns an empty list if there are no
- *  messages available in the backlog. The server may return `UNAVAILABLE` if
+ *  Updates an existing subscription. Note that certain properties of a
+ *  subscription, such as its topic, are not modifiable.
+ *
+ *  Method: pubsub.projects.subscriptions.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSubscriptionsPatch : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSubscriptionsPatchWithObject:name:]
+
+/**
+ *  The name of the subscription. It must have the format
+ *  `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must
+ *  start with a letter, and contain only letters (`[A-Za-z]`), numbers
+ *  (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`),
+ *  plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters
+ *  in length, and it must not start with `"goog"`.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Fetches a @c GTLRPubsub_Subscription.
+ *
+ *  Updates an existing subscription. Note that certain properties of a
+ *  subscription, such as its topic, are not modifiable.
+ *
+ *  @param object The @c GTLRPubsub_UpdateSubscriptionRequest to include in the
+ *    query.
+ *  @param name The name of the subscription. It must have the format
+ *    `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must
+ *    start with a letter, and contain only letters (`[A-Za-z]`), numbers
+ *    (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`),
+ *    plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters
+ *    in length, and it must not start with `"goog"`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsPatch
+ */
++ (instancetype)queryWithObject:(GTLRPubsub_UpdateSubscriptionRequest *)object
+                           name:(NSString *)name;
+
+@end
+
+/**
+ *  Pulls messages from the server. The server may return `UNAVAILABLE` if
  *  there are too many concurrent pull requests pending for the given
  *  subscription.
  *
@@ -545,8 +849,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRPubsub_PullResponse.
  *
- *  Pulls messages from the server. Returns an empty list if there are no
- *  messages available in the backlog. The server may return `UNAVAILABLE` if
+ *  Pulls messages from the server. The server may return `UNAVAILABLE` if
  *  there are too many concurrent pull requests pending for the given
  *  subscription.
  *
@@ -554,9 +857,48 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscription The subscription from which messages should be pulled.
  *    Format is `projects/{project}/subscriptions/{sub}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsPull
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsPull
  */
 + (instancetype)queryWithObject:(GTLRPubsub_PullRequest *)object
+                   subscription:(NSString *)subscription;
+
+@end
+
+/**
+ *  Seeks an existing subscription to a point in time or to a given snapshot,
+ *  whichever is provided in the request.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  Method: pubsub.projects.subscriptions.seek
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsSubscriptionsSeek : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsSubscriptionsSeekWithObject:subscription:]
+
+/** The subscription to affect. */
+@property(nonatomic, copy, nullable) NSString *subscription;
+
+/**
+ *  Fetches a @c GTLRPubsub_SeekResponse.
+ *
+ *  Seeks an existing subscription to a point in time or to a given snapshot,
+ *  whichever is provided in the request.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  @param object The @c GTLRPubsub_SeekRequest to include in the query.
+ *  @param subscription The subscription to affect.
+ *
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsSeek
+ */
++ (instancetype)queryWithObject:(GTLRPubsub_SeekRequest *)object
                    subscription:(NSString *)subscription;
 
 @end
@@ -592,7 +934,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsSetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRPubsub_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -639,7 +981,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsSubscriptionsTestIamPermissions
+ *  @return GTLRPubsubQuery_ProjectsSubscriptionsTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRPubsub_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;
@@ -647,7 +989,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Creates the given topic with the given name.
+ *  Creates the given topic with the given name. See the
+ *  <a href="/pubsub/docs/admin#resource_names"> resource name rules</a>.
  *
  *  Method: pubsub.projects.topics.create
  *
@@ -672,7 +1015,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRPubsub_Topic.
  *
- *  Creates the given topic with the given name.
+ *  Creates the given topic with the given name. See the
+ *  <a href="/pubsub/docs/admin#resource_names"> resource name rules</a>.
  *
  *  @param object The @c GTLRPubsub_Topic to include in the query.
  *  @param name The name of the topic. It must have the format
@@ -682,7 +1026,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    signs (`%`). It must be between 3 and 255 characters in length, and it
  *    must not start with `"goog"`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsCreate
+ *  @return GTLRPubsubQuery_ProjectsTopicsCreate
  */
 + (instancetype)queryWithObject:(GTLRPubsub_Topic *)object
                            name:(NSString *)name;
@@ -724,7 +1068,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param topic Name of the topic to delete.
  *    Format is `projects/{project}/topics/{topic}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsDelete
+ *  @return GTLRPubsubQuery_ProjectsTopicsDelete
  */
 + (instancetype)queryWithTopic:(NSString *)topic;
 
@@ -757,7 +1101,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param topic The name of the topic to get.
  *    Format is `projects/{project}/topics/{topic}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsGet
+ *  @return GTLRPubsubQuery_ProjectsTopicsGet
  */
 + (instancetype)queryWithTopic:(NSString *)topic;
 
@@ -795,7 +1139,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsGetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsTopicsGetIamPolicy
  */
 + (instancetype)queryWithResource:(NSString *)resource;
 
@@ -825,8 +1169,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /**
- *  The name of the cloud project that topics belong to.
- *  Format is `projects/{project}`.
+ *  The name of the project in which to list topics.
+ *  Format is `projects/{project-id}`.
  */
 @property(nonatomic, copy, nullable) NSString *project;
 
@@ -835,10 +1179,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Lists matching topics.
  *
- *  @param project The name of the cloud project that topics belong to.
- *    Format is `projects/{project}`.
+ *  @param project The name of the project in which to list topics.
+ *    Format is `projects/{project-id}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsList
+ *  @return GTLRPubsubQuery_ProjectsTopicsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -849,9 +1193,53 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
+ *  Updates an existing topic. Note that certain properties of a
+ *  topic are not modifiable.
+ *
+ *  Method: pubsub.projects.topics.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsTopicsPatch : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsTopicsPatchWithObject:name:]
+
+/**
+ *  The name of the topic. It must have the format
+ *  `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter,
+ *  and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`),
+ *  underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent
+ *  signs (`%`). It must be between 3 and 255 characters in length, and it
+ *  must not start with `"goog"`.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Fetches a @c GTLRPubsub_Topic.
+ *
+ *  Updates an existing topic. Note that certain properties of a
+ *  topic are not modifiable.
+ *
+ *  @param object The @c GTLRPubsub_UpdateTopicRequest to include in the query.
+ *  @param name The name of the topic. It must have the format
+ *    `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter,
+ *    and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`),
+ *    underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent
+ *    signs (`%`). It must be between 3 and 255 characters in length, and it
+ *    must not start with `"goog"`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsTopicsPatch
+ */
++ (instancetype)queryWithObject:(GTLRPubsub_UpdateTopicRequest *)object
+                           name:(NSString *)name;
+
+@end
+
+/**
  *  Adds one or more messages to the topic. Returns `NOT_FOUND` if the topic
- *  does not exist. The message payload must not be empty; it must contain
- *  either a non-empty data field, or at least one attribute.
+ *  does not exist.
  *
  *  Method: pubsub.projects.topics.publish
  *
@@ -873,14 +1261,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  Fetches a @c GTLRPubsub_PublishResponse.
  *
  *  Adds one or more messages to the topic. Returns `NOT_FOUND` if the topic
- *  does not exist. The message payload must not be empty; it must contain
- *  either a non-empty data field, or at least one attribute.
+ *  does not exist.
  *
  *  @param object The @c GTLRPubsub_PublishRequest to include in the query.
  *  @param topic The messages in the request will be published on this topic.
  *    Format is `projects/{project}/topics/{topic}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsPublish
+ *  @return GTLRPubsubQuery_ProjectsTopicsPublish
  */
 + (instancetype)queryWithObject:(GTLRPubsub_PublishRequest *)object
                           topic:(NSString *)topic;
@@ -918,7 +1305,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsSetIamPolicy
+ *  @return GTLRPubsubQuery_ProjectsTopicsSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRPubsub_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -926,7 +1313,56 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Lists the name of the subscriptions for this topic.
+ *  Lists the names of the snapshots on this topic.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  Method: pubsub.projects.topics.snapshots.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopePubsub
+ *    @c kGTLRAuthScopePubsubCloudPlatform
+ */
+@interface GTLRPubsubQuery_ProjectsTopicsSnapshotsList : GTLRPubsubQuery
+// Previous library name was
+//   +[GTLQueryPubsub queryForProjectsTopicsSnapshotsListWithtopic:]
+
+/** Maximum number of snapshot names to return. */
+@property(nonatomic, assign) NSInteger pageSize;
+
+/**
+ *  The value returned by the last `ListTopicSnapshotsResponse`; indicates
+ *  that this is a continuation of a prior `ListTopicSnapshots` call, and
+ *  that the system should return the next page of data.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/**
+ *  The name of the topic that snapshots are attached to.
+ *  Format is `projects/{project}/topics/{topic}`.
+ */
+@property(nonatomic, copy, nullable) NSString *topic;
+
+/**
+ *  Fetches a @c GTLRPubsub_ListTopicSnapshotsResponse.
+ *
+ *  Lists the names of the snapshots on this topic.<br><br>
+ *  <b>ALPHA:</b> This feature is part of an alpha release. This API might be
+ *  changed in backward-incompatible ways and is not recommended for production
+ *  use. It is not subject to any SLA or deprecation policy.
+ *
+ *  @param topic The name of the topic that snapshots are attached to.
+ *    Format is `projects/{project}/topics/{topic}`.
+ *
+ *  @return GTLRPubsubQuery_ProjectsTopicsSnapshotsList
+ */
++ (instancetype)queryWithTopic:(NSString *)topic;
+
+@end
+
+/**
+ *  Lists the names of the subscriptions on this topic.
  *
  *  Method: pubsub.projects.topics.subscriptions.list
  *
@@ -957,12 +1393,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRPubsub_ListTopicSubscriptionsResponse.
  *
- *  Lists the name of the subscriptions for this topic.
+ *  Lists the names of the subscriptions on this topic.
  *
  *  @param topic The name of the topic that subscriptions are attached to.
  *    Format is `projects/{project}/topics/{topic}`.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsSubscriptionsList
+ *  @return GTLRPubsubQuery_ProjectsTopicsSubscriptionsList
  */
 + (instancetype)queryWithTopic:(NSString *)topic;
 
@@ -1008,7 +1444,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRPubsubQuery_ProjectsTopicsTestIamPermissions
+ *  @return GTLRPubsubQuery_ProjectsTopicsTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRPubsub_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;

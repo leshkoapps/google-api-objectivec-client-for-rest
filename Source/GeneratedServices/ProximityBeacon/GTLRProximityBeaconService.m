@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Proximity Beacon API (proximitybeacon/v1beta1)
+//   Proximity Beacon API (proximitybeacon/v1beta1)
 // Description:
 //   Registers, manages, indexes, and searches beacons.
 // Documentation:
@@ -27,7 +27,7 @@ NSString * const kGTLRAuthScopeProximityBeaconUserlocationBeaconRegistry = @"htt
     // From discovery.
     self.rootURLString = @"https://proximitybeacon.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

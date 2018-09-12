@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param applicationName Application name for which the events are to be
  *    retrieved.
  *
- *  @returns GTLRReportsQuery_ActivitiesList
+ *  @return GTLRReportsQuery_ActivitiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param applicationName Application name for which the events are to be
  *    retrieved.
  *
- *  @returns GTLRReportsQuery_ActivitiesWatch
+ *  @return GTLRReportsQuery_ActivitiesWatch
  */
 + (instancetype)queryWithObject:(GTLRReports_Channel *)object
                         userKey:(NSString *)userKey
@@ -212,7 +212,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param object The @c GTLRReports_Channel to include in the query.
  *
- *  @returns GTLRReportsQuery_ChannelsStop
+ *  @return GTLRReportsQuery_ChannelsStop
  */
 + (instancetype)queryWithObject:(GTLRReports_Channel *)object;
 
@@ -258,9 +258,72 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param date Represents the date in yyyy-mm-dd format for which the data is
  *    to be fetched.
  *
- *  @returns GTLRReportsQuery_CustomerUsageReportsGet
+ *  @return GTLRReportsQuery_CustomerUsageReportsGet
  */
 + (instancetype)queryWithDate:(NSString *)date;
+
+@end
+
+/**
+ *  Retrieves a report which is a collection of properties / statistics for a
+ *  set of objects.
+ *
+ *  Method: reports.entityUsageReports.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeReportsReportsUsageReadonly
+ */
+@interface GTLRReportsQuery_EntityUsageReportsGet : GTLRReportsQuery
+// Previous library name was
+//   +[GTLQueryReports queryForEntityUsageReportsGetWithentityType:entityKey:date:]
+
+/** Represents the customer for which the data is to be fetched. */
+@property(nonatomic, copy, nullable) NSString *customerId;
+
+/**
+ *  Represents the date in yyyy-mm-dd format for which the data is to be
+ *  fetched.
+ */
+@property(nonatomic, copy, nullable) NSString *date;
+
+/** Represents the key of object for which the data should be filtered. */
+@property(nonatomic, copy, nullable) NSString *entityKey;
+
+/** Type of object. Should be one of - gplus_communities. */
+@property(nonatomic, copy, nullable) NSString *entityType;
+
+/** Represents the set of filters including parameter operator value. */
+@property(nonatomic, copy, nullable) NSString *filters;
+
+/** Maximum number of results to return. Maximum allowed is 1000 */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/** Token to specify next page. */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/**
+ *  Represents the application name, parameter name pairs to fetch in csv as
+ *  app_name1:param_name1, app_name2:param_name2.
+ */
+@property(nonatomic, copy, nullable) NSString *parameters;
+
+/**
+ *  Fetches a @c GTLRReports_UsageReports.
+ *
+ *  Retrieves a report which is a collection of properties / statistics for a
+ *  set of objects.
+ *
+ *  @param entityType Type of object. Should be one of - gplus_communities.
+ *  @param entityKey Represents the key of object for which the data should be
+ *    filtered.
+ *  @param date Represents the date in yyyy-mm-dd format for which the data is
+ *    to be fetched.
+ *
+ *  @return GTLRReportsQuery_EntityUsageReportsGet
+ */
++ (instancetype)queryWithEntityType:(NSString *)entityType
+                          entityKey:(NSString *)entityKey
+                               date:(NSString *)date;
 
 @end
 
@@ -318,7 +381,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param date Represents the date in yyyy-mm-dd format for which the data is
  *    to be fetched.
  *
- *  @returns GTLRReportsQuery_UserUsageReportGet
+ *  @return GTLRReportsQuery_UserUsageReportGet
  */
 + (instancetype)queryWithUserKey:(NSString *)userKey
                             date:(NSString *)date;

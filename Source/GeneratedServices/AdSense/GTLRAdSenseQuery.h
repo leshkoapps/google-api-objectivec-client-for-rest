@@ -36,6 +36,40 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
+ *  Get Auto ad code for a given ad client.
+ *
+ *  Method: adsense.accounts.adclients.getAdCode
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeAdSense
+ *    @c kGTLRAuthScopeAdSenseReadonly
+ */
+@interface GTLRAdSenseQuery_AccountsAdclientsGetAdCode : GTLRAdSenseQuery
+// Previous library name was
+//   +[GTLQueryAdSense queryForAccountsAdclientsGetAdCodeWithaccountId:adClientId:]
+
+/** Account which contains the ad client. */
+@property(nonatomic, copy, nullable) NSString *accountId;
+
+/** Ad client to get the code for. */
+@property(nonatomic, copy, nullable) NSString *adClientId;
+
+/**
+ *  Fetches a @c GTLRAdSense_AdCode.
+ *
+ *  Get Auto ad code for a given ad client.
+ *
+ *  @param accountId Account which contains the ad client.
+ *  @param adClientId Ad client to get the code for.
+ *
+ *  @return GTLRAdSenseQuery_AccountsAdclientsGetAdCode
+ */
++ (instancetype)queryWithAccountId:(NSString *)accountId
+                        adClientId:(NSString *)adClientId;
+
+@end
+
+/**
  *  List all ad clients in the specified account.
  *
  *  Method: adsense.accounts.adclients.list
@@ -73,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account for which to list ad clients.
  *
- *  @returns GTLRAdSenseQuery_AccountsAdclientsList
+ *  @return GTLRAdSenseQuery_AccountsAdclientsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -129,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the ad unit.
  *  @param adUnitId Ad unit for which to list custom channels.
  *
- *  @returns GTLRAdSenseQuery_AccountsAdunitsCustomchannelsList
+ *  @return GTLRAdSenseQuery_AccountsAdunitsCustomchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -174,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client for which to get the ad unit.
  *  @param adUnitId Ad unit to retrieve.
  *
- *  @returns GTLRAdSenseQuery_AccountsAdunitsGet
+ *  @return GTLRAdSenseQuery_AccountsAdunitsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                         adClientId:(NSString *)adClientId
@@ -213,7 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client with contains the ad unit.
  *  @param adUnitId Ad unit to get the code for.
  *
- *  @returns GTLRAdSenseQuery_AccountsAdunitsGetAdCode
+ *  @return GTLRAdSenseQuery_AccountsAdunitsGetAdCode
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                         adClientId:(NSString *)adClientId
@@ -265,7 +299,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account to which the ad client belongs.
  *  @param adClientId Ad client for which to list ad units.
  *
- *  @returns GTLRAdSenseQuery_AccountsAdunitsList
+ *  @return GTLRAdSenseQuery_AccountsAdunitsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -305,7 +339,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account which contains the ad unit.
  *  @param alertId Alert to delete.
  *
- *  @returns GTLRAdSenseQuery_AccountsAlertsDelete
+ *  @return GTLRAdSenseQuery_AccountsAlertsDelete
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                            alertId:(NSString *)alertId;
@@ -342,7 +376,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account for which to retrieve the alerts.
  *
- *  @returns GTLRAdSenseQuery_AccountsAlertsList
+ *  @return GTLRAdSenseQuery_AccountsAlertsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -396,7 +430,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the custom channel.
  *  @param customChannelId Custom channel for which to list ad units.
  *
- *  @returns GTLRAdSenseQuery_AccountsCustomchannelsAdunitsList
+ *  @return GTLRAdSenseQuery_AccountsCustomchannelsAdunitsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -441,7 +475,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the custom channel.
  *  @param customChannelId Custom channel to retrieve.
  *
- *  @returns GTLRAdSenseQuery_AccountsCustomchannelsGet
+ *  @return GTLRAdSenseQuery_AccountsCustomchannelsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                         adClientId:(NSString *)adClientId
@@ -493,7 +527,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account to which the ad client belongs.
  *  @param adClientId Ad client for which to list custom channels.
  *
- *  @returns GTLRAdSenseQuery_AccountsCustomchannelsList
+ *  @return GTLRAdSenseQuery_AccountsCustomchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -530,7 +564,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account to get information about.
  *
- *  @returns GTLRAdSenseQuery_AccountsGet
+ *  @return GTLRAdSenseQuery_AccountsGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -568,7 +602,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List all accounts available to this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_AccountsList
+ *  @return GTLRAdSenseQuery_AccountsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -601,7 +635,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account for which to retrieve the payments.
  *
- *  @returns GTLRAdSenseQuery_AccountsPaymentsList
+ *  @return GTLRAdSenseQuery_AccountsPaymentsList
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId;
 
@@ -692,7 +726,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endDate End of the date range to report on in "YYYY-MM-DD" format,
  *    inclusive.
  *
- *  @returns GTLRAdSenseQuery_AccountsReportsGenerate
+ *  @return GTLRAdSenseQuery_AccountsReportsGenerate
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                          startDate:(NSString *)startDate
@@ -711,7 +745,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endDate End of the date range to report on in "YYYY-MM-DD" format,
  *    inclusive.
  *
- *  @returns GTLRAdSenseQuery_AccountsReportsGenerate
+ *  @return GTLRAdSenseQuery_AccountsReportsGenerate
  */
 + (instancetype)queryForMediaWithAccountId:(NSString *)accountId
                                  startDate:(NSString *)startDate
@@ -768,7 +802,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account to which the saved reports belong.
  *  @param savedReportId The saved report to retrieve.
  *
- *  @returns GTLRAdSenseQuery_AccountsReportsSavedGenerate
+ *  @return GTLRAdSenseQuery_AccountsReportsSavedGenerate
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                      savedReportId:(NSString *)savedReportId;
@@ -813,7 +847,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account to which the saved reports belong.
  *
- *  @returns GTLRAdSenseQuery_AccountsReportsSavedList
+ *  @return GTLRAdSenseQuery_AccountsReportsSavedList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -850,7 +884,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account for which to get the saved ad style.
  *  @param savedAdStyleId Saved ad style to retrieve.
  *
- *  @returns GTLRAdSenseQuery_AccountsSavedadstylesGet
+ *  @return GTLRAdSenseQuery_AccountsSavedadstylesGet
  */
 + (instancetype)queryWithAccountId:(NSString *)accountId
                     savedAdStyleId:(NSString *)savedAdStyleId;
@@ -895,7 +929,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param accountId Account for which to list saved ad styles.
  *
- *  @returns GTLRAdSenseQuery_AccountsSavedadstylesList
+ *  @return GTLRAdSenseQuery_AccountsSavedadstylesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -947,7 +981,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accountId Account to which the ad client belongs.
  *  @param adClientId Ad client for which to list URL channels.
  *
- *  @returns GTLRAdSenseQuery_AccountsUrlchannelsList
+ *  @return GTLRAdSenseQuery_AccountsUrlchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -991,7 +1025,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List all ad clients in this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_AdclientsList
+ *  @return GTLRAdSenseQuery_AdclientsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1043,7 +1077,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the ad unit.
  *  @param adUnitId Ad unit for which to list custom channels.
  *
- *  @returns GTLRAdSenseQuery_AdunitsCustomchannelsList
+ *  @return GTLRAdSenseQuery_AdunitsCustomchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1081,7 +1115,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client for which to get the ad unit.
  *  @param adUnitId Ad unit to retrieve.
  *
- *  @returns GTLRAdSenseQuery_AdunitsGet
+ *  @return GTLRAdSenseQuery_AdunitsGet
  */
 + (instancetype)queryWithAdClientId:(NSString *)adClientId
                            adUnitId:(NSString *)adUnitId;
@@ -1115,7 +1149,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client with contains the ad unit.
  *  @param adUnitId Ad unit to get the code for.
  *
- *  @returns GTLRAdSenseQuery_AdunitsGetAdCode
+ *  @return GTLRAdSenseQuery_AdunitsGetAdCode
  */
 + (instancetype)queryWithAdClientId:(NSString *)adClientId
                            adUnitId:(NSString *)adUnitId;
@@ -1162,7 +1196,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param adClientId Ad client for which to list ad units.
  *
- *  @returns GTLRAdSenseQuery_AdunitsList
+ *  @return GTLRAdSenseQuery_AdunitsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1195,7 +1229,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param alertId Alert to delete.
  *
- *  @returns GTLRAdSenseQuery_AlertsDelete
+ *  @return GTLRAdSenseQuery_AlertsDelete
  */
 + (instancetype)queryWithAlertId:(NSString *)alertId;
 
@@ -1226,7 +1260,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List the alerts for this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_AlertsList
+ *  @return GTLRAdSenseQuery_AlertsList
  */
 + (instancetype)query;
 
@@ -1276,7 +1310,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the custom channel.
  *  @param customChannelId Custom channel for which to list ad units.
  *
- *  @returns GTLRAdSenseQuery_CustomchannelsAdunitsList
+ *  @return GTLRAdSenseQuery_CustomchannelsAdunitsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1314,7 +1348,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param adClientId Ad client which contains the custom channel.
  *  @param customChannelId Custom channel to retrieve.
  *
- *  @returns GTLRAdSenseQuery_CustomchannelsGet
+ *  @return GTLRAdSenseQuery_CustomchannelsGet
  */
 + (instancetype)queryWithAdClientId:(NSString *)adClientId
                     customChannelId:(NSString *)customChannelId;
@@ -1361,7 +1395,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param adClientId Ad client for which to list custom channels.
  *
- *  @returns GTLRAdSenseQuery_CustomchannelsList
+ *  @return GTLRAdSenseQuery_CustomchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1389,7 +1423,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List the metadata for the dimensions available to this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_MetadataDimensionsList
+ *  @return GTLRAdSenseQuery_MetadataDimensionsList
  */
 + (instancetype)query;
 
@@ -1413,7 +1447,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List the metadata for the metrics available to this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_MetadataMetricsList
+ *  @return GTLRAdSenseQuery_MetadataMetricsList
  */
 + (instancetype)query;
 
@@ -1437,7 +1471,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List the payments for this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_PaymentsList
+ *  @return GTLRAdSenseQuery_PaymentsList
  */
 + (instancetype)query;
 
@@ -1527,7 +1561,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endDate End of the date range to report on in "YYYY-MM-DD" format,
  *    inclusive.
  *
- *  @returns GTLRAdSenseQuery_ReportsGenerate
+ *  @return GTLRAdSenseQuery_ReportsGenerate
  */
 + (instancetype)queryWithStartDate:(NSString *)startDate
                            endDate:(NSString *)endDate;
@@ -1544,7 +1578,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endDate End of the date range to report on in "YYYY-MM-DD" format,
  *    inclusive.
  *
- *  @returns GTLRAdSenseQuery_ReportsGenerate
+ *  @return GTLRAdSenseQuery_ReportsGenerate
  */
 + (instancetype)queryForMediaWithStartDate:(NSString *)startDate
                                    endDate:(NSString *)endDate;
@@ -1596,7 +1630,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param savedReportId The saved report to retrieve.
  *
- *  @returns GTLRAdSenseQuery_ReportsSavedGenerate
+ *  @return GTLRAdSenseQuery_ReportsSavedGenerate
  */
 + (instancetype)queryWithSavedReportId:(NSString *)savedReportId;
 
@@ -1635,7 +1669,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List all saved reports in this AdSense account.
  *
- *  @returns GTLRAdSenseQuery_ReportsSavedList
+ *  @return GTLRAdSenseQuery_ReportsSavedList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1668,7 +1702,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param savedAdStyleId Saved ad style to retrieve.
  *
- *  @returns GTLRAdSenseQuery_SavedadstylesGet
+ *  @return GTLRAdSenseQuery_SavedadstylesGet
  */
 + (instancetype)queryWithSavedAdStyleId:(NSString *)savedAdStyleId;
 
@@ -1707,7 +1741,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  List all saved ad styles in the user's account.
  *
- *  @returns GTLRAdSenseQuery_SavedadstylesList
+ *  @return GTLRAdSenseQuery_SavedadstylesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1755,7 +1789,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param adClientId Ad client for which to list URL channels.
  *
- *  @returns GTLRAdSenseQuery_UrlchannelsList
+ *  @return GTLRAdSenseQuery_UrlchannelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

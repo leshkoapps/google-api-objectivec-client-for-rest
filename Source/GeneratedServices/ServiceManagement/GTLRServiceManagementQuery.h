@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Service Management API (servicemanagement/v1)
+//   Service Management API (servicemanagement/v1)
 // Description:
 //   Google Service Management allows service producers to publish their
 //   services on Google Cloud Platform so that they can be discovered and used
@@ -90,7 +90,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *
  *  @param name The name of the operation resource.
  *
- *  @returns GTLRServiceManagementQuery_OperationsGet
+ *  @return GTLRServiceManagementQuery_OperationsGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -147,7 +147,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *
  *  Lists service operations that match the specified filter in the request.
  *
- *  @returns GTLRServiceManagementQuery_OperationsList
+ *  @return GTLRServiceManagementQuery_OperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -162,6 +162,9 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  This method only stores the service configuration. To roll out the service
  *  configuration to backend systems please call
  *  CreateServiceRollout.
+ *  Only the 100 most recent service configurations and ones referenced by
+ *  existing rollouts are kept for each service. The rest will be deleted
+ *  eventually.
  *
  *  Method: servicemanagement.services.configs.create
  *
@@ -186,13 +189,16 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  This method only stores the service configuration. To roll out the service
  *  configuration to backend systems please call
  *  CreateServiceRollout.
+ *  Only the 100 most recent service configurations and ones referenced by
+ *  existing rollouts are kept for each service. The rest will be deleted
+ *  eventually.
  *
  *  @param object The @c GTLRServiceManagement_Service to include in the query.
  *  @param serviceName The name of the service. See the
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConfigsCreate
+ *  @return GTLRServiceManagementQuery_ServicesConfigsCreate
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_Service *)object
                     serviceName:(NSString *)serviceName;
@@ -243,7 +249,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    for naming requirements. For example: `example.googleapis.com`.
  *  @param configId The id of the service configuration resource.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConfigsGet
+ *  @return GTLRServiceManagementQuery_ServicesConfigsGet
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName
                             configId:(NSString *)configId;
@@ -288,7 +294,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConfigsList
+ *  @return GTLRServiceManagementQuery_ServicesConfigsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -306,6 +312,9 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  generated service configuration. To rollout the service configuration to
  *  other services,
  *  please call CreateServiceRollout.
+ *  Only the 100 most recent configuration sources and ones referenced by
+ *  existing service configurtions are kept for each service. The rest will be
+ *  deleted eventually.
  *  Operation<response: SubmitConfigSourceResponse>
  *
  *  Method: servicemanagement.services.configs.submit
@@ -334,6 +343,9 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  generated service configuration. To rollout the service configuration to
  *  other services,
  *  please call CreateServiceRollout.
+ *  Only the 100 most recent configuration sources and ones referenced by
+ *  existing service configurtions are kept for each service. The rest will be
+ *  deleted eventually.
  *  Operation<response: SubmitConfigSourceResponse>
  *
  *  @param object The @c GTLRServiceManagement_SubmitConfigSourceRequest to
@@ -342,7 +354,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConfigsSubmit
+ *  @return GTLRServiceManagementQuery_ServicesConfigsSubmit
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_SubmitConfigSourceRequest *)object
                     serviceName:(NSString *)serviceName;
@@ -385,7 +397,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConsumersGetIamPolicy
+ *  @return GTLRServiceManagementQuery_ServicesConsumersGetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_GetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -424,7 +436,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConsumersSetIamPolicy
+ *  @return GTLRServiceManagementQuery_ServicesConsumersSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -473,7 +485,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesConsumersTestIamPermissions
+ *  @return GTLRServiceManagementQuery_ServicesConsumersTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;
@@ -505,7 +517,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  @param object The @c GTLRServiceManagement_ManagedService to include in the
  *    query.
  *
- *  @returns GTLRServiceManagementQuery_ServicesCreate
+ *  @return GTLRServiceManagementQuery_ServicesCreate
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_ManagedService *)object;
 
@@ -547,7 +559,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesDelete
+ *  @return GTLRServiceManagementQuery_ServicesDelete
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName;
 
@@ -589,7 +601,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    service name
  *    will cause the request to fail.
  *
- *  @returns GTLRServiceManagementQuery_ServicesDisable
+ *  @return GTLRServiceManagementQuery_ServicesDisable
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_DisableServiceRequest *)object
                     serviceName:(NSString *)serviceName;
@@ -634,7 +646,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    service name will
  *    cause the request to fail.
  *
- *  @returns GTLRServiceManagementQuery_ServicesEnable
+ *  @return GTLRServiceManagementQuery_ServicesEnable
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_EnableServiceRequest *)object
                     serviceName:(NSString *)serviceName;
@@ -680,7 +692,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  @param object The @c GTLRServiceManagement_GenerateConfigReportRequest to
  *    include in the query.
  *
- *  @returns GTLRServiceManagementQuery_ServicesGenerateConfigReport
+ *  @return GTLRServiceManagementQuery_ServicesGenerateConfigReport
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_GenerateConfigReportRequest *)object;
 
@@ -718,7 +730,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    overview for naming
  *    requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesGet
+ *  @return GTLRServiceManagementQuery_ServicesGet
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName;
 
@@ -767,7 +779,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesGetConfig
+ *  @return GTLRServiceManagementQuery_ServicesGetConfig
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName;
 
@@ -809,7 +821,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesGetIamPolicy
+ *  @return GTLRServiceManagementQuery_ServicesGetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_GetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -868,7 +880,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  services enabled on the consumer. The `consumer_id` must have the format
  *  of "project:{PROJECT-ID}".
  *
- *  @returns GTLRServiceManagementQuery_ServicesList
+ *  @return GTLRServiceManagementQuery_ServicesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -886,6 +898,9 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  Please note that any previous pending and running Rollouts and associated
  *  Operations will be automatically cancelled so that the latest Rollout will
  *  not be blocked by previous Rollouts.
+ *  Only the 100 most recent (in any state) and the last 10 successful (if not
+ *  already part of the set of 100 most recent) rollouts are kept for each
+ *  service. The rest will be deleted eventually.
  *  Operation<response: Rollout>
  *
  *  Method: servicemanagement.services.rollouts.create
@@ -914,6 +929,9 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *  Please note that any previous pending and running Rollouts and associated
  *  Operations will be automatically cancelled so that the latest Rollout will
  *  not be blocked by previous Rollouts.
+ *  Only the 100 most recent (in any state) and the last 10 successful (if not
+ *  already part of the set of 100 most recent) rollouts are kept for each
+ *  service. The rest will be deleted eventually.
  *  Operation<response: Rollout>
  *
  *  @param object The @c GTLRServiceManagement_Rollout to include in the query.
@@ -921,7 +939,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesRolloutsCreate
+ *  @return GTLRServiceManagementQuery_ServicesRolloutsCreate
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_Rollout *)object
                     serviceName:(NSString *)serviceName;
@@ -962,7 +980,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    for naming requirements. For example: `example.googleapis.com`.
  *  @param rolloutId The id of the rollout resource.
  *
- *  @returns GTLRServiceManagementQuery_ServicesRolloutsGet
+ *  @return GTLRServiceManagementQuery_ServicesRolloutsGet
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName
                            rolloutId:(NSString *)rolloutId;
@@ -1019,7 +1037,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesRolloutsList
+ *  @return GTLRServiceManagementQuery_ServicesRolloutsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1061,7 +1079,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesSetIamPolicy
+ *  @return GTLRServiceManagementQuery_ServicesSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -1110,7 +1128,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRServiceManagementQuery_ServicesTestIamPermissions
+ *  @return GTLRServiceManagementQuery_ServicesTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRServiceManagement_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;
@@ -1153,7 +1171,7 @@ GTLR_EXTERN NSString * const kGTLRServiceManagementViewFull;
  *    [overview](/service-management/overview)
  *    for naming requirements. For example: `example.googleapis.com`.
  *
- *  @returns GTLRServiceManagementQuery_ServicesUndelete
+ *  @return GTLRServiceManagementQuery_ServicesUndelete
  */
 + (instancetype)queryWithServiceName:(NSString *)serviceName;
 

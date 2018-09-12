@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Dataproc API (dataproc/v1)
+//   Cloud Dataproc API (dataproc/v1)
 // Description:
 //   Manages Hadoop-based clusters and jobs on Google Cloud Platform.
 // Documentation:
@@ -80,6 +80,17 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 @property(nonatomic, copy, nullable) NSString *region;
 
 /**
+ *  Optional. A unique id used to identify the request. If the server receives
+ *  two CreateClusterRequest requests with the same id, then the second request
+ *  will be ignored and the first google.longrunning.Operation created and
+ *  stored in the backend is returned.It is recommended to always set this value
+ *  to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The
+ *  id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and
+ *  hyphens (-). The maximum length is 40 characters.
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
  *  Fetches a @c GTLRDataproc_Operation.
  *
  *  Creates a cluster in a project.
@@ -90,7 +101,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *  @param region Required. The Cloud Dataproc region in which to handle the
  *    request.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersCreate
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersCreate
  */
 + (instancetype)queryWithObject:(GTLRDataproc_Cluster *)object
                       projectId:(NSString *)projectId
@@ -114,6 +125,12 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 @property(nonatomic, copy, nullable) NSString *clusterName;
 
 /**
+ *  Optional. Specifying the cluster_uuid means the RPC should fail (with error
+ *  NOT_FOUND) if cluster with specified UUID does not exist.
+ */
+@property(nonatomic, copy, nullable) NSString *clusterUuid;
+
+/**
  *  Required. The ID of the Google Cloud Platform project that the cluster
  *  belongs to.
  */
@@ -121,6 +138,17 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 
 /** Required. The Cloud Dataproc region in which to handle the request. */
 @property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Optional. A unique id used to identify the request. If the server receives
+ *  two DeleteClusterRequest requests with the same id, then the second request
+ *  will be ignored and the first google.longrunning.Operation created and
+ *  stored in the backend is returned.It is recommended to always set this value
+ *  to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The
+ *  id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and
+ *  hyphens (-). The maximum length is 40 characters.
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
 
 /**
  *  Fetches a @c GTLRDataproc_Operation.
@@ -133,7 +161,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param clusterName Required. The cluster name.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersDelete
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersDelete
  */
 + (instancetype)queryWithProjectId:(NSString *)projectId
                             region:(NSString *)region
@@ -180,7 +208,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param clusterName Required. The cluster name.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersDiagnose
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersDiagnose
  */
 + (instancetype)queryWithObject:(GTLRDataproc_DiagnoseClusterRequest *)object
                       projectId:(NSString *)projectId
@@ -224,7 +252,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param clusterName Required. The cluster name.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersGet
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersGet
  */
 + (instancetype)queryWithProjectId:(NSString *)projectId
                             region:(NSString *)region
@@ -284,7 +312,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *  @param region Required. The Cloud Dataproc region in which to handle the
  *    request.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersList
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -311,6 +339,16 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 @property(nonatomic, copy, nullable) NSString *clusterName;
 
 /**
+ *  Optional. Timeout for graceful YARN decomissioning. Graceful decommissioning
+ *  allows removing nodes from the cluster without interrupting jobs in
+ *  progress. Timeout specifies how long to wait for jobs in progress to finish
+ *  before forcefully removing nodes (and potentially interrupting jobs).
+ *  Default timeout is 0 (for forceful decommission), and the maximum allowed
+ *  timeout is 1 day.Only supported on Dataproc image versions 1.2 and higher.
+ */
+@property(nonatomic, strong, nullable) GTLRDuration *gracefulDecommissionTimeout;
+
+/**
  *  Required. The ID of the Google Cloud Platform project the cluster belongs
  *  to.
  */
@@ -318,6 +356,17 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 
 /** Required. The Cloud Dataproc region in which to handle the request. */
 @property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Optional. A unique id used to identify the request. If the server receives
+ *  two UpdateClusterRequest requests with the same id, then the second request
+ *  will be ignored and the first google.longrunning.Operation created and
+ *  stored in the backend is returned.It is recommended to always set this value
+ *  to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The
+ *  id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and
+ *  hyphens (-). The maximum length is 40 characters.
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
 
 /**
  *  Required. Specifies the path, relative to Cluster, of the field to update.
@@ -368,7 +417,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param clusterName Required. The cluster name.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsClustersPatch
+ *  @return GTLRDataprocQuery_ProjectsRegionsClustersPatch
  */
 + (instancetype)queryWithObject:(GTLRDataproc_Cluster *)object
                       projectId:(NSString *)projectId
@@ -415,7 +464,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param jobId Required. The job ID.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsCancel
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsCancel
  */
 + (instancetype)queryWithObject:(GTLRDataproc_CancelJobRequest *)object
                       projectId:(NSString *)projectId
@@ -461,7 +510,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param jobId Required. The job ID.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsDelete
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsDelete
  */
 + (instancetype)queryWithProjectId:(NSString *)projectId
                             region:(NSString *)region
@@ -504,7 +553,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param jobId Required. The job ID.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsGet
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsGet
  */
 + (instancetype)queryWithProjectId:(NSString *)projectId
                             region:(NSString *)region
@@ -534,7 +583,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *  Optional. A filter constraining the jobs to list. Filters are case-sensitive
  *  and have the following syntax:field = value AND field = value ...where field
  *  is status.state or labels.[KEY], and [KEY] is a label key. value can be * to
- *  match all values. status.state can be either ACTIVE or INACTIVE. Only the
+ *  match all values. status.state can be either ACTIVE or NON_ACTIVE. Only the
  *  logical AND operator is supported; space-separated items are treated as
  *  having an implicit AND operator.Example filter:status.state = ACTIVE AND
  *  labels.env = staging AND labels.starred = *
@@ -542,8 +591,8 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
 @property(nonatomic, copy, nullable) NSString *filter;
 
 /**
- *  Optional. Specifies enumerated categories of jobs to list (default = match
- *  ALL jobs).
+ *  Optional. Specifies enumerated categories of jobs to list. (default = match
+ *  ALL jobs).If filter is provided, jobStateMatcher will be ignored.
  *
  *  Likely values:
  *    @arg @c kGTLRDataprocJobStateMatcherAll Value "ALL"
@@ -580,7 +629,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *  @param region Required. The Cloud Dataproc region in which to handle the
  *    request.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsList
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -639,7 +688,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *    request.
  *  @param jobId Required. The job ID.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsPatch
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsPatch
  */
 + (instancetype)queryWithObject:(GTLRDataproc_Job *)object
                       projectId:(NSString *)projectId
@@ -680,7 +729,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *  @param region Required. The Cloud Dataproc region in which to handle the
  *    request.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsJobsSubmit
+ *  @return GTLRDataprocQuery_ProjectsRegionsJobsSubmit
  */
 + (instancetype)queryWithObject:(GTLRDataproc_SubmitJobRequest *)object
                       projectId:(NSString *)projectId
@@ -726,7 +775,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *
  *  @param name The name of the operation resource to be cancelled.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsOperationsCancel
+ *  @return GTLRDataprocQuery_ProjectsRegionsOperationsCancel
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -760,7 +809,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *
  *  @param name The name of the operation resource to be deleted.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsOperationsDelete
+ *  @return GTLRDataprocQuery_ProjectsRegionsOperationsDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -792,7 +841,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *
  *  @param name The name of the operation resource.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsOperationsGet
+ *  @return GTLRDataprocQuery_ProjectsRegionsOperationsGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -845,7 +894,7 @@ GTLR_EXTERN NSString * const kGTLRDataprocJobStateMatcherNonActive;
  *
  *  @param name The name of the operation's parent resource.
  *
- *  @returns GTLRDataprocQuery_ProjectsRegionsOperationsList
+ *  @return GTLRDataprocQuery_ProjectsRegionsOperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

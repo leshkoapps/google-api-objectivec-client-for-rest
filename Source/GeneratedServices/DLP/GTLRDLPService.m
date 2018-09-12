@@ -2,9 +2,9 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   DLP API (dlp/v2beta1)
+//   Cloud Data Loss Prevention (DLP) API (dlp/v2)
 // Description:
-//   The Google Data Loss Prevention API provides methods for detection of
+//   Provides methods for detection, risk analysis, and de-identification of
 //   privacy-sensitive fragments in text, images, and Google Cloud Platform
 //   storage repositories.
 // Documentation:
@@ -29,7 +29,7 @@ NSString * const kGTLRAuthScopeDLPCloudPlatform = @"https://www.googleapis.com/a
     // From discovery.
     self.rootURLString = @"https://dlp.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

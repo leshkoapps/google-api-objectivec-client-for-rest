@@ -7,7 +7,7 @@
 //   Examines the call stack and variables of a running application without
 //   stopping or slowing it down.
 // Documentation:
-//   http://cloud.google.com/debugger
+//   https://cloud.google.com/debugger
 
 #if GTLR_BUILT_AS_FRAMEWORK
   #import "GTLR/GTLRObject.h"
@@ -298,7 +298,10 @@ GTLR_EXTERN NSString * const kGTLRCloudDebugger_StatusMessage_RefersTo_VariableV
  */
 @property(nonatomic, copy, nullable) NSString *logMessageFormat;
 
-/** The stack at breakpoint time. */
+/**
+ *  The stack at breakpoint time, where stack_frames[0] represents the most
+ *  recently entered function.
+ */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudDebugger_StackFrame *> *stackFrames;
 
 /**
@@ -434,7 +437,6 @@ GTLR_EXTERN NSString * const kGTLRCloudDebugger_StatusMessage_RefersTo_VariableV
 /**
  *  References to the locations and revisions of the source code used in the
  *  deployed application.
- *  NOTE: this field is experimental and can be ignored.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudDebugger_ExtendedSourceContext *> *extSourceContexts;
 
@@ -800,6 +802,15 @@ GTLR_EXTERN NSString * const kGTLRCloudDebugger_StatusMessage_RefersTo_VariableV
  *  Represents a location in the source code.
  */
 @interface GTLRCloudDebugger_SourceLocation : GTLRObject
+
+/**
+ *  Column within a line. The first column in a line as the value `1`.
+ *  Agents that do not support setting breakpoints on specific columns ignore
+ *  this field.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *column;
 
 /**
  *  Line inside the file. The first line in the file has the value `1`.

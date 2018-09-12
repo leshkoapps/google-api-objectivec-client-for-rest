@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   DCM/DFA Reporting And Trafficking API (dfareporting/v2.8)
+//   DCM/DFA Reporting And Trafficking API (dfareporting/v3.2)
 // Description:
 //   Manages your DoubleClick Campaign Manager ad campaigns and reports.
 // Documentation:
@@ -28,10 +28,10 @@ NSString * const kGTLRAuthScopeDfareportingDfatrafficking = @"https://www.google
   if (self) {
     // From discovery.
     self.rootURLString = @"https://www.googleapis.com/";
-    self.servicePath = @"dfareporting/v2.8/";
+    self.servicePath = @"dfareporting/v3.2/";
     self.resumableUploadPath = @"resumable/upload/";
     self.simpleUploadPath = @"upload/";
-    self.batchPath = @"batch";
+    self.batchPath = @"batch/dfareporting/v3.2";
     self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
@@ -54,6 +54,7 @@ NSString * const kGTLRAuthScopeDfareportingDfatrafficking = @"https://www.google
     @"dfareporting#advertiser" : [GTLRDfareporting_Advertiser class],
     @"dfareporting#advertiserGroup" : [GTLRDfareporting_AdvertiserGroup class],
     @"dfareporting#advertiserGroupsListResponse" : [GTLRDfareporting_AdvertiserGroupsListResponse class],
+    @"dfareporting#advertiserLandingPagesListResponse" : [GTLRDfareporting_AdvertiserLandingPagesListResponse class],
     @"dfareporting#advertisersListResponse" : [GTLRDfareporting_AdvertisersListResponse class],
     @"dfareporting#browser" : [GTLRDfareporting_Browser class],
     @"dfareporting#browsersListResponse" : [GTLRDfareporting_BrowsersListResponse class],
@@ -93,6 +94,7 @@ NSString * const kGTLRAuthScopeDfareportingDfatrafficking = @"https://www.google
     @"dfareporting#customFloodlightVariable" : [GTLRDfareporting_CustomFloodlightVariable class],
     @"dfareporting#customRichMediaEvents" : [GTLRDfareporting_CustomRichMediaEvents class],
     @"dfareporting#dateRange" : [GTLRDfareporting_DateRange class],
+    @"dfareporting#deepLink" : [GTLRDfareporting_DeepLink class],
     @"dfareporting#dimension" : [GTLRDfareporting_Dimension class],
     @"dfareporting#dimensionFilter" : [GTLRDfareporting_DimensionFilter class],
     @"dfareporting#dimensionValue" : [GTLRDfareporting_DimensionValue class],
@@ -120,12 +122,13 @@ NSString * const kGTLRAuthScopeDfareportingDfatrafficking = @"https://www.google
     @"dfareporting#inventoryItem" : [GTLRDfareporting_InventoryItem class],
     @"dfareporting#inventoryItemsListResponse" : [GTLRDfareporting_InventoryItemsListResponse class],
     @"dfareporting#landingPage" : [GTLRDfareporting_LandingPage class],
-    @"dfareporting#landingPagesListResponse" : [GTLRDfareporting_LandingPagesListResponse class],
     @"dfareporting#language" : [GTLRDfareporting_Language class],
     @"dfareporting#languagesListResponse" : [GTLRDfareporting_LanguagesListResponse class],
     @"dfareporting#metric" : [GTLRDfareporting_Metric class],
     @"dfareporting#metro" : [GTLRDfareporting_Metro class],
     @"dfareporting#metrosListResponse" : [GTLRDfareporting_MetrosListResponse class],
+    @"dfareporting#mobileApp" : [GTLRDfareporting_MobileApp class],
+    @"dfareporting#mobileAppsListResponse" : [GTLRDfareporting_MobileAppsListResponse class],
     @"dfareporting#mobileCarrier" : [GTLRDfareporting_MobileCarrier class],
     @"dfareporting#mobileCarriersListResponse" : [GTLRDfareporting_MobileCarriersListResponse class],
     @"dfareporting#objectFilter" : [GTLRDfareporting_ObjectFilter class],

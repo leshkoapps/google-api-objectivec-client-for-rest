@@ -21,10 +21,10 @@
 #import "EditEventWindowController.h"
 #import "EditACLWindowController.h"
 
-#import "GTLR/AppAuth.h"
-#import "GTLR/GTLRUtilities.h"
-#import "GTLR/GTMSessionFetcherLogging.h"
-#import "GTLR/GTMAppAuth.h"
+#import <AppAuth/AppAuth.h>
+#import <GTMAppAuth/GTMAppAuth.h>
+#import <GTMSessionFetcher/GTMSessionFetcherLogging.h>
+#import <GoogleAPIClientForREST/GTLRUtilities.h>
 
 enum {
   kEventsSegment = 0,
@@ -428,7 +428,7 @@ NSString *const kGTMAppAuthKeychainItemName = @"CalendarSample: Google Calendar.
     // Callback
     self.editCalendarListTicket = nil;
     if (callbackError == nil) {
-      _calendarNameField.stringValue = @"";
+      self->_calendarNameField.stringValue = @"";
       [self fetchCalendarList];
     } else {
       [self displayAlert:@"Add failed"
@@ -466,7 +466,7 @@ NSString *const kGTMAppAuthKeychainItemName = @"CalendarSample: Google Calendar.
          selectedCalendarListEntry.summary,
          calendar.summary];
 
-        _calendarNameField.stringValue = @"";
+        self->_calendarNameField.stringValue = @"";
 
         [self fetchCalendarList];
       } else {

@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Identity and Access Management (IAM) API (iam/v1)
+//   Identity and Access Management (IAM) API (iam/v1)
 // Description:
 //   Manages identity and access control for Google Cloud Platform resources,
 //   including the creation of service accounts, which you can use to
@@ -23,6 +23,8 @@
 @class GTLRIam_CreateRoleRequest;
 @class GTLRIam_CreateServiceAccountKeyRequest;
 @class GTLRIam_CreateServiceAccountRequest;
+@class GTLRIam_LintPolicyRequest;
+@class GTLRIam_QueryAuditableServicesRequest;
 @class GTLRIam_QueryGrantableRolesRequest;
 @class GTLRIam_QueryTestablePermissionsRequest;
 @class GTLRIam_Role;
@@ -86,6 +88,97 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 @end
 
 /**
+ *  Lints a Cloud IAM policy object or its sub fields. Currently supports
+ *  google.iam.v1.Policy, google.iam.v1.Binding and
+ *  google.iam.v1.Binding.condition.
+ *  Each lint operation consists of multiple lint validation units.
+ *  Validation units have the following properties:
+ *  - Each unit inspects the input object in regard to a particular
+ *  linting aspect and issues a google.iam.admin.v1.LintResult
+ *  disclosing the result.
+ *  - Domain of discourse of each unit can be either
+ *  google.iam.v1.Policy, google.iam.v1.Binding, or
+ *  google.iam.v1.Binding.condition depending on the purpose of the
+ *  validation.
+ *  - A unit may require additional data (like the list of all possible
+ *  enumerable values of a particular attribute used in the policy instance)
+ *  which shall be provided by the caller. Refer to the comments of
+ *  google.iam.admin.v1.LintPolicyRequest.context for more details.
+ *  The set of applicable validation units is determined by the Cloud IAM
+ *  server and is not configurable.
+ *  Regardless of any lint issues or their severities, successful calls to
+ *  `lintPolicy` return an HTTP 200 OK status code.
+ *
+ *  Method: iam.iamPolicies.lintPolicy
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeIamCloudPlatform
+ */
+@interface GTLRIamQuery_IamPoliciesLintPolicy : GTLRIamQuery
+// Previous library name was
+//   +[GTLQueryIam queryForIamPoliciesLintPolicyWithObject:]
+
+/**
+ *  Fetches a @c GTLRIam_LintPolicyResponse.
+ *
+ *  Lints a Cloud IAM policy object or its sub fields. Currently supports
+ *  google.iam.v1.Policy, google.iam.v1.Binding and
+ *  google.iam.v1.Binding.condition.
+ *  Each lint operation consists of multiple lint validation units.
+ *  Validation units have the following properties:
+ *  - Each unit inspects the input object in regard to a particular
+ *  linting aspect and issues a google.iam.admin.v1.LintResult
+ *  disclosing the result.
+ *  - Domain of discourse of each unit can be either
+ *  google.iam.v1.Policy, google.iam.v1.Binding, or
+ *  google.iam.v1.Binding.condition depending on the purpose of the
+ *  validation.
+ *  - A unit may require additional data (like the list of all possible
+ *  enumerable values of a particular attribute used in the policy instance)
+ *  which shall be provided by the caller. Refer to the comments of
+ *  google.iam.admin.v1.LintPolicyRequest.context for more details.
+ *  The set of applicable validation units is determined by the Cloud IAM
+ *  server and is not configurable.
+ *  Regardless of any lint issues or their severities, successful calls to
+ *  `lintPolicy` return an HTTP 200 OK status code.
+ *
+ *  @param object The @c GTLRIam_LintPolicyRequest to include in the query.
+ *
+ *  @return GTLRIamQuery_IamPoliciesLintPolicy
+ */
++ (instancetype)queryWithObject:(GTLRIam_LintPolicyRequest *)object;
+
+@end
+
+/**
+ *  Returns a list of services that support service level audit logging
+ *  configuration for the given resource.
+ *
+ *  Method: iam.iamPolicies.queryAuditableServices
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeIamCloudPlatform
+ */
+@interface GTLRIamQuery_IamPoliciesQueryAuditableServices : GTLRIamQuery
+// Previous library name was
+//   +[GTLQueryIam queryForIamPoliciesQueryAuditableServicesWithObject:]
+
+/**
+ *  Fetches a @c GTLRIam_QueryAuditableServicesResponse.
+ *
+ *  Returns a list of services that support service level audit logging
+ *  configuration for the given resource.
+ *
+ *  @param object The @c GTLRIam_QueryAuditableServicesRequest to include in the
+ *    query.
+ *
+ *  @return GTLRIamQuery_IamPoliciesQueryAuditableServices
+ */
++ (instancetype)queryWithObject:(GTLRIam_QueryAuditableServicesRequest *)object;
+
+@end
+
+/**
  *  Creates a new Role.
  *
  *  Method: iam.organizations.roles.create
@@ -115,7 +208,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}`
  *    `projects/{PROJECT_ID}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesCreate
+ *  @return GTLRIamQuery_OrganizationsRolesCreate
  */
 + (instancetype)queryWithObject:(GTLRIam_CreateRoleRequest *)object
                          parent:(NSString *)parent;
@@ -170,7 +263,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesDelete
+ *  @return GTLRIamQuery_OrganizationsRolesDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -206,7 +299,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesGet
+ *  @return GTLRIamQuery_OrganizationsRolesGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -261,7 +354,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}`
  *    `projects/{PROJECT_ID}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesList
+ *  @return GTLRIamQuery_OrganizationsRolesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -309,7 +402,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesPatch
+ *  @return GTLRIamQuery_OrganizationsRolesPatch
  */
 + (instancetype)queryWithObject:(GTLRIam_Role *)object
                            name:(NSString *)name;
@@ -345,7 +438,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_OrganizationsRolesUndelete
+ *  @return GTLRIamQuery_OrganizationsRolesUndelete
  */
 + (instancetype)queryWithObject:(GTLRIam_UndeleteRoleRequest *)object
                            name:(NSString *)name;
@@ -374,7 +467,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *  @param object The @c GTLRIam_QueryTestablePermissionsRequest to include in
  *    the query.
  *
- *  @returns GTLRIamQuery_PermissionsQueryTestablePermissions
+ *  @return GTLRIamQuery_PermissionsQueryTestablePermissions
  */
 + (instancetype)queryWithObject:(GTLRIam_QueryTestablePermissionsRequest *)object;
 
@@ -410,7 +503,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}`
  *    `projects/{PROJECT_ID}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesCreate
+ *  @return GTLRIamQuery_ProjectsRolesCreate
  */
 + (instancetype)queryWithObject:(GTLRIam_CreateRoleRequest *)object
                          parent:(NSString *)parent;
@@ -465,7 +558,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesDelete
+ *  @return GTLRIamQuery_ProjectsRolesDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -501,7 +594,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesGet
+ *  @return GTLRIamQuery_ProjectsRolesGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -556,7 +649,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}`
  *    `projects/{PROJECT_ID}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesList
+ *  @return GTLRIamQuery_ProjectsRolesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -604,7 +697,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesPatch
+ *  @return GTLRIamQuery_ProjectsRolesPatch
  */
 + (instancetype)queryWithObject:(GTLRIam_Role *)object
                            name:(NSString *)name;
@@ -640,7 +733,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_ProjectsRolesUndelete
+ *  @return GTLRIamQuery_ProjectsRolesUndelete
  */
 + (instancetype)queryWithObject:(GTLRIam_UndeleteRoleRequest *)object
                            name:(NSString *)name;
@@ -678,7 +771,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    service
  *    accounts, such as `projects/my-project-123`.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsCreate
+ *  @return GTLRIamQuery_ProjectsServiceAccountsCreate
  */
 + (instancetype)queryWithObject:(GTLRIam_CreateServiceAccountRequest *)object
                            name:(NSString *)name;
@@ -699,9 +792,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -713,12 +806,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsDelete
+ *  @return GTLRIamQuery_ProjectsServiceAccountsDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -738,9 +831,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -752,12 +845,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsGet
+ *  @return GTLRIamQuery_ProjectsServiceAccountsGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -792,7 +885,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsGetIamPolicy
+ *  @return GTLRIamQuery_ProjectsServiceAccountsGetIamPolicy
  */
 + (instancetype)queryWithResource:(NSString *)resource;
 
@@ -813,9 +906,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -830,12 +923,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    the query.
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsKeysCreate
+ *  @return GTLRIamQuery_ProjectsServiceAccountsKeysCreate
  */
 + (instancetype)queryWithObject:(GTLRIam_CreateServiceAccountKeyRequest *)object
                            name:(NSString *)name;
@@ -856,9 +949,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account key in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}/keys/{key}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -870,12 +963,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  @param name The resource name of the service account key in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}/keys/{key}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsKeysDelete
+ *  @return GTLRIamQuery_ProjectsServiceAccountsKeysDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -896,9 +989,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account key in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}/keys/{key}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -922,12 +1015,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  @param name The resource name of the service account key in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}/keys/{key}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsKeysGet
+ *  @return GTLRIamQuery_ProjectsServiceAccountsKeysGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -959,9 +1052,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project, will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID`, will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -973,12 +1066,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project, will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID`, will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsKeysList
+ *  @return GTLRIamQuery_ProjectsServiceAccountsKeysList
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -1025,7 +1118,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    service
  *    accounts, such as `projects/my-project-123`.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsList
+ *  @return GTLRIamQuery_ProjectsServiceAccountsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1065,7 +1158,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    specified.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsSetIamPolicy
+ *  @return GTLRIamQuery_ProjectsServiceAccountsSetIamPolicy
  */
 + (instancetype)queryWithObject:(GTLRIam_SetIamPolicyRequest *)object
                        resource:(NSString *)resource;
@@ -1086,9 +1179,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -1101,12 +1194,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *  @param object The @c GTLRIam_SignBlobRequest to include in the query.
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsSignBlob
+ *  @return GTLRIamQuery_ProjectsServiceAccountsSignBlob
  */
 + (instancetype)queryWithObject:(GTLRIam_SignBlobRequest *)object
                            name:(NSString *)name;
@@ -1130,9 +1223,9 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Using `-` as a wildcard for the project will infer the project from
- *  the account. The `account` value can be the `email` address or the
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *  the account. The `ACCOUNT` value can be the `email` address or the
  *  `unique_id` of the service account.
  */
 @property(nonatomic, copy, nullable) NSString *name;
@@ -1148,12 +1241,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *  @param object The @c GTLRIam_SignJwtRequest to include in the query.
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Using `-` as a wildcard for the project will infer the project from
- *    the account. The `account` value can be the `email` address or the
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Using `-` as a wildcard for the `PROJECT_ID` will infer the project from
+ *    the account. The `ACCOUNT` value can be the `email` address or the
  *    `unique_id` of the service account.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsSignJwt
+ *  @return GTLRIamQuery_ProjectsServiceAccountsSignJwt
  */
 + (instancetype)queryWithObject:(GTLRIam_SignJwtRequest *)object
                            name:(NSString *)name;
@@ -1191,7 +1284,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    requested.
  *    See the operation documentation for the appropriate value for this field.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsTestIamPermissions
+ *  @return GTLRIamQuery_ProjectsServiceAccountsTestIamPermissions
  */
 + (instancetype)queryWithObject:(GTLRIam_TestIamPermissionsRequest *)object
                        resource:(NSString *)resource;
@@ -1201,8 +1294,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 /**
  *  Updates a ServiceAccount.
  *  Currently, only the following fields are updatable:
- *  `display_name` .
- *  The `etag` is mandatory.
+ *  `display_name`, `description`.
  *
  *  Method: iam.projects.serviceAccounts.update
  *
@@ -1215,12 +1307,12 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
 
 /**
  *  The resource name of the service account in the following format:
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *  Requests using `-` as a wildcard for the project will infer the project
- *  from the `account` and the `account` value can be the `email` address or
- *  the `unique_id` of the service account.
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *  Requests using `-` as a wildcard for the `PROJECT_ID` will infer the
+ *  project from the `account` and the `ACCOUNT` value can be the `email`
+ *  address or the `unique_id` of the service account.
  *  In responses the resource name will always be in the format
- *  `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
+ *  `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
@@ -1229,20 +1321,19 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  Updates a ServiceAccount.
  *  Currently, only the following fields are updatable:
- *  `display_name` .
- *  The `etag` is mandatory.
+ *  `display_name`, `description`.
  *
  *  @param object The @c GTLRIam_ServiceAccount to include in the query.
  *  @param name The resource name of the service account in the following
  *    format:
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
- *    Requests using `-` as a wildcard for the project will infer the project
- *    from the `account` and the `account` value can be the `email` address or
- *    the `unique_id` of the service account.
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
+ *    Requests using `-` as a wildcard for the `PROJECT_ID` will infer the
+ *    project from the `account` and the `ACCOUNT` value can be the `email`
+ *    address or the `unique_id` of the service account.
  *    In responses the resource name will always be in the format
- *    `projects/{PROJECT_ID}/serviceAccounts/{SERVICE_ACCOUNT_EMAIL}`.
+ *    `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`.
  *
- *  @returns GTLRIamQuery_ProjectsServiceAccountsUpdate
+ *  @return GTLRIamQuery_ProjectsServiceAccountsUpdate
  */
 + (instancetype)queryWithObject:(GTLRIam_ServiceAccount *)object
                            name:(NSString *)name;
@@ -1279,7 +1370,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *    `organizations/{ORGANIZATION_ID}/roles/{ROLE_NAME}`
  *    `projects/{PROJECT_ID}/roles/{ROLE_NAME}`
  *
- *  @returns GTLRIamQuery_RolesGet
+ *  @return GTLRIamQuery_RolesGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -1328,7 +1419,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *
  *  Lists the Roles defined on a resource.
  *
- *  @returns GTLRIamQuery_RolesList
+ *  @return GTLRIamQuery_RolesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1362,7 +1453,7 @@ GTLR_EXTERN NSString * const kGTLRIamViewFull;
  *  @param object The @c GTLRIam_QueryGrantableRolesRequest to include in the
  *    query.
  *
- *  @returns GTLRIamQuery_RolesQueryGrantableRoles
+ *  @return GTLRIamQuery_RolesQueryGrantableRoles
  */
 + (instancetype)queryWithObject:(GTLRIam_QueryGrantableRolesRequest *)object;
 

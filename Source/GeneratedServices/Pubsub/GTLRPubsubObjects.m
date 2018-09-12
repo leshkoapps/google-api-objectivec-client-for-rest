@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Pub/Sub API (pubsub/v1)
+//   Cloud Pub/Sub API (pubsub/v1)
 // Description:
 //   Provides reliable, many-to-many, asynchronous messaging between
 //   applications.
@@ -35,7 +35,7 @@
 //
 
 @implementation GTLRPubsub_Binding
-@dynamic members, role;
+@dynamic condition, members, role;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -49,10 +49,71 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRPubsub_CreateSnapshotRequest
+//
+
+@implementation GTLRPubsub_CreateSnapshotRequest
+@dynamic labels, subscription;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_CreateSnapshotRequest_Labels
+//
+
+@implementation GTLRPubsub_CreateSnapshotRequest_Labels
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRPubsub_Empty
 //
 
 @implementation GTLRPubsub_Empty
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_Expr
+//
+
+@implementation GTLRPubsub_Expr
+@dynamic descriptionProperty, expression, location, title;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_ListSnapshotsResponse
+//
+
+@implementation GTLRPubsub_ListSnapshotsResponse
+@dynamic nextPageToken, snapshots;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"snapshots" : [GTLRPubsub_Snapshot class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"snapshots";
+}
+
 @end
 
 
@@ -73,6 +134,24 @@
 
 + (NSString *)collectionItemsKey {
   return @"subscriptions";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_ListTopicSnapshotsResponse
+//
+
+@implementation GTLRPubsub_ListTopicSnapshotsResponse
+@dynamic nextPageToken, snapshots;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"snapshots" : [NSString class]
+  };
+  return map;
 }
 
 @end
@@ -292,6 +371,25 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRPubsub_SeekRequest
+//
+
+@implementation GTLRPubsub_SeekRequest
+@dynamic snapshot, time;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_SeekResponse
+//
+
+@implementation GTLRPubsub_SeekResponse
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRPubsub_SetIamPolicyRequest
 //
 
@@ -302,11 +400,50 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRPubsub_Snapshot
+//
+
+@implementation GTLRPubsub_Snapshot
+@dynamic expireTime, labels, name, topic;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_Snapshot_Labels
+//
+
+@implementation GTLRPubsub_Snapshot_Labels
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRPubsub_Subscription
 //
 
 @implementation GTLRPubsub_Subscription
-@dynamic ackDeadlineSeconds, name, pushConfig, topic;
+@dynamic ackDeadlineSeconds, labels, messageRetentionDuration, name, pushConfig,
+         retainAckedMessages, topic;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_Subscription_Labels
+//
+
+@implementation GTLRPubsub_Subscription_Labels
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
 @end
 
 
@@ -352,5 +489,49 @@
 //
 
 @implementation GTLRPubsub_Topic
-@dynamic name;
+@dynamic labels, name;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_Topic_Labels
+//
+
+@implementation GTLRPubsub_Topic_Labels
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_UpdateSnapshotRequest
+//
+
+@implementation GTLRPubsub_UpdateSnapshotRequest
+@dynamic snapshot, updateMask;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_UpdateSubscriptionRequest
+//
+
+@implementation GTLRPubsub_UpdateSubscriptionRequest
+@dynamic subscription, updateMask;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPubsub_UpdateTopicRequest
+//
+
+@implementation GTLRPubsub_UpdateTopicRequest
+@dynamic topic, updateMask;
 @end

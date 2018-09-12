@@ -23,6 +23,8 @@
 @class GTLRStreetViewPublish_Connection;
 @class GTLRStreetViewPublish_LatLng;
 @class GTLRStreetViewPublish_Level;
+@class GTLRStreetViewPublish_Operation_Metadata;
+@class GTLRStreetViewPublish_Operation_Response;
 @class GTLRStreetViewPublish_Photo;
 @class GTLRStreetViewPublish_PhotoId;
 @class GTLRStreetViewPublish_PhotoResponse;
@@ -151,36 +153,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  specified otherwise, this must conform to the
  *  <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84
  *  standard</a>. Values must be within normalized ranges.
- *  Example of normalization code in Python:
- *  def NormalizeLongitude(longitude):
- *  """Wraps decimal degrees longitude to [-180.0, 180.0]."""
- *  q, r = divmod(longitude, 360.0)
- *  if r > 180.0 or (r == 180.0 and q <= -1.0):
- *  return r - 360.0
- *  return r
- *  def NormalizeLatLng(latitude, longitude):
- *  """Wraps decimal degrees latitude and longitude to
- *  [-90.0, 90.0] and [-180.0, 180.0], respectively."""
- *  r = latitude % 360.0
- *  if r <= 90.0:
- *  return r, NormalizeLongitude(longitude)
- *  elif r >= 270.0:
- *  return r - 360, NormalizeLongitude(longitude)
- *  else:
- *  return 180 - r, NormalizeLongitude(longitude + 180.0)
- *  assert 180.0 == NormalizeLongitude(180.0)
- *  assert -180.0 == NormalizeLongitude(-180.0)
- *  assert -179.0 == NormalizeLongitude(181.0)
- *  assert (0.0, 0.0) == NormalizeLatLng(360.0, 0.0)
- *  assert (0.0, 0.0) == NormalizeLatLng(-360.0, 0.0)
- *  assert (85.0, 180.0) == NormalizeLatLng(95.0, 0.0)
- *  assert (-85.0, -170.0) == NormalizeLatLng(-95.0, 10.0)
- *  assert (90.0, 10.0) == NormalizeLatLng(90.0, 10.0)
- *  assert (-90.0, -10.0) == NormalizeLatLng(-90.0, -10.0)
- *  assert (0.0, -170.0) == NormalizeLatLng(-180.0, 10.0)
- *  assert (0.0, -170.0) == NormalizeLatLng(180.0, 10.0)
- *  assert (-90.0, 10.0) == NormalizeLatLng(270.0, 10.0)
- *  assert (90.0, 10.0) == NormalizeLatLng(-270.0, 10.0)
  */
 @interface GTLRStreetViewPublish_LatLng : GTLRObject
 
@@ -255,6 +227,88 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  This resource represents a long-running operation that is the result of a
+ *  network API call.
+ */
+@interface GTLRStreetViewPublish_Operation : GTLRObject
+
+/**
+ *  If the value is `false`, it means the operation is still in progress.
+ *  If `true`, the operation is completed, and either `error` or `response` is
+ *  available.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *done;
+
+/** The error result of the operation in case of failure or cancellation. */
+@property(nonatomic, strong, nullable) GTLRStreetViewPublish_Status *error;
+
+/**
+ *  Service-specific metadata associated with the operation. It typically
+ *  contains progress information and common metadata such as create time.
+ *  Some services might not provide such metadata. Any method that returns a
+ *  long-running operation should document the metadata type, if any.
+ */
+@property(nonatomic, strong, nullable) GTLRStreetViewPublish_Operation_Metadata *metadata;
+
+/**
+ *  The server-assigned name, which is only unique within the same service that
+ *  originally returns it. If you use the default HTTP mapping, the
+ *  `name` should have the format of `operations/some/unique/name`.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  The normal response of the operation in case of success. If the original
+ *  method returns no data on success, such as `Delete`, the response is
+ *  `google.protobuf.Empty`. If the original method is standard
+ *  `Get`/`Create`/`Update`, the response should be the resource. For other
+ *  methods, the response should have the type `XxxResponse`, where `Xxx`
+ *  is the original method name. For example, if the original method name
+ *  is `TakeSnapshot()`, the inferred response type is
+ *  `TakeSnapshotResponse`.
+ */
+@property(nonatomic, strong, nullable) GTLRStreetViewPublish_Operation_Response *response;
+
+@end
+
+
+/**
+ *  Service-specific metadata associated with the operation. It typically
+ *  contains progress information and common metadata such as create time.
+ *  Some services might not provide such metadata. Any method that returns a
+ *  long-running operation should document the metadata type, if any.
+ *
+ *  @note This class is documented as having more properties of any valid JSON
+ *        type. Use @c -additionalJSONKeys and @c -additionalPropertyForName: to
+ *        get the list of properties and then fetch them; or @c
+ *        -additionalProperties to fetch them all at once.
+ */
+@interface GTLRStreetViewPublish_Operation_Metadata : GTLRObject
+@end
+
+
+/**
+ *  The normal response of the operation in case of success. If the original
+ *  method returns no data on success, such as `Delete`, the response is
+ *  `google.protobuf.Empty`. If the original method is standard
+ *  `Get`/`Create`/`Update`, the response should be the resource. For other
+ *  methods, the response should have the type `XxxResponse`, where `Xxx`
+ *  is the original method name. For example, if the original method name
+ *  is `TakeSnapshot()`, the inferred response type is
+ *  `TakeSnapshotResponse`.
+ *
+ *  @note This class is documented as having more properties of any valid JSON
+ *        type. Use @c -additionalJSONKeys and @c -additionalPropertyForName: to
+ *        get the list of properties and then fetch them; or @c
+ *        -additionalProperties to fetch them all at once.
+ */
+@interface GTLRStreetViewPublish_Operation_Response : GTLRObject
+@end
+
+
+/**
  *  Photo is used to store 360 photos along with photo metadata.
  */
 @interface GTLRStreetViewPublish_Photo : GTLRObject
@@ -282,7 +336,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *downloadUrl;
 
 /**
- *  Required when updating photo. Output only when creating photo.
+ *  Required when updating a photo. Output only when creating a photo.
  *  Identifier for the photo, which is unique among all photos in
  *  Google.
  */
@@ -303,8 +357,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *thumbnailUrl;
 
 /**
- *  Required when creating photo. Input only. The resource URL where the photo
- *  bytes are uploaded to.
+ *  Required when creating a photo. Input only. The resource URL where the
+ *  photo bytes are uploaded to.
  */
 @property(nonatomic, strong, nullable) GTLRStreetViewPublish_UploadRef *uploadReference;
 
@@ -364,7 +418,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRStreetViewPublish_Place : GTLRObject
 
 /**
- *  Required. Place identifier, as described in
+ *  Place identifier, as described in
  *  https://developers.google.com/places/place-id.
  */
 @property(nonatomic, copy, nullable) NSString *placeId;
@@ -378,7 +432,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRStreetViewPublish_Pose : GTLRObject
 
 /**
- *  Altitude of the pose in meters above ground level (as defined by WGS84).
+ *  Altitude of the pose in meters above WGS84 ellipsoid.
  *  NaN indicates an unmeasured quantity.
  *
  *  Uses NSNumber of doubleValue.
@@ -527,9 +581,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Mask that identifies fields on the photo metadata to update.
- *  If not present, the old Photo metadata will be entirely replaced with the
- *  new Photo metadata in this request. The update fails if invalid fields are
- *  specified. Multiple fields can be specified in a comma-delimited list.
+ *  If not present, the old Photo
+ *  metadata will be entirely replaced with the
+ *  new Photo metadata in this request.
+ *  The update fails if invalid fields are specified. Multiple fields can be
+ *  specified in a comma-delimited list.
  *  The following fields are valid:
  *  * `pose.heading`
  *  * `pose.latLngPair`

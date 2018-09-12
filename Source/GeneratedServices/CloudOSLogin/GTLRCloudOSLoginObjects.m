@@ -2,13 +2,21 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud OS Login API (oslogin/v1alpha)
+//   Cloud OS Login API (oslogin/v1)
 // Description:
-//   Manages OS login configuration for Directory API users.
+//   Manages OS login configuration for Google account users.
 // Documentation:
 //   https://cloud.google.com/compute/docs/oslogin/rest/
 
 #import "GTLRCloudOSLoginObjects.h"
+
+// ----------------------------------------------------------------------------
+// Constants
+
+// GTLRCloudOSLogin_PosixAccount.operatingSystemType
+NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Linux = @"LINUX";
+NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_OperatingSystemTypeUnspecified = @"OPERATING_SYSTEM_TYPE_UNSPECIFIED";
+NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Windows = @"WINDOWS";
 
 // ----------------------------------------------------------------------------
 //
@@ -35,7 +43,7 @@
 //
 
 @implementation GTLRCloudOSLogin_LoginProfile
-@dynamic name, posixAccounts, sshPublicKeys, suspended;
+@dynamic name, posixAccounts, sshPublicKeys;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -67,7 +75,8 @@
 //
 
 @implementation GTLRCloudOSLogin_PosixAccount
-@dynamic gecos, gid, homeDirectory, primary, shell, systemId, uid, username;
+@dynamic accountId, gecos, gid, homeDirectory, operatingSystemType, primary,
+         shell, systemId, uid, username;
 @end
 
 

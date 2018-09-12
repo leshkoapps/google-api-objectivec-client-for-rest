@@ -61,6 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Email id of the group */
 @property(nonatomic, copy, nullable) NSString *email;
 
+/** If favorite replies should be displayed above other replies. */
+@property(nonatomic, copy, nullable) NSString *favoriteRepliesOnTop;
+
 /** Whether to include custom footer. */
 @property(nonatomic, copy, nullable) NSString *includeCustomFooter;
 
@@ -122,9 +125,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Permissions to add members. Possible values are: ALL_MANAGERS_CAN_ADD
- *  ALL_MEMBERS_CAN_ADD NONE_CAN_ADD
+ *  ALL_OWNERS_CAN_ADD ALL_MEMBERS_CAN_ADD NONE_CAN_ADD
  */
 @property(nonatomic, copy, nullable) NSString *whoCanAdd;
+
+/**
+ *  Permission to add references to a topic. Possible values are: NONE
+ *  OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanAddReferences;
+
+/**
+ *  Permission to assign topics in a forum to another user. Possible values are:
+ *  NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanAssignTopics;
 
 /**
  *  Permission to contact owner of the group via web UI. Possible values are:
@@ -134,8 +149,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *whoCanContactOwner;
 
 /**
+ *  Permission to enter free form tags for topics in a forum. Possible values
+ *  are: NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanEnterFreeFormTags;
+
+/**
  *  Permissions to invite members. Possible values are: ALL_MEMBERS_CAN_INVITE
- *  ALL_MANAGERS_CAN_INVITE NONE_CAN_INVITE
+ *  ALL_MANAGERS_CAN_INVITE ALL_OWNERS_CAN_INVITE NONE_CAN_INVITE
  */
 @property(nonatomic, copy, nullable) NSString *whoCanInvite;
 
@@ -147,9 +168,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Permission to leave the group. Possible values are: ALL_MANAGERS_CAN_LEAVE
- *  ALL_MEMBERS_CAN_LEAVE NONE_CAN_LEAVE
+ *  ALL_OWNERS_CAN_LEAVE ALL_MEMBERS_CAN_LEAVE NONE_CAN_LEAVE
  */
 @property(nonatomic, copy, nullable) NSString *whoCanLeaveGroup;
+
+/**
+ *  Permission to mark a topic as a duplicate of another topic. Possible values
+ *  are: NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanMarkDuplicate;
+
+/**
+ *  Permission to mark any other user's post as a favorite reply. Possible
+ *  values are: NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanMarkFavoriteReplyOnAnyTopic;
+
+/**
+ *  Permission to mark a post for a topic they started as a favorite reply.
+ *  Possible values are: NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS
+ *  ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanMarkFavoriteReplyOnOwnTopic;
+
+/**
+ *  Permission to mark a topic as not needing a response. Possible values are:
+ *  NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanMarkNoResponseNeeded;
+
+/**
+ *  Permission to change tags and categories. Possible values are: NONE
+ *  OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanModifyTagsAndCategories;
 
 /**
  *  Permissions to post messages to the group. Possible values are:
@@ -159,8 +211,27 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *whoCanPostMessage;
 
 /**
+ *  Permission to take topics in a forum. Possible values are: NONE OWNERS_ONLY
+ *  MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanTakeTopics;
+
+/**
+ *  Permission to unassign any topic in a forum. Possible values are: NONE
+ *  OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanUnassignTopic;
+
+/**
+ *  Permission to unmark any post from a favorite reply. Possible values are:
+ *  NONE OWNERS_ONLY MANAGERS_ONLY OWNERS_AND_MANAGERS ALL_MEMBERS
+ */
+@property(nonatomic, copy, nullable) NSString *whoCanUnmarkFavoriteReplyOnAnyTopic;
+
+/**
  *  Permissions to view group. Possible values are: ANYONE_CAN_VIEW
  *  ALL_IN_DOMAIN_CAN_VIEW ALL_MEMBERS_CAN_VIEW ALL_MANAGERS_CAN_VIEW
+ *  ALL_OWNERS_CAN_VIEW
  */
 @property(nonatomic, copy, nullable) NSString *whoCanViewGroup;
 

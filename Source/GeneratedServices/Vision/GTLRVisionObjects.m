@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Vision API (vision/v1)
+//   Cloud Vision API (vision/v1)
 // Description:
 //   Integrates Google Vision features, including image labeling, face, logo,
 //   and landmark detection, optical character recognition (OCR), and detection
@@ -100,6 +100,481 @@ NSString * const kGTLRVision_Feature_Type_TextDetection        = @"TEXT_DETECTIO
 NSString * const kGTLRVision_Feature_Type_TypeUnspecified      = @"TYPE_UNSPECIFIED";
 NSString * const kGTLRVision_Feature_Type_WebDetection         = @"WEB_DETECTION";
 
+// GTLRVision_GoogleCloudVisionV1p1beta1Block.blockType
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Barcode = @"BARCODE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Picture = @"PICTURE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Ruler = @"RULER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Table = @"TABLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Text = @"TEXT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1Block_BlockType_Unknown = @"UNKNOWN";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.angerLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_AngerLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.blurredLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_BlurredLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.headwearLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_HeadwearLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.joyLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_JoyLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.sorrowLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SorrowLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.surpriseLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_SurpriseLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation.underExposedLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation_UnderExposedLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_ChinGnathion = @"CHIN_GNATHION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_ChinLeftGonion = @"CHIN_LEFT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_ChinRightGonion = @"CHIN_RIGHT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_ForeheadGlabella = @"FOREHEAD_GLABELLA";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEarTragion = @"LEFT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEye = @"LEFT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyeBottomBoundary = @"LEFT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyebrowUpperMidpoint = @"LEFT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyeLeftCorner = @"LEFT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyePupil = @"LEFT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyeRightCorner = @"LEFT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftEyeTopBoundary = @"LEFT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftOfLeftEyebrow = @"LEFT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LeftOfRightEyebrow = @"LEFT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_LowerLip = @"LOWER_LIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_MidpointBetweenEyes = @"MIDPOINT_BETWEEN_EYES";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_MouthCenter = @"MOUTH_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_MouthLeft = @"MOUTH_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_MouthRight = @"MOUTH_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_NoseBottomCenter = @"NOSE_BOTTOM_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_NoseBottomLeft = @"NOSE_BOTTOM_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_NoseBottomRight = @"NOSE_BOTTOM_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_NoseTip = @"NOSE_TIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEarTragion = @"RIGHT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEye = @"RIGHT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyeBottomBoundary = @"RIGHT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyebrowUpperMidpoint = @"RIGHT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyeLeftCorner = @"RIGHT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyePupil = @"RIGHT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyeRightCorner = @"RIGHT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightEyeTopBoundary = @"RIGHT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightOfLeftEyebrow = @"RIGHT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_RightOfRightEyebrow = @"RIGHT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_UnknownLandmark = @"UNKNOWN_LANDMARK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark_Type_UpperLip = @"UPPER_LIP";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata.state
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata_State_Cancelled = @"CANCELLED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata_State_Created = @"CREATED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata_State_Done = @"DONE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata_State_Running = @"RUNNING";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata_State_StateUnspecified = @"STATE_UNSPECIFIED";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation.adult
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Adult_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation.medical
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Medical_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation.racy
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Racy_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation.spoof
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Spoof_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation.violence
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_EolSureSpace = @"EOL_SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_Hyphen = @"HYPHEN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_LineBreak = @"LINE_BREAK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_Space = @"SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_SureSpace = @"SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak_Type_Unknown = @"UNKNOWN";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1Block.blockType
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Barcode = @"BARCODE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Picture = @"PICTURE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Ruler = @"RULER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Table = @"TABLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Text = @"TEXT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1Block_BlockType_Unknown = @"UNKNOWN";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.angerLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_AngerLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.blurredLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_BlurredLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.headwearLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_HeadwearLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.joyLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_JoyLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.sorrowLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SorrowLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.surpriseLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_SurpriseLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation.underExposedLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation_UnderExposedLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_ChinGnathion = @"CHIN_GNATHION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_ChinLeftGonion = @"CHIN_LEFT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_ChinRightGonion = @"CHIN_RIGHT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_ForeheadGlabella = @"FOREHEAD_GLABELLA";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEarTragion = @"LEFT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEye = @"LEFT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyeBottomBoundary = @"LEFT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyebrowUpperMidpoint = @"LEFT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyeLeftCorner = @"LEFT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyePupil = @"LEFT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyeRightCorner = @"LEFT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftEyeTopBoundary = @"LEFT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftOfLeftEyebrow = @"LEFT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LeftOfRightEyebrow = @"LEFT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_LowerLip = @"LOWER_LIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_MidpointBetweenEyes = @"MIDPOINT_BETWEEN_EYES";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_MouthCenter = @"MOUTH_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_MouthLeft = @"MOUTH_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_MouthRight = @"MOUTH_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_NoseBottomCenter = @"NOSE_BOTTOM_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_NoseBottomLeft = @"NOSE_BOTTOM_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_NoseBottomRight = @"NOSE_BOTTOM_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_NoseTip = @"NOSE_TIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEarTragion = @"RIGHT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEye = @"RIGHT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyeBottomBoundary = @"RIGHT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyebrowUpperMidpoint = @"RIGHT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyeLeftCorner = @"RIGHT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyePupil = @"RIGHT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyeRightCorner = @"RIGHT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightEyeTopBoundary = @"RIGHT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightOfLeftEyebrow = @"RIGHT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_RightOfRightEyebrow = @"RIGHT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_UnknownLandmark = @"UNKNOWN_LANDMARK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark_Type_UpperLip = @"UPPER_LIP";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata.state
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata_State_Cancelled = @"CANCELLED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata_State_Created = @"CREATED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata_State_Done = @"DONE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata_State_Running = @"RUNNING";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata_State_StateUnspecified = @"STATE_UNSPECIFIED";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation.adult
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Adult_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation.medical
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Medical_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation.racy
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Racy_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation.spoof
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Spoof_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation.violence
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_EolSureSpace = @"EOL_SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_Hyphen = @"HYPHEN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_LineBreak = @"LINE_BREAK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_Space = @"SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_SureSpace = @"SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak_Type_Unknown = @"UNKNOWN";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata.state
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata_State_Cancelled = @"CANCELLED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata_State_Failed = @"FAILED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata_State_Processing = @"PROCESSING";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata_State_StateUnspecified = @"STATE_UNSPECIFIED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata_State_Successful = @"SUCCESSFUL";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1Block.blockType
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Barcode = @"BARCODE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Picture = @"PICTURE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Ruler = @"RULER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Table = @"TABLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Text = @"TEXT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1Block_BlockType_Unknown = @"UNKNOWN";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.angerLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_AngerLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.blurredLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_BlurredLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.headwearLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_HeadwearLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.joyLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_JoyLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.sorrowLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SorrowLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.surpriseLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_SurpriseLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation.underExposedLikelihood
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation_UnderExposedLikelihood_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_ChinGnathion = @"CHIN_GNATHION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_ChinLeftGonion = @"CHIN_LEFT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_ChinRightGonion = @"CHIN_RIGHT_GONION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_ForeheadGlabella = @"FOREHEAD_GLABELLA";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEarTragion = @"LEFT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEye = @"LEFT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyeBottomBoundary = @"LEFT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyebrowUpperMidpoint = @"LEFT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyeLeftCorner = @"LEFT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyePupil = @"LEFT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyeRightCorner = @"LEFT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftEyeTopBoundary = @"LEFT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftOfLeftEyebrow = @"LEFT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LeftOfRightEyebrow = @"LEFT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_LowerLip = @"LOWER_LIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_MidpointBetweenEyes = @"MIDPOINT_BETWEEN_EYES";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_MouthCenter = @"MOUTH_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_MouthLeft = @"MOUTH_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_MouthRight = @"MOUTH_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_NoseBottomCenter = @"NOSE_BOTTOM_CENTER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_NoseBottomLeft = @"NOSE_BOTTOM_LEFT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_NoseBottomRight = @"NOSE_BOTTOM_RIGHT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_NoseTip = @"NOSE_TIP";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEarTragion = @"RIGHT_EAR_TRAGION";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEye = @"RIGHT_EYE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyeBottomBoundary = @"RIGHT_EYE_BOTTOM_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyebrowUpperMidpoint = @"RIGHT_EYEBROW_UPPER_MIDPOINT";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyeLeftCorner = @"RIGHT_EYE_LEFT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyePupil = @"RIGHT_EYE_PUPIL";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyeRightCorner = @"RIGHT_EYE_RIGHT_CORNER";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightEyeTopBoundary = @"RIGHT_EYE_TOP_BOUNDARY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightOfLeftEyebrow = @"RIGHT_OF_LEFT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_RightOfRightEyebrow = @"RIGHT_OF_RIGHT_EYEBROW";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_UnknownLandmark = @"UNKNOWN_LANDMARK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark_Type_UpperLip = @"UPPER_LIP";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata.state
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata_State_Cancelled = @"CANCELLED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata_State_Created = @"CREATED";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata_State_Done = @"DONE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata_State_Running = @"RUNNING";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata_State_StateUnspecified = @"STATE_UNSPECIFIED";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation.adult
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Adult_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation.medical
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Medical_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation.racy
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Racy_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation.spoof
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Spoof_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation.violence
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_Likely = @"LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY_UNLIKELY";
+
+// GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak.type
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_EolSureSpace = @"EOL_SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_Hyphen = @"HYPHEN";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_LineBreak = @"LINE_BREAK";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_Space = @"SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_SureSpace = @"SURE_SPACE";
+NSString * const kGTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak_Type_Unknown = @"UNKNOWN";
+
 // GTLRVision_Landmark.type
 NSString * const kGTLRVision_Landmark_Type_ChinGnathion        = @"CHIN_GNATHION";
 NSString * const kGTLRVision_Landmark_Type_ChinLeftGonion      = @"CHIN_LEFT_GONION";
@@ -137,6 +612,13 @@ NSString * const kGTLRVision_Landmark_Type_RightOfRightEyebrow = @"RIGHT_OF_RIGH
 NSString * const kGTLRVision_Landmark_Type_UnknownLandmark     = @"UNKNOWN_LANDMARK";
 NSString * const kGTLRVision_Landmark_Type_UpperLip            = @"UPPER_LIP";
 
+// GTLRVision_OperationMetadata.state
+NSString * const kGTLRVision_OperationMetadata_State_Cancelled = @"CANCELLED";
+NSString * const kGTLRVision_OperationMetadata_State_Created   = @"CREATED";
+NSString * const kGTLRVision_OperationMetadata_State_Done      = @"DONE";
+NSString * const kGTLRVision_OperationMetadata_State_Running   = @"RUNNING";
+NSString * const kGTLRVision_OperationMetadata_State_StateUnspecified = @"STATE_UNSPECIFIED";
+
 // GTLRVision_SafeSearchAnnotation.adult
 NSString * const kGTLRVision_SafeSearchAnnotation_Adult_Likely = @"LIKELY";
 NSString * const kGTLRVision_SafeSearchAnnotation_Adult_Possible = @"POSSIBLE";
@@ -153,6 +635,14 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Medical_Unlikely = @"UNLIKELY"
 NSString * const kGTLRVision_SafeSearchAnnotation_Medical_VeryLikely = @"VERY_LIKELY";
 NSString * const kGTLRVision_SafeSearchAnnotation_Medical_VeryUnlikely = @"VERY_UNLIKELY";
 
+// GTLRVision_SafeSearchAnnotation.racy
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_Likely  = @"LIKELY";
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_Possible = @"POSSIBLE";
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_Unknown = @"UNKNOWN";
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_Unlikely = @"UNLIKELY";
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_VeryLikely = @"VERY_LIKELY";
+NSString * const kGTLRVision_SafeSearchAnnotation_Racy_VeryUnlikely = @"VERY_UNLIKELY";
+
 // GTLRVision_SafeSearchAnnotation.spoof
 NSString * const kGTLRVision_SafeSearchAnnotation_Spoof_Likely = @"LIKELY";
 NSString * const kGTLRVision_SafeSearchAnnotation_Spoof_Possible = @"POSSIBLE";
@@ -168,6 +658,24 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_Unknown = @"UNKNOWN";
 NSString * const kGTLRVision_SafeSearchAnnotation_Violence_Unlikely = @"UNLIKELY";
 NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryLikely = @"VERY_LIKELY";
 NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY_UNLIKELY";
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_AnnotateFileResponse
+//
+
+@implementation GTLRVision_AnnotateFileResponse
+@dynamic inputConfig, responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_AnnotateImageResponse class]
+  };
+  return map;
+}
+
+@end
+
 
 // ----------------------------------------------------------------------------
 //
@@ -193,9 +701,10 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_AnnotateImageResponse
-@dynamic cropHintsAnnotation, error, faceAnnotations, fullTextAnnotation,
-         imagePropertiesAnnotation, labelAnnotations, landmarkAnnotations,
-         logoAnnotations, safeSearchAnnotation, textAnnotations, webDetection;
+@dynamic context, cropHintsAnnotation, error, faceAnnotations,
+         fullTextAnnotation, imagePropertiesAnnotation, labelAnnotations,
+         landmarkAnnotations, logoAnnotations, safeSearchAnnotation,
+         textAnnotations, webDetection;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -204,6 +713,70 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
     @"landmarkAnnotations" : [GTLRVision_EntityAnnotation class],
     @"logoAnnotations" : [GTLRVision_EntityAnnotation class],
     @"textAnnotations" : [GTLRVision_EntityAnnotation class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_AsyncAnnotateFileRequest
+//
+
+@implementation GTLRVision_AsyncAnnotateFileRequest
+@dynamic features, imageContext, inputConfig, outputConfig;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"features" : [GTLRVision_Feature class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_AsyncAnnotateFileResponse
+//
+
+@implementation GTLRVision_AsyncAnnotateFileResponse
+@dynamic outputConfig;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_AsyncBatchAnnotateFilesRequest
+//
+
+@implementation GTLRVision_AsyncBatchAnnotateFilesRequest
+@dynamic requests;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"requests" : [GTLRVision_AsyncAnnotateFileRequest class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_AsyncBatchAnnotateFilesResponse
+//
+
+@implementation GTLRVision_AsyncBatchAnnotateFilesResponse
+@dynamic responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_AsyncAnnotateFileResponse class]
   };
   return map;
 }
@@ -253,7 +826,7 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_Block
-@dynamic blockType, boundingBox, paragraphs, property;
+@dynamic blockType, boundingBox, confidence, paragraphs, property;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -271,15 +844,25 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_BoundingPoly
-@dynamic vertices;
+@dynamic normalizedVertices, vertices;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"normalizedVertices" : [GTLRVision_NormalizedVertex class],
     @"vertices" : [GTLRVision_Vertex class]
   };
   return map;
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_CancelOperationRequest
+//
+
+@implementation GTLRVision_CancelOperationRequest
 @end
 
 
@@ -389,6 +972,15 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRVision_Empty
+//
+
+@implementation GTLRVision_Empty
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRVision_EntityAnnotation
 //
 
@@ -439,7 +1031,1779 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_Feature
-@dynamic maxResults, type;
+@dynamic maxResults, model, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GcsDestination
+//
+
+@implementation GTLRVision_GcsDestination
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GcsSource
+//
+
+@implementation GTLRVision_GcsSource
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1AnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1AnnotateFileResponse
+@dynamic inputConfig, responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p1beta1AnnotateImageResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1AnnotateImageResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1AnnotateImageResponse
+@dynamic context, cropHintsAnnotation, error, faceAnnotations,
+         fullTextAnnotation, imagePropertiesAnnotation, labelAnnotations,
+         landmarkAnnotations, logoAnnotations, safeSearchAnnotation,
+         textAnnotations, webDetection;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"faceAnnotations" : [GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation class],
+    @"labelAnnotations" : [GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation class],
+    @"landmarkAnnotations" : [GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation class],
+    @"logoAnnotations" : [GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation class],
+    @"textAnnotations" : [GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1AsyncAnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1AsyncAnnotateFileResponse
+@dynamic outputConfig;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1AsyncBatchAnnotateFilesResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1AsyncBatchAnnotateFilesResponse
+@dynamic responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p1beta1AsyncAnnotateFileResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Block
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Block
+@dynamic blockType, boundingBox, confidence, paragraphs, property;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"paragraphs" : [GTLRVision_GoogleCloudVisionV1p1beta1Paragraph class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1BoundingPoly
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1BoundingPoly
+@dynamic vertices;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"vertices" : [GTLRVision_GoogleCloudVisionV1p1beta1Vertex class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1ColorInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1ColorInfo
+@dynamic color, pixelFraction, score;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1CropHint
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1CropHint
+@dynamic boundingPoly, confidence, importanceFraction;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1CropHintsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1CropHintsAnnotation
+@dynamic cropHints;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"cropHints" : [GTLRVision_GoogleCloudVisionV1p1beta1CropHint class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1DominantColorsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1DominantColorsAnnotation
+@dynamic colors;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"colors" : [GTLRVision_GoogleCloudVisionV1p1beta1ColorInfo class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1EntityAnnotation
+@dynamic boundingPoly, confidence, descriptionProperty, locale, locations, mid,
+         properties, score, topicality;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"locations" : [GTLRVision_GoogleCloudVisionV1p1beta1LocationInfo class],
+    @"properties" : [GTLRVision_GoogleCloudVisionV1p1beta1Property class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotation
+@dynamic angerLikelihood, blurredLikelihood, boundingPoly, detectionConfidence,
+         fdBoundingPoly, headwearLikelihood, joyLikelihood,
+         landmarkingConfidence, landmarks, panAngle, rollAngle,
+         sorrowLikelihood, surpriseLikelihood, tiltAngle,
+         underExposedLikelihood;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"landmarks" : [GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1FaceAnnotationLandmark
+@dynamic position, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1GcsDestination
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1GcsDestination
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1GcsSource
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1GcsSource
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1ImageAnnotationContext
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1ImageAnnotationContext
+@dynamic pageNumber, uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1ImageProperties
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1ImageProperties
+@dynamic dominantColors;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1InputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1InputConfig
+@dynamic gcsSource, mimeType;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1LocationInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1LocationInfo
+@dynamic latLng;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1OperationMetadata
+@dynamic createTime, state, updateTime;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1OutputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1OutputConfig
+@dynamic batchSize, gcsDestination;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Page
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Page
+@dynamic blocks, confidence, height, property, width;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"blocks" : [GTLRVision_GoogleCloudVisionV1p1beta1Block class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Paragraph
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Paragraph
+@dynamic boundingBox, confidence, property, words;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"words" : [GTLRVision_GoogleCloudVisionV1p1beta1Word class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Position
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Position
+@dynamic x, y, z;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Property
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Property
+@dynamic name, uint64Value, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1SafeSearchAnnotation
+@dynamic adult, medical, racy, spoof, violence;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Symbol
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Symbol
+@dynamic boundingBox, confidence, property, text;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotation
+@dynamic pages, text;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"pages" : [GTLRVision_GoogleCloudVisionV1p1beta1Page class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedBreak
+@dynamic isPrefix, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedLanguage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedLanguage
+@dynamic confidence, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationTextProperty
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationTextProperty
+@dynamic detectedBreak, detectedLanguages;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"detectedLanguages" : [GTLRVision_GoogleCloudVisionV1p1beta1TextAnnotationDetectedLanguage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Vertex
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Vertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1WebDetection
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1WebDetection
+@dynamic bestGuessLabels, fullMatchingImages, pagesWithMatchingImages,
+         partialMatchingImages, visuallySimilarImages, webEntities;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"bestGuessLabels" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebLabel class],
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage class],
+    @"pagesWithMatchingImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebPage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage class],
+    @"visuallySimilarImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage class],
+    @"webEntities" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebEntity class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebEntity
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebEntity
+@dynamic descriptionProperty, entityId, score;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage
+@dynamic score, url;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebLabel
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebLabel
+@dynamic label, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebPage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebPage
+@dynamic fullMatchingImages, pageTitle, partialMatchingImages, score, url;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p1beta1WebDetectionWebImage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p1beta1Word
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p1beta1Word
+@dynamic boundingBox, confidence, property, symbols;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"symbols" : [GTLRVision_GoogleCloudVisionV1p1beta1Symbol class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1AnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1AnnotateFileResponse
+@dynamic inputConfig, responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p2beta1AnnotateImageResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1AnnotateImageResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1AnnotateImageResponse
+@dynamic context, cropHintsAnnotation, error, faceAnnotations,
+         fullTextAnnotation, imagePropertiesAnnotation, labelAnnotations,
+         landmarkAnnotations, logoAnnotations, safeSearchAnnotation,
+         textAnnotations, webDetection;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"faceAnnotations" : [GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation class],
+    @"labelAnnotations" : [GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation class],
+    @"landmarkAnnotations" : [GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation class],
+    @"logoAnnotations" : [GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation class],
+    @"textAnnotations" : [GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1AsyncAnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1AsyncAnnotateFileResponse
+@dynamic outputConfig;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesResponse
+@dynamic responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p2beta1AsyncAnnotateFileResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Block
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Block
+@dynamic blockType, boundingBox, confidence, paragraphs, property;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"paragraphs" : [GTLRVision_GoogleCloudVisionV1p2beta1Paragraph class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1BoundingPoly
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1BoundingPoly
+@dynamic normalizedVertices, vertices;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"normalizedVertices" : [GTLRVision_GoogleCloudVisionV1p2beta1NormalizedVertex class],
+    @"vertices" : [GTLRVision_GoogleCloudVisionV1p2beta1Vertex class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1ColorInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1ColorInfo
+@dynamic color, pixelFraction, score;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1CropHint
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1CropHint
+@dynamic boundingPoly, confidence, importanceFraction;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1CropHintsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1CropHintsAnnotation
+@dynamic cropHints;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"cropHints" : [GTLRVision_GoogleCloudVisionV1p2beta1CropHint class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1DominantColorsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1DominantColorsAnnotation
+@dynamic colors;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"colors" : [GTLRVision_GoogleCloudVisionV1p2beta1ColorInfo class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1EntityAnnotation
+@dynamic boundingPoly, confidence, descriptionProperty, locale, locations, mid,
+         properties, score, topicality;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"locations" : [GTLRVision_GoogleCloudVisionV1p2beta1LocationInfo class],
+    @"properties" : [GTLRVision_GoogleCloudVisionV1p2beta1Property class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotation
+@dynamic angerLikelihood, blurredLikelihood, boundingPoly, detectionConfidence,
+         fdBoundingPoly, headwearLikelihood, joyLikelihood,
+         landmarkingConfidence, landmarks, panAngle, rollAngle,
+         sorrowLikelihood, surpriseLikelihood, tiltAngle,
+         underExposedLikelihood;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"landmarks" : [GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1FaceAnnotationLandmark
+@dynamic position, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1GcsDestination
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1GcsDestination
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1GcsSource
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1GcsSource
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1ImageAnnotationContext
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1ImageAnnotationContext
+@dynamic pageNumber, uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1ImageProperties
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1ImageProperties
+@dynamic dominantColors;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1InputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1InputConfig
+@dynamic gcsSource, mimeType;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1LocationInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1LocationInfo
+@dynamic latLng;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1NormalizedVertex
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1NormalizedVertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1OperationMetadata
+@dynamic createTime, state, updateTime;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1OutputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1OutputConfig
+@dynamic batchSize, gcsDestination;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Page
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Page
+@dynamic blocks, confidence, height, property, width;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"blocks" : [GTLRVision_GoogleCloudVisionV1p2beta1Block class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Paragraph
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Paragraph
+@dynamic boundingBox, confidence, property, words;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"words" : [GTLRVision_GoogleCloudVisionV1p2beta1Word class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Position
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Position
+@dynamic x, y, z;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Property
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Property
+@dynamic name, uint64Value, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1SafeSearchAnnotation
+@dynamic adult, medical, racy, spoof, violence;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Symbol
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Symbol
+@dynamic boundingBox, confidence, property, text;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotation
+@dynamic pages, text;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"pages" : [GTLRVision_GoogleCloudVisionV1p2beta1Page class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedBreak
+@dynamic isPrefix, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedLanguage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedLanguage
+@dynamic confidence, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationTextProperty
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationTextProperty
+@dynamic detectedBreak, detectedLanguages;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"detectedLanguages" : [GTLRVision_GoogleCloudVisionV1p2beta1TextAnnotationDetectedLanguage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Vertex
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Vertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1WebDetection
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1WebDetection
+@dynamic bestGuessLabels, fullMatchingImages, pagesWithMatchingImages,
+         partialMatchingImages, visuallySimilarImages, webEntities;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"bestGuessLabels" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebLabel class],
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage class],
+    @"pagesWithMatchingImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebPage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage class],
+    @"visuallySimilarImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage class],
+    @"webEntities" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebEntity class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebEntity
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebEntity
+@dynamic descriptionProperty, entityId, score;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage
+@dynamic score, url;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebLabel
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebLabel
+@dynamic label, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebPage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebPage
+@dynamic fullMatchingImages, pageTitle, partialMatchingImages, score, url;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p2beta1WebDetectionWebImage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p2beta1Word
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p2beta1Word
+@dynamic boundingBox, confidence, property, symbols;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"symbols" : [GTLRVision_GoogleCloudVisionV1p2beta1Symbol class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1AnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1AnnotateFileResponse
+@dynamic inputConfig, responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p3beta1AnnotateImageResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1AnnotateImageResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1AnnotateImageResponse
+@dynamic context, cropHintsAnnotation, error, faceAnnotations,
+         fullTextAnnotation, imagePropertiesAnnotation, labelAnnotations,
+         landmarkAnnotations, localizedObjectAnnotations, logoAnnotations,
+         productSearchResults, safeSearchAnnotation, textAnnotations,
+         webDetection;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"faceAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation class],
+    @"labelAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation class],
+    @"landmarkAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation class],
+    @"localizedObjectAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1LocalizedObjectAnnotation class],
+    @"logoAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation class],
+    @"textAnnotations" : [GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1AsyncAnnotateFileResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1AsyncAnnotateFileResponse
+@dynamic outputConfig;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1AsyncBatchAnnotateFilesResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1AsyncBatchAnnotateFilesResponse
+@dynamic responses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"responses" : [GTLRVision_GoogleCloudVisionV1p3beta1AsyncAnnotateFileResponse class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1BatchOperationMetadata
+@dynamic endTime, state, submitTime;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Block
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Block
+@dynamic blockType, boundingBox, confidence, paragraphs, property;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"paragraphs" : [GTLRVision_GoogleCloudVisionV1p3beta1Paragraph class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1BoundingPoly
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1BoundingPoly
+@dynamic normalizedVertices, vertices;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"normalizedVertices" : [GTLRVision_GoogleCloudVisionV1p3beta1NormalizedVertex class],
+    @"vertices" : [GTLRVision_GoogleCloudVisionV1p3beta1Vertex class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ColorInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ColorInfo
+@dynamic color, pixelFraction, score;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1CropHint
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1CropHint
+@dynamic boundingPoly, confidence, importanceFraction;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1CropHintsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1CropHintsAnnotation
+@dynamic cropHints;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"cropHints" : [GTLRVision_GoogleCloudVisionV1p3beta1CropHint class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1DominantColorsAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1DominantColorsAnnotation
+@dynamic colors;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"colors" : [GTLRVision_GoogleCloudVisionV1p3beta1ColorInfo class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1EntityAnnotation
+@dynamic boundingPoly, confidence, descriptionProperty, locale, locations, mid,
+         properties, score, topicality;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"locations" : [GTLRVision_GoogleCloudVisionV1p3beta1LocationInfo class],
+    @"properties" : [GTLRVision_GoogleCloudVisionV1p3beta1Property class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotation
+@dynamic angerLikelihood, blurredLikelihood, boundingPoly, detectionConfidence,
+         fdBoundingPoly, headwearLikelihood, joyLikelihood,
+         landmarkingConfidence, landmarks, panAngle, rollAngle,
+         sorrowLikelihood, surpriseLikelihood, tiltAngle,
+         underExposedLikelihood;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"landmarks" : [GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1FaceAnnotationLandmark
+@dynamic position, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1GcsDestination
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1GcsDestination
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1GcsSource
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1GcsSource
+@dynamic uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ImageAnnotationContext
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ImageAnnotationContext
+@dynamic pageNumber, uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ImageProperties
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ImageProperties
+@dynamic dominantColors;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ImportProductSetsResponse
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ImportProductSetsResponse
+@dynamic referenceImages, statuses;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"referenceImages" : [GTLRVision_GoogleCloudVisionV1p3beta1ReferenceImage class],
+    @"statuses" : [GTLRVision_Status class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1InputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1InputConfig
+@dynamic gcsSource, mimeType;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1LocalizedObjectAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1LocalizedObjectAnnotation
+@dynamic boundingPoly, languageCode, mid, name, score;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1LocationInfo
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1LocationInfo
+@dynamic latLng;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1NormalizedVertex
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1NormalizedVertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1OperationMetadata
+@dynamic createTime, state, updateTime;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1OutputConfig
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1OutputConfig
+@dynamic batchSize, gcsDestination;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Page
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Page
+@dynamic blocks, confidence, height, property, width;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"blocks" : [GTLRVision_GoogleCloudVisionV1p3beta1Block class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Paragraph
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Paragraph
+@dynamic boundingBox, confidence, property, words;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"words" : [GTLRVision_GoogleCloudVisionV1p3beta1Word class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Position
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Position
+@dynamic x, y, z;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Product
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Product
+@dynamic descriptionProperty, displayName, name, productCategory, productLabels;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"productLabels" : [GTLRVision_GoogleCloudVisionV1p3beta1ProductKeyValue class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ProductKeyValue
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ProductKeyValue
+@dynamic key, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ProductSearchResults
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ProductSearchResults
+@dynamic indexTime, results;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"results" : [GTLRVision_GoogleCloudVisionV1p3beta1ProductSearchResultsResult class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ProductSearchResultsResult
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ProductSearchResultsResult
+@dynamic image, product, score;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Property
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Property
+@dynamic name, uint64Value, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1ReferenceImage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1ReferenceImage
+@dynamic boundingPolys, name, uri;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"boundingPolys" : [GTLRVision_GoogleCloudVisionV1p3beta1BoundingPoly class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1SafeSearchAnnotation
+@dynamic adult, medical, racy, spoof, violence;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Symbol
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Symbol
+@dynamic boundingBox, confidence, property, text;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotation
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotation
+@dynamic pages, text;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"pages" : [GTLRVision_GoogleCloudVisionV1p3beta1Page class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak
+@dynamic isPrefix, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedLanguage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedLanguage
+@dynamic confidence, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationTextProperty
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationTextProperty
+@dynamic detectedBreak, detectedLanguages;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"detectedLanguages" : [GTLRVision_GoogleCloudVisionV1p3beta1TextAnnotationDetectedLanguage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Vertex
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Vertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1WebDetection
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1WebDetection
+@dynamic bestGuessLabels, fullMatchingImages, pagesWithMatchingImages,
+         partialMatchingImages, visuallySimilarImages, webEntities;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"bestGuessLabels" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebLabel class],
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage class],
+    @"pagesWithMatchingImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebPage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage class],
+    @"visuallySimilarImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage class],
+    @"webEntities" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebEntity class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebEntity
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebEntity
+@dynamic descriptionProperty, entityId, score;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage
+@dynamic score, url;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebLabel
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebLabel
+@dynamic label, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebPage
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebPage
+@dynamic fullMatchingImages, pageTitle, partialMatchingImages, score, url;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"fullMatchingImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage class],
+    @"partialMatchingImages" : [GTLRVision_GoogleCloudVisionV1p3beta1WebDetectionWebImage class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_GoogleCloudVisionV1p3beta1Word
+//
+
+@implementation GTLRVision_GoogleCloudVisionV1p3beta1Word
+@dynamic boundingBox, confidence, property, symbols;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"symbols" : [GTLRVision_GoogleCloudVisionV1p3beta1Symbol class]
+  };
+  return map;
+}
+
 @end
 
 
@@ -455,11 +2819,21 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRVision_ImageAnnotationContext
+//
+
+@implementation GTLRVision_ImageAnnotationContext
+@dynamic pageNumber, uri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRVision_ImageContext
 //
 
 @implementation GTLRVision_ImageContext
-@dynamic cropHintsParams, languageHints, latLongRect;
+@dynamic cropHintsParams, languageHints, latLongRect, webDetectionParams;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -488,6 +2862,16 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 @implementation GTLRVision_ImageSource
 @dynamic gcsImageUri, imageUri;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_InputConfig
+//
+
+@implementation GTLRVision_InputConfig
+@dynamic gcsSource, mimeType;
 @end
 
 
@@ -523,6 +2907,28 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRVision_ListOperationsResponse
+//
+
+@implementation GTLRVision_ListOperationsResponse
+@dynamic nextPageToken, operations;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"operations" : [GTLRVision_Operation class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"operations";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRVision_LocationInfo
 //
 
@@ -533,11 +2939,79 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRVision_NormalizedVertex
+//
+
+@implementation GTLRVision_NormalizedVertex
+@dynamic x, y;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_Operation
+//
+
+@implementation GTLRVision_Operation
+@dynamic done, error, metadata, name, response;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_Operation_Metadata
+//
+
+@implementation GTLRVision_Operation_Metadata
+
++ (Class)classForAdditionalProperties {
+  return [NSObject class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_Operation_Response
+//
+
+@implementation GTLRVision_Operation_Response
+
++ (Class)classForAdditionalProperties {
+  return [NSObject class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_OperationMetadata
+//
+
+@implementation GTLRVision_OperationMetadata
+@dynamic createTime, state, updateTime;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_OutputConfig
+//
+
+@implementation GTLRVision_OutputConfig
+@dynamic batchSize, gcsDestination;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRVision_Page
 //
 
 @implementation GTLRVision_Page
-@dynamic blocks, height, property, width;
+@dynamic blocks, confidence, height, property, width;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -555,7 +3029,7 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_Paragraph
-@dynamic boundingBox, property, words;
+@dynamic boundingBox, confidence, property, words;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -593,7 +3067,7 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_SafeSearchAnnotation
-@dynamic adult, medical, spoof, violence;
+@dynamic adult, medical, racy, spoof, violence;
 @end
 
 
@@ -635,7 +3109,7 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_Symbol
-@dynamic boundingBox, property, text;
+@dynamic boundingBox, confidence, property, text;
 @end
 
 
@@ -691,11 +3165,12 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_WebDetection
-@dynamic fullMatchingImages, pagesWithMatchingImages, partialMatchingImages,
-         visuallySimilarImages, webEntities;
+@dynamic bestGuessLabels, fullMatchingImages, pagesWithMatchingImages,
+         partialMatchingImages, visuallySimilarImages, webEntities;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"bestGuessLabels" : [GTLRVision_WebLabel class],
     @"fullMatchingImages" : [GTLRVision_WebImage class],
     @"pagesWithMatchingImages" : [GTLRVision_WebPage class],
     @"partialMatchingImages" : [GTLRVision_WebImage class],
@@ -705,6 +3180,16 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
   return map;
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRVision_WebDetectionParams
+//
+
+@implementation GTLRVision_WebDetectionParams
+@dynamic includeGeoResults;
 @end
 
 
@@ -735,11 +3220,30 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRVision_WebLabel
+//
+
+@implementation GTLRVision_WebLabel
+@dynamic label, languageCode;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRVision_WebPage
 //
 
 @implementation GTLRVision_WebPage
-@dynamic score, url;
+@dynamic fullMatchingImages, pageTitle, partialMatchingImages, score, url;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"fullMatchingImages" : [GTLRVision_WebImage class],
+    @"partialMatchingImages" : [GTLRVision_WebImage class]
+  };
+  return map;
+}
+
 @end
 
 
@@ -749,7 +3253,7 @@ NSString * const kGTLRVision_SafeSearchAnnotation_Violence_VeryUnlikely = @"VERY
 //
 
 @implementation GTLRVision_Word
-@dynamic boundingBox, property, symbols;
+@dynamic boundingBox, confidence, property, symbols;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{

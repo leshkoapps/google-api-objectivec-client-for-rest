@@ -548,6 +548,26 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRBooks_FamilyInfo
+//
+
+@implementation GTLRBooks_FamilyInfo
+@dynamic kind, membership;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRBooks_FamilyInfo_Membership
+//
+
+@implementation GTLRBooks_FamilyInfo_Membership
+@dynamic acquirePermission, ageGroup, allowedMaturityRating, isInFamily, role;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRBooks_Geolayerdata
 //
 
@@ -711,14 +731,15 @@
 
 @implementation GTLRBooks_Notification
 @dynamic body, crmExperimentIds, docId, docType, dontShowNotification, iconUrl,
-         kind, notificationType, notificationGroup, pcampaignId, reason,
-         showNotificationSettingsAction, targetUrl, title;
+         isDocumentMature, kind, notificationType, notificationGroup,
+         pcampaignId, reason, showNotificationSettingsAction, targetUrl, title;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   NSDictionary<NSString *, NSString *> *map = @{
     @"docId" : @"doc_id",
     @"docType" : @"doc_type",
     @"dontShowNotification" : @"dont_show_notification",
+    @"isDocumentMature" : @"is_document_mature",
     @"notificationType" : @"notification_type",
     @"pcampaignId" : @"pcampaign_id",
     @"showNotificationSettingsAction" : @"show_notification_settings_action"
@@ -925,7 +946,23 @@
 //
 
 @implementation GTLRBooks_Usersettings_Notification
-@dynamic moreFromAuthors, moreFromSeries, rewardExpirations;
+@dynamic matchMyInterests, moreFromAuthors, moreFromSeries, priceDrop,
+         rewardExpirations;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRBooks_Usersettings_Notification_MatchMyInterests
+//
+
+@implementation GTLRBooks_Usersettings_Notification_MatchMyInterests
+@dynamic optedState;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"optedState" : @"opted_state" };
+}
+
 @end
 
 
@@ -950,6 +987,21 @@
 //
 
 @implementation GTLRBooks_Usersettings_Notification_MoreFromSeries
+@dynamic optedState;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"optedState" : @"opted_state" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRBooks_Usersettings_Notification_PriceDrop
+//
+
+@implementation GTLRBooks_Usersettings_Notification_PriceDrop
 @dynamic optedState;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {

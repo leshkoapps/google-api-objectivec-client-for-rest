@@ -22,6 +22,7 @@
 @class GTLRFirebaseRules_Release;
 @class GTLRFirebaseRules_Ruleset;
 @class GTLRFirebaseRules_TestRulesetRequest;
+@class GTLRFirebaseRules_UpdateReleaseRequest;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -29,6 +30,23 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 NS_ASSUME_NONNULL_BEGIN
+
+// ----------------------------------------------------------------------------
+// Constants - For some of the query classes' properties below.
+
+// ----------------------------------------------------------------------------
+// executableVersion
+
+/** Value: "FIREBASE_RULES_EXECUTABLE_V1" */
+GTLR_EXTERN NSString * const kGTLRFirebaseRulesExecutableVersionFirebaseRulesExecutableV1;
+/** Value: "FIREBASE_RULES_EXECUTABLE_V2" */
+GTLR_EXTERN NSString * const kGTLRFirebaseRulesExecutableVersionFirebaseRulesExecutableV2;
+/** Value: "RELEASE_EXECUTABLE_VERSION_UNSPECIFIED" */
+GTLR_EXTERN NSString * const kGTLRFirebaseRulesExecutableVersionReleaseExecutableVersionUnspecified;
+
+// ----------------------------------------------------------------------------
+// Query Classes
+//
 
 /**
  *  Parent class for other Firebase Rules query classes.
@@ -102,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the project which owns this `Release`.
  *    Format: `projects/{project_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsReleasesCreate
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesCreate
  */
 + (instancetype)queryWithObject:(GTLRFirebaseRules_Release *)object
                            name:(NSString *)name;
@@ -136,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the `Release` to delete.
  *    Format: `projects/{project_id}/releases/{release_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsReleasesDelete
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -170,7 +188,55 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name of the `Release`.
  *    Format: `projects/{project_id}/releases/{release_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsReleasesGet
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesGet
+ */
++ (instancetype)queryWithName:(NSString *)name;
+
+@end
+
+/**
+ *  Get the `Release` executable to use when enforcing rules.
+ *
+ *  Method: firebaserules.projects.releases.getExecutable
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeFirebaseRulesCloudPlatform
+ *    @c kGTLRAuthScopeFirebaseRulesFirebase
+ *    @c kGTLRAuthScopeFirebaseRulesFirebaseReadonly
+ */
+@interface GTLRFirebaseRulesQuery_ProjectsReleasesGetExecutable : GTLRFirebaseRulesQuery
+// Previous library name was
+//   +[GTLQueryFirebaseRules queryForProjectsReleasesGetExecutableWithname:]
+
+/**
+ *  The requested runtime executable version.
+ *  Defaults to FIREBASE_RULES_EXECUTABLE_V1
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseRulesExecutableVersionReleaseExecutableVersionUnspecified
+ *        Value "RELEASE_EXECUTABLE_VERSION_UNSPECIFIED"
+ *    @arg @c kGTLRFirebaseRulesExecutableVersionFirebaseRulesExecutableV1 Value
+ *        "FIREBASE_RULES_EXECUTABLE_V1"
+ *    @arg @c kGTLRFirebaseRulesExecutableVersionFirebaseRulesExecutableV2 Value
+ *        "FIREBASE_RULES_EXECUTABLE_V2"
+ */
+@property(nonatomic, copy, nullable) NSString *executableVersion;
+
+/**
+ *  Resource name of the `Release`.
+ *  Format: `projects/{project_id}/releases/{release_id}`
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Fetches a @c GTLRFirebaseRules_GetReleaseExecutableResponse.
+ *
+ *  Get the `Release` executable to use when enforcing rules.
+ *
+ *  @param name Resource name of the `Release`.
+ *    Format: `projects/{project_id}/releases/{release_id}`
+ *
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesGetExecutable
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -243,7 +309,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the project.
  *    Format: `projects/{project_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsReleasesList
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -254,77 +320,43 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Update a `Release`.
+ *  Update a `Release` via PATCH.
  *  Only updates to the `ruleset_name` and `test_suite_name` fields will be
  *  honored. `Release` rename is not supported. To create a `Release` use the
  *  CreateRelease method.
  *
- *  Method: firebaserules.projects.releases.update
+ *  Method: firebaserules.projects.releases.patch
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeFirebaseRulesCloudPlatform
  *    @c kGTLRAuthScopeFirebaseRulesFirebase
  */
-@interface GTLRFirebaseRulesQuery_ProjectsReleasesUpdate : GTLRFirebaseRulesQuery
+@interface GTLRFirebaseRulesQuery_ProjectsReleasesPatch : GTLRFirebaseRulesQuery
 // Previous library name was
-//   +[GTLQueryFirebaseRules queryForProjectsReleasesUpdateWithObject:name:]
+//   +[GTLQueryFirebaseRules queryForProjectsReleasesPatchWithObject:name:]
 
 /**
- *  Resource name for the `Release`.
- *  `Release` names may be structured `app1/prod/v2` or flat `app1_prod_v2`
- *  which affords developers a great deal of flexibility in mapping the name
- *  to the style that best fits their existing development practices. For
- *  example, a name could refer to an environment, an app, a version, or some
- *  combination of three.
- *  In the table below, for the project name `projects/foo`, the following
- *  relative release paths show how flat and structured names might be chosen
- *  to match a desired development / deployment strategy.
- *  Use Case | Flat Name | Structured Name
- *  -------------|---------------------|----------------
- *  Environments | releases/qa | releases/qa
- *  Apps | releases/app1_qa | releases/app1/qa
- *  Versions | releases/app1_v2_qa | releases/app1/v2/qa
- *  The delimiter between the release name path elements can be almost anything
- *  and it should work equally well with the release name list filter, but in
- *  many ways the structured paths provide a clearer picture of the
- *  relationship between `Release` instances.
- *  Format: `projects/{project_id}/releases/{release_id}`
+ *  Resource name for the project which owns this `Release`.
+ *  Format: `projects/{project_id}`
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
  *  Fetches a @c GTLRFirebaseRules_Release.
  *
- *  Update a `Release`.
+ *  Update a `Release` via PATCH.
  *  Only updates to the `ruleset_name` and `test_suite_name` fields will be
  *  honored. `Release` rename is not supported. To create a `Release` use the
  *  CreateRelease method.
  *
- *  @param object The @c GTLRFirebaseRules_Release to include in the query.
- *  @param name Resource name for the `Release`.
- *    `Release` names may be structured `app1/prod/v2` or flat `app1_prod_v2`
- *    which affords developers a great deal of flexibility in mapping the name
- *    to the style that best fits their existing development practices. For
- *    example, a name could refer to an environment, an app, a version, or some
- *    combination of three.
- *    In the table below, for the project name `projects/foo`, the following
- *    relative release paths show how flat and structured names might be chosen
- *    to match a desired development / deployment strategy.
- *    Use Case | Flat Name | Structured Name
- *    -------------|---------------------|----------------
- *    Environments | releases/qa | releases/qa
- *    Apps | releases/app1_qa | releases/app1/qa
- *    Versions | releases/app1_v2_qa | releases/app1/v2/qa
- *    The delimiter between the release name path elements can be almost
- *    anything
- *    and it should work equally well with the release name list filter, but in
- *    many ways the structured paths provide a clearer picture of the
- *    relationship between `Release` instances.
- *    Format: `projects/{project_id}/releases/{release_id}`
+ *  @param object The @c GTLRFirebaseRules_UpdateReleaseRequest to include in
+ *    the query.
+ *  @param name Resource name for the project which owns this `Release`.
+ *    Format: `projects/{project_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsReleasesUpdate
+ *  @return GTLRFirebaseRulesQuery_ProjectsReleasesPatch
  */
-+ (instancetype)queryWithObject:(GTLRFirebaseRules_Release *)object
++ (instancetype)queryWithObject:(GTLRFirebaseRules_UpdateReleaseRequest *)object
                            name:(NSString *)name;
 
 @end
@@ -365,7 +397,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for Project which owns this `Ruleset`.
  *    Format: `projects/{project_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsRulesetsCreate
+ *  @return GTLRFirebaseRulesQuery_ProjectsRulesetsCreate
  */
 + (instancetype)queryWithObject:(GTLRFirebaseRules_Ruleset *)object
                            name:(NSString *)name;
@@ -401,7 +433,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the ruleset to delete.
  *    Format: `projects/{project_id}/rulesets/{ruleset_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsRulesetsDelete
+ *  @return GTLRFirebaseRulesQuery_ProjectsRulesetsDelete
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -435,7 +467,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the ruleset to get.
  *    Format: `projects/{project_id}/rulesets/{ruleset_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsRulesetsGet
+ *  @return GTLRFirebaseRulesQuery_ProjectsRulesetsGet
  */
 + (instancetype)queryWithName:(NSString *)name;
 
@@ -495,7 +527,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Resource name for the project.
  *    Format: `projects/{project_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsRulesetsList
+ *  @return GTLRFirebaseRulesQuery_ProjectsRulesetsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -575,7 +607,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    For tests against a `Ruleset`, this must be the `Ruleset` resource name:
  *    Format: `projects/{project_id}/rulesets/{ruleset_id}`
  *
- *  @returns GTLRFirebaseRulesQuery_ProjectsTest
+ *  @return GTLRFirebaseRulesQuery_ProjectsTest
  */
 + (instancetype)queryWithObject:(GTLRFirebaseRules_TestRulesetRequest *)object
                            name:(NSString *)name;

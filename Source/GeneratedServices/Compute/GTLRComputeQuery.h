@@ -54,16 +54,28 @@
 @class GTLRCompute_InstancesSetLabelsRequest;
 @class GTLRCompute_InstancesSetMachineResourcesRequest;
 @class GTLRCompute_InstancesSetMachineTypeRequest;
+@class GTLRCompute_InstancesSetMinCpuPlatformRequest;
 @class GTLRCompute_InstancesSetServiceAccountRequest;
 @class GTLRCompute_InstancesStartWithEncryptionKeyRequest;
 @class GTLRCompute_InstanceTemplate;
+@class GTLRCompute_Interconnect;
+@class GTLRCompute_InterconnectAttachment;
+@class GTLRCompute_License;
 @class GTLRCompute_Metadata;
 @class GTLRCompute_Network;
+@class GTLRCompute_NetworkInterface;
 @class GTLRCompute_NetworksAddPeeringRequest;
 @class GTLRCompute_NetworksRemovePeeringRequest;
+@class GTLRCompute_NodeGroup;
+@class GTLRCompute_NodeGroupsAddNodesRequest;
+@class GTLRCompute_NodeGroupsDeleteNodesRequest;
+@class GTLRCompute_NodeGroupsSetNodeTemplateRequest;
+@class GTLRCompute_NodeTemplate;
 @class GTLRCompute_ProjectsDisableXpnResourceRequest;
 @class GTLRCompute_ProjectsEnableXpnResourceRequest;
 @class GTLRCompute_ProjectsListXpnHostsRequest;
+@class GTLRCompute_ProjectsSetDefaultNetworkTierRequest;
+@class GTLRCompute_RegionDisksResizeRequest;
 @class GTLRCompute_RegionInstanceGroupManagersAbandonInstancesRequest;
 @class GTLRCompute_RegionInstanceGroupManagersDeleteInstancesRequest;
 @class GTLRCompute_RegionInstanceGroupManagersRecreateRequest;
@@ -71,17 +83,22 @@
 @class GTLRCompute_RegionInstanceGroupManagersSetTemplateRequest;
 @class GTLRCompute_RegionInstanceGroupsListInstancesRequest;
 @class GTLRCompute_RegionInstanceGroupsSetNamedPortsRequest;
+@class GTLRCompute_RegionSetLabelsRequest;
 @class GTLRCompute_ResourceGroupReference;
 @class GTLRCompute_Route;
 @class GTLRCompute_Router;
 @class GTLRCompute_Scheduling;
+@class GTLRCompute_SignedUrlKey;
 @class GTLRCompute_Snapshot;
 @class GTLRCompute_SslCertificate;
+@class GTLRCompute_SslPolicy;
+@class GTLRCompute_SslPolicyReference;
 @class GTLRCompute_Subnetwork;
 @class GTLRCompute_SubnetworksExpandIpCidrRangeRequest;
 @class GTLRCompute_SubnetworksSetPrivateIpGoogleAccessRequest;
 @class GTLRCompute_Tags;
 @class GTLRCompute_TargetHttpProxy;
+@class GTLRCompute_TargetHttpsProxiesSetQuicOverrideRequest;
 @class GTLRCompute_TargetHttpsProxiesSetSslCertificatesRequest;
 @class GTLRCompute_TargetHttpsProxy;
 @class GTLRCompute_TargetInstance;
@@ -99,6 +116,7 @@
 @class GTLRCompute_TargetTcpProxiesSetProxyHeaderRequest;
 @class GTLRCompute_TargetTcpProxy;
 @class GTLRCompute_TargetVpnGateway;
+@class GTLRCompute_TestPermissionsRequest;
 @class GTLRCompute_UrlMap;
 @class GTLRCompute_UrlMapReference;
 @class GTLRCompute_UrlMapsValidateRequest;
@@ -138,25 +156,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAcceleratorTypesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -199,15 +214,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_AcceleratorTypesAggregatedList
+ *  @return GTLRComputeQuery_AcceleratorTypesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Returns the specified accelerator type. Get a list of available accelerator
- *  types by making a list() request.
+ *  Returns the specified accelerator type.
  *
  *  Method: compute.acceleratorTypes.get
  *
@@ -236,14 +250,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_AcceleratorType.
  *
- *  Returns the specified accelerator type. Get a list of available accelerator
- *  types by making a list() request.
+ *  Returns the specified accelerator type.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param acceleratorType Name of the accelerator type to return.
  *
- *  @returns GTLRComputeQuery_AcceleratorTypesGet
+ *  @return GTLRComputeQuery_AcceleratorTypesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -266,25 +279,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAcceleratorTypesListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -335,7 +345,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_AcceleratorTypesList
+ *  @return GTLRComputeQuery_AcceleratorTypesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -361,25 +371,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAddressesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -422,7 +429,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_AddressesAggregatedList
+ *  @return GTLRComputeQuery_AddressesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -473,7 +480,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param address Name of the address resource to delete.
  *
- *  @returns GTLRComputeQuery_AddressesDelete
+ *  @return GTLRComputeQuery_AddressesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -513,7 +520,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param address Name of the address resource to return.
  *
- *  @returns GTLRComputeQuery_AddressesGet
+ *  @return GTLRComputeQuery_AddressesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -565,7 +572,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_AddressesInsert
+ *  @return GTLRComputeQuery_AddressesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Address *)object
                         project:(NSString *)project
@@ -588,25 +595,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAddressesListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -653,7 +657,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_AddressesList
+ *  @return GTLRComputeQuery_AddressesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -679,25 +683,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAutoscalersAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -740,7 +741,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_AutoscalersAggregatedList
+ *  @return GTLRComputeQuery_AutoscalersAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -795,7 +796,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty Name of the zone for this request.
  *  @param autoscaler Name of the autoscaler to delete.
  *
- *  @returns GTLRComputeQuery_AutoscalersDelete
+ *  @return GTLRComputeQuery_AutoscalersDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -804,7 +805,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified autoscaler resource. Get a list of available
+ *  Returns the specified autoscaler resource. Gets a list of available
  *  autoscalers by making a list() request.
  *
  *  Method: compute.autoscalers.get
@@ -834,14 +835,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Autoscaler.
  *
- *  Returns the specified autoscaler resource. Get a list of available
+ *  Returns the specified autoscaler resource. Gets a list of available
  *  autoscalers by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for this request.
  *  @param autoscaler Name of the autoscaler to return.
  *
- *  @returns GTLRComputeQuery_AutoscalersGet
+ *  @return GTLRComputeQuery_AutoscalersGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -897,7 +898,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_AutoscalersInsert
+ *  @return GTLRComputeQuery_AutoscalersInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
@@ -920,25 +921,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForAutoscalersListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -989,7 +987,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_AutoscalersList
+ *  @return GTLRComputeQuery_AutoscalersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1053,7 +1051,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_AutoscalersPatch
+ *  @return GTLRComputeQuery_AutoscalersPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
@@ -1112,11 +1110,65 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_AutoscalersUpdate
+ *  @return GTLRComputeQuery_AutoscalersUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
                    zoneProperty:(NSString *)zoneProperty;
+
+@end
+
+/**
+ *  Adds a key for validating requests with signed URLs for this backend bucket.
+ *
+ *  Method: compute.backendBuckets.addSignedUrlKey
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_BackendBucketsAddSignedUrlKey : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForBackendBucketsAddSignedUrlKeyWithObject:project:backendBucket:]
+
+/**
+ *  Name of the BackendBucket resource to which the Signed URL Key should be
+ *  added. The name should conform to RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *backendBucket;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Adds a key for validating requests with signed URLs for this backend bucket.
+ *
+ *  @param object The @c GTLRCompute_SignedUrlKey to include in the query.
+ *  @param project Project ID for this request.
+ *  @param backendBucket Name of the BackendBucket resource to which the Signed
+ *    URL Key should be added. The name should conform to RFC1035.
+ *
+ *  @return GTLRComputeQuery_BackendBucketsAddSignedUrlKey
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SignedUrlKey *)object
+                        project:(NSString *)project
+                  backendBucket:(NSString *)backendBucket;
 
 @end
 
@@ -1161,7 +1213,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendBucket Name of the BackendBucket resource to delete.
  *
- *  @returns GTLRComputeQuery_BackendBucketsDelete
+ *  @return GTLRComputeQuery_BackendBucketsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                    backendBucket:(NSString *)backendBucket;
@@ -1169,7 +1221,66 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified BackendBucket resource. Get a list of available
+ *  Deletes a key for validating requests with signed URLs for this backend
+ *  bucket.
+ *
+ *  Method: compute.backendBuckets.deleteSignedUrlKey
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_BackendBucketsDeleteSignedUrlKey : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForBackendBucketsDeleteSignedUrlKeyWithproject:backendBucket:keyName:]
+
+/**
+ *  Name of the BackendBucket resource to which the Signed URL Key should be
+ *  added. The name should conform to RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *backendBucket;
+
+/** The name of the Signed URL Key to delete. */
+@property(nonatomic, copy, nullable) NSString *keyName;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes a key for validating requests with signed URLs for this backend
+ *  bucket.
+ *
+ *  @param project Project ID for this request.
+ *  @param backendBucket Name of the BackendBucket resource to which the Signed
+ *    URL Key should be added. The name should conform to RFC1035.
+ *  @param keyName The name of the Signed URL Key to delete.
+ *
+ *  @return GTLRComputeQuery_BackendBucketsDeleteSignedUrlKey
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                   backendBucket:(NSString *)backendBucket
+                         keyName:(NSString *)keyName;
+
+@end
+
+/**
+ *  Returns the specified BackendBucket resource. Gets a list of available
  *  backend buckets by making a list() request.
  *
  *  Method: compute.backendBuckets.get
@@ -1192,13 +1303,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_BackendBucket.
  *
- *  Returns the specified BackendBucket resource. Get a list of available
+ *  Returns the specified BackendBucket resource. Gets a list of available
  *  backend buckets by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param backendBucket Name of the BackendBucket resource to return.
  *
- *  @returns GTLRComputeQuery_BackendBucketsGet
+ *  @return GTLRComputeQuery_BackendBucketsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                    backendBucket:(NSString *)backendBucket;
@@ -1245,7 +1356,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_BackendBucket to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_BackendBucketsInsert
+ *  @return GTLRComputeQuery_BackendBucketsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendBucket *)object
                         project:(NSString *)project;
@@ -1268,25 +1379,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForBackendBucketsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1330,7 +1438,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_BackendBucketsList
+ *  @return GTLRComputeQuery_BackendBucketsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1386,7 +1494,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendBucket Name of the BackendBucket resource to patch.
  *
- *  @returns GTLRComputeQuery_BackendBucketsPatch
+ *  @return GTLRComputeQuery_BackendBucketsPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendBucket *)object
                         project:(NSString *)project
@@ -1438,11 +1546,67 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendBucket Name of the BackendBucket resource to update.
  *
- *  @returns GTLRComputeQuery_BackendBucketsUpdate
+ *  @return GTLRComputeQuery_BackendBucketsUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendBucket *)object
                         project:(NSString *)project
                   backendBucket:(NSString *)backendBucket;
+
+@end
+
+/**
+ *  Adds a key for validating requests with signed URLs for this backend
+ *  service.
+ *
+ *  Method: compute.backendServices.addSignedUrlKey
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_BackendServicesAddSignedUrlKey : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForBackendServicesAddSignedUrlKeyWithObject:project:backendService:]
+
+/**
+ *  Name of the BackendService resource to which the Signed URL Key should be
+ *  added. The name should conform to RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *backendService;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Adds a key for validating requests with signed URLs for this backend
+ *  service.
+ *
+ *  @param object The @c GTLRCompute_SignedUrlKey to include in the query.
+ *  @param project Project ID for this request.
+ *  @param backendService Name of the BackendService resource to which the
+ *    Signed URL Key should be added. The name should conform to RFC1035.
+ *
+ *  @return GTLRComputeQuery_BackendServicesAddSignedUrlKey
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SignedUrlKey *)object
+                        project:(NSString *)project
+                 backendService:(NSString *)backendService;
 
 @end
 
@@ -1462,25 +1626,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForBackendServicesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1524,7 +1685,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Name of the project scoping this request.
  *
- *  @returns GTLRComputeQuery_BackendServicesAggregatedList
+ *  @return GTLRComputeQuery_BackendServicesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -1571,7 +1732,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendService Name of the BackendService resource to delete.
  *
- *  @returns GTLRComputeQuery_BackendServicesDelete
+ *  @return GTLRComputeQuery_BackendServicesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                   backendService:(NSString *)backendService;
@@ -1579,7 +1740,66 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified BackendService resource. Get a list of available
+ *  Deletes a key for validating requests with signed URLs for this backend
+ *  service.
+ *
+ *  Method: compute.backendServices.deleteSignedUrlKey
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_BackendServicesDeleteSignedUrlKey : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForBackendServicesDeleteSignedUrlKeyWithproject:backendService:keyName:]
+
+/**
+ *  Name of the BackendService resource to which the Signed URL Key should be
+ *  added. The name should conform to RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *backendService;
+
+/** The name of the Signed URL Key to delete. */
+@property(nonatomic, copy, nullable) NSString *keyName;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes a key for validating requests with signed URLs for this backend
+ *  service.
+ *
+ *  @param project Project ID for this request.
+ *  @param backendService Name of the BackendService resource to which the
+ *    Signed URL Key should be added. The name should conform to RFC1035.
+ *  @param keyName The name of the Signed URL Key to delete.
+ *
+ *  @return GTLRComputeQuery_BackendServicesDeleteSignedUrlKey
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                  backendService:(NSString *)backendService
+                         keyName:(NSString *)keyName;
+
+@end
+
+/**
+ *  Returns the specified BackendService resource. Gets a list of available
  *  backend services by making a list() request.
  *
  *  Method: compute.backendServices.get
@@ -1602,13 +1822,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_BackendService.
  *
- *  Returns the specified BackendService resource. Get a list of available
+ *  Returns the specified BackendService resource. Gets a list of available
  *  backend services by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param backendService Name of the BackendService resource to return.
  *
- *  @returns GTLRComputeQuery_BackendServicesGet
+ *  @return GTLRComputeQuery_BackendServicesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                   backendService:(NSString *)backendService;
@@ -1647,7 +1867,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param backendService Name of the BackendService resource to which the
  *    queried instance belongs.
  *
- *  @returns GTLRComputeQuery_BackendServicesGetHealth
+ *  @return GTLRComputeQuery_BackendServicesGetHealth
  */
 + (instancetype)queryWithObject:(GTLRCompute_ResourceGroupReference *)object
                         project:(NSString *)project
@@ -1699,7 +1919,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_BackendService to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_BackendServicesInsert
+ *  @return GTLRComputeQuery_BackendServicesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project;
@@ -1722,25 +1942,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForBackendServicesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1784,7 +2001,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_BackendServicesList
+ *  @return GTLRComputeQuery_BackendServicesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1844,7 +2061,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendService Name of the BackendService resource to patch.
  *
- *  @returns GTLRComputeQuery_BackendServicesPatch
+ *  @return GTLRComputeQuery_BackendServicesPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project
@@ -1900,7 +2117,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param backendService Name of the BackendService resource to update.
  *
- *  @returns GTLRComputeQuery_BackendServicesUpdate
+ *  @return GTLRComputeQuery_BackendServicesUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project
@@ -1923,25 +2140,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForDisksAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -1984,7 +2198,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_DisksAggregatedList
+ *  @return GTLRComputeQuery_DisksAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -2042,7 +2256,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param disk Name of the persistent disk to snapshot.
  *
- *  @returns GTLRComputeQuery_DisksCreateSnapshot
+ *  @return GTLRComputeQuery_DisksCreateSnapshot
  */
 + (instancetype)queryWithObject:(GTLRCompute_Snapshot *)object
                         project:(NSString *)project
@@ -2106,7 +2320,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param disk Name of the persistent disk to delete.
  *
- *  @returns GTLRComputeQuery_DisksDelete
+ *  @return GTLRComputeQuery_DisksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -2115,7 +2329,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns a specified persistent disk. Get a list of available persistent
+ *  Returns a specified persistent disk. Gets a list of available persistent
  *  disks by making a list() request.
  *
  *  Method: compute.disks.get
@@ -2145,14 +2359,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Disk.
  *
- *  Returns a specified persistent disk. Get a list of available persistent
+ *  Returns a specified persistent disk. Gets a list of available persistent
  *  disks by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param disk Name of the persistent disk to return.
  *
- *  @returns GTLRComputeQuery_DisksGet
+ *  @return GTLRComputeQuery_DisksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -2217,7 +2431,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_DisksInsert
+ *  @return GTLRComputeQuery_DisksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Disk *)object
                         project:(NSString *)project
@@ -2240,25 +2454,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForDisksListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -2309,7 +2520,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_DisksList
+ *  @return GTLRComputeQuery_DisksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2321,7 +2532,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Resizes the specified persistent disk.
+ *  Resizes the specified persistent disk. You can only increase the size of the
+ *  disk.
  *
  *  Method: compute.disks.resize
  *
@@ -2363,14 +2575,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Operation.
  *
- *  Resizes the specified persistent disk.
+ *  Resizes the specified persistent disk. You can only increase the size of the
+ *  disk.
  *
  *  @param object The @c GTLRCompute_DisksResizeRequest to include in the query.
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param disk The name of the persistent disk.
  *
- *  @returns GTLRComputeQuery_DisksResize
+ *  @return GTLRComputeQuery_DisksResize
  */
 + (instancetype)queryWithObject:(GTLRCompute_DisksResizeRequest *)object
                         project:(NSString *)project
@@ -2432,7 +2645,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRComputeQuery_DisksSetLabels
+ *  @return GTLRComputeQuery_DisksSetLabels
  */
 + (instancetype)queryWithObject:(GTLRCompute_ZoneSetLabelsRequest *)object
                         project:(NSString *)project
@@ -2456,25 +2669,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForDiskTypesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -2517,14 +2727,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_DiskTypesAggregatedList
+ *  @return GTLRComputeQuery_DiskTypesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Returns the specified disk type. Get a list of available disk types by
+ *  Returns the specified disk type. Gets a list of available disk types by
  *  making a list() request.
  *
  *  Method: compute.diskTypes.get
@@ -2554,14 +2764,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_DiskType.
  *
- *  Returns the specified disk type. Get a list of available disk types by
+ *  Returns the specified disk type. Gets a list of available disk types by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param diskType Name of the disk type to return.
  *
- *  @returns GTLRComputeQuery_DiskTypesGet
+ *  @return GTLRComputeQuery_DiskTypesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -2584,25 +2794,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForDiskTypesListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -2653,7 +2860,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_DiskTypesList
+ *  @return GTLRComputeQuery_DiskTypesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2705,7 +2912,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param firewall Name of the firewall rule to delete.
  *
- *  @returns GTLRComputeQuery_FirewallsDelete
+ *  @return GTLRComputeQuery_FirewallsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                         firewall:(NSString *)firewall;
@@ -2740,7 +2947,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param firewall Name of the firewall rule to return.
  *
- *  @returns GTLRComputeQuery_FirewallsGet
+ *  @return GTLRComputeQuery_FirewallsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                         firewall:(NSString *)firewall;
@@ -2787,7 +2994,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Firewall to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_FirewallsInsert
+ *  @return GTLRComputeQuery_FirewallsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Firewall *)object
                         project:(NSString *)project;
@@ -2809,25 +3016,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForFirewallsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -2870,7 +3074,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_FirewallsList
+ *  @return GTLRComputeQuery_FirewallsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2926,7 +3130,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param firewall Name of the firewall rule to patch.
  *
- *  @returns GTLRComputeQuery_FirewallsPatch
+ *  @return GTLRComputeQuery_FirewallsPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_Firewall *)object
                         project:(NSString *)project
@@ -2936,7 +3140,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Updates the specified firewall rule with the data included in the request.
- *  Using PUT method, can only update following fields of firewall rule:
+ *  The PUT method can only update the following fields of firewall rule:
  *  allowed, description, sourceRanges, sourceTags, targetTags.
  *
  *  Method: compute.firewalls.update
@@ -2973,14 +3177,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  Fetches a @c GTLRCompute_Operation.
  *
  *  Updates the specified firewall rule with the data included in the request.
- *  Using PUT method, can only update following fields of firewall rule:
+ *  The PUT method can only update the following fields of firewall rule:
  *  allowed, description, sourceRanges, sourceTags, targetTags.
  *
  *  @param object The @c GTLRCompute_Firewall to include in the query.
  *  @param project Project ID for this request.
  *  @param firewall Name of the firewall rule to update.
  *
- *  @returns GTLRComputeQuery_FirewallsUpdate
+ *  @return GTLRComputeQuery_FirewallsUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_Firewall *)object
                         project:(NSString *)project
@@ -3003,25 +3207,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForForwardingRulesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -3064,7 +3265,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesAggregatedList
+ *  @return GTLRComputeQuery_ForwardingRulesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -3115,7 +3316,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param forwardingRule Name of the ForwardingRule resource to delete.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesDelete
+ *  @return GTLRComputeQuery_ForwardingRulesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -3155,7 +3356,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param forwardingRule Name of the ForwardingRule resource to return.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesGet
+ *  @return GTLRComputeQuery_ForwardingRulesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -3207,7 +3408,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesInsert
+ *  @return GTLRComputeQuery_ForwardingRulesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_ForwardingRule *)object
                         project:(NSString *)project
@@ -3231,25 +3432,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForForwardingRulesListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -3297,7 +3495,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesList
+ *  @return GTLRComputeQuery_ForwardingRulesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -3357,7 +3555,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param forwardingRule Name of the ForwardingRule resource in which target is
  *    to be set.
  *
- *  @returns GTLRComputeQuery_ForwardingRulesSetTarget
+ *  @return GTLRComputeQuery_ForwardingRulesSetTarget
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetReference *)object
                         project:(NSString *)project
@@ -3407,7 +3605,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param address Name of the address resource to delete.
  *
- *  @returns GTLRComputeQuery_GlobalAddressesDelete
+ *  @return GTLRComputeQuery_GlobalAddressesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                          address:(NSString *)address;
@@ -3415,8 +3613,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified address resource. Get a list of available addresses by
- *  making a list() request.
+ *  Returns the specified address resource. Gets a list of available addresses
+ *  by making a list() request.
  *
  *  Method: compute.globalAddresses.get
  *
@@ -3438,13 +3636,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Address.
  *
- *  Returns the specified address resource. Get a list of available addresses by
- *  making a list() request.
+ *  Returns the specified address resource. Gets a list of available addresses
+ *  by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param address Name of the address resource to return.
  *
- *  @returns GTLRComputeQuery_GlobalAddressesGet
+ *  @return GTLRComputeQuery_GlobalAddressesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                          address:(NSString *)address;
@@ -3491,7 +3689,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Address to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalAddressesInsert
+ *  @return GTLRComputeQuery_GlobalAddressesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Address *)object
                         project:(NSString *)project;
@@ -3513,25 +3711,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForGlobalAddressesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -3574,7 +3769,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalAddressesList
+ *  @return GTLRComputeQuery_GlobalAddressesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -3625,7 +3820,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param forwardingRule Name of the ForwardingRule resource to delete.
  *
- *  @returns GTLRComputeQuery_GlobalForwardingRulesDelete
+ *  @return GTLRComputeQuery_GlobalForwardingRulesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                   forwardingRule:(NSString *)forwardingRule;
@@ -3633,8 +3828,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified GlobalForwardingRule resource. Get a list of available
- *  forwarding rules by making a list() request.
+ *  Returns the specified GlobalForwardingRule resource. Gets a list of
+ *  available forwarding rules by making a list() request.
  *
  *  Method: compute.globalForwardingRules.get
  *
@@ -3656,13 +3851,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_ForwardingRule.
  *
- *  Returns the specified GlobalForwardingRule resource. Get a list of available
- *  forwarding rules by making a list() request.
+ *  Returns the specified GlobalForwardingRule resource. Gets a list of
+ *  available forwarding rules by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param forwardingRule Name of the ForwardingRule resource to return.
  *
- *  @returns GTLRComputeQuery_GlobalForwardingRulesGet
+ *  @return GTLRComputeQuery_GlobalForwardingRulesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                   forwardingRule:(NSString *)forwardingRule;
@@ -3709,7 +3904,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_ForwardingRule to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalForwardingRulesInsert
+ *  @return GTLRComputeQuery_GlobalForwardingRulesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_ForwardingRule *)object
                         project:(NSString *)project;
@@ -3732,25 +3927,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForGlobalForwardingRulesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -3794,7 +3986,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalForwardingRulesList
+ *  @return GTLRComputeQuery_GlobalForwardingRulesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -3849,7 +4041,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param forwardingRule Name of the ForwardingRule resource in which target is
  *    to be set.
  *
- *  @returns GTLRComputeQuery_GlobalForwardingRulesSetTarget
+ *  @return GTLRComputeQuery_GlobalForwardingRulesSetTarget
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetReference *)object
                         project:(NSString *)project
@@ -3872,25 +4064,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForGlobalOperationsAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -3933,7 +4122,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalOperationsAggregatedList
+ *  @return GTLRComputeQuery_GlobalOperationsAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -3967,7 +4156,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param operation Name of the Operations resource to delete.
  *
- *  @returns GTLRComputeQuery_GlobalOperationsDelete
+ *  @return GTLRComputeQuery_GlobalOperationsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                        operation:(NSString *)operation;
@@ -3975,7 +4164,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Retrieves the specified Operations resource. Get a list of operations by
+ *  Retrieves the specified Operations resource. Gets a list of operations by
  *  making a list() request.
  *
  *  Method: compute.globalOperations.get
@@ -3998,13 +4187,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Operation.
  *
- *  Retrieves the specified Operations resource. Get a list of operations by
+ *  Retrieves the specified Operations resource. Gets a list of operations by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param operation Name of the Operations resource to return.
  *
- *  @returns GTLRComputeQuery_GlobalOperationsGet
+ *  @return GTLRComputeQuery_GlobalOperationsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                        operation:(NSString *)operation;
@@ -4027,25 +4216,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForGlobalOperationsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -4089,7 +4275,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_GlobalOperationsList
+ *  @return GTLRComputeQuery_GlobalOperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -4140,7 +4326,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param healthCheck Name of the HealthCheck resource to delete.
  *
- *  @returns GTLRComputeQuery_HealthChecksDelete
+ *  @return GTLRComputeQuery_HealthChecksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                      healthCheck:(NSString *)healthCheck;
@@ -4148,7 +4334,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified HealthCheck resource. Get a list of available health
+ *  Returns the specified HealthCheck resource. Gets a list of available health
  *  checks by making a list() request.
  *
  *  Method: compute.healthChecks.get
@@ -4171,13 +4357,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_HealthCheck.
  *
- *  Returns the specified HealthCheck resource. Get a list of available health
+ *  Returns the specified HealthCheck resource. Gets a list of available health
  *  checks by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param healthCheck Name of the HealthCheck resource to return.
  *
- *  @returns GTLRComputeQuery_HealthChecksGet
+ *  @return GTLRComputeQuery_HealthChecksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                      healthCheck:(NSString *)healthCheck;
@@ -4224,7 +4410,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_HealthCheck to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HealthChecksInsert
+ *  @return GTLRComputeQuery_HealthChecksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_HealthCheck *)object
                         project:(NSString *)project;
@@ -4247,25 +4433,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForHealthChecksListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -4309,7 +4492,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HealthChecksList
+ *  @return GTLRComputeQuery_HealthChecksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -4365,7 +4548,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param healthCheck Name of the HealthCheck resource to patch.
  *
- *  @returns GTLRComputeQuery_HealthChecksPatch
+ *  @return GTLRComputeQuery_HealthChecksPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_HealthCheck *)object
                         project:(NSString *)project
@@ -4417,7 +4600,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param healthCheck Name of the HealthCheck resource to update.
  *
- *  @returns GTLRComputeQuery_HealthChecksUpdate
+ *  @return GTLRComputeQuery_HealthChecksUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_HealthCheck *)object
                         project:(NSString *)project
@@ -4466,7 +4649,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpHealthCheck Name of the HttpHealthCheck resource to delete.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksDelete
+ *  @return GTLRComputeQuery_HttpHealthChecksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                  httpHealthCheck:(NSString *)httpHealthCheck;
@@ -4474,8 +4657,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified HttpHealthCheck resource. Get a list of available HTTP
- *  health checks by making a list() request.
+ *  Returns the specified HttpHealthCheck resource. Gets a list of available
+ *  HTTP health checks by making a list() request.
  *
  *  Method: compute.httpHealthChecks.get
  *
@@ -4497,13 +4680,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_HttpHealthCheck.
  *
- *  Returns the specified HttpHealthCheck resource. Get a list of available HTTP
- *  health checks by making a list() request.
+ *  Returns the specified HttpHealthCheck resource. Gets a list of available
+ *  HTTP health checks by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param httpHealthCheck Name of the HttpHealthCheck resource to return.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksGet
+ *  @return GTLRComputeQuery_HttpHealthChecksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                  httpHealthCheck:(NSString *)httpHealthCheck;
@@ -4550,7 +4733,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_HttpHealthCheck to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksInsert
+ *  @return GTLRComputeQuery_HttpHealthChecksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpHealthCheck *)object
                         project:(NSString *)project;
@@ -4573,25 +4756,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForHttpHealthChecksListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -4635,7 +4815,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksList
+ *  @return GTLRComputeQuery_HttpHealthChecksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -4691,7 +4871,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpHealthCheck Name of the HttpHealthCheck resource to patch.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksPatch
+ *  @return GTLRComputeQuery_HttpHealthChecksPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpHealthCheck *)object
                         project:(NSString *)project
@@ -4743,7 +4923,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpHealthCheck Name of the HttpHealthCheck resource to update.
  *
- *  @returns GTLRComputeQuery_HttpHealthChecksUpdate
+ *  @return GTLRComputeQuery_HttpHealthChecksUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpHealthCheck *)object
                         project:(NSString *)project
@@ -4792,7 +4972,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpsHealthCheck Name of the HttpsHealthCheck resource to delete.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksDelete
+ *  @return GTLRComputeQuery_HttpsHealthChecksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                 httpsHealthCheck:(NSString *)httpsHealthCheck;
@@ -4800,7 +4980,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified HttpsHealthCheck resource. Get a list of available
+ *  Returns the specified HttpsHealthCheck resource. Gets a list of available
  *  HTTPS health checks by making a list() request.
  *
  *  Method: compute.httpsHealthChecks.get
@@ -4823,13 +5003,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_HttpsHealthCheck.
  *
- *  Returns the specified HttpsHealthCheck resource. Get a list of available
+ *  Returns the specified HttpsHealthCheck resource. Gets a list of available
  *  HTTPS health checks by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param httpsHealthCheck Name of the HttpsHealthCheck resource to return.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksGet
+ *  @return GTLRComputeQuery_HttpsHealthChecksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                 httpsHealthCheck:(NSString *)httpsHealthCheck;
@@ -4876,7 +5056,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_HttpsHealthCheck to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksInsert
+ *  @return GTLRComputeQuery_HttpsHealthChecksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpsHealthCheck *)object
                         project:(NSString *)project;
@@ -4899,25 +5079,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForHttpsHealthChecksListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -4961,7 +5138,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksList
+ *  @return GTLRComputeQuery_HttpsHealthChecksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -5017,7 +5194,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpsHealthCheck Name of the HttpsHealthCheck resource to patch.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksPatch
+ *  @return GTLRComputeQuery_HttpsHealthChecksPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpsHealthCheck *)object
                         project:(NSString *)project
@@ -5069,7 +5246,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param httpsHealthCheck Name of the HttpsHealthCheck resource to update.
  *
- *  @returns GTLRComputeQuery_HttpsHealthChecksUpdate
+ *  @return GTLRComputeQuery_HttpsHealthChecksUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_HttpsHealthCheck *)object
                         project:(NSString *)project
@@ -5118,7 +5295,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param image Name of the image resource to delete.
  *
- *  @returns GTLRComputeQuery_ImagesDelete
+ *  @return GTLRComputeQuery_ImagesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                            image:(NSString *)image;
@@ -5169,7 +5346,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param image Image name.
  *
- *  @returns GTLRComputeQuery_ImagesDeprecate
+ *  @return GTLRComputeQuery_ImagesDeprecate
  */
 + (instancetype)queryWithObject:(GTLRCompute_DeprecationStatus *)object
                         project:(NSString *)project
@@ -5178,7 +5355,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified image. Get a list of available images by making a
+ *  Returns the specified image. Gets a list of available images by making a
  *  list() request.
  *
  *  Method: compute.images.get
@@ -5201,13 +5378,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Image.
  *
- *  Returns the specified image. Get a list of available images by making a
+ *  Returns the specified image. Gets a list of available images by making a
  *  list() request.
  *
  *  @param project Project ID for this request.
  *  @param image Name of the image resource to return.
  *
- *  @returns GTLRComputeQuery_ImagesGet
+ *  @return GTLRComputeQuery_ImagesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                            image:(NSString *)image;
@@ -5244,7 +5421,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param family Name of the image family to search for.
  *
- *  @returns GTLRComputeQuery_ImagesGetFromFamily
+ *  @return GTLRComputeQuery_ImagesGetFromFamily
  */
 + (instancetype)queryWithProject:(NSString *)project
                           family:(NSString *)family;
@@ -5297,7 +5474,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Image to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ImagesInsert
+ *  @return GTLRComputeQuery_ImagesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Image *)object
                         project:(NSString *)project;
@@ -5305,9 +5482,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Retrieves the list of private images available to the specified project.
- *  Private images are images you create that belong to your project. This
- *  method does not get any images that belong to other projects, including
+ *  Retrieves the list of custom images available to the specified project.
+ *  Custom images are images you create that belong to your project. This method
+ *  does not get any images that belong to other projects, including
  *  publicly-available images, like Debian 8. If you want to get a list of
  *  publicly-available images, use this method to make a request to the
  *  respective image project, such as debian-cloud or windows-cloud.
@@ -5324,25 +5501,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForImagesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -5381,16 +5555,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_ImageList.
  *
- *  Retrieves the list of private images available to the specified project.
- *  Private images are images you create that belong to your project. This
- *  method does not get any images that belong to other projects, including
+ *  Retrieves the list of custom images available to the specified project.
+ *  Custom images are images you create that belong to your project. This method
+ *  does not get any images that belong to other projects, including
  *  publicly-available images, like Debian 8. If you want to get a list of
  *  publicly-available images, use this method to make a request to the
  *  respective image project, such as debian-cloud or windows-cloud.
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ImagesList
+ *  @return GTLRComputeQuery_ImagesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -5431,7 +5605,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRComputeQuery_ImagesSetLabels
+ *  @return GTLRComputeQuery_ImagesSetLabels
  */
 + (instancetype)queryWithObject:(GTLRCompute_GlobalSetLabelsRequest *)object
                         project:(NSString *)project
@@ -5514,7 +5688,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersAbandonInstances
+ *  @return GTLRComputeQuery_InstanceGroupManagersAbandonInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManagersAbandonInstancesRequest *)object
                         project:(NSString *)project
@@ -5538,25 +5712,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceGroupManagersAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -5599,7 +5770,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersAggregatedList
+ *  @return GTLRComputeQuery_InstanceGroupManagersAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -5660,7 +5831,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroupManager The name of the managed instance group to
  *    delete.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersDelete
+ *  @return GTLRComputeQuery_InstanceGroupManagersDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -5740,7 +5911,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersDeleteInstances
+ *  @return GTLRComputeQuery_InstanceGroupManagersDeleteInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManagersDeleteInstancesRequest *)object
                         project:(NSString *)project
@@ -5750,8 +5921,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns all of the details about the specified managed instance group. Get a
- *  list of available managed instance groups by making a list() request.
+ *  Returns all of the details about the specified managed instance group. Gets
+ *  a list of available managed instance groups by making a list() request.
  *
  *  Method: compute.instanceGroupManagers.get
  *
@@ -5780,15 +5951,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_InstanceGroupManager.
  *
- *  Returns all of the details about the specified managed instance group. Get a
- *  list of available managed instance groups by making a list() request.
+ *  Returns all of the details about the specified managed instance group. Gets
+ *  a list of available managed instance groups by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone where the managed instance group is
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersGet
+ *  @return GTLRComputeQuery_InstanceGroupManagersGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -5858,7 +6029,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone where you want to create the
  *    managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersInsert
+ *  @return GTLRComputeQuery_InstanceGroupManagersInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManager *)object
                         project:(NSString *)project
@@ -5882,25 +6053,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceGroupManagersListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -5953,7 +6121,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone where the managed instance group is
  *    located.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersList
+ *  @return GTLRComputeQuery_InstanceGroupManagersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -5982,20 +6150,56 @@ NS_ASSUME_NONNULL_BEGIN
 // Previous library name was
 //   +[GTLQueryCompute queryForInstanceGroupManagersListManagedInstancesWithproject:zoneProperty:instanceGroupManager:]
 
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
 @property(nonatomic, copy, nullable) NSString *filter;
 
 /** The name of the managed instance group. */
 @property(nonatomic, copy, nullable) NSString *instanceGroupManager;
 
 /**
- *  maxResults
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
  *
  *  @note If not set, the documented server-side default will be 500.
  */
 @property(nonatomic, assign) NSUInteger maxResults;
 
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
 @property(nonatomic, copy, nullable) NSString *orderBy;
 
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /** Project ID for this request. */
@@ -6022,7 +6226,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersListManagedInstances
+ *  @return GTLRComputeQuery_InstanceGroupManagersListManagedInstances
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -6101,7 +6305,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersRecreateInstances
+ *  @return GTLRComputeQuery_InstanceGroupManagersRecreateInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManagersRecreateInstancesRequest *)object
                         project:(NSString *)project
@@ -6186,7 +6390,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    should maintain at any given time. The group automatically adds or removes
  *    instances to maintain the number of instances specified by this parameter.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersResize
+ *  @return GTLRComputeQuery_InstanceGroupManagersResize
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -6252,7 +6456,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersSetInstanceTemplate
+ *  @return GTLRComputeQuery_InstanceGroupManagersSetInstanceTemplate
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManagersSetInstanceTemplateRequest *)object
                         project:(NSString *)project
@@ -6323,7 +6527,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupManagersSetTargetPools
+ *  @return GTLRComputeQuery_InstanceGroupManagersSetTargetPools
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManagersSetTargetPoolsRequest *)object
                         project:(NSString *)project
@@ -6389,7 +6593,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup The name of the instance group where you are adding
  *    instances.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsAddInstances
+ *  @return GTLRComputeQuery_InstanceGroupsAddInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupsAddInstancesRequest *)object
                         project:(NSString *)project
@@ -6413,25 +6617,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceGroupsAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -6474,7 +6675,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsAggregatedList
+ *  @return GTLRComputeQuery_InstanceGroupsAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -6534,7 +6735,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroup The name of the instance group to delete.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsDelete
+ *  @return GTLRComputeQuery_InstanceGroupsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -6543,7 +6744,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified instance group. Get a list of available instance
+ *  Returns the specified instance group. Gets a list of available instance
  *  groups by making a list() request.
  *
  *  Method: compute.instanceGroups.get
@@ -6573,7 +6774,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_InstanceGroup.
  *
- *  Returns the specified instance group. Get a list of available instance
+ *  Returns the specified instance group. Gets a list of available instance
  *  groups by making a list() request.
  *
  *  @param project Project ID for this request.
@@ -6581,7 +6782,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    located.
  *  @param instanceGroup The name of the instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsGet
+ *  @return GTLRComputeQuery_InstanceGroupsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -6638,7 +6839,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone where you want to create the
  *    instance group.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsInsert
+ *  @return GTLRComputeQuery_InstanceGroupsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroup *)object
                         project:(NSString *)project
@@ -6662,25 +6863,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceGroupsListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -6733,7 +6931,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone where the instance group is
  *    located.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsList
+ *  @return GTLRComputeQuery_InstanceGroupsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -6759,25 +6957,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceGroupsListInstancesWithObject:project:zoneProperty:instanceGroup:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -6839,7 +7034,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup The name of the instance group from which you want to
  *    generate a list of included instances.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsListInstances
+ *  @return GTLRComputeQuery_InstanceGroupsListInstances
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -6916,7 +7111,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup The name of the instance group where the specified
  *    instances will be removed.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsRemoveInstances
+ *  @return GTLRComputeQuery_InstanceGroupsRemoveInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupsRemoveInstancesRequest *)object
                         project:(NSString *)project
@@ -6978,7 +7173,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup The name of the instance group where the named ports
  *    are updated.
  *
- *  @returns GTLRComputeQuery_InstanceGroupsSetNamedPorts
+ *  @return GTLRComputeQuery_InstanceGroupsSetNamedPorts
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupsSetNamedPortsRequest *)object
                         project:(NSString *)project
@@ -7042,7 +7237,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param networkInterface The name of the network interface to add to this
  *    instance.
  *
- *  @returns GTLRComputeQuery_InstancesAddAccessConfig
+ *  @return GTLRComputeQuery_InstancesAddAccessConfig
  */
 + (instancetype)queryWithObject:(GTLRCompute_AccessConfig *)object
                         project:(NSString *)project
@@ -7067,25 +7262,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstancesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -7128,7 +7320,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_InstancesAggregatedList
+ *  @return GTLRComputeQuery_InstancesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -7149,6 +7341,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRComputeQuery_InstancesAttachDisk : GTLRComputeQuery
 // Previous library name was
 //   +[GTLQueryCompute queryForInstancesAttachDiskWithObject:project:zoneProperty:instance:]
+
+/**
+ *  Whether to force attach the disk even if it's currently attached to another
+ *  instance. This is only available for regional disks.
+ */
+@property(nonatomic, assign) BOOL forceAttach;
 
 /** The instance name for this request. */
 @property(nonatomic, copy, nullable) NSString *instance;
@@ -7190,7 +7388,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance The instance name for this request.
  *
- *  @returns GTLRComputeQuery_InstancesAttachDisk
+ *  @return GTLRComputeQuery_InstancesAttachDisk
  */
 + (instancetype)queryWithObject:(GTLRCompute_AttachedDisk *)object
                         project:(NSString *)project
@@ -7250,7 +7448,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to delete.
  *
- *  @returns GTLRComputeQuery_InstancesDelete
+ *  @return GTLRComputeQuery_InstancesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7315,7 +7513,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param accessConfig The name of the access config to delete.
  *  @param networkInterface The name of the network interface.
  *
- *  @returns GTLRComputeQuery_InstancesDeleteAccessConfig
+ *  @return GTLRComputeQuery_InstancesDeleteAccessConfig
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7378,7 +7576,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instance Instance name.
  *  @param deviceName Disk device name to detach.
  *
- *  @returns GTLRComputeQuery_InstancesDetachDisk
+ *  @return GTLRComputeQuery_InstancesDetachDisk
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7388,7 +7586,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Instance resource. Get a list of available instances
+ *  Returns the specified Instance resource. Gets a list of available instances
  *  by making a list() request.
  *
  *  Method: compute.instances.get
@@ -7418,14 +7616,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Instance.
  *
- *  Returns the specified Instance resource. Get a list of available instances
+ *  Returns the specified Instance resource. Gets a list of available instances
  *  by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to return.
  *
- *  @returns GTLRComputeQuery_InstancesGet
+ *  @return GTLRComputeQuery_InstancesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7485,7 +7683,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesGetSerialPortOutput
+ *  @return GTLRComputeQuery_InstancesGetSerialPortOutput
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7525,6 +7723,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *requestId;
 
 /**
+ *  Specifies instance template to create the instance.
+ *  This field is optional. It can be a full or partial URL. For example, the
+ *  following are all valid URLs to an instance template:
+ *  -
+ *  https://www.googleapis.com/compute/v1/projects/project/global/global/instanceTemplates/instanceTemplate
+ *  - projects/project/global/global/instanceTemplates/instanceTemplate
+ *  - global/instancesTemplates/instanceTemplate
+ */
+@property(nonatomic, copy, nullable) NSString *sourceInstanceTemplate;
+
+/**
  *  The name of the zone for this request.
  *
  *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
@@ -7541,7 +7750,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_InstancesInsert
+ *  @return GTLRComputeQuery_InstancesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Instance *)object
                         project:(NSString *)project
@@ -7564,25 +7773,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstancesListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -7633,7 +7839,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_InstancesList
+ *  @return GTLRComputeQuery_InstancesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -7641,6 +7847,109 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty;
+
+@end
+
+/**
+ *  Retrieves the list of referrers to instances contained within the specified
+ *  zone.
+ *
+ *  Method: compute.instances.listReferrers
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InstancesListReferrers : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesListReferrersWithproject:zoneProperty:instance:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  Name of the target instance scoping this request, or '-' if the request
+ *  should span over all instances in the container.
+ */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_InstanceListReferrers.
+ *
+ *  Retrieves the list of referrers to instances contained within the specified
+ *  zone.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param instance Name of the target instance scoping this request, or '-' if
+ *    the request should span over all instances in the container.
+ *
+ *  @return GTLRComputeQuery_InstancesListReferrers
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                        instance:(NSString *)instance;
 
 @end
 
@@ -7695,11 +8004,75 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesReset
+ *  @return GTLRComputeQuery_InstancesReset
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
                         instance:(NSString *)instance;
+
+@end
+
+/**
+ *  Sets deletion protection on the instance.
+ *
+ *  Method: compute.instances.setDeletionProtection
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InstancesSetDeletionProtection : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesSetDeletionProtectionWithproject:zoneProperty:resource:]
+
+/**
+ *  Whether the resource should be protected against deletion.
+ *
+ *  @note If not set, the documented server-side default will be true.
+ */
+@property(nonatomic, assign) BOOL deletionProtection;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/** Name of the resource for this request. */
+@property(nonatomic, copy, nullable) NSString *resource;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets deletion protection on the instance.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param resource Name of the resource for this request.
+ *
+ *  @return GTLRComputeQuery_InstancesSetDeletionProtection
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                        resource:(NSString *)resource;
 
 @end
 
@@ -7761,7 +8134,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    deleted.
  *  @param deviceName The device name of the disk to modify.
  *
- *  @returns GTLRComputeQuery_InstancesSetDiskAutoDelete
+ *  @return GTLRComputeQuery_InstancesSetDiskAutoDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -7824,7 +8197,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesSetLabels
+ *  @return GTLRComputeQuery_InstancesSetLabels
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstancesSetLabelsRequest *)object
                         project:(NSString *)project
@@ -7886,7 +8259,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesSetMachineResources
+ *  @return GTLRComputeQuery_InstancesSetMachineResources
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstancesSetMachineResourcesRequest *)object
                         project:(NSString *)project
@@ -7948,7 +8321,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesSetMachineType
+ *  @return GTLRComputeQuery_InstancesSetMachineType
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstancesSetMachineTypeRequest *)object
                         project:(NSString *)project
@@ -8009,9 +8382,73 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesSetMetadata
+ *  @return GTLRComputeQuery_InstancesSetMetadata
  */
 + (instancetype)queryWithObject:(GTLRCompute_Metadata *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                       instance:(NSString *)instance;
+
+@end
+
+/**
+ *  Changes the minimum CPU platform that this instance should use. This method
+ *  can only be called on a stopped instance. For more information, read
+ *  Specifying a Minimum CPU Platform.
+ *
+ *  Method: compute.instances.setMinCpuPlatform
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InstancesSetMinCpuPlatform : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesSetMinCpuPlatformWithObject:project:zoneProperty:instance:]
+
+/** Name of the instance scoping this request. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Changes the minimum CPU platform that this instance should use. This method
+ *  can only be called on a stopped instance. For more information, read
+ *  Specifying a Minimum CPU Platform.
+ *
+ *  @param object The @c GTLRCompute_InstancesSetMinCpuPlatformRequest to
+ *    include in the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param instance Name of the instance scoping this request.
+ *
+ *  @return GTLRComputeQuery_InstancesSetMinCpuPlatform
+ */
++ (instancetype)queryWithObject:(GTLRCompute_InstancesSetMinCpuPlatformRequest *)object
                         project:(NSString *)project
                    zoneProperty:(NSString *)zoneProperty
                        instance:(NSString *)instance;
@@ -8068,7 +8505,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Instance name.
  *
- *  @returns GTLRComputeQuery_InstancesSetScheduling
+ *  @return GTLRComputeQuery_InstancesSetScheduling
  */
 + (instancetype)queryWithObject:(GTLRCompute_Scheduling *)object
                         project:(NSString *)project
@@ -8130,7 +8567,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to start.
  *
- *  @returns GTLRComputeQuery_InstancesSetServiceAccount
+ *  @return GTLRComputeQuery_InstancesSetServiceAccount
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstancesSetServiceAccountRequest *)object
                         project:(NSString *)project
@@ -8189,7 +8626,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance scoping this request.
  *
- *  @returns GTLRComputeQuery_InstancesSetTags
+ *  @return GTLRComputeQuery_InstancesSetTags
  */
 + (instancetype)queryWithObject:(GTLRCompute_Tags *)object
                         project:(NSString *)project
@@ -8199,8 +8636,51 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Starts an instance that was stopped using the using the instances().stop
- *  method. For more information, see Restart an instance.
+ *  Simulates a maintenance event on the instance.
+ *
+ *  Method: compute.instances.simulateMaintenanceEvent
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InstancesSimulateMaintenanceEvent : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesSimulateMaintenanceEventWithproject:zoneProperty:instance:]
+
+/** Name of the instance scoping this request. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Simulates a maintenance event on the instance.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param instance Name of the instance scoping this request.
+ *
+ *  @return GTLRComputeQuery_InstancesSimulateMaintenanceEvent
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                        instance:(NSString *)instance;
+
+@end
+
+/**
+ *  Starts an instance that was stopped using the instances().stop method. For
+ *  more information, see Restart an instance.
  *
  *  Method: compute.instances.start
  *
@@ -8242,14 +8722,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Operation.
  *
- *  Starts an instance that was stopped using the using the instances().stop
- *  method. For more information, see Restart an instance.
+ *  Starts an instance that was stopped using the instances().stop method. For
+ *  more information, see Restart an instance.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to start.
  *
- *  @returns GTLRComputeQuery_InstancesStart
+ *  @return GTLRComputeQuery_InstancesStart
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -8258,8 +8738,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Starts an instance that was stopped using the using the instances().stop
- *  method. For more information, see Restart an instance.
+ *  Starts an instance that was stopped using the instances().stop method. For
+ *  more information, see Restart an instance.
  *
  *  Method: compute.instances.startWithEncryptionKey
  *
@@ -8301,8 +8781,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Operation.
  *
- *  Starts an instance that was stopped using the using the instances().stop
- *  method. For more information, see Restart an instance.
+ *  Starts an instance that was stopped using the instances().stop method. For
+ *  more information, see Restart an instance.
  *
  *  @param object The @c GTLRCompute_InstancesStartWithEncryptionKeyRequest to
  *    include in the query.
@@ -8310,7 +8790,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to start.
  *
- *  @returns GTLRComputeQuery_InstancesStartWithEncryptionKey
+ *  @return GTLRComputeQuery_InstancesStartWithEncryptionKey
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstancesStartWithEncryptionKeyRequest *)object
                         project:(NSString *)project
@@ -8321,11 +8801,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Stops a running instance, shutting it down cleanly, and allows you to
- *  restart the instance at a later time. Stopped instances do not incur
- *  per-minute, virtual machine usage charges while they are stopped, but any
- *  resources that the virtual machine is using, such as persistent disks and
- *  static IP addresses, will continue to be charged until they are deleted. For
- *  more information, see Stopping an instance.
+ *  restart the instance at a later time. Stopped instances do not incur VM
+ *  usage charges while they are stopped. However, resources that the VM is
+ *  using, such as persistent disks and static IP addresses, will continue to be
+ *  charged until they are deleted. For more information, see Stopping an
+ *  instance.
  *
  *  Method: compute.instances.stop
  *
@@ -8368,17 +8848,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  Fetches a @c GTLRCompute_Operation.
  *
  *  Stops a running instance, shutting it down cleanly, and allows you to
- *  restart the instance at a later time. Stopped instances do not incur
- *  per-minute, virtual machine usage charges while they are stopped, but any
- *  resources that the virtual machine is using, such as persistent disks and
- *  static IP addresses, will continue to be charged until they are deleted. For
- *  more information, see Stopping an instance.
+ *  restart the instance at a later time. Stopped instances do not incur VM
+ *  usage charges while they are stopped. However, resources that the VM is
+ *  using, such as persistent disks and static IP addresses, will continue to be
+ *  charged until they are deleted. For more information, see Stopping an
+ *  instance.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param instance Name of the instance resource to stop.
  *
- *  @returns GTLRComputeQuery_InstancesStop
+ *  @return GTLRComputeQuery_InstancesStop
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -8387,10 +8867,144 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Deletes the specified instance template. If you delete an instance template
- *  that is being referenced from another instance group, the instance group
- *  will not be able to create or recreate virtual machine instances. Deleting
- *  an instance template is permanent and cannot be undone.
+ *  Updates the specified access config from an instance's network interface
+ *  with the data included in the request. This method supports PATCH semantics
+ *  and uses the JSON merge patch format and processing rules.
+ *
+ *  Method: compute.instances.updateAccessConfig
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InstancesUpdateAccessConfig : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesUpdateAccessConfigWithObject:project:zoneProperty:instance:networkInterface:]
+
+/** The instance name for this request. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/** The name of the network interface where the access config is attached. */
+@property(nonatomic, copy, nullable) NSString *networkInterface;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Updates the specified access config from an instance's network interface
+ *  with the data included in the request. This method supports PATCH semantics
+ *  and uses the JSON merge patch format and processing rules.
+ *
+ *  @param object The @c GTLRCompute_AccessConfig to include in the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param instance The instance name for this request.
+ *  @param networkInterface The name of the network interface where the access
+ *    config is attached.
+ *
+ *  @return GTLRComputeQuery_InstancesUpdateAccessConfig
+ */
++ (instancetype)queryWithObject:(GTLRCompute_AccessConfig *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                       instance:(NSString *)instance
+               networkInterface:(NSString *)networkInterface;
+
+@end
+
+/**
+ *  Updates an instance's network interface. This method follows PATCH
+ *  semantics.
+ *
+ *  Method: compute.instances.updateNetworkInterface
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InstancesUpdateNetworkInterface : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInstancesUpdateNetworkInterfaceWithObject:project:zoneProperty:instance:networkInterface:]
+
+/** The instance name for this request. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/** The name of the network interface to update. */
+@property(nonatomic, copy, nullable) NSString *networkInterface;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Updates an instance's network interface. This method follows PATCH
+ *  semantics.
+ *
+ *  @param object The @c GTLRCompute_NetworkInterface to include in the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param instance The instance name for this request.
+ *  @param networkInterface The name of the network interface to update.
+ *
+ *  @return GTLRComputeQuery_InstancesUpdateNetworkInterface
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NetworkInterface *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                       instance:(NSString *)instance
+               networkInterface:(NSString *)networkInterface;
+
+@end
+
+/**
+ *  Deletes the specified instance template. Deleting an instance template is
+ *  permanent and cannot be undone. It's not possible to delete templates which
+ *  are in use by an instance group.
  *
  *  Method: compute.instanceTemplates.delete
  *
@@ -8425,15 +9039,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Operation.
  *
- *  Deletes the specified instance template. If you delete an instance template
- *  that is being referenced from another instance group, the instance group
- *  will not be able to create or recreate virtual machine instances. Deleting
- *  an instance template is permanent and cannot be undone.
+ *  Deletes the specified instance template. Deleting an instance template is
+ *  permanent and cannot be undone. It's not possible to delete templates which
+ *  are in use by an instance group.
  *
  *  @param project Project ID for this request.
  *  @param instanceTemplate The name of the instance template to delete.
  *
- *  @returns GTLRComputeQuery_InstanceTemplatesDelete
+ *  @return GTLRComputeQuery_InstanceTemplatesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                 instanceTemplate:(NSString *)instanceTemplate;
@@ -8441,7 +9054,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified instance template. Get a list of available instance
+ *  Returns the specified instance template. Gets a list of available instance
  *  templates by making a list() request.
  *
  *  Method: compute.instanceTemplates.get
@@ -8464,13 +9077,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_InstanceTemplate.
  *
- *  Returns the specified instance template. Get a list of available instance
+ *  Returns the specified instance template. Gets a list of available instance
  *  templates by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param instanceTemplate The name of the instance template.
  *
- *  @returns GTLRComputeQuery_InstanceTemplatesGet
+ *  @return GTLRComputeQuery_InstanceTemplatesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                 instanceTemplate:(NSString *)instanceTemplate;
@@ -8521,7 +9134,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_InstanceTemplate to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_InstanceTemplatesInsert
+ *  @return GTLRComputeQuery_InstanceTemplatesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceTemplate *)object
                         project:(NSString *)project;
@@ -8544,25 +9157,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForInstanceTemplatesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -8606,13 +9216,903 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_InstanceTemplatesList
+ *  @return GTLRComputeQuery_InstanceTemplatesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
  *        information.
  */
 + (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Retrieves an aggregated list of interconnect attachments.
+ *
+ *  Method: compute.interconnectAttachments.aggregatedList
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsAggregatedList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsAggregatedListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectAttachmentAggregatedList.
+ *
+ *  Retrieves an aggregated list of interconnect attachments.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsAggregatedList
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Deletes the specified interconnect attachment.
+ *
+ *  Method: compute.interconnectAttachments.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsDeleteWithproject:region:interconnectAttachment:]
+
+/** Name of the interconnect attachment to delete. */
+@property(nonatomic, copy, nullable) NSString *interconnectAttachment;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified interconnect attachment.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param interconnectAttachment Name of the interconnect attachment to delete.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+          interconnectAttachment:(NSString *)interconnectAttachment;
+
+@end
+
+/**
+ *  Returns the specified interconnect attachment.
+ *
+ *  Method: compute.interconnectAttachments.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsGetWithproject:region:interconnectAttachment:]
+
+/** Name of the interconnect attachment to return. */
+@property(nonatomic, copy, nullable) NSString *interconnectAttachment;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectAttachment.
+ *
+ *  Returns the specified interconnect attachment.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param interconnectAttachment Name of the interconnect attachment to return.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+          interconnectAttachment:(NSString *)interconnectAttachment;
+
+@end
+
+/**
+ *  Creates an InterconnectAttachment in the specified project using the data
+ *  included in the request.
+ *
+ *  Method: compute.interconnectAttachments.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsInsertWithObject:project:region:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates an InterconnectAttachment in the specified project using the data
+ *  included in the request.
+ *
+ *  @param object The @c GTLRCompute_InterconnectAttachment to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_InterconnectAttachment *)object
+                        project:(NSString *)project
+                         region:(NSString *)region;
+
+@end
+
+/**
+ *  Retrieves the list of interconnect attachments contained within the
+ *  specified region.
+ *
+ *  Method: compute.interconnectAttachments.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsListWithproject:region:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectAttachmentList.
+ *
+ *  Retrieves the list of interconnect attachments contained within the
+ *  specified region.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region;
+
+@end
+
+/**
+ *  Updates the specified interconnect attachment with the data included in the
+ *  request. This method supports PATCH semantics and uses the JSON merge patch
+ *  format and processing rules.
+ *
+ *  Method: compute.interconnectAttachments.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectAttachmentsPatch : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectAttachmentsPatchWithObject:project:region:interconnectAttachment:]
+
+/** Name of the interconnect attachment to patch. */
+@property(nonatomic, copy, nullable) NSString *interconnectAttachment;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region scoping this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Updates the specified interconnect attachment with the data included in the
+ *  request. This method supports PATCH semantics and uses the JSON merge patch
+ *  format and processing rules.
+ *
+ *  @param object The @c GTLRCompute_InterconnectAttachment to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param region Name of the region scoping this request.
+ *  @param interconnectAttachment Name of the interconnect attachment to patch.
+ *
+ *  @return GTLRComputeQuery_InterconnectAttachmentsPatch
+ */
++ (instancetype)queryWithObject:(GTLRCompute_InterconnectAttachment *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+         interconnectAttachment:(NSString *)interconnectAttachment;
+
+@end
+
+/**
+ *  Returns the details for the specified interconnect location. Gets a list of
+ *  available interconnect locations by making a list() request.
+ *
+ *  Method: compute.interconnectLocations.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectLocationsGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectLocationsGetWithproject:interconnectLocation:]
+
+/** Name of the interconnect location to return. */
+@property(nonatomic, copy, nullable) NSString *interconnectLocation;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectLocation.
+ *
+ *  Returns the details for the specified interconnect location. Gets a list of
+ *  available interconnect locations by making a list() request.
+ *
+ *  @param project Project ID for this request.
+ *  @param interconnectLocation Name of the interconnect location to return.
+ *
+ *  @return GTLRComputeQuery_InterconnectLocationsGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+            interconnectLocation:(NSString *)interconnectLocation;
+
+@end
+
+/**
+ *  Retrieves the list of interconnect locations available to the specified
+ *  project.
+ *
+ *  Method: compute.interconnectLocations.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectLocationsList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectLocationsListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectLocationList.
+ *
+ *  Retrieves the list of interconnect locations available to the specified
+ *  project.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectLocationsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Deletes the specified interconnect.
+ *
+ *  Method: compute.interconnects.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectsDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectsDeleteWithproject:interconnect:]
+
+/** Name of the interconnect to delete. */
+@property(nonatomic, copy, nullable) NSString *interconnect;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified interconnect.
+ *
+ *  @param project Project ID for this request.
+ *  @param interconnect Name of the interconnect to delete.
+ *
+ *  @return GTLRComputeQuery_InterconnectsDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    interconnect:(NSString *)interconnect;
+
+@end
+
+/**
+ *  Returns the specified interconnect. Get a list of available interconnects by
+ *  making a list() request.
+ *
+ *  Method: compute.interconnects.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectsGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectsGetWithproject:interconnect:]
+
+/** Name of the interconnect to return. */
+@property(nonatomic, copy, nullable) NSString *interconnect;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_Interconnect.
+ *
+ *  Returns the specified interconnect. Get a list of available interconnects by
+ *  making a list() request.
+ *
+ *  @param project Project ID for this request.
+ *  @param interconnect Name of the interconnect to return.
+ *
+ *  @return GTLRComputeQuery_InterconnectsGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    interconnect:(NSString *)interconnect;
+
+@end
+
+/**
+ *  Creates a Interconnect in the specified project using the data included in
+ *  the request.
+ *
+ *  Method: compute.interconnects.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectsInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectsInsertWithObject:project:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates a Interconnect in the specified project using the data included in
+ *  the request.
+ *
+ *  @param object The @c GTLRCompute_Interconnect to include in the query.
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectsInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Interconnect *)object
+                        project:(NSString *)project;
+
+@end
+
+/**
+ *  Retrieves the list of interconnect available to the specified project.
+ *
+ *  Method: compute.interconnects.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_InterconnectsList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectsListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_InterconnectList.
+ *
+ *  Retrieves the list of interconnect available to the specified project.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_InterconnectsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Updates the specified interconnect with the data included in the request.
+ *  This method supports PATCH semantics and uses the JSON merge patch format
+ *  and processing rules.
+ *
+ *  Method: compute.interconnects.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_InterconnectsPatch : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForInterconnectsPatchWithObject:project:interconnect:]
+
+/** Name of the interconnect to update. */
+@property(nonatomic, copy, nullable) NSString *interconnect;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Updates the specified interconnect with the data included in the request.
+ *  This method supports PATCH semantics and uses the JSON merge patch format
+ *  and processing rules.
+ *
+ *  @param object The @c GTLRCompute_Interconnect to include in the query.
+ *  @param project Project ID for this request.
+ *  @param interconnect Name of the interconnect to update.
+ *
+ *  @return GTLRComputeQuery_InterconnectsPatch
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Interconnect *)object
+                        project:(NSString *)project
+                   interconnect:(NSString *)interconnect;
+
+@end
+
+/**
+ *  Return a specified license code. License codes are mirrored across all
+ *  projects that have permissions to read the License Code.
+ *
+ *  Method: compute.licenseCodes.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_LicenseCodesGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicenseCodesGetWithproject:licenseCode:]
+
+/** Number corresponding to the License code resource to return. */
+@property(nonatomic, copy, nullable) NSString *licenseCode;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_LicenseCode.
+ *
+ *  Return a specified license code. License codes are mirrored across all
+ *  projects that have permissions to read the License Code.
+ *
+ *  @param project Project ID for this request.
+ *  @param licenseCode Number corresponding to the License code resource to
+ *    return.
+ *
+ *  @return GTLRComputeQuery_LicenseCodesGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                     licenseCode:(NSString *)licenseCode;
+
+@end
+
+/**
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  Method: compute.licenseCodes.testIamPermissions
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_LicenseCodesTestIamPermissions : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicenseCodesTestIamPermissionsWithObject:project:resource:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the resource for this request. */
+@property(nonatomic, copy, nullable) NSString *resource;
+
+/**
+ *  Fetches a @c GTLRCompute_TestPermissionsResponse.
+ *
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  @param object The @c GTLRCompute_TestPermissionsRequest to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param resource Name of the resource for this request.
+ *
+ *  @return GTLRComputeQuery_LicenseCodesTestIamPermissions
+ */
++ (instancetype)queryWithObject:(GTLRCompute_TestPermissionsRequest *)object
+                        project:(NSString *)project
+                       resource:(NSString *)resource;
+
+@end
+
+/**
+ *  Deletes the specified license.
+ *
+ *  Method: compute.licenses.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_LicensesDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicensesDeleteWithproject:license:]
+
+/** Name of the license resource to delete. */
+@property(nonatomic, copy, nullable) NSString *license;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified license.
+ *
+ *  @param project Project ID for this request.
+ *  @param license Name of the license resource to delete.
+ *
+ *  @return GTLRComputeQuery_LicensesDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                         license:(NSString *)license;
 
 @end
 
@@ -8644,10 +10144,189 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param license Name of the License resource to return.
  *
- *  @returns GTLRComputeQuery_LicensesGet
+ *  @return GTLRComputeQuery_LicensesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                          license:(NSString *)license;
+
+@end
+
+/**
+ *  Create a License resource in the specified project.
+ *
+ *  Method: compute.licenses.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeDevstorageFullControl
+ *    @c kGTLRAuthScopeComputeDevstorageReadOnly
+ *    @c kGTLRAuthScopeComputeDevstorageReadWrite
+ */
+@interface GTLRComputeQuery_LicensesInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicensesInsertWithObject:project:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Create a License resource in the specified project.
+ *
+ *  @param object The @c GTLRCompute_License to include in the query.
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_LicensesInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_License *)object
+                        project:(NSString *)project;
+
+@end
+
+/**
+ *  Retrieves the list of licenses available in the specified project. This
+ *  method does not get any licenses that belong to other projects, including
+ *  licenses attached to publicly-available images, like Debian 9. If you want
+ *  to get a list of publicly-available licenses, use this method to make a
+ *  request to the respective image project, such as debian-cloud or
+ *  windows-cloud.
+ *
+ *  Method: compute.licenses.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_LicensesList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicensesListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_LicensesListResponse.
+ *
+ *  Retrieves the list of licenses available in the specified project. This
+ *  method does not get any licenses that belong to other projects, including
+ *  licenses attached to publicly-available images, like Debian 9. If you want
+ *  to get a list of publicly-available licenses, use this method to make a
+ *  request to the respective image project, such as debian-cloud or
+ *  windows-cloud.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_LicensesList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  Method: compute.licenses.testIamPermissions
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_LicensesTestIamPermissions : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForLicensesTestIamPermissionsWithObject:project:resource:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the resource for this request. */
+@property(nonatomic, copy, nullable) NSString *resource;
+
+/**
+ *  Fetches a @c GTLRCompute_TestPermissionsResponse.
+ *
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  @param object The @c GTLRCompute_TestPermissionsRequest to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param resource Name of the resource for this request.
+ *
+ *  @return GTLRComputeQuery_LicensesTestIamPermissions
+ */
++ (instancetype)queryWithObject:(GTLRCompute_TestPermissionsRequest *)object
+                        project:(NSString *)project
+                       resource:(NSString *)resource;
 
 @end
 
@@ -8666,25 +10345,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForMachineTypesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -8727,15 +10403,15 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_MachineTypesAggregatedList
+ *  @return GTLRComputeQuery_MachineTypesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Returns the specified machine type. Get a list of available machine types by
- *  making a list() request.
+ *  Returns the specified machine type. Gets a list of available machine types
+ *  by making a list() request.
  *
  *  Method: compute.machineTypes.get
  *
@@ -8764,14 +10440,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_MachineType.
  *
- *  Returns the specified machine type. Get a list of available machine types by
- *  making a list() request.
+ *  Returns the specified machine type. Gets a list of available machine types
+ *  by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *  @param machineType Name of the machine type to return.
  *
- *  @returns GTLRComputeQuery_MachineTypesGet
+ *  @return GTLRComputeQuery_MachineTypesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -8794,25 +10470,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForMachineTypesListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -8863,7 +10536,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty The name of the zone for this request.
  *
- *  @returns GTLRComputeQuery_MachineTypesList
+ *  @return GTLRComputeQuery_MachineTypesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -8917,7 +10590,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param network Name of the network resource to add peering to.
  *
- *  @returns GTLRComputeQuery_NetworksAddPeering
+ *  @return GTLRComputeQuery_NetworksAddPeering
  */
 + (instancetype)queryWithObject:(GTLRCompute_NetworksAddPeeringRequest *)object
                         project:(NSString *)project
@@ -8966,7 +10639,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param network Name of the network to delete.
  *
- *  @returns GTLRComputeQuery_NetworksDelete
+ *  @return GTLRComputeQuery_NetworksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                          network:(NSString *)network;
@@ -8974,7 +10647,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified network. Get a list of available networks by making a
+ *  Returns the specified network. Gets a list of available networks by making a
  *  list() request.
  *
  *  Method: compute.networks.get
@@ -8997,13 +10670,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Network.
  *
- *  Returns the specified network. Get a list of available networks by making a
+ *  Returns the specified network. Gets a list of available networks by making a
  *  list() request.
  *
  *  @param project Project ID for this request.
  *  @param network Name of the network to return.
  *
- *  @returns GTLRComputeQuery_NetworksGet
+ *  @return GTLRComputeQuery_NetworksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                          network:(NSString *)network;
@@ -9050,7 +10723,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Network to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_NetworksInsert
+ *  @return GTLRComputeQuery_NetworksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Network *)object
                         project:(NSString *)project;
@@ -9072,25 +10745,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForNetworksListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -9133,13 +10803,65 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_NetworksList
+ *  @return GTLRComputeQuery_NetworksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
  *        information.
  */
 + (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Patches the specified network with the data included in the request. Only
+ *  the following fields can be modified: routingConfig.routingMode.
+ *
+ *  Method: compute.networks.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NetworksPatch : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNetworksPatchWithObject:project:network:]
+
+/** Name of the network to update. */
+@property(nonatomic, copy, nullable) NSString *network;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Patches the specified network with the data included in the request. Only
+ *  the following fields can be modified: routingConfig.routingMode.
+ *
+ *  @param object The @c GTLRCompute_Network to include in the query.
+ *  @param project Project ID for this request.
+ *  @param network Name of the network to update.
+ *
+ *  @return GTLRComputeQuery_NetworksPatch
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Network *)object
+                        project:(NSString *)project
+                        network:(NSString *)network;
 
 @end
 
@@ -9186,7 +10908,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param network Name of the network resource to remove peering from.
  *
- *  @returns GTLRComputeQuery_NetworksRemovePeering
+ *  @return GTLRComputeQuery_NetworksRemovePeering
  */
 + (instancetype)queryWithObject:(GTLRCompute_NetworksRemovePeeringRequest *)object
                         project:(NSString *)project
@@ -9235,10 +10957,1160 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param network Name of the network to be updated.
  *
- *  @returns GTLRComputeQuery_NetworksSwitchToCustomMode
+ *  @return GTLRComputeQuery_NetworksSwitchToCustomMode
  */
 + (instancetype)queryWithProject:(NSString *)project
                          network:(NSString *)network;
+
+@end
+
+/**
+ *  Adds specified number of nodes to the node group.
+ *
+ *  Method: compute.nodeGroups.addNodes
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeGroupsAddNodes : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsAddNodesWithObject:project:zoneProperty:nodeGroup:]
+
+/** Name of the NodeGroup resource to delete. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Adds specified number of nodes to the node group.
+ *
+ *  @param object The @c GTLRCompute_NodeGroupsAddNodesRequest to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the NodeGroup resource to delete.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsAddNodes
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NodeGroupsAddNodesRequest *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                      nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Retrieves an aggregated list of node groups. Note: use nodeGroups.listNodes
+ *  for more details about each group.
+ *
+ *  Method: compute.nodeGroups.aggregatedList
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeGroupsAggregatedList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsAggregatedListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeGroupAggregatedList.
+ *
+ *  Retrieves an aggregated list of node groups. Note: use nodeGroups.listNodes
+ *  for more details about each group.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsAggregatedList
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Deletes the specified NodeGroup resource.
+ *
+ *  Method: compute.nodeGroups.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeGroupsDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsDeleteWithproject:zoneProperty:nodeGroup:]
+
+/** Name of the NodeGroup resource to delete. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified NodeGroup resource.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the NodeGroup resource to delete.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                       nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Deletes specified nodes from the node group.
+ *
+ *  Method: compute.nodeGroups.deleteNodes
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeGroupsDeleteNodes : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsDeleteNodesWithObject:project:zoneProperty:nodeGroup:]
+
+/** Name of the NodeGroup resource to delete. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes specified nodes from the node group.
+ *
+ *  @param object The @c GTLRCompute_NodeGroupsDeleteNodesRequest to include in
+ *    the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the NodeGroup resource to delete.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsDeleteNodes
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NodeGroupsDeleteNodesRequest *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                      nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Returns the specified NodeGroup. Get a list of available NodeGroups by
+ *  making a list() request. Note: the "nodes" field should not be used. Use
+ *  nodeGroups.listNodes instead.
+ *
+ *  Method: compute.nodeGroups.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeGroupsGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsGetWithproject:zoneProperty:nodeGroup:]
+
+/** Name of the node group to return. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeGroup.
+ *
+ *  Returns the specified NodeGroup. Get a list of available NodeGroups by
+ *  making a list() request. Note: the "nodes" field should not be used. Use
+ *  nodeGroups.listNodes instead.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the node group to return.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                       nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Creates a NodeGroup resource in the specified project using the data
+ *  included in the request.
+ *
+ *  Method: compute.nodeGroups.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeGroupsInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsInsertWithObject:project:zoneProperty:initialNodeCount:]
+
+/** Initial count of nodes in the node group. */
+@property(nonatomic, assign) NSInteger initialNodeCount;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates a NodeGroup resource in the specified project using the data
+ *  included in the request.
+ *
+ *  @param object The @c GTLRCompute_NodeGroup to include in the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param initialNodeCount Initial count of nodes in the node group.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NodeGroup *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+               initialNodeCount:(NSInteger)initialNodeCount;
+
+@end
+
+/**
+ *  Retrieves a list of node groups available to the specified project. Note:
+ *  use nodeGroups.listNodes for more details about each group.
+ *
+ *  Method: compute.nodeGroups.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeGroupsList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsListWithproject:zoneProperty:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeGroupList.
+ *
+ *  Retrieves a list of node groups available to the specified project. Note:
+ *  use nodeGroups.listNodes for more details about each group.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty;
+
+@end
+
+/**
+ *  Lists nodes in the node group.
+ *
+ *  Method: compute.nodeGroups.listNodes
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeGroupsListNodes : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsListNodesWithproject:zoneProperty:nodeGroup:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/** Name of the NodeGroup resource whose nodes you want to list. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeGroupsListNodes.
+ *
+ *  Lists nodes in the node group.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the NodeGroup resource whose nodes you want to
+ *    list.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsListNodes
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                       nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Updates the node template of the node group.
+ *
+ *  Method: compute.nodeGroups.setNodeTemplate
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeGroupsSetNodeTemplate : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeGroupsSetNodeTemplateWithObject:project:zoneProperty:nodeGroup:]
+
+/** Name of the NodeGroup resource to delete. */
+@property(nonatomic, copy, nullable) NSString *nodeGroup;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Updates the node template of the node group.
+ *
+ *  @param object The @c GTLRCompute_NodeGroupsSetNodeTemplateRequest to include
+ *    in the query.
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeGroup Name of the NodeGroup resource to delete.
+ *
+ *  @return GTLRComputeQuery_NodeGroupsSetNodeTemplate
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NodeGroupsSetNodeTemplateRequest *)object
+                        project:(NSString *)project
+                   zoneProperty:(NSString *)zoneProperty
+                      nodeGroup:(NSString *)nodeGroup;
+
+@end
+
+/**
+ *  Retrieves an aggregated list of node templates.
+ *
+ *  Method: compute.nodeTemplates.aggregatedList
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTemplatesAggregatedList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTemplatesAggregatedListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeTemplateAggregatedList.
+ *
+ *  Retrieves an aggregated list of node templates.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_NodeTemplatesAggregatedList
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Deletes the specified NodeTemplate resource.
+ *
+ *  Method: compute.nodeTemplates.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeTemplatesDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTemplatesDeleteWithproject:region:nodeTemplate:]
+
+/** Name of the NodeTemplate resource to delete. */
+@property(nonatomic, copy, nullable) NSString *nodeTemplate;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified NodeTemplate resource.
+ *
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *  @param nodeTemplate Name of the NodeTemplate resource to delete.
+ *
+ *  @return GTLRComputeQuery_NodeTemplatesDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+                    nodeTemplate:(NSString *)nodeTemplate;
+
+@end
+
+/**
+ *  Returns the specified node template. Gets a list of available node templates
+ *  by making a list() request.
+ *
+ *  Method: compute.nodeTemplates.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTemplatesGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTemplatesGetWithproject:region:nodeTemplate:]
+
+/** Name of the node template to return. */
+@property(nonatomic, copy, nullable) NSString *nodeTemplate;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeTemplate.
+ *
+ *  Returns the specified node template. Gets a list of available node templates
+ *  by making a list() request.
+ *
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *  @param nodeTemplate Name of the node template to return.
+ *
+ *  @return GTLRComputeQuery_NodeTemplatesGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+                    nodeTemplate:(NSString *)nodeTemplate;
+
+@end
+
+/**
+ *  Creates a NodeTemplate resource in the specified project using the data
+ *  included in the request.
+ *
+ *  Method: compute.nodeTemplates.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_NodeTemplatesInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTemplatesInsertWithObject:project:region:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates a NodeTemplate resource in the specified project using the data
+ *  included in the request.
+ *
+ *  @param object The @c GTLRCompute_NodeTemplate to include in the query.
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_NodeTemplatesInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_NodeTemplate *)object
+                        project:(NSString *)project
+                         region:(NSString *)region;
+
+@end
+
+/**
+ *  Retrieves a list of node templates available to the specified project.
+ *
+ *  Method: compute.nodeTemplates.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTemplatesList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTemplatesListWithproject:region:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeTemplateList.
+ *
+ *  Retrieves a list of node templates available to the specified project.
+ *
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_NodeTemplatesList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region;
+
+@end
+
+/**
+ *  Retrieves an aggregated list of node types.
+ *
+ *  Method: compute.nodeTypes.aggregatedList
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTypesAggregatedList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTypesAggregatedListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeTypeAggregatedList.
+ *
+ *  Retrieves an aggregated list of node types.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_NodeTypesAggregatedList
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Returns the specified node type. Gets a list of available node types by
+ *  making a list() request.
+ *
+ *  Method: compute.nodeTypes.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTypesGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTypesGetWithproject:zoneProperty:nodeType:]
+
+/** Name of the node type to return. */
+@property(nonatomic, copy, nullable) NSString *nodeType;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeType.
+ *
+ *  Returns the specified node type. Gets a list of available node types by
+ *  making a list() request.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *  @param nodeType Name of the node type to return.
+ *
+ *  @return GTLRComputeQuery_NodeTypesGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty
+                        nodeType:(NSString *)nodeType;
+
+@end
+
+/**
+ *  Retrieves a list of node types available to the specified project.
+ *
+ *  Method: compute.nodeTypes.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_NodeTypesList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForNodeTypesListWithproject:zoneProperty:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  The name of the zone for this request.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+/**
+ *  Fetches a @c GTLRCompute_NodeTypeList.
+ *
+ *  Retrieves a list of node types available to the specified project.
+ *
+ *  @param project Project ID for this request.
+ *  @param zoneProperty The name of the zone for this request.
+ *
+ *  @return GTLRComputeQuery_NodeTypesList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                    zoneProperty:(NSString *)zoneProperty;
 
 @end
 
@@ -9279,7 +12151,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsDisableXpnHost
+ *  @return GTLRComputeQuery_ProjectsDisableXpnHost
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -9326,7 +12198,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsDisableXpnResource
+ *  @return GTLRComputeQuery_ProjectsDisableXpnResource
  */
 + (instancetype)queryWithObject:(GTLRCompute_ProjectsDisableXpnResourceRequest *)object
                         project:(NSString *)project;
@@ -9370,7 +12242,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsEnableXpnHost
+ *  @return GTLRComputeQuery_ProjectsEnableXpnHost
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -9417,7 +12289,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsEnableXpnResource
+ *  @return GTLRComputeQuery_ProjectsEnableXpnResource
  */
 + (instancetype)queryWithObject:(GTLRCompute_ProjectsEnableXpnResourceRequest *)object
                         project:(NSString *)project;
@@ -9448,14 +12320,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsGet
+ *  @return GTLRComputeQuery_ProjectsGet
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Get the shared VPC host project that this project links to. May be empty if
+ *  Gets the shared VPC host project that this project links to. May be empty if
  *  no link exists.
  *
  *  Method: compute.projects.getXpnHost
@@ -9474,19 +12346,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Project.
  *
- *  Get the shared VPC host project that this project links to. May be empty if
+ *  Gets the shared VPC host project that this project links to. May be empty if
  *  no link exists.
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsGetXpnHost
+ *  @return GTLRComputeQuery_ProjectsGetXpnHost
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Get service resources (a.k.a service project) associated with this host
+ *  Gets service resources (a.k.a service project) associated with this host
  *  project.
  *
  *  Method: compute.projects.getXpnResources
@@ -9499,17 +12371,53 @@ NS_ASSUME_NONNULL_BEGIN
 // Previous library name was
 //   +[GTLQueryCompute queryForProjectsGetXpnResourcesWithproject:]
 
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
 @property(nonatomic, copy, nullable) NSString *filter;
 
 /**
- *  maxResults
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
  *
  *  @note If not set, the documented server-side default will be 500.
  */
 @property(nonatomic, assign) NSUInteger maxResults;
 
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
 @property(nonatomic, copy, nullable) NSString *orderBy;
 
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /** Project ID for this request. */
@@ -9518,12 +12426,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_ProjectsGetXpnResources.
  *
- *  Get service resources (a.k.a service project) associated with this host
+ *  Gets service resources (a.k.a service project) associated with this host
  *  project.
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsGetXpnResources
+ *  @return GTLRComputeQuery_ProjectsGetXpnResources
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -9534,7 +12442,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  List all shared VPC host projects visible to the user in an organization.
+ *  Lists all shared VPC host projects visible to the user in an organization.
  *
  *  Method: compute.projects.listXpnHosts
  *
@@ -9546,17 +12454,53 @@ NS_ASSUME_NONNULL_BEGIN
 // Previous library name was
 //   +[GTLQueryCompute queryForProjectsListXpnHostsWithObject:project:]
 
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
 @property(nonatomic, copy, nullable) NSString *filter;
 
 /**
- *  maxResults
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
  *
  *  @note If not set, the documented server-side default will be 500.
  */
 @property(nonatomic, assign) NSUInteger maxResults;
 
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
 @property(nonatomic, copy, nullable) NSString *orderBy;
 
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /** Project ID for this request. */
@@ -9565,13 +12509,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_XpnHostList.
  *
- *  List all shared VPC host projects visible to the user in an organization.
+ *  Lists all shared VPC host projects visible to the user in an organization.
  *
  *  @param object The @c GTLRCompute_ProjectsListXpnHostsRequest to include in
  *    the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsListXpnHosts
+ *  @return GTLRComputeQuery_ProjectsListXpnHosts
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -9620,7 +12564,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_DiskMoveRequest to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsMoveDisk
+ *  @return GTLRComputeQuery_ProjectsMoveDisk
  */
 + (instancetype)queryWithObject:(GTLRCompute_DiskMoveRequest *)object
                         project:(NSString *)project;
@@ -9668,7 +12612,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsMoveInstance
+ *  @return GTLRComputeQuery_ProjectsMoveInstance
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceMoveRequest *)object
                         project:(NSString *)project;
@@ -9715,9 +12659,59 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Metadata to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsSetCommonInstanceMetadata
+ *  @return GTLRComputeQuery_ProjectsSetCommonInstanceMetadata
  */
 + (instancetype)queryWithObject:(GTLRCompute_Metadata *)object
+                        project:(NSString *)project;
+
+@end
+
+/**
+ *  Sets the default network tier of the project. The default network tier is
+ *  used when an address/forwardingRule/instance is created without specifying
+ *  the network tier field.
+ *
+ *  Method: compute.projects.setDefaultNetworkTier
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_ProjectsSetDefaultNetworkTier : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForProjectsSetDefaultNetworkTierWithObject:project:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets the default network tier of the project. The default network tier is
+ *  used when an address/forwardingRule/instance is created without specifying
+ *  the network tier field.
+ *
+ *  @param object The @c GTLRCompute_ProjectsSetDefaultNetworkTierRequest to
+ *    include in the query.
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_ProjectsSetDefaultNetworkTier
+ */
++ (instancetype)queryWithObject:(GTLRCompute_ProjectsSetDefaultNetworkTierRequest *)object
                         project:(NSString *)project;
 
 @end
@@ -9768,7 +12762,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ProjectsSetUsageExportBucket
+ *  @return GTLRComputeQuery_ProjectsSetUsageExportBucket
  */
 + (instancetype)queryWithObject:(GTLRCompute_UsageExportLocation *)object
                         project:(NSString *)project;
@@ -9820,7 +12814,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param autoscaler Name of the autoscaler to delete.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersDelete
+ *  @return GTLRComputeQuery_RegionAutoscalersDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -9860,7 +12854,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param autoscaler Name of the autoscaler to return.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersGet
+ *  @return GTLRComputeQuery_RegionAutoscalersGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -9912,7 +12906,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersInsert
+ *  @return GTLRComputeQuery_RegionAutoscalersInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
@@ -9935,25 +12929,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionAutoscalersListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -10000,7 +12991,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersList
+ *  @return GTLRComputeQuery_RegionAutoscalersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -10060,7 +13051,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersPatch
+ *  @return GTLRComputeQuery_RegionAutoscalersPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
@@ -10115,7 +13106,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionAutoscalersUpdate
+ *  @return GTLRComputeQuery_RegionAutoscalersUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_Autoscaler *)object
                         project:(NSString *)project
@@ -10168,7 +13159,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param backendService Name of the BackendService resource to delete.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesDelete
+ *  @return GTLRComputeQuery_RegionBackendServicesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -10208,7 +13199,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param backendService Name of the BackendService resource to return.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesGet
+ *  @return GTLRComputeQuery_RegionBackendServicesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -10230,9 +13221,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Previous library name was
 //   +[GTLQueryCompute queryForRegionBackendServicesGetHealthWithObject:project:region:backendService:]
 
-/**
- *  Name of the BackendService resource to which the queried instance belongs.
- */
+/** Name of the BackendService resource for which to get health. */
 @property(nonatomic, copy, nullable) NSString *backendService;
 
 @property(nonatomic, copy, nullable) NSString *project;
@@ -10249,10 +13238,10 @@ NS_ASSUME_NONNULL_BEGIN
  *    query.
  *  @param project NSString
  *  @param region Name of the region scoping this request.
- *  @param backendService Name of the BackendService resource to which the
- *    queried instance belongs.
+ *  @param backendService Name of the BackendService resource for which to get
+ *    health.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesGetHealth
+ *  @return GTLRComputeQuery_RegionBackendServicesGetHealth
  */
 + (instancetype)queryWithObject:(GTLRCompute_ResourceGroupReference *)object
                         project:(NSString *)project
@@ -10309,7 +13298,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesInsert
+ *  @return GTLRComputeQuery_RegionBackendServicesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project
@@ -10333,25 +13322,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionBackendServicesListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -10399,7 +13385,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesList
+ *  @return GTLRComputeQuery_RegionBackendServicesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -10464,7 +13450,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param backendService Name of the BackendService resource to patch.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesPatch
+ *  @return GTLRComputeQuery_RegionBackendServicesPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project
@@ -10525,7 +13511,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param backendService Name of the BackendService resource to update.
  *
- *  @returns GTLRComputeQuery_RegionBackendServicesUpdate
+ *  @return GTLRComputeQuery_RegionBackendServicesUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_BackendService *)object
                         project:(NSString *)project
@@ -10549,25 +13535,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionCommitmentsAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -10610,14 +13593,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_RegionCommitmentsAggregatedList
+ *  @return GTLRComputeQuery_RegionCommitmentsAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
 @end
 
 /**
- *  Returns the specified commitment resource. Get a list of available
+ *  Returns the specified commitment resource. Gets a list of available
  *  commitments by making a list() request.
  *
  *  Method: compute.regionCommitments.get
@@ -10643,14 +13626,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Commitment.
  *
- *  Returns the specified commitment resource. Get a list of available
+ *  Returns the specified commitment resource. Gets a list of available
  *  commitments by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *  @param commitment Name of the commitment to return.
  *
- *  @returns GTLRComputeQuery_RegionCommitmentsGet
+ *  @return GTLRComputeQuery_RegionCommitmentsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -10702,7 +13685,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_RegionCommitmentsInsert
+ *  @return GTLRComputeQuery_RegionCommitmentsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Commitment *)object
                         project:(NSString *)project
@@ -10725,25 +13708,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionCommitmentsListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -10790,7 +13770,591 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_RegionCommitmentsList
+ *  @return GTLRComputeQuery_RegionCommitmentsList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region;
+
+@end
+
+/**
+ *  Creates a snapshot of this regional disk.
+ *
+ *  Method: compute.regionDisks.createSnapshot
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_RegionDisksCreateSnapshot : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksCreateSnapshotWithObject:project:region:disk:]
+
+/** Name of the regional persistent disk to snapshot. */
+@property(nonatomic, copy, nullable) NSString *disk;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates a snapshot of this regional disk.
+ *
+ *  @param object The @c GTLRCompute_Snapshot to include in the query.
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param disk Name of the regional persistent disk to snapshot.
+ *
+ *  @return GTLRComputeQuery_RegionDisksCreateSnapshot
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Snapshot *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+                           disk:(NSString *)disk;
+
+@end
+
+/**
+ *  Deletes the specified regional persistent disk. Deleting a regional disk
+ *  removes all the replicas of its data permanently and is irreversible.
+ *  However, deleting a disk does not delete any snapshots previously made from
+ *  the disk. You must separately delete snapshots.
+ *
+ *  Method: compute.regionDisks.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_RegionDisksDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksDeleteWithproject:region:disk:]
+
+/** Name of the regional persistent disk to delete. */
+@property(nonatomic, copy, nullable) NSString *disk;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified regional persistent disk. Deleting a regional disk
+ *  removes all the replicas of its data permanently and is irreversible.
+ *  However, deleting a disk does not delete any snapshots previously made from
+ *  the disk. You must separately delete snapshots.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param disk Name of the regional persistent disk to delete.
+ *
+ *  @return GTLRComputeQuery_RegionDisksDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+                            disk:(NSString *)disk;
+
+@end
+
+/**
+ *  Returns a specified regional persistent disk.
+ *
+ *  Method: compute.regionDisks.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_RegionDisksGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksGetWithproject:region:disk:]
+
+/** Name of the regional persistent disk to return. */
+@property(nonatomic, copy, nullable) NSString *disk;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_Disk.
+ *
+ *  Returns a specified regional persistent disk.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param disk Name of the regional persistent disk to return.
+ *
+ *  @return GTLRComputeQuery_RegionDisksGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+                            disk:(NSString *)disk;
+
+@end
+
+/**
+ *  Creates a persistent regional disk in the specified project using the data
+ *  included in the request.
+ *
+ *  Method: compute.regionDisks.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_RegionDisksInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksInsertWithObject:project:region:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/** Optional. Source image to restore onto a disk. */
+@property(nonatomic, copy, nullable) NSString *sourceImage;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Creates a persistent regional disk in the specified project using the data
+ *  included in the request.
+ *
+ *  @param object The @c GTLRCompute_Disk to include in the query.
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_RegionDisksInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Disk *)object
+                        project:(NSString *)project
+                         region:(NSString *)region;
+
+@end
+
+/**
+ *  Retrieves the list of persistent disks contained within the specified
+ *  region.
+ *
+ *  Method: compute.regionDisks.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_RegionDisksList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksListWithproject:region:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_DiskList.
+ *
+ *  Retrieves the list of persistent disks contained within the specified
+ *  region.
+ *
+ *  @param project Project ID for this request.
+ *  @param region Name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_RegionDisksList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region;
+
+@end
+
+/**
+ *  Resizes the specified regional persistent disk.
+ *
+ *  Method: compute.regionDisks.resize
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_RegionDisksResize : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksResizeWithObject:project:region:disk:]
+
+/** Name of the regional persistent disk. */
+@property(nonatomic, copy, nullable) NSString *disk;
+
+/** The project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Resizes the specified regional persistent disk.
+ *
+ *  @param object The @c GTLRCompute_RegionDisksResizeRequest to include in the
+ *    query.
+ *  @param project The project ID for this request.
+ *  @param region Name of the region for this request.
+ *  @param disk Name of the regional persistent disk.
+ *
+ *  @return GTLRComputeQuery_RegionDisksResize
+ */
++ (instancetype)queryWithObject:(GTLRCompute_RegionDisksResizeRequest *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+                           disk:(NSString *)disk;
+
+@end
+
+/**
+ *  Sets the labels on the target regional disk.
+ *
+ *  Method: compute.regionDisks.setLabels
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_RegionDisksSetLabels : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksSetLabelsWithObject:project:region:resource:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/** Name of the resource for this request. */
+@property(nonatomic, copy, nullable) NSString *resource;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets the labels on the target regional disk.
+ *
+ *  @param object The @c GTLRCompute_RegionSetLabelsRequest to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param region The region for this request.
+ *  @param resource Name of the resource for this request.
+ *
+ *  @return GTLRComputeQuery_RegionDisksSetLabels
+ */
++ (instancetype)queryWithObject:(GTLRCompute_RegionSetLabelsRequest *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+                       resource:(NSString *)resource;
+
+@end
+
+/**
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  Method: compute.regionDisks.testIamPermissions
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_RegionDisksTestIamPermissions : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDisksTestIamPermissionsWithObject:project:region:resource:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/** Name of the resource for this request. */
+@property(nonatomic, copy, nullable) NSString *resource;
+
+/**
+ *  Fetches a @c GTLRCompute_TestPermissionsResponse.
+ *
+ *  Returns permissions that a caller has on the specified resource.
+ *
+ *  @param object The @c GTLRCompute_TestPermissionsRequest to include in the
+ *    query.
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *  @param resource Name of the resource for this request.
+ *
+ *  @return GTLRComputeQuery_RegionDisksTestIamPermissions
+ */
++ (instancetype)queryWithObject:(GTLRCompute_TestPermissionsRequest *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+                       resource:(NSString *)resource;
+
+@end
+
+/**
+ *  Returns the specified regional disk type. Gets a list of available disk
+ *  types by making a list() request.
+ *
+ *  Method: compute.regionDiskTypes.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_RegionDiskTypesGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDiskTypesGetWithproject:region:diskType:]
+
+/** Name of the disk type to return. */
+@property(nonatomic, copy, nullable) NSString *diskType;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_DiskType.
+ *
+ *  Returns the specified regional disk type. Gets a list of available disk
+ *  types by making a list() request.
+ *
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *  @param diskType Name of the disk type to return.
+ *
+ *  @return GTLRComputeQuery_RegionDiskTypesGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                          region:(NSString *)region
+                        diskType:(NSString *)diskType;
+
+@end
+
+/**
+ *  Retrieves a list of regional disk types available to the specified project.
+ *
+ *  Method: compute.regionDiskTypes.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_RegionDiskTypesList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForRegionDiskTypesListWithproject:region:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** The name of the region for this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  Fetches a @c GTLRCompute_RegionDiskTypeList.
+ *
+ *  Retrieves a list of regional disk types available to the specified project.
+ *
+ *  @param project Project ID for this request.
+ *  @param region The name of the region for this request.
+ *
+ *  @return GTLRComputeQuery_RegionDiskTypesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -10871,7 +14435,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersAbandonInstances
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersAbandonInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupManagersAbandonInstancesRequest *)object
                         project:(NSString *)project
@@ -10927,7 +14491,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group to delete.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersDelete
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11003,7 +14567,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersDeleteInstances
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersDeleteInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupManagersDeleteInstancesRequest *)object
                         project:(NSString *)project
@@ -11044,7 +14608,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group to return.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersGet
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11107,7 +14671,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersInsert
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceGroupManager *)object
                         project:(NSString *)project
@@ -11131,25 +14695,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionInstanceGroupManagersListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -11197,7 +14758,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersList
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -11224,20 +14785,56 @@ NS_ASSUME_NONNULL_BEGIN
 // Previous library name was
 //   +[GTLQueryCompute queryForRegionInstanceGroupManagersListManagedInstancesWithproject:region:instanceGroupManager:]
 
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
 @property(nonatomic, copy, nullable) NSString *filter;
 
 /** The name of the managed instance group. */
 @property(nonatomic, copy, nullable) NSString *instanceGroupManager;
 
 /**
- *  maxResults
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
  *
  *  @note If not set, the documented server-side default will be 500.
  */
 @property(nonatomic, assign) NSUInteger maxResults;
 
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
 @property(nonatomic, copy, nullable) NSString *orderBy;
 
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
 @property(nonatomic, copy, nullable) NSString *pageToken;
 
 /** Project ID for this request. */
@@ -11257,7 +14854,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersListManagedInstances
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersListManagedInstances
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11330,7 +14927,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersRecreateInstances
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersRecreateInstances
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupManagersRecreateRequest *)object
                         project:(NSString *)project
@@ -11407,7 +15004,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param size Number of instances that should exist in this instance group
  *    manager.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersResize
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersResize
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11466,7 +15063,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager The name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersSetInstanceTemplate
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersSetInstanceTemplate
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupManagersSetTemplateRequest *)object
                         project:(NSString *)project
@@ -11525,7 +15122,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroupManager Name of the managed instance group.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupManagersSetTargetPools
+ *  @return GTLRComputeQuery_RegionInstanceGroupManagersSetTargetPools
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupManagersSetTargetPoolsRequest *)object
                         project:(NSString *)project
@@ -11566,7 +15163,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param instanceGroup Name of the instance group resource to return.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupsGet
+ *  @return GTLRComputeQuery_RegionInstanceGroupsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11590,25 +15187,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionInstanceGroupsListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -11656,7 +15250,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupsList
+ *  @return GTLRComputeQuery_RegionInstanceGroupsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -11684,25 +15278,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionInstanceGroupsListInstancesWithObject:project:region:instanceGroup:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -11760,7 +15351,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup Name of the regional instance group for which we want
  *    to list the instances.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupsListInstances
+ *  @return GTLRComputeQuery_RegionInstanceGroupsListInstances
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -11823,7 +15414,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param instanceGroup The name of the regional instance group where the named
  *    ports are updated.
  *
- *  @returns GTLRComputeQuery_RegionInstanceGroupsSetNamedPorts
+ *  @return GTLRComputeQuery_RegionInstanceGroupsSetNamedPorts
  */
 + (instancetype)queryWithObject:(GTLRCompute_RegionInstanceGroupsSetNamedPortsRequest *)object
                         project:(NSString *)project
@@ -11864,7 +15455,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param operation Name of the Operations resource to delete.
  *
- *  @returns GTLRComputeQuery_RegionOperationsDelete
+ *  @return GTLRComputeQuery_RegionOperationsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11904,7 +15495,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param operation Name of the Operations resource to return.
  *
- *  @returns GTLRComputeQuery_RegionOperationsGet
+ *  @return GTLRComputeQuery_RegionOperationsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -11928,25 +15519,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionOperationsListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -11994,7 +15582,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_RegionOperationsList
+ *  @return GTLRComputeQuery_RegionOperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -12006,7 +15594,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Region resource. Get a list of available regions by
+ *  Returns the specified Region resource. Gets a list of available regions by
  *  making a list() request.
  *
  *  Method: compute.regions.get
@@ -12029,13 +15617,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Region.
  *
- *  Returns the specified Region resource. Get a list of available regions by
+ *  Returns the specified Region resource. Gets a list of available regions by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region resource to return.
  *
- *  @returns GTLRComputeQuery_RegionsGet
+ *  @return GTLRComputeQuery_RegionsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region;
@@ -12057,25 +15645,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRegionsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -12118,7 +15703,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_RegionsList
+ *  @return GTLRComputeQuery_RegionsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -12143,25 +15728,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRoutersAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -12204,7 +15786,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_RoutersAggregatedList
+ *  @return GTLRComputeQuery_RoutersAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -12255,7 +15837,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to delete.
  *
- *  @returns GTLRComputeQuery_RoutersDelete
+ *  @return GTLRComputeQuery_RoutersDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -12264,7 +15846,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Router resource. Get a list of available routers by
+ *  Returns the specified Router resource. Gets a list of available routers by
  *  making a list() request.
  *
  *  Method: compute.routers.get
@@ -12290,14 +15872,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Router.
  *
- *  Returns the specified Router resource. Get a list of available routers by
+ *  Returns the specified Router resource. Gets a list of available routers by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to return.
  *
- *  @returns GTLRComputeQuery_RoutersGet
+ *  @return GTLRComputeQuery_RoutersGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -12337,7 +15919,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to query.
  *
- *  @returns GTLRComputeQuery_RoutersGetRouterStatus
+ *  @return GTLRComputeQuery_RoutersGetRouterStatus
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -12389,7 +15971,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_RoutersInsert
+ *  @return GTLRComputeQuery_RoutersInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Router *)object
                         project:(NSString *)project
@@ -12412,25 +15994,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRoutersListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -12477,7 +16056,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_RoutersList
+ *  @return GTLRComputeQuery_RoutersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -12538,7 +16117,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to patch.
  *
- *  @returns GTLRComputeQuery_RoutersPatch
+ *  @return GTLRComputeQuery_RoutersPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_Router *)object
                         project:(NSString *)project
@@ -12582,7 +16161,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to query.
  *
- *  @returns GTLRComputeQuery_RoutersPreview
+ *  @return GTLRComputeQuery_RoutersPreview
  */
 + (instancetype)queryWithObject:(GTLRCompute_Router *)object
                         project:(NSString *)project
@@ -12637,7 +16216,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param router Name of the Router resource to update.
  *
- *  @returns GTLRComputeQuery_RoutersUpdate
+ *  @return GTLRComputeQuery_RoutersUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_Router *)object
                         project:(NSString *)project
@@ -12687,7 +16266,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param route Name of the Route resource to delete.
  *
- *  @returns GTLRComputeQuery_RoutesDelete
+ *  @return GTLRComputeQuery_RoutesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                            route:(NSString *)route;
@@ -12695,7 +16274,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Route resource. Get a list of available routes by
+ *  Returns the specified Route resource. Gets a list of available routes by
  *  making a list() request.
  *
  *  Method: compute.routes.get
@@ -12718,13 +16297,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Route.
  *
- *  Returns the specified Route resource. Get a list of available routes by
+ *  Returns the specified Route resource. Gets a list of available routes by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param route Name of the Route resource to return.
  *
- *  @returns GTLRComputeQuery_RoutesGet
+ *  @return GTLRComputeQuery_RoutesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                            route:(NSString *)route;
@@ -12771,7 +16350,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_Route to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_RoutesInsert
+ *  @return GTLRComputeQuery_RoutesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Route *)object
                         project:(NSString *)project;
@@ -12793,25 +16372,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForRoutesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -12854,7 +16430,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_RoutesList
+ *  @return GTLRComputeQuery_RoutesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -12913,7 +16489,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param snapshot Name of the Snapshot resource to delete.
  *
- *  @returns GTLRComputeQuery_SnapshotsDelete
+ *  @return GTLRComputeQuery_SnapshotsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                         snapshot:(NSString *)snapshot;
@@ -12921,7 +16497,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Snapshot resource. Get a list of available snapshots
+ *  Returns the specified Snapshot resource. Gets a list of available snapshots
  *  by making a list() request.
  *
  *  Method: compute.snapshots.get
@@ -12944,13 +16520,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Snapshot.
  *
- *  Returns the specified Snapshot resource. Get a list of available snapshots
+ *  Returns the specified Snapshot resource. Gets a list of available snapshots
  *  by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param snapshot Name of the Snapshot resource to return.
  *
- *  @returns GTLRComputeQuery_SnapshotsGet
+ *  @return GTLRComputeQuery_SnapshotsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                         snapshot:(NSString *)snapshot;
@@ -12973,25 +16549,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForSnapshotsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -13035,7 +16608,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_SnapshotsList
+ *  @return GTLRComputeQuery_SnapshotsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -13076,7 +16649,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param resource Name of the resource for this request.
  *
- *  @returns GTLRComputeQuery_SnapshotsSetLabels
+ *  @return GTLRComputeQuery_SnapshotsSetLabels
  */
 + (instancetype)queryWithObject:(GTLRCompute_GlobalSetLabelsRequest *)object
                         project:(NSString *)project
@@ -13125,7 +16698,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param sslCertificate Name of the SslCertificate resource to delete.
  *
- *  @returns GTLRComputeQuery_SslCertificatesDelete
+ *  @return GTLRComputeQuery_SslCertificatesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                   sslCertificate:(NSString *)sslCertificate;
@@ -13133,7 +16706,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified SslCertificate resource. Get a list of available SSL
+ *  Returns the specified SslCertificate resource. Gets a list of available SSL
  *  certificates by making a list() request.
  *
  *  Method: compute.sslCertificates.get
@@ -13156,13 +16729,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_SslCertificate.
  *
- *  Returns the specified SslCertificate resource. Get a list of available SSL
+ *  Returns the specified SslCertificate resource. Gets a list of available SSL
  *  certificates by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param sslCertificate Name of the SslCertificate resource to return.
  *
- *  @returns GTLRComputeQuery_SslCertificatesGet
+ *  @return GTLRComputeQuery_SslCertificatesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                   sslCertificate:(NSString *)sslCertificate;
@@ -13209,7 +16782,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_SslCertificate to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_SslCertificatesInsert
+ *  @return GTLRComputeQuery_SslCertificatesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_SslCertificate *)object
                         project:(NSString *)project;
@@ -13232,25 +16805,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForSslCertificatesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -13294,13 +16864,375 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_SslCertificatesList
+ *  @return GTLRComputeQuery_SslCertificatesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
  *        information.
  */
 + (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Deletes the specified SSL policy. The SSL policy resource can be deleted
+ *  only if it is not in use by any TargetHttpsProxy or TargetSslProxy
+ *  resources.
+ *
+ *  Method: compute.sslPolicies.delete
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_SslPoliciesDelete : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesDeleteWithproject:sslPolicy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Name of the SSL policy to delete. The name must be 1-63 characters long, and
+ *  comply with RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *sslPolicy;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Deletes the specified SSL policy. The SSL policy resource can be deleted
+ *  only if it is not in use by any TargetHttpsProxy or TargetSslProxy
+ *  resources.
+ *
+ *  @param project Project ID for this request.
+ *  @param sslPolicy Name of the SSL policy to delete. The name must be 1-63
+ *    characters long, and comply with RFC1035.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesDelete
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                       sslPolicy:(NSString *)sslPolicy;
+
+@end
+
+/**
+ *  Lists all of the ordered rules present in a single specified policy.
+ *
+ *  Method: compute.sslPolicies.get
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_SslPoliciesGet : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesGetWithproject:sslPolicy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Name of the SSL policy to update. The name must be 1-63 characters long, and
+ *  comply with RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *sslPolicy;
+
+/**
+ *  Fetches a @c GTLRCompute_SslPolicy.
+ *
+ *  Lists all of the ordered rules present in a single specified policy.
+ *
+ *  @param project Project ID for this request.
+ *  @param sslPolicy Name of the SSL policy to update. The name must be 1-63
+ *    characters long, and comply with RFC1035.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesGet
+ */
++ (instancetype)queryWithProject:(NSString *)project
+                       sslPolicy:(NSString *)sslPolicy;
+
+@end
+
+/**
+ *  Returns the specified SSL policy resource. Gets a list of available SSL
+ *  policies by making a list() request.
+ *
+ *  Method: compute.sslPolicies.insert
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_SslPoliciesInsert : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesInsertWithObject:project:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Returns the specified SSL policy resource. Gets a list of available SSL
+ *  policies by making a list() request.
+ *
+ *  @param object The @c GTLRCompute_SslPolicy to include in the query.
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesInsert
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SslPolicy *)object
+                        project:(NSString *)project;
+
+@end
+
+/**
+ *  Lists all the SSL policies that have been configured for the specified
+ *  project.
+ *
+ *  Method: compute.sslPolicies.list
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_SslPoliciesList : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesListWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_SslPoliciesList.
+ *
+ *  Lists all the SSL policies that have been configured for the specified
+ *  project.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesList
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Lists all features that can be specified in the SSL policy when using custom
+ *  profile.
+ *
+ *  Method: compute.sslPolicies.listAvailableFeatures
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_SslPoliciesListAvailableFeatures : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesListAvailableFeaturesWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_SslPoliciesListAvailableFeaturesResponse.
+ *
+ *  Lists all features that can be specified in the SSL policy when using custom
+ *  profile.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesListAvailableFeatures
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Patches the specified SSL policy with the data included in the request.
+ *
+ *  Method: compute.sslPolicies.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_SslPoliciesPatch : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSslPoliciesPatchWithObject:project:sslPolicy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Name of the SSL policy to update. The name must be 1-63 characters long, and
+ *  comply with RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *sslPolicy;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Patches the specified SSL policy with the data included in the request.
+ *
+ *  @param object The @c GTLRCompute_SslPolicy to include in the query.
+ *  @param project Project ID for this request.
+ *  @param sslPolicy Name of the SSL policy to update. The name must be 1-63
+ *    characters long, and comply with RFC1035.
+ *
+ *  @return GTLRComputeQuery_SslPoliciesPatch
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SslPolicy *)object
+                        project:(NSString *)project
+                      sslPolicy:(NSString *)sslPolicy;
 
 @end
 
@@ -13319,25 +17251,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForSubnetworksAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -13380,7 +17309,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_SubnetworksAggregatedList
+ *  @return GTLRComputeQuery_SubnetworksAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -13431,7 +17360,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param subnetwork Name of the Subnetwork resource to delete.
  *
- *  @returns GTLRComputeQuery_SubnetworksDelete
+ *  @return GTLRComputeQuery_SubnetworksDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -13486,7 +17415,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param subnetwork Name of the Subnetwork resource to update.
  *
- *  @returns GTLRComputeQuery_SubnetworksExpandIpCidrRange
+ *  @return GTLRComputeQuery_SubnetworksExpandIpCidrRange
  */
 + (instancetype)queryWithObject:(GTLRCompute_SubnetworksExpandIpCidrRangeRequest *)object
                         project:(NSString *)project
@@ -13496,8 +17425,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified subnetwork. Get a list of available subnetworks list()
- *  request.
+ *  Returns the specified subnetwork. Gets a list of available subnetworks
+ *  list() request.
  *
  *  Method: compute.subnetworks.get
  *
@@ -13522,14 +17451,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Subnetwork.
  *
- *  Returns the specified subnetwork. Get a list of available subnetworks list()
- *  request.
+ *  Returns the specified subnetwork. Gets a list of available subnetworks
+ *  list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *  @param subnetwork Name of the Subnetwork resource to return.
  *
- *  @returns GTLRComputeQuery_SubnetworksGet
+ *  @return GTLRComputeQuery_SubnetworksGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -13581,7 +17510,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_SubnetworksInsert
+ *  @return GTLRComputeQuery_SubnetworksInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_Subnetwork *)object
                         project:(NSString *)project
@@ -13604,25 +17533,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForSubnetworksListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -13669,7 +17595,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_SubnetworksList
+ *  @return GTLRComputeQuery_SubnetworksList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -13677,6 +17603,152 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region;
+
+@end
+
+/**
+ *  Retrieves an aggregated list of usable subnetworks.
+ *
+ *  Method: compute.subnetworks.listUsable
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ *    @c kGTLRAuthScopeComputeReadonly
+ */
+@interface GTLRComputeQuery_SubnetworksListUsable : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSubnetworksListUsableWithproject:]
+
+/**
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
+ *  To filter on multiple expressions, provide each separate expression within
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
+ */
+@property(nonatomic, copy, nullable) NSString *filter;
+
+/**
+ *  The maximum number of results per page that should be returned. If the
+ *  number of available results is larger than maxResults, Compute Engine
+ *  returns a nextPageToken that can be used to get the next page of results in
+ *  subsequent list requests. Acceptable values are 0 to 500, inclusive.
+ *  (Default: 500)
+ *
+ *  @note If not set, the documented server-side default will be 500.
+ */
+@property(nonatomic, assign) NSUInteger maxResults;
+
+/**
+ *  Sorts list results by a certain order. By default, results are returned in
+ *  alphanumerical order based on the resource name.
+ *  You can also sort results in descending order based on the creation
+ *  timestamp using orderBy="creationTimestamp desc". This sorts results based
+ *  on the creationTimestamp field in reverse chronological order (newest result
+ *  first). Use this to sort resources like operations so that the newest
+ *  operation is returned first.
+ *  Currently, only sorting by name or creationTimestamp desc is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *orderBy;
+
+/**
+ *  Specifies a page token to use. Set pageToken to the nextPageToken returned
+ *  by a previous list request to get the next page of results.
+ */
+@property(nonatomic, copy, nullable) NSString *pageToken;
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  Fetches a @c GTLRCompute_UsableSubnetworksAggregatedList.
+ *
+ *  Retrieves an aggregated list of usable subnetworks.
+ *
+ *  @param project Project ID for this request.
+ *
+ *  @return GTLRComputeQuery_SubnetworksListUsable
+ *
+ *  @note Automatic pagination will be done when @c shouldFetchNextPages is
+ *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
+ *        information.
+ */
++ (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Patches the specified subnetwork with the data included in the request. Only
+ *  the following fields within the subnetwork resource can be specified in the
+ *  request: secondary_ip_range, allow_subnet_cidr_routes_overlap and role. It
+ *  is also mandatory to specify the current fingeprint of the subnetwork
+ *  resource being patched.
+ *
+ *  Method: compute.subnetworks.patch
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_SubnetworksPatch : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForSubnetworksPatchWithObject:project:region:subnetwork:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/** Name of the region scoping this request. */
+@property(nonatomic, copy, nullable) NSString *region;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/** Name of the Subnetwork resource to patch. */
+@property(nonatomic, copy, nullable) NSString *subnetwork;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Patches the specified subnetwork with the data included in the request. Only
+ *  the following fields within the subnetwork resource can be specified in the
+ *  request: secondary_ip_range, allow_subnet_cidr_routes_overlap and role. It
+ *  is also mandatory to specify the current fingeprint of the subnetwork
+ *  resource being patched.
+ *
+ *  @param object The @c GTLRCompute_Subnetwork to include in the query.
+ *  @param project Project ID for this request.
+ *  @param region Name of the region scoping this request.
+ *  @param subnetwork Name of the Subnetwork resource to patch.
+ *
+ *  @return GTLRComputeQuery_SubnetworksPatch
+ */
++ (instancetype)queryWithObject:(GTLRCompute_Subnetwork *)object
+                        project:(NSString *)project
+                         region:(NSString *)region
+                     subnetwork:(NSString *)subnetwork;
 
 @end
 
@@ -13729,7 +17801,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param subnetwork Name of the Subnetwork resource.
  *
- *  @returns GTLRComputeQuery_SubnetworksSetPrivateIpGoogleAccess
+ *  @return GTLRComputeQuery_SubnetworksSetPrivateIpGoogleAccess
  */
 + (instancetype)queryWithObject:(GTLRCompute_SubnetworksSetPrivateIpGoogleAccessRequest *)object
                         project:(NSString *)project
@@ -13779,7 +17851,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param targetHttpProxy Name of the TargetHttpProxy resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetHttpProxiesDelete
+ *  @return GTLRComputeQuery_TargetHttpProxiesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                  targetHttpProxy:(NSString *)targetHttpProxy;
@@ -13787,7 +17859,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified TargetHttpProxy resource. Get a list of available
+ *  Returns the specified TargetHttpProxy resource. Gets a list of available
  *  target HTTP proxies by making a list() request.
  *
  *  Method: compute.targetHttpProxies.get
@@ -13810,13 +17882,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetHttpProxy.
  *
- *  Returns the specified TargetHttpProxy resource. Get a list of available
+ *  Returns the specified TargetHttpProxy resource. Gets a list of available
  *  target HTTP proxies by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param targetHttpProxy Name of the TargetHttpProxy resource to return.
  *
- *  @returns GTLRComputeQuery_TargetHttpProxiesGet
+ *  @return GTLRComputeQuery_TargetHttpProxiesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                  targetHttpProxy:(NSString *)targetHttpProxy;
@@ -13863,7 +17935,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_TargetHttpProxy to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetHttpProxiesInsert
+ *  @return GTLRComputeQuery_TargetHttpProxiesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetHttpProxy *)object
                         project:(NSString *)project;
@@ -13886,25 +17958,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetHttpProxiesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -13948,7 +18017,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetHttpProxiesList
+ *  @return GTLRComputeQuery_TargetHttpProxiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -14000,7 +18069,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param targetHttpProxy Name of the TargetHttpProxy to set a URL map for.
  *
- *  @returns GTLRComputeQuery_TargetHttpProxiesSetUrlMap
+ *  @return GTLRComputeQuery_TargetHttpProxiesSetUrlMap
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMapReference *)object
                         project:(NSString *)project
@@ -14049,7 +18118,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param targetHttpsProxy Name of the TargetHttpsProxy resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesDelete
+ *  @return GTLRComputeQuery_TargetHttpsProxiesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                 targetHttpsProxy:(NSString *)targetHttpsProxy;
@@ -14057,7 +18126,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified TargetHttpsProxy resource. Get a list of available
+ *  Returns the specified TargetHttpsProxy resource. Gets a list of available
  *  target HTTPS proxies by making a list() request.
  *
  *  Method: compute.targetHttpsProxies.get
@@ -14080,13 +18149,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetHttpsProxy.
  *
- *  Returns the specified TargetHttpsProxy resource. Get a list of available
+ *  Returns the specified TargetHttpsProxy resource. Gets a list of available
  *  target HTTPS proxies by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param targetHttpsProxy Name of the TargetHttpsProxy resource to return.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesGet
+ *  @return GTLRComputeQuery_TargetHttpsProxiesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                 targetHttpsProxy:(NSString *)targetHttpsProxy;
@@ -14133,7 +18202,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_TargetHttpsProxy to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesInsert
+ *  @return GTLRComputeQuery_TargetHttpsProxiesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetHttpsProxy *)object
                         project:(NSString *)project;
@@ -14156,25 +18225,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetHttpsProxiesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -14218,13 +18284,68 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesList
+ *  @return GTLRComputeQuery_TargetHttpsProxiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
  *        information.
  */
 + (instancetype)queryWithProject:(NSString *)project;
+
+@end
+
+/**
+ *  Sets the QUIC override policy for TargetHttpsProxy.
+ *
+ *  Method: compute.targetHttpsProxies.setQuicOverride
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_TargetHttpsProxiesSetQuicOverride : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForTargetHttpsProxiesSetQuicOverrideWithObject:project:targetHttpsProxy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Name of the TargetHttpsProxy resource to set the QUIC override policy for.
+ *  The name should conform to RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *targetHttpsProxy;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets the QUIC override policy for TargetHttpsProxy.
+ *
+ *  @param object The @c GTLRCompute_TargetHttpsProxiesSetQuicOverrideRequest to
+ *    include in the query.
+ *  @param project Project ID for this request.
+ *  @param targetHttpsProxy Name of the TargetHttpsProxy resource to set the
+ *    QUIC override policy for. The name should conform to RFC1035.
+ *
+ *  @return GTLRComputeQuery_TargetHttpsProxiesSetQuicOverride
+ */
++ (instancetype)queryWithObject:(GTLRCompute_TargetHttpsProxiesSetQuicOverrideRequest *)object
+                        project:(NSString *)project
+               targetHttpsProxy:(NSString *)targetHttpsProxy;
 
 @end
 
@@ -14275,9 +18396,70 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetHttpsProxy Name of the TargetHttpsProxy resource to set an
  *    SslCertificates resource for.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesSetSslCertificates
+ *  @return GTLRComputeQuery_TargetHttpsProxiesSetSslCertificates
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetHttpsProxiesSetSslCertificatesRequest *)object
+                        project:(NSString *)project
+               targetHttpsProxy:(NSString *)targetHttpsProxy;
+
+@end
+
+/**
+ *  Sets the SSL policy for TargetHttpsProxy. The SSL policy specifies the
+ *  server-side support for SSL features. This affects connections between
+ *  clients and the HTTPS proxy load balancer. They do not affect the connection
+ *  between the load balancer and the backends.
+ *
+ *  Method: compute.targetHttpsProxies.setSslPolicy
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_TargetHttpsProxiesSetSslPolicy : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForTargetHttpsProxiesSetSslPolicyWithObject:project:targetHttpsProxy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Name of the TargetHttpsProxy resource whose SSL policy is to be set. The
+ *  name must be 1-63 characters long, and comply with RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *targetHttpsProxy;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets the SSL policy for TargetHttpsProxy. The SSL policy specifies the
+ *  server-side support for SSL features. This affects connections between
+ *  clients and the HTTPS proxy load balancer. They do not affect the connection
+ *  between the load balancer and the backends.
+ *
+ *  @param object The @c GTLRCompute_SslPolicyReference to include in the query.
+ *  @param project Project ID for this request.
+ *  @param targetHttpsProxy Name of the TargetHttpsProxy resource whose SSL
+ *    policy is to be set. The name must be 1-63 characters long, and comply
+ *    with RFC1035.
+ *
+ *  @return GTLRComputeQuery_TargetHttpsProxiesSetSslPolicy
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SslPolicyReference *)object
                         project:(NSString *)project
                targetHttpsProxy:(NSString *)targetHttpsProxy;
 
@@ -14326,7 +18508,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetHttpsProxy Name of the TargetHttpsProxy resource whose URL map
  *    is to be set.
  *
- *  @returns GTLRComputeQuery_TargetHttpsProxiesSetUrlMap
+ *  @return GTLRComputeQuery_TargetHttpsProxiesSetUrlMap
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMapReference *)object
                         project:(NSString *)project
@@ -14349,25 +18531,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetInstancesAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -14410,7 +18589,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetInstancesAggregatedList
+ *  @return GTLRComputeQuery_TargetInstancesAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -14465,7 +18644,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty Name of the zone scoping this request.
  *  @param targetInstance Name of the TargetInstance resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetInstancesDelete
+ *  @return GTLRComputeQuery_TargetInstancesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -14474,7 +18653,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified TargetInstance resource. Get a list of available
+ *  Returns the specified TargetInstance resource. Gets a list of available
  *  target instances by making a list() request.
  *
  *  Method: compute.targetInstances.get
@@ -14504,14 +18683,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetInstance.
  *
- *  Returns the specified TargetInstance resource. Get a list of available
+ *  Returns the specified TargetInstance resource. Gets a list of available
  *  target instances by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone scoping this request.
  *  @param targetInstance Name of the TargetInstance resource to return.
  *
- *  @returns GTLRComputeQuery_TargetInstancesGet
+ *  @return GTLRComputeQuery_TargetInstancesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -14567,7 +18746,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone scoping this request.
  *
- *  @returns GTLRComputeQuery_TargetInstancesInsert
+ *  @return GTLRComputeQuery_TargetInstancesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetInstance *)object
                         project:(NSString *)project
@@ -14591,25 +18770,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetInstancesListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -14661,7 +18837,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone scoping this request.
  *
- *  @returns GTLRComputeQuery_TargetInstancesList
+ *  @return GTLRComputeQuery_TargetInstancesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -14719,7 +18895,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the target pool to add a health check to.
  *
- *  @returns GTLRComputeQuery_TargetPoolsAddHealthCheck
+ *  @return GTLRComputeQuery_TargetPoolsAddHealthCheck
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetPoolsAddHealthCheckRequest *)object
                         project:(NSString *)project
@@ -14775,7 +18951,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the TargetPool resource to add instances to.
  *
- *  @returns GTLRComputeQuery_TargetPoolsAddInstance
+ *  @return GTLRComputeQuery_TargetPoolsAddInstance
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetPoolsAddInstanceRequest *)object
                         project:(NSString *)project
@@ -14799,25 +18975,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetPoolsAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -14860,7 +19033,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetPoolsAggregatedList
+ *  @return GTLRComputeQuery_TargetPoolsAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -14911,7 +19084,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the TargetPool resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetPoolsDelete
+ *  @return GTLRComputeQuery_TargetPoolsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -14920,7 +19093,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified target pool. Get a list of available target pools by
+ *  Returns the specified target pool. Gets a list of available target pools by
  *  making a list() request.
  *
  *  Method: compute.targetPools.get
@@ -14946,14 +19119,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetPool.
  *
- *  Returns the specified target pool. Get a list of available target pools by
+ *  Returns the specified target pool. Gets a list of available target pools by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the TargetPool resource to return.
  *
- *  @returns GTLRComputeQuery_TargetPoolsGet
+ *  @return GTLRComputeQuery_TargetPoolsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -14997,7 +19170,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetPool Name of the TargetPool resource to which the queried
  *    instance belongs.
  *
- *  @returns GTLRComputeQuery_TargetPoolsGetHealth
+ *  @return GTLRComputeQuery_TargetPoolsGetHealth
  */
 + (instancetype)queryWithObject:(GTLRCompute_InstanceReference *)object
                         project:(NSString *)project
@@ -15050,7 +19223,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_TargetPoolsInsert
+ *  @return GTLRComputeQuery_TargetPoolsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetPool *)object
                         project:(NSString *)project
@@ -15074,25 +19247,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetPoolsListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -15140,7 +19310,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region scoping this request.
  *
- *  @returns GTLRComputeQuery_TargetPoolsList
+ *  @return GTLRComputeQuery_TargetPoolsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -15198,7 +19368,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param targetPool Name of the target pool to remove health checks from.
  *
- *  @returns GTLRComputeQuery_TargetPoolsRemoveHealthCheck
+ *  @return GTLRComputeQuery_TargetPoolsRemoveHealthCheck
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetPoolsRemoveHealthCheckRequest *)object
                         project:(NSString *)project
@@ -15254,7 +19424,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the TargetPool resource to remove instances from.
  *
- *  @returns GTLRComputeQuery_TargetPoolsRemoveInstance
+ *  @return GTLRComputeQuery_TargetPoolsRemoveInstance
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetPoolsRemoveInstanceRequest *)object
                         project:(NSString *)project
@@ -15312,7 +19482,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region scoping this request.
  *  @param targetPool Name of the TargetPool resource to set a backup pool for.
  *
- *  @returns GTLRComputeQuery_TargetPoolsSetBackup
+ *  @return GTLRComputeQuery_TargetPoolsSetBackup
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetReference *)object
                         project:(NSString *)project
@@ -15362,7 +19532,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param targetSslProxy Name of the TargetSslProxy resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesDelete
+ *  @return GTLRComputeQuery_TargetSslProxiesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                   targetSslProxy:(NSString *)targetSslProxy;
@@ -15370,7 +19540,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified TargetSslProxy resource. Get a list of available
+ *  Returns the specified TargetSslProxy resource. Gets a list of available
  *  target SSL proxies by making a list() request.
  *
  *  Method: compute.targetSslProxies.get
@@ -15393,13 +19563,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetSslProxy.
  *
- *  Returns the specified TargetSslProxy resource. Get a list of available
+ *  Returns the specified TargetSslProxy resource. Gets a list of available
  *  target SSL proxies by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param targetSslProxy Name of the TargetSslProxy resource to return.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesGet
+ *  @return GTLRComputeQuery_TargetSslProxiesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                   targetSslProxy:(NSString *)targetSslProxy;
@@ -15446,7 +19616,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_TargetSslProxy to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesInsert
+ *  @return GTLRComputeQuery_TargetSslProxiesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetSslProxy *)object
                         project:(NSString *)project;
@@ -15469,25 +19639,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetSslProxiesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -15531,7 +19698,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesList
+ *  @return GTLRComputeQuery_TargetSslProxiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -15588,7 +19755,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetSslProxy Name of the TargetSslProxy resource whose
  *    BackendService resource is to be set.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesSetBackendService
+ *  @return GTLRComputeQuery_TargetSslProxiesSetBackendService
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetSslProxiesSetBackendServiceRequest *)object
                         project:(NSString *)project
@@ -15640,7 +19807,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetSslProxy Name of the TargetSslProxy resource whose ProxyHeader
  *    is to be set.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesSetProxyHeader
+ *  @return GTLRComputeQuery_TargetSslProxiesSetProxyHeader
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetSslProxiesSetProxyHeaderRequest *)object
                         project:(NSString *)project
@@ -15695,9 +19862,70 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetSslProxy Name of the TargetSslProxy resource whose
  *    SslCertificate resource is to be set.
  *
- *  @returns GTLRComputeQuery_TargetSslProxiesSetSslCertificates
+ *  @return GTLRComputeQuery_TargetSslProxiesSetSslCertificates
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetSslProxiesSetSslCertificatesRequest *)object
+                        project:(NSString *)project
+                 targetSslProxy:(NSString *)targetSslProxy;
+
+@end
+
+/**
+ *  Sets the SSL policy for TargetSslProxy. The SSL policy specifies the
+ *  server-side support for SSL features. This affects connections between
+ *  clients and the SSL proxy load balancer. They do not affect the connection
+ *  between the load balancer and the backends.
+ *
+ *  Method: compute.targetSslProxies.setSslPolicy
+ *
+ *  Authorization scope(s):
+ *    @c kGTLRAuthScopeCompute
+ *    @c kGTLRAuthScopeComputeCloudPlatform
+ */
+@interface GTLRComputeQuery_TargetSslProxiesSetSslPolicy : GTLRComputeQuery
+// Previous library name was
+//   +[GTLQueryCompute queryForTargetSslProxiesSetSslPolicyWithObject:project:targetSslProxy:]
+
+/** Project ID for this request. */
+@property(nonatomic, copy, nullable) NSString *project;
+
+/**
+ *  An optional request ID to identify requests. Specify a unique request ID so
+ *  that if you must retry your request, the server will know to ignore the
+ *  request if it has already been completed.
+ *  For example, consider a situation where you make an initial request and the
+ *  request times out. If you make the request again with the same request ID,
+ *  the server can check if original operation with the same request ID was
+ *  received, and if so, will ignore the second request. This prevents clients
+ *  from accidentally creating duplicate commitments.
+ *  The request ID must be a valid UUID with the exception that zero UUID is not
+ *  supported (00000000-0000-0000-0000-000000000000).
+ */
+@property(nonatomic, copy, nullable) NSString *requestId;
+
+/**
+ *  Name of the TargetSslProxy resource whose SSL policy is to be set. The name
+ *  must be 1-63 characters long, and comply with RFC1035.
+ */
+@property(nonatomic, copy, nullable) NSString *targetSslProxy;
+
+/**
+ *  Fetches a @c GTLRCompute_Operation.
+ *
+ *  Sets the SSL policy for TargetSslProxy. The SSL policy specifies the
+ *  server-side support for SSL features. This affects connections between
+ *  clients and the SSL proxy load balancer. They do not affect the connection
+ *  between the load balancer and the backends.
+ *
+ *  @param object The @c GTLRCompute_SslPolicyReference to include in the query.
+ *  @param project Project ID for this request.
+ *  @param targetSslProxy Name of the TargetSslProxy resource whose SSL policy
+ *    is to be set. The name must be 1-63 characters long, and comply with
+ *    RFC1035.
+ *
+ *  @return GTLRComputeQuery_TargetSslProxiesSetSslPolicy
+ */
++ (instancetype)queryWithObject:(GTLRCompute_SslPolicyReference *)object
                         project:(NSString *)project
                  targetSslProxy:(NSString *)targetSslProxy;
 
@@ -15744,7 +19972,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param targetTcpProxy Name of the TargetTcpProxy resource to delete.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesDelete
+ *  @return GTLRComputeQuery_TargetTcpProxiesDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                   targetTcpProxy:(NSString *)targetTcpProxy;
@@ -15752,7 +19980,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified TargetTcpProxy resource. Get a list of available
+ *  Returns the specified TargetTcpProxy resource. Gets a list of available
  *  target TCP proxies by making a list() request.
  *
  *  Method: compute.targetTcpProxies.get
@@ -15775,13 +20003,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetTcpProxy.
  *
- *  Returns the specified TargetTcpProxy resource. Get a list of available
+ *  Returns the specified TargetTcpProxy resource. Gets a list of available
  *  target TCP proxies by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param targetTcpProxy Name of the TargetTcpProxy resource to return.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesGet
+ *  @return GTLRComputeQuery_TargetTcpProxiesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                   targetTcpProxy:(NSString *)targetTcpProxy;
@@ -15828,7 +20056,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_TargetTcpProxy to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesInsert
+ *  @return GTLRComputeQuery_TargetTcpProxiesInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetTcpProxy *)object
                         project:(NSString *)project;
@@ -15851,25 +20079,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetTcpProxiesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -15913,7 +20138,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesList
+ *  @return GTLRComputeQuery_TargetTcpProxiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -15970,7 +20195,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetTcpProxy Name of the TargetTcpProxy resource whose
  *    BackendService resource is to be set.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesSetBackendService
+ *  @return GTLRComputeQuery_TargetTcpProxiesSetBackendService
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetTcpProxiesSetBackendServiceRequest *)object
                         project:(NSString *)project
@@ -16022,7 +20247,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param targetTcpProxy Name of the TargetTcpProxy resource whose ProxyHeader
  *    is to be set.
  *
- *  @returns GTLRComputeQuery_TargetTcpProxiesSetProxyHeader
+ *  @return GTLRComputeQuery_TargetTcpProxiesSetProxyHeader
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetTcpProxiesSetProxyHeaderRequest *)object
                         project:(NSString *)project
@@ -16045,25 +20270,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetVpnGatewaysAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -16106,7 +20328,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_TargetVpnGatewaysAggregatedList
+ *  @return GTLRComputeQuery_TargetVpnGatewaysAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -16157,7 +20379,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param targetVpnGateway Name of the target VPN gateway to delete.
  *
- *  @returns GTLRComputeQuery_TargetVpnGatewaysDelete
+ *  @return GTLRComputeQuery_TargetVpnGatewaysDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -16166,8 +20388,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified target VPN gateway. Get a list of available target VPN
- *  gateways by making a list() request.
+ *  Returns the specified target VPN gateway. Gets a list of available target
+ *  VPN gateways by making a list() request.
  *
  *  Method: compute.targetVpnGateways.get
  *
@@ -16192,14 +20414,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_TargetVpnGateway.
  *
- *  Returns the specified target VPN gateway. Get a list of available target VPN
- *  gateways by making a list() request.
+ *  Returns the specified target VPN gateway. Gets a list of available target
+ *  VPN gateways by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *  @param targetVpnGateway Name of the target VPN gateway to return.
  *
- *  @returns GTLRComputeQuery_TargetVpnGatewaysGet
+ *  @return GTLRComputeQuery_TargetVpnGatewaysGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -16251,7 +20473,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_TargetVpnGatewaysInsert
+ *  @return GTLRComputeQuery_TargetVpnGatewaysInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_TargetVpnGateway *)object
                         project:(NSString *)project
@@ -16275,25 +20497,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForTargetVpnGatewaysListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -16341,7 +20560,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_TargetVpnGatewaysList
+ *  @return GTLRComputeQuery_TargetVpnGatewaysList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -16393,7 +20612,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap resource to delete.
  *
- *  @returns GTLRComputeQuery_UrlMapsDelete
+ *  @return GTLRComputeQuery_UrlMapsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           urlMap:(NSString *)urlMap;
@@ -16401,7 +20620,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified UrlMap resource. Get a list of available URL maps by
+ *  Returns the specified UrlMap resource. Gets a list of available URL maps by
  *  making a list() request.
  *
  *  Method: compute.urlMaps.get
@@ -16424,13 +20643,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_UrlMap.
  *
- *  Returns the specified UrlMap resource. Get a list of available URL maps by
+ *  Returns the specified UrlMap resource. Gets a list of available URL maps by
  *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap resource to return.
  *
- *  @returns GTLRComputeQuery_UrlMapsGet
+ *  @return GTLRComputeQuery_UrlMapsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           urlMap:(NSString *)urlMap;
@@ -16477,7 +20696,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRCompute_UrlMap to include in the query.
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_UrlMapsInsert
+ *  @return GTLRComputeQuery_UrlMapsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMap *)object
                         project:(NSString *)project;
@@ -16529,7 +20748,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap scoping this request.
  *
- *  @returns GTLRComputeQuery_UrlMapsInvalidateCache
+ *  @return GTLRComputeQuery_UrlMapsInvalidateCache
  */
 + (instancetype)queryWithObject:(GTLRCompute_CacheInvalidationRule *)object
                         project:(NSString *)project
@@ -16552,25 +20771,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForUrlMapsListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -16613,7 +20829,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_UrlMapsList
+ *  @return GTLRComputeQuery_UrlMapsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -16669,7 +20885,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap resource to patch.
  *
- *  @returns GTLRComputeQuery_UrlMapsPatch
+ *  @return GTLRComputeQuery_UrlMapsPatch
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMap *)object
                         project:(NSString *)project
@@ -16719,7 +20935,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap resource to update.
  *
- *  @returns GTLRComputeQuery_UrlMapsUpdate
+ *  @return GTLRComputeQuery_UrlMapsUpdate
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMap *)object
                         project:(NSString *)project
@@ -16758,7 +20974,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param urlMap Name of the UrlMap resource to be validated as.
  *
- *  @returns GTLRComputeQuery_UrlMapsValidate
+ *  @return GTLRComputeQuery_UrlMapsValidate
  */
 + (instancetype)queryWithObject:(GTLRCompute_UrlMapsValidateRequest *)object
                         project:(NSString *)project
@@ -16781,25 +20997,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForVpnTunnelsAggregatedListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -16842,7 +21055,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_VpnTunnelsAggregatedList
+ *  @return GTLRComputeQuery_VpnTunnelsAggregatedList
  */
 + (instancetype)queryWithProject:(NSString *)project;
 
@@ -16893,7 +21106,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param region Name of the region for this request.
  *  @param vpnTunnel Name of the VpnTunnel resource to delete.
  *
- *  @returns GTLRComputeQuery_VpnTunnelsDelete
+ *  @return GTLRComputeQuery_VpnTunnelsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -16902,7 +21115,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified VpnTunnel resource. Get a list of available VPN
+ *  Returns the specified VpnTunnel resource. Gets a list of available VPN
  *  tunnels by making a list() request.
  *
  *  Method: compute.vpnTunnels.get
@@ -16928,14 +21141,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_VpnTunnel.
  *
- *  Returns the specified VpnTunnel resource. Get a list of available VPN
+ *  Returns the specified VpnTunnel resource. Gets a list of available VPN
  *  tunnels by making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *  @param vpnTunnel Name of the VpnTunnel resource to return.
  *
- *  @returns GTLRComputeQuery_VpnTunnelsGet
+ *  @return GTLRComputeQuery_VpnTunnelsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                           region:(NSString *)region
@@ -16987,7 +21200,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_VpnTunnelsInsert
+ *  @return GTLRComputeQuery_VpnTunnelsInsert
  */
 + (instancetype)queryWithObject:(GTLRCompute_VpnTunnel *)object
                         project:(NSString *)project
@@ -17011,25 +21224,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForVpnTunnelsListWithproject:region:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -17077,7 +21287,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param region Name of the region for this request.
  *
- *  @returns GTLRComputeQuery_VpnTunnelsList
+ *  @return GTLRComputeQuery_VpnTunnelsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -17124,7 +21334,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty Name of the zone for this request.
  *  @param operation Name of the Operations resource to delete.
  *
- *  @returns GTLRComputeQuery_ZoneOperationsDelete
+ *  @return GTLRComputeQuery_ZoneOperationsDelete
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -17168,7 +21378,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param zoneProperty Name of the zone for this request.
  *  @param operation Name of the Operations resource to return.
  *
- *  @returns GTLRComputeQuery_ZoneOperationsGet
+ *  @return GTLRComputeQuery_ZoneOperationsGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty
@@ -17191,25 +21401,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForZoneOperationsListWithproject:zoneProperty:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -17260,7 +21467,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone for request.
  *
- *  @returns GTLRComputeQuery_ZoneOperationsList
+ *  @return GTLRComputeQuery_ZoneOperationsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -17272,8 +21479,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns the specified Zone resource. Get a list of available zones by making
- *  a list() request.
+ *  Returns the specified Zone resource. Gets a list of available zones by
+ *  making a list() request.
  *
  *  Method: compute.zones.get
  *
@@ -17299,13 +21506,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fetches a @c GTLRCompute_Zone.
  *
- *  Returns the specified Zone resource. Get a list of available zones by making
- *  a list() request.
+ *  Returns the specified Zone resource. Gets a list of available zones by
+ *  making a list() request.
  *
  *  @param project Project ID for this request.
  *  @param zoneProperty Name of the zone resource to return.
  *
- *  @returns GTLRComputeQuery_ZonesGet
+ *  @return GTLRComputeQuery_ZonesGet
  */
 + (instancetype)queryWithProject:(NSString *)project
                     zoneProperty:(NSString *)zoneProperty;
@@ -17327,25 +21534,22 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCompute queryForZonesListWithproject:]
 
 /**
- *  Sets a filter {expression} for filtering listed resources. Your {expression}
- *  must be in the format: field_name comparison_string literal_string.
- *  The field_name is the name of the field you want to compare. Only atomic
- *  field types are supported (string, number, boolean). The comparison_string
- *  must be either eq (equals) or ne (not equals). The literal_string is the
- *  string value to filter to. The literal value must be valid for the type of
- *  field you are filtering by (string, number, boolean). For string fields, the
- *  literal value is interpreted as a regular expression using RE2 syntax. The
- *  literal value must match the entire field.
- *  For example, to filter for instances that do not have a name of
- *  example-instance, you would use name ne example-instance.
- *  You can filter on nested fields. For example, you could filter on instances
- *  that have set the scheduling.automaticRestart field to true. Use filtering
- *  on nested fields to take advantage of labels to organize and search for
- *  results based on label values.
+ *  A filter expression that filters resources listed in the response. The
+ *  expression must specify the field name, a comparison operator, and the value
+ *  that you want to use for filtering. The value must be a string, a number, or
+ *  a boolean. The comparison operator must be either =, !=, >, or <.
+ *  For example, if you are filtering Compute Engine instances, you can exclude
+ *  instances named example-instance by specifying name != example-instance.
+ *  You can also filter nested fields. For example, you could specify
+ *  scheduling.automaticRestart = false to include instances only if they are
+ *  not scheduled for automatic restarts. You can use filtering on nested fields
+ *  to filter based on resource labels.
  *  To filter on multiple expressions, provide each separate expression within
- *  parentheses. For example, (scheduling.automaticRestart eq true) (zone eq
- *  us-central1-f). Multiple expressions are treated as AND expressions, meaning
- *  that resources must match all expressions to pass the filters.
+ *  parentheses. For example, (scheduling.automaticRestart = true) (cpuPlatform
+ *  = "Intel Skylake"). By default, each expression is an AND expression.
+ *  However, you can include AND and OR expressions explicitly. For example,
+ *  (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+ *  (scheduling.automaticRestart = true).
  */
 @property(nonatomic, copy, nullable) NSString *filter;
 
@@ -17388,7 +21592,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param project Project ID for this request.
  *
- *  @returns GTLRComputeQuery_ZonesList
+ *  @return GTLRComputeQuery_ZonesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

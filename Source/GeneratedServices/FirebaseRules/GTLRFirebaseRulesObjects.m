@@ -14,6 +14,16 @@
 // ----------------------------------------------------------------------------
 // Constants
 
+// GTLRFirebaseRules_GetReleaseExecutableResponse.executableVersion
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_ExecutableVersion_FirebaseRulesExecutableV1 = @"FIREBASE_RULES_EXECUTABLE_V1";
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_ExecutableVersion_FirebaseRulesExecutableV2 = @"FIREBASE_RULES_EXECUTABLE_V2";
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_ExecutableVersion_ReleaseExecutableVersionUnspecified = @"RELEASE_EXECUTABLE_VERSION_UNSPECIFIED";
+
+// GTLRFirebaseRules_GetReleaseExecutableResponse.language
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_Language_EventFlowTriggers = @"EVENT_FLOW_TRIGGERS";
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_Language_FirebaseRules = @"FIREBASE_RULES";
+NSString * const kGTLRFirebaseRules_GetReleaseExecutableResponse_Language_LanguageUnspecified = @"LANGUAGE_UNSPECIFIED";
+
 // GTLRFirebaseRules_Issue.severity
 NSString * const kGTLRFirebaseRules_Issue_Severity_Deprecation = @"DEPRECATION";
 NSString * const kGTLRFirebaseRules_Issue_Severity_Error       = @"ERROR";
@@ -92,6 +102,16 @@ NSString * const kGTLRFirebaseRules_TestResult_State_Success   = @"SUCCESS";
   return map;
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRFirebaseRules_GetReleaseExecutableResponse
+//
+
+@implementation GTLRFirebaseRules_GetReleaseExecutableResponse
+@dynamic executable, executableVersion, language, rulesetName, updateTime;
 @end
 
 
@@ -236,12 +256,13 @@ NSString * const kGTLRFirebaseRules_TestResult_State_Success   = @"SUCCESS";
 //
 
 @implementation GTLRFirebaseRules_TestResult
-@dynamic debugMessages, errorPosition, functionCalls, state;
+@dynamic debugMessages, errorPosition, functionCalls, state, visitedExpressions;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"debugMessages" : [NSString class],
-    @"functionCalls" : [GTLRFirebaseRules_FunctionCall class]
+    @"functionCalls" : [GTLRFirebaseRules_FunctionCall class],
+    @"visitedExpressions" : [GTLRFirebaseRules_VisitedExpression class]
   };
   return map;
 }
@@ -293,4 +314,29 @@ NSString * const kGTLRFirebaseRules_TestResult_State_Success   = @"SUCCESS";
   return map;
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRFirebaseRules_UpdateReleaseRequest
+//
+
+@implementation GTLRFirebaseRules_UpdateReleaseRequest
+@dynamic releaseProperty, updateMask;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"releaseProperty" : @"release" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRFirebaseRules_VisitedExpression
+//
+
+@implementation GTLRFirebaseRules_VisitedExpression
+@dynamic sourcePosition, value;
 @end

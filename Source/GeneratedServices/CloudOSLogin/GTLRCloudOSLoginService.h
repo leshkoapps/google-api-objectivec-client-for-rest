@@ -2,9 +2,9 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud OS Login API (oslogin/v1alpha)
+//   Cloud OS Login API (oslogin/v1)
 // Description:
-//   Manages OS login configuration for Directory API users.
+//   Manages OS login configuration for Google account users.
 // Documentation:
 //   https://cloud.google.com/compute/docs/oslogin/rest/
 
@@ -36,20 +36,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 GTLR_EXTERN NSString * const kGTLRAuthScopeCloudOSLoginCloudPlatform;
 /**
- *  Authorization scope: View your data across Google Cloud Platform services
+ *  Authorization scope: View and manage your Google Compute Engine resources
  *
- *  Value "https://www.googleapis.com/auth/cloud-platform.read-only"
+ *  Value "https://www.googleapis.com/auth/compute"
  */
-GTLR_EXTERN NSString * const kGTLRAuthScopeCloudOSLoginCloudPlatformReadOnly;
+GTLR_EXTERN NSString * const kGTLRAuthScopeCloudOSLoginCompute;
 
 // ----------------------------------------------------------------------------
 //   GTLRCloudOSLoginService
 //
 
 /**
- *  Service for executing Google Cloud OS Login API queries.
+ *  Service for executing Cloud OS Login API queries.
  *
- *  Manages OS login configuration for Directory API users.
+ *  Manages OS login configuration for Google account users.
  */
 @interface GTLRCloudOSLoginService : GTLRService
 

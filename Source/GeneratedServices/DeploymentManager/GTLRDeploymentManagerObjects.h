@@ -41,6 +41,7 @@
 @class GTLRDeploymentManager_Operation_Error_Errors_Item;
 @class GTLRDeploymentManager_Operation_Warnings_Item;
 @class GTLRDeploymentManager_Operation_Warnings_Item_Data_Item;
+@class GTLRDeploymentManager_Policy;
 @class GTLRDeploymentManager_Resource;
 @class GTLRDeploymentManager_Resource_Warnings_Item;
 @class GTLRDeploymentManager_Resource_Warnings_Item_Data_Item;
@@ -69,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  If there are AuditConfigs for both `allServices` and a specific service, the
  *  union of the two AuditConfigs is used for that service: the log_types
  *  specified in each AuditConfig are enabled, and the exempted_members in each
- *  AuditConfig are exempted.
+ *  AuditLogConfig are exempted.
  *  Example Policy with multiple AuditConfigs:
  *  { "audit_configs": [ { "service": "allServices" "audit_log_configs": [ {
  *  "log_type": "DATA_READ", "exempted_members": [ "user:foo\@gmail.com" ] }, {
@@ -139,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  The condition that is associated with this binding. NOTE: an unsatisfied
  *  condition will not allow user access via current binding. Different
  *  bindings, including their conditions, are examined independently. This field
- *  is GOOGLE_INTERNAL.
+ *  is only visible as GOOGLE_INTERNAL or CONDITION_TRUSTED_TESTER.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_Expr *condition;
 
@@ -151,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  * `allAuthenticatedUsers`: A special identifier that represents anyone who
  *  is authenticated with a Google account or a service account.
  *  * `user:{emailid}`: An email address that represents a specific Google
- *  account. For example, `alice\@gmail.com` or `joe\@example.com`.
+ *  account. For example, `alice\@gmail.com` .
  *  * `serviceAccount:{emailid}`: An email address that represents a service
  *  account. For example, `my-other-app\@appspot.gserviceaccount.com`.
  *  * `group:{emailid}`: An email address that represents a Google group. For
@@ -238,7 +239,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *fingerprint;
 
 /**
- *  [Output Only] Unique identifier for the resource; defined by the server.
+ *  Output only. Unique identifier for the resource; defined by the server.
  *
  *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
  *
@@ -247,7 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *identifier;
 
 /**
- *  [Output Only] Timestamp when the deployment was created, in RFC3339 text
+ *  Output only. Timestamp when the deployment was created, in RFC3339 text
  *  format .
  */
 @property(nonatomic, copy, nullable) NSString *insertTime;
@@ -263,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_DeploymentLabelEntry *> *labels;
 
 /**
- *  [Output Only] URL of the manifest representing the last manifest that was
+ *  Output only. URL of the manifest representing the last manifest that was
  *  successfully deployed.
  */
 @property(nonatomic, copy, nullable) NSString *manifest;
@@ -280,12 +281,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
- *  [Output Only] The Operation that most recently ran, or is currently running,
+ *  Output only. The Operation that most recently ran, or is currently running,
  *  on this deployment.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_Operation *operation;
 
-/** [Output Only] Self link for the deployment. */
+/** Output only. Self link for the deployment. */
 @property(nonatomic, copy, nullable) NSString *selfLink;
 
 /**
@@ -295,7 +296,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_TargetConfiguration *target;
 
 /**
- *  [Output Only] If Deployment Manager is currently updating or previewing an
+ *  Output only. If Deployment Manager is currently updating or previewing an
  *  update to this deployment, the updated configuration appears here.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_DeploymentUpdate *update;
@@ -350,14 +351,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRDeploymentManager_DeploymentsListResponse : GTLRCollectionObject
 
 /**
- *  [Output Only] The deployments contained in this response.
+ *  Output only. The deployments contained in this response.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Deployment *> *deployments;
 
-/** [Output Only] A token used to continue a truncated list request. */
+/** Output only. A token used to continue a truncated list request. */
 @property(nonatomic, copy, nullable) NSString *nextPageToken;
 
 @end
@@ -393,7 +394,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRDeploymentManager_DeploymentUpdate : GTLRObject
 
 /**
- *  [Output Only] An optional user-provided description of the deployment after
+ *  Output only. An optional user-provided description of the deployment after
  *  the current update has been applied.
  *
  *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
@@ -401,7 +402,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *descriptionProperty;
 
 /**
- *  [Output Only] Map of labels; provided by the client when the resource is
+ *  Output only. Map of labels; provided by the client when the resource is
  *  created or updated. Specifically: Label keys must be between 1 and 63
  *  characters long and must conform to the following regular expression:
  *  [a-z]([-a-z0-9]*[a-z0-9])? Label values must be between 0 and 63 characters
@@ -411,7 +412,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_DeploymentUpdateLabelEntry *> *labels;
 
 /**
- *  [Output Only] URL of the manifest representing the update configuration of
+ *  Output only. URL of the manifest representing the update configuration of
  *  this deployment.
  */
 @property(nonatomic, copy, nullable) NSString *manifest;
@@ -464,6 +465,36 @@ NS_ASSUME_NONNULL_BEGIN
  *  purpose. This can be used e.g. in UIs which allow to enter the expression.
  */
 @property(nonatomic, copy, nullable) NSString *title;
+
+@end
+
+
+/**
+ *  GTLRDeploymentManager_GlobalSetPolicyRequest
+ */
+@interface GTLRDeploymentManager_GlobalSetPolicyRequest : GTLRObject
+
+/**
+ *  Flatten Policy to create a backwacd compatible wire-format. Deprecated. Use
+ *  'policy' to specify bindings.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Binding *> *bindings;
+
+/**
+ *  Flatten Policy to create a backward compatible wire-format. Deprecated. Use
+ *  'policy' to specify the etag.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *ETag;
+
+/**
+ *  REQUIRED: The complete policy to be applied to the 'resource'. The size of
+ *  the policy is limited to a few 10s of KB. An empty policy is in general a
+ *  valid policy but certain services (like Projects) might reject them.
+ */
+@property(nonatomic, strong, nullable) GTLRDeploymentManager_Policy *policy;
 
 @end
 
@@ -560,17 +591,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GTLRDeploymentManager_Manifest : GTLRObject
 
-/** [Output Only] The YAML configuration for this manifest. */
+/** Output only. The YAML configuration for this manifest. */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_ConfigFile *config;
 
 /**
- *  [Output Only] The fully-expanded configuration file, including any templates
+ *  Output only. The fully-expanded configuration file, including any templates
  *  and references.
  */
 @property(nonatomic, copy, nullable) NSString *expandedConfig;
 
 /**
- *  [Output Only] Unique identifier for the resource; defined by the server.
+ *  Output only. Unique identifier for the resource; defined by the server.
  *
  *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
  *
@@ -578,22 +609,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, strong, nullable) NSNumber *identifier;
 
-/** [Output Only] The imported files for this manifest. */
+/** Output only. The imported files for this manifest. */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_ImportFile *> *imports;
 
 /**
- *  [Output Only] Timestamp when the manifest was created, in RFC3339 text
+ *  Output only. Timestamp when the manifest was created, in RFC3339 text
  *  format.
  */
 @property(nonatomic, copy, nullable) NSString *insertTime;
 
-/** [Output Only] The YAML layout for this manifest. */
+/** Output only. The YAML layout for this manifest. */
 @property(nonatomic, copy, nullable) NSString *layout;
 
-/** [Output Only] The name of the manifest. */
+/**
+ *  Output only.
+ *  The name of the manifest.
+ */
 @property(nonatomic, copy, nullable) NSString *name;
 
-/** [Output Only] Self link for the manifest. */
+/** Output only. Self link for the manifest. */
 @property(nonatomic, copy, nullable) NSString *selfLink;
 
 @end
@@ -611,25 +645,32 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRDeploymentManager_ManifestsListResponse : GTLRCollectionObject
 
 /**
- *  [Output Only] Manifests contained in this list response.
+ *  Output only. Manifests contained in this list response.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Manifest *> *manifests;
 
-/** [Output Only] A token used to continue a truncated list request. */
+/** Output only. A token used to continue a truncated list request. */
 @property(nonatomic, copy, nullable) NSString *nextPageToken;
 
 @end
 
 
 /**
- *  An Operation resource, used to manage asynchronous API requests.
+ *  An Operation resource, used to manage asynchronous API requests. (==
+ *  resource_for v1.globalOperations ==) (== resource_for beta.globalOperations
+ *  ==) (== resource_for v1.regionOperations ==) (== resource_for
+ *  beta.regionOperations ==) (== resource_for v1.zoneOperations ==) (==
+ *  resource_for beta.zoneOperations ==)
  */
 @interface GTLRDeploymentManager_Operation : GTLRObject
 
-/** [Output Only] Reserved for future use. */
+/**
+ *  [Output Only] The value of `requestId` if you provided it in the request.
+ *  Not present otherwise.
+ */
 @property(nonatomic, copy, nullable) NSString *clientOperationId;
 
 /** [Deprecated] This field is deprecated. */
@@ -714,7 +755,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  [Output Only] The URL of the region where the operation resides. Only
- *  available when performing regional operations.
+ *  available when performing regional operations. You must specify this field
+ *  as part of the HTTP request URL. It is not settable as a field in the
+ *  request body.
  */
 @property(nonatomic, copy, nullable) NSString *region;
 
@@ -768,7 +811,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  [Output Only] The URL of the zone where the operation resides. Only
- *  available when performing per-zone operations.
+ *  available when performing per-zone operations. You must specify this field
+ *  as part of the HTTP request URL. It is not settable as a field in the
+ *  request body.
  *
  *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
  */
@@ -868,11 +913,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GTLRDeploymentManager_OperationsListResponse : GTLRCollectionObject
 
-/** [Output Only] A token used to continue a truncated list request. */
+/** Output only. A token used to continue a truncated list request. */
 @property(nonatomic, copy, nullable) NSString *nextPageToken;
 
 /**
- *  [Output Only] Operations contained in this list response.
+ *  Output only. Operations contained in this list response.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.
@@ -885,17 +930,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Defines an Identity and Access Management (IAM) policy. It is used to
  *  specify access control policies for Cloud Platform resources.
- *  A `Policy` consists of a list of `bindings`. A `Binding` binds a list of
+ *  A `Policy` consists of a list of `bindings`. A `binding` binds a list of
  *  `members` to a `role`, where the members can be user accounts, Google
  *  groups, Google domains, and service accounts. A `role` is a named list of
  *  permissions defined by IAM.
- *  **Example**
+ *  **JSON Example**
  *  { "bindings": [ { "role": "roles/owner", "members": [
  *  "user:mike\@example.com", "group:admins\@example.com", "domain:google.com",
- *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com", ] }, { "role":
+ *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com" ] }, { "role":
  *  "roles/viewer", "members": ["user:sean\@example.com"] } ] }
+ *  **YAML Example**
+ *  bindings: - members: - user:mike\@example.com - group:admins\@example.com -
+ *  domain:google.com - serviceAccount:my-other-app\@appspot.gserviceaccount.com
+ *  role: roles/owner - members: - user:sean\@example.com role: roles/viewer
  *  For a description of IAM and its features, see the [IAM developer's
- *  guide](https://cloud.google.com/iam).
+ *  guide](https://cloud.google.com/iam/docs).
  */
 @interface GTLRDeploymentManager_Policy : GTLRObject
 
@@ -943,7 +992,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Rule *> *rules;
 
 /**
- *  Version of the `Policy`. The default version is 0.
+ *  Deprecated.
  *
  *  Uses NSNumber of intValue.
  */
@@ -961,13 +1010,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_ResourceAccessControl *accessControl;
 
 /**
- *  [Output Only] The evaluated properties of the resource with references
+ *  Output only. The evaluated properties of the resource with references
  *  expanded. Returned as serialized YAML.
  */
 @property(nonatomic, copy, nullable) NSString *finalProperties;
 
 /**
- *  [Output Only] Unique identifier for the resource; defined by the server.
+ *  Output only. Unique identifier for the resource; defined by the server.
  *
  *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
  *
@@ -976,51 +1025,49 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *identifier;
 
 /**
- *  [Output Only] Timestamp when the resource was created or acquired, in
- *  RFC3339 text format .
+ *  Output only. Timestamp when the resource was created or acquired, in RFC3339
+ *  text format .
  */
 @property(nonatomic, copy, nullable) NSString *insertTime;
 
 /**
- *  [Output Only] URL of the manifest representing the current configuration of
+ *  Output only. URL of the manifest representing the current configuration of
  *  this resource.
  */
 @property(nonatomic, copy, nullable) NSString *manifest;
 
-/**
- *  [Output Only] The name of the resource as it appears in the YAML config.
- */
+/** Output only. The name of the resource as it appears in the YAML config. */
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
- *  [Output Only] The current properties of the resource before any references
+ *  Output only. The current properties of the resource before any references
  *  have been filled in. Returned as serialized YAML.
  */
 @property(nonatomic, copy, nullable) NSString *properties;
 
 /**
- *  [Output Only] The type of the resource, for example compute.v1.instance, or
+ *  Output only. The type of the resource, for example compute.v1.instance, or
  *  cloudfunctions.v1beta1.function.
  */
 @property(nonatomic, copy, nullable) NSString *type;
 
 /**
- *  [Output Only] If Deployment Manager is currently updating or previewing an
+ *  Output only. If Deployment Manager is currently updating or previewing an
  *  update to this resource, the updated configuration appears here.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_ResourceUpdate *update;
 
 /**
- *  [Output Only] Timestamp when the resource was updated, in RFC3339 text
- *  format .
+ *  Output only. Timestamp when the resource was updated, in RFC3339 text format
+ *  .
  */
 @property(nonatomic, copy, nullable) NSString *updateTime;
 
-/** [Output Only] The URL of the actual resource. */
+/** Output only. The URL of the actual resource. */
 @property(nonatomic, copy, nullable) NSString *url;
 
 /**
- *  [Output Only] If warning messages are generated during processing of this
+ *  Output only. If warning messages are generated during processing of this
  *  resource, this field will be populated.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Resource_Warnings_Item *> *warnings;
@@ -1121,37 +1168,37 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_ResourceAccessControl *accessControl;
 
 /**
- *  [Output Only] If errors are generated during update of the resource, this
+ *  Output only. If errors are generated during update of the resource, this
  *  field will be populated.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_ResourceUpdate_Error *error;
 
 /**
- *  [Output Only] The expanded properties of the resource with reference values
+ *  Output only. The expanded properties of the resource with reference values
  *  expanded. Returned as serialized YAML.
  */
 @property(nonatomic, copy, nullable) NSString *finalProperties;
 
-/** [Output Only] The intent of the resource: PREVIEW, UPDATE, or CANCEL. */
+/** Output only. The intent of the resource: PREVIEW, UPDATE, or CANCEL. */
 @property(nonatomic, copy, nullable) NSString *intent;
 
 /**
- *  [Output Only] URL of the manifest representing the update configuration of
+ *  Output only. URL of the manifest representing the update configuration of
  *  this resource.
  */
 @property(nonatomic, copy, nullable) NSString *manifest;
 
 /**
- *  [Output Only] The set of updated properties for this resource, before
+ *  Output only. The set of updated properties for this resource, before
  *  references are expanded. Returned as serialized YAML.
  */
 @property(nonatomic, copy, nullable) NSString *properties;
 
-/** [Output Only] The state of the resource. */
+/** Output only. The state of the resource. */
 @property(nonatomic, copy, nullable) NSString *state;
 
 /**
- *  [Output Only] If warning messages are generated during processing of this
+ *  Output only. If warning messages are generated during processing of this
  *  resource, this field will be populated.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_ResourceUpdate_Warnings_Item *> *warnings;
@@ -1160,7 +1207,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  [Output Only] If errors are generated during update of the resource, this
+ *  Output only. If errors are generated during update of the resource, this
  *  field will be populated.
  */
 @interface GTLRDeploymentManager_ResourceUpdate_Error : GTLRObject
@@ -1247,7 +1294,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** Required */
 @property(nonatomic, copy, nullable) NSString *action;
 
-/** Additional restrictions that must be met */
+/**
+ *  Additional restrictions that must be met. All conditions must pass for the
+ *  rule to match.
+ */
 @property(nonatomic, strong, nullable) NSArray<GTLRDeploymentManager_Condition *> *conditions;
 
 /**
@@ -1336,7 +1386,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTLRDeploymentManager_Type : GTLRObject
 
 /**
- *  [Output Only] Unique identifier for the resource; defined by the server.
+ *  Output only. Unique identifier for the resource; defined by the server.
  *
  *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
  *
@@ -1345,7 +1395,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *identifier;
 
 /**
- *  [Output Only] Timestamp when the type was created, in RFC3339 text format.
+ *  Output only. Timestamp when the type was created, in RFC3339 text format.
  */
 @property(nonatomic, copy, nullable) NSString *insertTime;
 
@@ -1353,12 +1403,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
- *  [Output Only] The Operation that most recently ran, or is currently running,
+ *  Output only. The Operation that most recently ran, or is currently running,
  *  on this type.
  */
 @property(nonatomic, strong, nullable) GTLRDeploymentManager_Operation *operation;
 
-/** [Output Only] Self link for the type. */
+/** Output only. Self link for the type. */
 @property(nonatomic, copy, nullable) NSString *selfLink;
 
 @end
@@ -1378,7 +1428,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString *nextPageToken;
 
 /**
- *  [Output Only] A list of resource types supported by Deployment Manager.
+ *  Output only. A list of resource types supported by Deployment Manager.
  *
  *  @note This property is used to support NSFastEnumeration and indexed
  *        subscripting on this class.

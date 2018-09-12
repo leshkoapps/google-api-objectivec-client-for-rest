@@ -2,9 +2,9 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud OS Login API (oslogin/v1alpha)
+//   Cloud OS Login API (oslogin/v1)
 // Description:
-//   Manages OS login configuration for Directory API users.
+//   Manages OS login configuration for Google account users.
 // Documentation:
 //   https://cloud.google.com/compute/docs/oslogin/rest/
 
@@ -24,7 +24,7 @@
 
 + (instancetype)queryWithName:(NSString *)name {
   NSArray *pathParams = @[ @"name" ];
-  NSString *pathURITemplate = @"v1alpha/{+name}/loginProfile";
+  NSString *pathURITemplate = @"v1/{+name}/loginProfile";
   GTLRCloudOSLoginQuery_UsersGetLoginProfile *query =
     [[self alloc] initWithPathURITemplate:pathURITemplate
                                HTTPMethod:nil
@@ -39,7 +39,7 @@
 
 @implementation GTLRCloudOSLoginQuery_UsersImportSshPublicKey
 
-@dynamic parent;
+@dynamic parent, projectId;
 
 + (instancetype)queryWithObject:(GTLRCloudOSLogin_SshPublicKey *)object
                          parent:(NSString *)parent {
@@ -48,7 +48,7 @@
     return nil;
   }
   NSArray *pathParams = @[ @"parent" ];
-  NSString *pathURITemplate = @"v1alpha/{+parent}:importSshPublicKey";
+  NSString *pathURITemplate = @"v1/{+parent}:importSshPublicKey";
   GTLRCloudOSLoginQuery_UsersImportSshPublicKey *query =
     [[self alloc] initWithPathURITemplate:pathURITemplate
                                HTTPMethod:@"POST"
@@ -62,13 +62,32 @@
 
 @end
 
+@implementation GTLRCloudOSLoginQuery_UsersProjectsDelete
+
+@dynamic name;
+
++ (instancetype)queryWithName:(NSString *)name {
+  NSArray *pathParams = @[ @"name" ];
+  NSString *pathURITemplate = @"v1/{+name}";
+  GTLRCloudOSLoginQuery_UsersProjectsDelete *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.name = name;
+  query.expectedObjectClass = [GTLRCloudOSLogin_Empty class];
+  query.loggingName = @"oslogin.users.projects.delete";
+  return query;
+}
+
+@end
+
 @implementation GTLRCloudOSLoginQuery_UsersSshPublicKeysDelete
 
 @dynamic name;
 
 + (instancetype)queryWithName:(NSString *)name {
   NSArray *pathParams = @[ @"name" ];
-  NSString *pathURITemplate = @"v1alpha/{+name}";
+  NSString *pathURITemplate = @"v1/{+name}";
   GTLRCloudOSLoginQuery_UsersSshPublicKeysDelete *query =
     [[self alloc] initWithPathURITemplate:pathURITemplate
                                HTTPMethod:@"DELETE"
@@ -87,7 +106,7 @@
 
 + (instancetype)queryWithName:(NSString *)name {
   NSArray *pathParams = @[ @"name" ];
-  NSString *pathURITemplate = @"v1alpha/{+name}";
+  NSString *pathURITemplate = @"v1/{+name}";
   GTLRCloudOSLoginQuery_UsersSshPublicKeysGet *query =
     [[self alloc] initWithPathURITemplate:pathURITemplate
                                HTTPMethod:nil
@@ -111,7 +130,7 @@
     return nil;
   }
   NSArray *pathParams = @[ @"name" ];
-  NSString *pathURITemplate = @"v1alpha/{+name}";
+  NSString *pathURITemplate = @"v1/{+name}";
   GTLRCloudOSLoginQuery_UsersSshPublicKeysPatch *query =
     [[self alloc] initWithPathURITemplate:pathURITemplate
                                HTTPMethod:@"PATCH"

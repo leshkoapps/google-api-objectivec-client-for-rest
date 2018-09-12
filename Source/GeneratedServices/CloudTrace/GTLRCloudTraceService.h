@@ -4,10 +4,11 @@
 // API:
 //   Stackdriver Trace API (cloudtrace/v2)
 // Description:
-//   Send and retrieve trace data from Stackdriver Trace. Data is generated and
-//   available by default for all App Engine applications. Data from other
-//   applications can be written to Stackdriver Trace for display, reporting,
-//   and analysis.
+//   Sends application trace data to Stackdriver Trace for viewing. Trace data
+//   is collected for all App Engine applications by default. Trace data from
+//   other applications can be provided using this API. This library is used to
+//   interact with the Trace API directly. If you are looking to instrument your
+//   application for Stackdriver Trace, we recommend using OpenCensus.
 // Documentation:
 //   https://cloud.google.com/trace
 
@@ -44,12 +45,6 @@ GTLR_EXTERN NSString * const kGTLRAuthScopeCloudTraceCloudPlatform;
  *  Value "https://www.googleapis.com/auth/trace.append"
  */
 GTLR_EXTERN NSString * const kGTLRAuthScopeCloudTraceTraceAppend;
-/**
- *  Authorization scope: Read Trace data for a project or application
- *
- *  Value "https://www.googleapis.com/auth/trace.readonly"
- */
-GTLR_EXTERN NSString * const kGTLRAuthScopeCloudTraceTraceReadonly;
 
 // ----------------------------------------------------------------------------
 //   GTLRCloudTraceService
@@ -58,10 +53,11 @@ GTLR_EXTERN NSString * const kGTLRAuthScopeCloudTraceTraceReadonly;
 /**
  *  Service for executing Stackdriver Trace API queries.
  *
- *  Send and retrieve trace data from Stackdriver Trace. Data is generated and
- *  available by default for all App Engine applications. Data from other
- *  applications can be written to Stackdriver Trace for display, reporting, and
- *  analysis.
+ *  Sends application trace data to Stackdriver Trace for viewing. Trace data is
+ *  collected for all App Engine applications by default. Trace data from other
+ *  applications can be provided using this API. This library is used to
+ *  interact with the Trace API directly. If you are looking to instrument your
+ *  application for Stackdriver Trace, we recommend using OpenCensus.
  */
 @interface GTLRCloudTraceService : GTLRService
 

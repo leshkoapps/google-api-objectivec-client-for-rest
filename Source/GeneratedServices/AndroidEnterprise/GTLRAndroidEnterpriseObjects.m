@@ -155,7 +155,7 @@
 //
 
 @implementation GTLRAndroidEnterprise_AppVersion
-@dynamic versionCode, versionString;
+@dynamic track, versionCode, versionString;
 @end
 
 
@@ -171,11 +171,29 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAndroidEnterprise_ConfigurationVariables
+//
+
+@implementation GTLRAndroidEnterprise_ConfigurationVariables
+@dynamic kind, mcmId, variableSet;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"variableSet" : [GTLRAndroidEnterprise_VariableSet class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAndroidEnterprise_Device
 //
 
 @implementation GTLRAndroidEnterprise_Device
-@dynamic androidId, kind, managementType;
+@dynamic androidId, kind, managementType, policy;
 @end
 
 
@@ -392,11 +410,21 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAndroidEnterprise_MaintenanceWindow
+//
+
+@implementation GTLRAndroidEnterprise_MaintenanceWindow
+@dynamic durationMs, startTimeAfterMidnightMs;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAndroidEnterprise_ManagedConfiguration
 //
 
 @implementation GTLRAndroidEnterprise_ManagedConfiguration
-@dynamic kind, managedProperty, productId;
+@dynamic configurationVariables, kind, managedProperty, productId;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -437,6 +465,42 @@
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"managedConfigurationForUser" : [GTLRAndroidEnterprise_ManagedConfiguration class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAndroidEnterprise_ManagedConfigurationsSettings
+//
+
+@implementation GTLRAndroidEnterprise_ManagedConfigurationsSettings
+@dynamic kind, lastUpdatedTimestampMillis, managedProperty, mcmId, name;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"managedProperty" : [GTLRAndroidEnterprise_ManagedProperty class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAndroidEnterprise_ManagedConfigurationsSettingsListResponse
+//
+
+@implementation GTLRAndroidEnterprise_ManagedConfigurationsSettingsListResponse
+@dynamic kind, managedConfigurationsSettings;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"managedConfigurationsSettings" : [GTLRAndroidEnterprise_ManagedConfigurationsSettings class]
   };
   return map;
 }
@@ -488,7 +552,7 @@
 //
 
 @implementation GTLRAndroidEnterprise_NewDeviceEvent
-@dynamic deviceId, managementType, userId;
+@dynamic deviceId, dpcPackageName, managementType, userId;
 @end
 
 
@@ -569,17 +633,47 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAndroidEnterprise_Policy
+//
+
+@implementation GTLRAndroidEnterprise_Policy
+@dynamic autoUpdatePolicy, maintenanceWindow, productAvailabilityPolicy,
+         productPolicy;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"productPolicy" : [GTLRAndroidEnterprise_ProductPolicy class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAndroidEnterprise_Product
 //
 
 @implementation GTLRAndroidEnterprise_Product
-@dynamic appVersion, authorName, detailsUrl, distributionChannel, iconUrl, kind,
-         productId, productPricing, requiresContainerApp, signingCertificate,
-         smallIconUrl, title, workDetailsUrl;
+@dynamic appVersion, authorName, availableCountries, availableTracks, category,
+         contentRating, descriptionProperty, detailsUrl, distributionChannel,
+         iconUrl, kind, lastUpdatedTimestampMillis, minAndroidSdkVersion,
+         permissions, productId, productPricing, recentChanges,
+         requiresContainerApp, screenshotUrls, signingCertificate, smallIconUrl,
+         title, workDetailsUrl;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
-    @"appVersion" : [GTLRAndroidEnterprise_AppVersion class]
+    @"appVersion" : [GTLRAndroidEnterprise_AppVersion class],
+    @"availableCountries" : [NSString class],
+    @"availableTracks" : [NSString class],
+    @"permissions" : [GTLRAndroidEnterprise_ProductPermission class],
+    @"screenshotUrls" : [NSString class]
   };
   return map;
 }
@@ -637,6 +731,24 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRAndroidEnterprise_ProductPolicy
+//
+
+@implementation GTLRAndroidEnterprise_ProductPolicy
+@dynamic productId, tracks;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"tracks" : [NSString class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRAndroidEnterprise_ProductsApproveRequest
 //
 
@@ -651,11 +763,12 @@
 //
 
 @implementation GTLRAndroidEnterprise_ProductSet
-@dynamic kind, productId, productSetBehavior;
+@dynamic kind, productId, productSetBehavior, productVisibility;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
-    @"productId" : [NSString class]
+    @"productId" : [NSString class],
+    @"productVisibility" : [GTLRAndroidEnterprise_ProductVisibility class]
   };
   return map;
 }
@@ -694,6 +807,24 @@
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"product" : [GTLRAndroidEnterprise_Product class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAndroidEnterprise_ProductVisibility
+//
+
+@implementation GTLRAndroidEnterprise_ProductVisibility
+@dynamic productId, tracks;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"tracks" : [NSString class]
   };
   return map;
 }
@@ -897,4 +1028,14 @@
 
 @implementation GTLRAndroidEnterprise_UserToken
 @dynamic kind, token, userId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRAndroidEnterprise_VariableSet
+//
+
+@implementation GTLRAndroidEnterprise_VariableSet
+@dynamic kind, placeholder, userValue;
 @end

@@ -282,6 +282,26 @@ NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision = @"HIGHER_PRECISION
 
 @end
 
+@implementation GTLRAnalyticsQuery_ManagementClientIdHashClientId
+
++ (instancetype)queryWithObject:(GTLRAnalytics_HashClientIdRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"management/clientId:hashClientId";
+  GTLRAnalyticsQuery_ManagementClientIdHashClientId *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRAnalytics_HashClientIdResponse class];
+  query.loggingName = @"analytics.management.clientId.hashClientId";
+  return query;
+}
+
+@end
+
 @implementation GTLRAnalyticsQuery_ManagementCustomDataSourcesList
 
 @dynamic accountId, maxResults, startIndex, webPropertyId;
@@ -2465,6 +2485,46 @@ NSString * const kGTLRAnalyticsSamplingLevelHigherPrecision = @"HIGHER_PRECISION
   query.bodyObject = object;
   query.expectedObjectClass = [GTLRAnalytics_AccountTicket class];
   query.loggingName = @"analytics.provisioning.createAccountTicket";
+  return query;
+}
+
+@end
+
+@implementation GTLRAnalyticsQuery_ProvisioningCreateAccountTree
+
++ (instancetype)queryWithObject:(GTLRAnalytics_AccountTreeRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"provisioning/createAccountTree";
+  GTLRAnalyticsQuery_ProvisioningCreateAccountTree *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRAnalytics_AccountTreeResponse class];
+  query.loggingName = @"analytics.provisioning.createAccountTree";
+  return query;
+}
+
+@end
+
+@implementation GTLRAnalyticsQuery_UserDeletionUserDeletionRequestUpsert
+
++ (instancetype)queryWithObject:(GTLRAnalytics_UserDeletionRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"userDeletion/userDeletionRequests:upsert";
+  GTLRAnalyticsQuery_UserDeletionUserDeletionRequestUpsert *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRAnalytics_UserDeletionRequest class];
+  query.loggingName = @"analytics.userDeletion.userDeletionRequest.upsert";
   return query;
 }
 

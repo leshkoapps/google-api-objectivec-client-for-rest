@@ -2,11 +2,11 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Apps Script Execution API (script/v1)
+//   Apps Script API (script/v1)
 // Description:
-//   Executes functions in Google Apps Script projects.
+//   An API for managing and executing Google Apps Script projects.
 // Documentation:
-//   https://developers.google.com/apps-script/execution/rest/v1/scripts/run
+//   https://developers.google.com/apps-script/api/
 
 #import "GTLRScript.h"
 
@@ -16,6 +16,7 @@
 NSString * const kGTLRAuthScopeScriptAdminDirectoryGroup = @"https://www.googleapis.com/auth/admin.directory.group";
 NSString * const kGTLRAuthScopeScriptAdminDirectoryUser  = @"https://www.googleapis.com/auth/admin.directory.user";
 NSString * const kGTLRAuthScopeScriptCalendarFeeds       = @"https://www.google.com/calendar/feeds";
+NSString * const kGTLRAuthScopeScriptDocuments           = @"https://www.googleapis.com/auth/documents";
 NSString * const kGTLRAuthScopeScriptDrive               = @"https://www.googleapis.com/auth/drive";
 NSString * const kGTLRAuthScopeScriptForms               = @"https://www.googleapis.com/auth/forms";
 NSString * const kGTLRAuthScopeScriptFormsCurrentonly    = @"https://www.googleapis.com/auth/forms.currentonly";
@@ -37,7 +38,7 @@ NSString * const kGTLRAuthScopeScriptUserinfoEmail       = @"https://www.googlea
     // From discovery.
     self.rootURLString = @"https://script.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

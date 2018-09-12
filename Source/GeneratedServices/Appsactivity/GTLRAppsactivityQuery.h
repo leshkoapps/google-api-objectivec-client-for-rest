@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   G Suite Activity API (appsactivity/v1)
+//   Drive Activity API (appsactivity/v1)
 // Description:
 //   Provides a historical view of activity.
 // Documentation:
@@ -61,10 +61,6 @@ GTLR_EXTERN NSString * const kGTLRAppsactivityGroupingStrategyNone;
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeAppsactivityActivity
- *    @c kGTLRAuthScopeAppsactivityDrive
- *    @c kGTLRAuthScopeAppsactivityDriveMetadata
- *    @c kGTLRAuthScopeAppsactivityDriveMetadataReadonly
- *    @c kGTLRAuthScopeAppsactivityDriveReadonly
  */
 @interface GTLRAppsactivityQuery_ActivitiesList : GTLRAppsactivityQuery
 // Previous library name was
@@ -127,7 +123,7 @@ GTLR_EXTERN NSString * const kGTLRAppsactivityGroupingStrategyNone;
  *  events. Multiple events may be merged if they are similar. A request is
  *  scoped to activities from a given Google service using the source parameter.
  *
- *  @returns GTLRAppsactivityQuery_ActivitiesList
+ *  @return GTLRAppsactivityQuery_ActivitiesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

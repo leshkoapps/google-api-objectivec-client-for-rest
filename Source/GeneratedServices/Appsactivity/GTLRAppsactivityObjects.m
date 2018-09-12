@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   G Suite Activity API (appsactivity/v1)
+//   Drive Activity API (appsactivity/v1)
 // Description:
 //   Provides a historical view of activity.
 // Documentation:
@@ -40,10 +40,11 @@ NSString * const kGTLRAppsactivity_Event_PrimaryEventType_Untrash = @"untrash";
 NSString * const kGTLRAppsactivity_Event_PrimaryEventType_Upload = @"upload";
 
 // GTLRAppsactivity_Permission.role
-NSString * const kGTLRAppsactivity_Permission_Role_Commenter = @"commenter";
-NSString * const kGTLRAppsactivity_Permission_Role_Owner     = @"owner";
-NSString * const kGTLRAppsactivity_Permission_Role_Reader    = @"reader";
-NSString * const kGTLRAppsactivity_Permission_Role_Writer    = @"writer";
+NSString * const kGTLRAppsactivity_Permission_Role_Commenter   = @"commenter";
+NSString * const kGTLRAppsactivity_Permission_Role_Owner       = @"owner";
+NSString * const kGTLRAppsactivity_Permission_Role_PublishedReader = @"publishedReader";
+NSString * const kGTLRAppsactivity_Permission_Role_Reader      = @"reader";
+NSString * const kGTLRAppsactivity_Permission_Role_Writer      = @"writer";
 
 // GTLRAppsactivity_Permission.type
 NSString * const kGTLRAppsactivity_Permission_Type_Anyone = @"anyone";

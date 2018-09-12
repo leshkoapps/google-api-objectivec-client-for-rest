@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Identity and Access Management (IAM) API (iam/v1)
+//   Identity and Access Management (IAM) API (iam/v1)
 // Description:
 //   Manages identity and access control for Google Cloud Platform resources,
 //   including the creation of service accounts, which you can use to
@@ -38,6 +38,46 @@ NSString * const kGTLRIamViewFull  = @"FULL";
 @implementation GTLRIamQuery
 
 @dynamic fields;
+
+@end
+
+@implementation GTLRIamQuery_IamPoliciesLintPolicy
+
++ (instancetype)queryWithObject:(GTLRIam_LintPolicyRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"v1/iamPolicies:lintPolicy";
+  GTLRIamQuery_IamPoliciesLintPolicy *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRIam_LintPolicyResponse class];
+  query.loggingName = @"iam.iamPolicies.lintPolicy";
+  return query;
+}
+
+@end
+
+@implementation GTLRIamQuery_IamPoliciesQueryAuditableServices
+
++ (instancetype)queryWithObject:(GTLRIam_QueryAuditableServicesRequest *)object {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSString *pathURITemplate = @"v1/iamPolicies:queryAuditableServices";
+  GTLRIamQuery_IamPoliciesQueryAuditableServices *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:nil];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLRIam_QueryAuditableServicesResponse class];
+  query.loggingName = @"iam.iamPolicies.queryAuditableServices";
+  return query;
+}
 
 @end
 

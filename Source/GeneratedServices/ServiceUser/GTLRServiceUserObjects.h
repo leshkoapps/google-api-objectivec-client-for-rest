@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Service User API (serviceuser/v1)
+//   Service User API (serviceuser/v1)
 // Description:
 //   Enables services that service consumers want to use on Google Cloud
 //   Platform, lists the available or enabled services, or disables services
@@ -24,15 +24,15 @@
 @class GTLRServiceUser_Authentication;
 @class GTLRServiceUser_AuthenticationRule;
 @class GTLRServiceUser_AuthorizationConfig;
-@class GTLRServiceUser_AuthorizationRule;
 @class GTLRServiceUser_AuthProvider;
 @class GTLRServiceUser_AuthRequirement;
 @class GTLRServiceUser_Backend;
 @class GTLRServiceUser_BackendRule;
+@class GTLRServiceUser_Billing;
+@class GTLRServiceUser_BillingDestination;
 @class GTLRServiceUser_Context;
 @class GTLRServiceUser_ContextRule;
 @class GTLRServiceUser_Control;
-@class GTLRServiceUser_CustomAuthRequirements;
 @class GTLRServiceUser_CustomError;
 @class GTLRServiceUser_CustomErrorRule;
 @class GTLRServiceUser_CustomHttpPattern;
@@ -53,6 +53,7 @@
 @class GTLRServiceUser_MediaUpload;
 @class GTLRServiceUser_Method;
 @class GTLRServiceUser_MetricDescriptor;
+@class GTLRServiceUser_MetricDescriptorMetadata;
 @class GTLRServiceUser_MetricRule;
 @class GTLRServiceUser_MetricRule_MetricCosts;
 @class GTLRServiceUser_Mixin;
@@ -82,8 +83,6 @@
 @class GTLRServiceUser_Type;
 @class GTLRServiceUser_Usage;
 @class GTLRServiceUser_UsageRule;
-@class GTLRServiceUser_Visibility;
-@class GTLRServiceUser_VisibilityRule;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -392,6 +391,67 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptor_ValueType_String;
 GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptor_ValueType_ValueTypeUnspecified;
 
 // ----------------------------------------------------------------------------
+// GTLRServiceUser_MetricDescriptorMetadata.launchStage
+
+/**
+ *  Alpha is a limited availability test for releases before they are cleared
+ *  for widespread use. By Alpha, all significant design issues are resolved
+ *  and we are in the process of verifying functionality. Alpha customers
+ *  need to apply for access, agree to applicable terms, and have their
+ *  projects whitelisted. Alpha releases don’t have to be feature complete,
+ *  no SLAs are provided, and there are no technical support obligations, but
+ *  they will be far enough along that customers can actually use them in
+ *  test environments or for limited-use tests -- just like they would in
+ *  normal production cases.
+ *
+ *  Value: "ALPHA"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Alpha;
+/**
+ *  Beta is the point at which we are ready to open a release for any
+ *  customer to use. There are no SLA or technical support obligations in a
+ *  Beta release. Products will be complete from a feature perspective, but
+ *  may have some open outstanding issues. Beta releases are suitable for
+ *  limited production use cases.
+ *
+ *  Value: "BETA"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Beta;
+/**
+ *  Deprecated features are scheduled to be shut down and removed. For more
+ *  information, see the “Deprecation Policy” section of our [Terms of
+ *  Service](https://cloud.google.com/terms/)
+ *  and the [Google Cloud Platform Subject to the Deprecation
+ *  Policy](https://cloud.google.com/terms/deprecation) documentation.
+ *
+ *  Value: "DEPRECATED"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Deprecated;
+/**
+ *  Early Access features are limited to a closed group of testers. To use
+ *  these features, you must sign up in advance and sign a Trusted Tester
+ *  agreement (which includes confidentiality provisions). These features may
+ *  be unstable, changed in backward-incompatible ways, and are not
+ *  guaranteed to be released.
+ *
+ *  Value: "EARLY_ACCESS"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_EarlyAccess;
+/**
+ *  GA features are open to all developers and are considered stable and
+ *  fully qualified for production use.
+ *
+ *  Value: "GA"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Ga;
+/**
+ *  Do not use this default value.
+ *
+ *  Value: "LAUNCH_STAGE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_LaunchStageUnspecified;
+
+// ----------------------------------------------------------------------------
 // GTLRServiceUser_Step.status
 
 /**
@@ -558,19 +618,11 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @interface GTLRServiceUser_AuthenticationRule : GTLRObject
 
 /**
- *  Whether to allow requests without a credential. The credential can be
- *  an OAuth token, Google cookies (first-party auth) or EndUserCreds.
- *  For requests without credentials, if the service control environment is
- *  specified, each incoming request **must** be associated with a service
- *  consumer. This can be done by passing an API key that belongs to a consumer
- *  project.
+ *  If true, the service accepts API keys without any other credential.
  *
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *allowWithoutCredential;
-
-/** Configuration for custom authentication. */
-@property(nonatomic, strong, nullable) GTLRServiceUser_CustomAuthRequirements *customAuth;
 
 /** The requirements for OAuth credentials. */
 @property(nonatomic, strong, nullable) GTLRServiceUser_OAuthRequirements *oauth;
@@ -603,42 +655,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  firebaserules.googleapis.com.
  */
 @property(nonatomic, copy, nullable) NSString *provider;
-
-@end
-
-
-/**
- *  Authorization rule for API services.
- *  It specifies the permission(s) required for an API element for the overall
- *  API request to succeed. It is typically used to mark request message fields
- *  that contain the name of the resource and indicates the permissions that
- *  will be checked on that resource.
- *  For example:
- *  package google.storage.v1;
- *  message CopyObjectRequest {
- *  string source = 1 [
- *  (google.api.authz).permissions = "storage.objects.get"];
- *  string destination = 2 [
- *  (google.api.authz).permissions =
- *  "storage.objects.create,storage.objects.update"];
- *  }
- */
-@interface GTLRServiceUser_AuthorizationRule : GTLRObject
-
-/**
- *  The required permissions. The acceptable values vary depend on the
- *  authorization system used. For Google APIs, it should be a comma-separated
- *  Google IAM permission values. When multiple permissions are listed, the
- *  semantics is not defined by the system. Additional documentation must
- *  be provided manually.
- */
-@property(nonatomic, copy, nullable) NSString *permissions;
-
-/**
- *  Selects the API elements to which this rule applies.
- *  Refer to selector for syntax details.
- */
-@property(nonatomic, copy, nullable) NSString *selector;
 
 @end
 
@@ -764,8 +780,8 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @property(nonatomic, copy, nullable) NSString *address;
 
 /**
- *  The number of seconds to wait for a response from a request. The
- *  default depends on the deployment context.
+ *  The number of seconds to wait for a response from a request. The default
+ *  deadline for gRPC is infinite (no deadline) and HTTP requests is 5 seconds.
  *
  *  Uses NSNumber of doubleValue.
  */
@@ -789,6 +805,61 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 
 
 /**
+ *  Billing related configuration of the service.
+ *  The following example shows how to configure monitored resources and metrics
+ *  for billing:
+ *  monitored_resources:
+ *  - type: library.googleapis.com/branch
+ *  labels:
+ *  - key: /city
+ *  description: The city where the library branch is located in.
+ *  - key: /name
+ *  description: The name of the branch.
+ *  metrics:
+ *  - name: library.googleapis.com/book/borrowed_count
+ *  metric_kind: DELTA
+ *  value_type: INT64
+ *  billing:
+ *  consumer_destinations:
+ *  - monitored_resource: library.googleapis.com/branch
+ *  metrics:
+ *  - library.googleapis.com/book/borrowed_count
+ */
+@interface GTLRServiceUser_Billing : GTLRObject
+
+/**
+ *  Billing configurations for sending metrics to the consumer project.
+ *  There can be multiple consumer destinations per service, each one must have
+ *  a different monitored resource type. A metric can be used in at most
+ *  one consumer destination.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRServiceUser_BillingDestination *> *consumerDestinations;
+
+@end
+
+
+/**
+ *  Configuration of a specific billing destination (Currently only support
+ *  bill against consumer project).
+ */
+@interface GTLRServiceUser_BillingDestination : GTLRObject
+
+/**
+ *  Names of the metrics to report to this billing destination.
+ *  Each name must be defined in Service.metrics section.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *metrics;
+
+/**
+ *  The monitored resource type. The type must be defined in
+ *  Service.monitored_resources section.
+ */
+@property(nonatomic, copy, nullable) NSString *monitoredResource;
+
+@end
+
+
+/**
  *  `Context` defines which contexts an API requests.
  *  Example:
  *  context:
@@ -802,6 +873,22 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  `google.rpc.context.OriginContext`.
  *  Available context types are defined in package
  *  `google.rpc.context`.
+ *  This also provides mechanism to whitelist any protobuf message extension
+ *  that
+ *  can be sent in grpc metadata using “x-goog-ext-<extension_id>-bin” and
+ *  “x-goog-ext-<extension_id>-jspb” format. For example, list any service
+ *  specific protobuf types that can appear in grpc metadata as follows in your
+ *  yaml file:
+ *  Example:
+ *  context:
+ *  rules:
+ *  - selector: "google.example.library.v1.LibraryService.CreateBook"
+ *  allowed_request_extensions:
+ *  - google.foo.v1.NewExtension
+ *  allowed_response_extensions:
+ *  - google.foo.v1.NewExtension
+ *  You can also specify extension ID instead of fully qualified extension name
+ *  here.
  */
 @interface GTLRServiceUser_Context : GTLRObject
 
@@ -819,6 +906,18 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  element.
  */
 @interface GTLRServiceUser_ContextRule : GTLRObject
+
+/**
+ *  A list of full type names or extension IDs of extensions allowed in grpc
+ *  side channel from client to backend.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *allowedRequestExtensions;
+
+/**
+ *  A list of full type names or extension IDs of extensions allowed in grpc
+ *  side channel from backend to client.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *allowedResponseExtensions;
 
 /** A list of full type names of provided contexts. */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *provided;
@@ -847,21 +946,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  feature (like quota and billing) will be enabled.
  */
 @property(nonatomic, copy, nullable) NSString *environment;
-
-@end
-
-
-/**
- *  Configuration for a custom authentication provider.
- */
-@interface GTLRServiceUser_CustomAuthRequirements : GTLRObject
-
-/**
- *  A configuration string containing connection information for the
- *  authentication provider, typically formatted as a SmartService string
- *  (go/smartservice).
- */
-@property(nonatomic, copy, nullable) NSString *provider;
 
 @end
 
@@ -975,9 +1059,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  <pre><code>&#91;display text]&#91;fully.qualified.proto.name]</code></pre>
  *  Text can be excluded from doc using the following notation:
  *  <pre><code>&#40;-- internal comment --&#41;</code></pre>
- *  Comments can be made conditional using a visibility label. The below
- *  text will be only rendered if the `BETA` label is available:
- *  <pre><code>&#40;--BETA: comment for BETA users --&#41;</code></pre>
  *  A few directives are available in documentation. Note that
  *  directives must appear on a single line to be properly
  *  identified. The `include` directive includes a markdown file from
@@ -1088,8 +1169,8 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 
 /**
  *  DEPRECATED: This field is no longer supported. Instead of using aliases,
- *  please specify multiple google.api.Endpoint for each of the intented
- *  alias.
+ *  please specify multiple google.api.Endpoint for each of the intended
+ *  aliases.
  *  Additional names that this endpoint will be hosted on.
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *aliases;
@@ -1105,13 +1186,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *allowCors;
-
-/**
- *  The list of APIs served by this endpoint.
- *  If no APIs are specified this translates to "all APIs" exported by the
- *  service, as defined in the top-level service configuration.
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *apis;
 
 /** The list of features enabled on this endpoint. */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *features;
@@ -1526,14 +1600,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @property(nonatomic, strong, nullable) NSArray<GTLRServiceUser_HttpRule *> *additionalBindings;
 
 /**
- *  Specifies the permission(s) required for an API element for the overall
- *  API request to succeed. It is typically used to mark request message fields
- *  that contain the name of the resource and indicates the permissions that
- *  will be checked on that resource.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRServiceUser_AuthorizationRule *> *authorizations;
-
-/**
  *  The name of the request field whose value is mapped to the HTTP body, or
  *  `*` for mapping all fields not captured by the path pattern to the HTTP
  *  body. NOTE: the referred field must not be a repeated field and must be
@@ -1584,51 +1650,11 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @property(nonatomic, copy, nullable) NSString *put;
 
 /**
- *  The name of the response field whose value is mapped to the HTTP body of
- *  response. Other response fields are ignored. This field is optional. When
+ *  Optional. The name of the response field whose value is mapped to the HTTP
+ *  body of response. Other response fields are ignored. When
  *  not set, the response message will be used as HTTP body of response.
- *  NOTE: the referred field must be not a repeated field and must be present
- *  at the top-level of response message type.
  */
 @property(nonatomic, copy, nullable) NSString *responseBody;
-
-/**
- *  DO NOT USE. This is an experimental field.
- *  Optional. The REST collection name is by default derived from the URL
- *  pattern. If specified, this field overrides the default collection name.
- *  Example:
- *  rpc AddressesAggregatedList(AddressesAggregatedListRequest)
- *  returns (AddressesAggregatedListResponse) {
- *  option (google.api.http) = {
- *  get: "/v1/projects/{project_id}/aggregated/addresses"
- *  rest_collection: "projects.addresses"
- *  };
- *  }
- *  This method has the automatically derived collection name
- *  "projects.aggregated". Because, semantically, this rpc is actually an
- *  operation on the "projects.addresses" collection, the `rest_collection`
- *  field is configured to override the derived collection name.
- */
-@property(nonatomic, copy, nullable) NSString *restCollection;
-
-/**
- *  DO NOT USE. This is an experimental field.
- *  Optional. The rest method name is by default derived from the URL
- *  pattern. If specified, this field overrides the default method name.
- *  Example:
- *  rpc CreateResource(CreateResourceRequest)
- *  returns (CreateResourceResponse) {
- *  option (google.api.http) = {
- *  post: "/v1/resources",
- *  body: "resource",
- *  rest_method_name: "insert"
- *  };
- *  }
- *  This method has the automatically derived rest method name
- *  "create", but for backwards compatibility with apiary, it is specified as
- *  insert.
- */
-@property(nonatomic, copy, nullable) NSString *restMethodName;
 
 /**
  *  Selects methods to which this rule applies.
@@ -1990,6 +2016,8 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 /**
  *  A concise name for the metric, which can be displayed in user interfaces.
  *  Use sentence case without an ending period, for example "Request count".
+ *  This field is optional but it is recommended to be set for any metrics
+ *  associated with user-visible concepts, such as Quota.
  */
 @property(nonatomic, copy, nullable) NSString *displayName;
 
@@ -2002,6 +2030,9 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  for responses that failed.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRServiceUser_LabelDescriptor *> *labels;
+
+/** Optional. Metadata which can be used to guide usage of the metric. */
+@property(nonatomic, strong, nullable) GTLRServiceUser_MetricDescriptorMetadata *metadata;
 
 /**
  *  Whether the metric records instantaneous values, changes to a value, etc.
@@ -2023,23 +2054,16 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  */
 @property(nonatomic, copy, nullable) NSString *metricKind;
 
-/**
- *  The resource name of the metric descriptor. Depending on the
- *  implementation, the name typically includes: (1) the parent resource name
- *  that defines the scope of the metric type or of its data; and (2) the
- *  metric's URL-encoded type, which also appears in the `type` field of this
- *  descriptor. For example, following is the resource name of a custom
- *  metric within the GCP project `my-project-id`:
- *  "projects/my-project-id/metricDescriptors/custom.googleapis.com%2Finvoice%2Fpaid%2Famount"
- */
+/** The resource name of the metric descriptor. */
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
  *  The metric type, including its DNS name prefix. The type is not
- *  URL-encoded. All user-defined custom metric types have the DNS name
- *  `custom.googleapis.com`. Metric types should use a natural hierarchical
- *  grouping. For example:
+ *  URL-encoded. All user-defined metric types have the DNS name
+ *  `custom.googleapis.com` or `external.googleapis.com`. Metric types should
+ *  use a natural hierarchical grouping. For example:
  *  "custom.googleapis.com/invoice/paid/amount"
+ *  "external.googleapis.com/prometheus/up"
  *  "appengine.googleapis.com/http/server/response_latencies"
  */
 @property(nonatomic, copy, nullable) NSString *type;
@@ -2078,13 +2102,12 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  * `Gi` gibi (2**30)
  *  * `Ti` tebi (2**40)
  *  **Grammar**
- *  The grammar includes the dimensionless unit `1`, such as `1/s`.
  *  The grammar also includes these connectors:
  *  * `/` division (as an infix operator, e.g. `1/s`).
  *  * `.` multiplication (as an infix operator, e.g. `GBy.d`)
  *  The grammar for a unit is as follows:
  *  Expression = Component { "." Component } { "/" Component } ;
- *  Component = [ PREFIX ] UNIT [ Annotation ]
+ *  Component = ( [ PREFIX ] UNIT | "%" ) [ Annotation ]
  *  | Annotation
  *  | "1"
  *  ;
@@ -2095,6 +2118,9 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  `{requests}/s == 1/s`, `By{transmitted}/s == By/s`.
  *  * `NAME` is a sequence of non-blank printable ASCII characters not
  *  containing '{' or '}'.
+ *  * `1` represents dimensionless value 1, such as in `1/s`.
+ *  * `%` represents dimensionless value 1/100, and annotates values giving
+ *  a percentage.
  */
 @property(nonatomic, copy, nullable) NSString *unit;
 
@@ -2123,6 +2149,77 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *        Do not use this default value. (Value: "VALUE_TYPE_UNSPECIFIED")
  */
 @property(nonatomic, copy, nullable) NSString *valueType;
+
+@end
+
+
+/**
+ *  Additional annotations that can be used to guide the usage of a metric.
+ */
+@interface GTLRServiceUser_MetricDescriptorMetadata : GTLRObject
+
+/**
+ *  The delay of data points caused by ingestion. Data points older than this
+ *  age are guaranteed to be ingested and available to be read, excluding
+ *  data loss due to errors.
+ */
+@property(nonatomic, strong, nullable) GTLRDuration *ingestDelay;
+
+/**
+ *  The launch stage of the metric definition.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Alpha Alpha
+ *        is a limited availability test for releases before they are cleared
+ *        for widespread use. By Alpha, all significant design issues are
+ *        resolved
+ *        and we are in the process of verifying functionality. Alpha customers
+ *        need to apply for access, agree to applicable terms, and have their
+ *        projects whitelisted. Alpha releases don’t have to be feature
+ *        complete,
+ *        no SLAs are provided, and there are no technical support obligations,
+ *        but
+ *        they will be far enough along that customers can actually use them in
+ *        test environments or for limited-use tests -- just like they would in
+ *        normal production cases. (Value: "ALPHA")
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Beta Beta is
+ *        the point at which we are ready to open a release for any
+ *        customer to use. There are no SLA or technical support obligations in
+ *        a
+ *        Beta release. Products will be complete from a feature perspective,
+ *        but
+ *        may have some open outstanding issues. Beta releases are suitable for
+ *        limited production use cases. (Value: "BETA")
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Deprecated
+ *        Deprecated features are scheduled to be shut down and removed. For
+ *        more
+ *        information, see the “Deprecation Policy” section of our [Terms of
+ *        Service](https://cloud.google.com/terms/)
+ *        and the [Google Cloud Platform Subject to the Deprecation
+ *        Policy](https://cloud.google.com/terms/deprecation) documentation.
+ *        (Value: "DEPRECATED")
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_EarlyAccess
+ *        Early Access features are limited to a closed group of testers. To use
+ *        these features, you must sign up in advance and sign a Trusted Tester
+ *        agreement (which includes confidentiality provisions). These features
+ *        may
+ *        be unstable, changed in backward-incompatible ways, and are not
+ *        guaranteed to be released. (Value: "EARLY_ACCESS")
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_Ga GA
+ *        features are open to all developers and are considered stable and
+ *        fully qualified for production use. (Value: "GA")
+ *    @arg @c kGTLRServiceUser_MetricDescriptorMetadata_LaunchStage_LaunchStageUnspecified
+ *        Do not use this default value. (Value: "LAUNCH_STAGE_UNSPECIFIED")
+ */
+@property(nonatomic, copy, nullable) NSString *launchStage;
+
+/**
+ *  The sampling period of metric data points. For metrics which are written
+ *  periodically, consecutive data points are stored at this time interval,
+ *  excluding data loss due to errors. Metrics with a higher granularity have
+ *  a smaller sampling period.
+ */
+@property(nonatomic, strong, nullable) GTLRDuration *samplePeriod;
 
 @end
 
@@ -2418,7 +2515,7 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 
 /**
  *  If the value is `false`, it means the operation is still in progress.
- *  If true, the operation is completed, and either `error` or `response` is
+ *  If `true`, the operation is completed, and either `error` or `response` is
  *  available.
  *
  *  Uses NSNumber of boolValue.
@@ -2750,22 +2847,14 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  The name of the metric this quota limit applies to. The quota limits with
  *  the same metric will be checked together during runtime. The metric must be
  *  defined within the service config.
- *  Used by metric-based quotas only.
  */
 @property(nonatomic, copy, nullable) NSString *metric;
 
 /**
- *  Name of the quota limit. The name is used to refer to the limit when
- *  overriding the default limit on per-consumer basis.
- *  For metric-based quota limits, the name must be provided, and it must be
- *  unique within the service. The name can only include alphanumeric
- *  characters as well as '-'.
+ *  Name of the quota limit.
+ *  The name must be provided, and it must be unique within the service. The
+ *  name can only include alphanumeric characters as well as '-'.
  *  The maximum length of the limit name is 64 characters.
- *  The name of a limit is used as a unique identifier for this limit.
- *  Therefore, once a limit has been put into use, its name should be
- *  immutable. You can use the display_name field to provide a user-friendly
- *  name for the limit. The display name can be evolved over time without
- *  affecting the identity of the limit.
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
@@ -2773,30 +2862,27 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
  *  Specify the unit of the quota limit. It uses the same syntax as
  *  Metric.unit. The supported unit kinds are determined by the quota
  *  backend system.
- *  The [Google Service Control](https://cloud.google.com/service-control)
- *  supports the following unit components:
- *  * One of the time intevals:
- *  * "/min" for quota every minute.
- *  * "/d" for quota every 24 hours, starting 00:00 US Pacific Time.
- *  * Otherwise the quota won't be reset by time, such as storage limit.
- *  * One and only one of the granted containers:
- *  * "/{project}" quota for a project
  *  Here are some examples:
  *  * "1/min/{project}" for quota per minute per project.
  *  Note: the order of unit components is insignificant.
  *  The "1" at the beginning is required to follow the metric unit syntax.
- *  Used by metric-based quotas only.
  */
 @property(nonatomic, copy, nullable) NSString *unit;
 
-/** Tiered limit values, currently only STANDARD is supported. */
+/**
+ *  Tiered limit values. You must specify this as a key:value pair, with an
+ *  integer value that is the maximum number of requests allowed for the
+ *  specified unit. Currently only STANDARD is supported.
+ */
 @property(nonatomic, strong, nullable) GTLRServiceUser_QuotaLimit_Values *values;
 
 @end
 
 
 /**
- *  Tiered limit values, currently only STANDARD is supported.
+ *  Tiered limit values. You must specify this as a key:value pair, with an
+ *  integer value that is the maximum number of requests allowed for the
+ *  specified unit. Currently only STANDARD is supported.
  *
  *  @note This class is documented as having more properties of NSNumber (Uses
  *        NSNumber of longLongValue.). Use @c -additionalJSONKeys and @c
@@ -2874,6 +2960,9 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 
 /** API backend configuration. */
 @property(nonatomic, strong, nullable) GTLRServiceUser_Backend *backend;
+
+/** Billing configuration. */
+@property(nonatomic, strong, nullable) GTLRServiceUser_Billing *billing;
 
 /**
  *  The semantic version of the service configuration. The config version
@@ -2992,9 +3081,6 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 
 /** Configuration controlling usage of this service. */
 @property(nonatomic, strong, nullable) GTLRServiceUser_Usage *usage;
-
-/** API visibility configuration. */
-@property(nonatomic, strong, nullable) GTLRServiceUser_Visibility *visibility;
 
 @end
 
@@ -3336,7 +3422,8 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @interface GTLRServiceUser_UsageRule : GTLRObject
 
 /**
- *  True, if the method allows unregistered calls; false otherwise.
+ *  If true, the selected method allows unregistered calls, e.g. calls
+ *  that don't identify any user or application.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -3350,72 +3437,14 @@ GTLR_EXTERN NSString * const kGTLRServiceUser_Type_Syntax_SyntaxProto3;
 @property(nonatomic, copy, nullable) NSString *selector;
 
 /**
- *  True, if the method should skip service control. If so, no control plane
- *  feature (like quota and billing) will be enabled.
+ *  If true, the selected method should skip service control and the control
+ *  plane features, such as quota and billing, will not be available.
+ *  This flag is used by Google Cloud Endpoints to bypass checks for internal
+ *  methods, such as service health check methods.
  *
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *skipServiceControl;
-
-@end
-
-
-/**
- *  `Visibility` defines restrictions for the visibility of service
- *  elements. Restrictions are specified using visibility labels
- *  (e.g., TRUSTED_TESTER) that are elsewhere linked to users and projects.
- *  Users and projects can have access to more than one visibility label. The
- *  effective visibility for multiple labels is the union of each label's
- *  elements, plus any unrestricted elements.
- *  If an element and its parents have no restrictions, visibility is
- *  unconditionally granted.
- *  Example:
- *  visibility:
- *  rules:
- *  - selector: google.calendar.Calendar.EnhancedSearch
- *  restriction: TRUSTED_TESTER
- *  - selector: google.calendar.Calendar.Delegate
- *  restriction: GOOGLE_INTERNAL
- *  Here, all methods are publicly visible except for the restricted methods
- *  EnhancedSearch and Delegate.
- */
-@interface GTLRServiceUser_Visibility : GTLRObject
-
-/**
- *  A list of visibility rules that apply to individual API elements.
- *  **NOTE:** All service configuration rules follow "last one wins" order.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRServiceUser_VisibilityRule *> *rules;
-
-@end
-
-
-/**
- *  A visibility rule provides visibility configuration for an individual API
- *  element.
- */
-@interface GTLRServiceUser_VisibilityRule : GTLRObject
-
-/**
- *  A comma-separated list of visibility labels that apply to the `selector`.
- *  Any of the listed labels can be used to grant the visibility.
- *  If a rule has multiple labels, removing one of the labels but not all of
- *  them can break clients.
- *  Example:
- *  visibility:
- *  rules:
- *  - selector: google.calendar.Calendar.EnhancedSearch
- *  restriction: GOOGLE_INTERNAL, TRUSTED_TESTER
- *  Removing GOOGLE_INTERNAL from this restriction will break clients that
- *  rely on this method and only had access to it through GOOGLE_INTERNAL.
- */
-@property(nonatomic, copy, nullable) NSString *restriction;
-
-/**
- *  Selects methods, messages, fields, enums, etc. to which this rule applies.
- *  Refer to selector for syntax details.
- */
-@property(nonatomic, copy, nullable) NSString *selector;
 
 @end
 

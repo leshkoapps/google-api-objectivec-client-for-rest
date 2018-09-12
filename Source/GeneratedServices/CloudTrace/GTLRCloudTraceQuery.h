@@ -4,10 +4,11 @@
 // API:
 //   Stackdriver Trace API (cloudtrace/v2)
 // Description:
-//   Send and retrieve trace data from Stackdriver Trace. Data is generated and
-//   available by default for all App Engine applications. Data from other
-//   applications can be written to Stackdriver Trace for display, reporting,
-//   and analysis.
+//   Sends application trace data to Stackdriver Trace for viewing. Trace data
+//   is collected for all App Engine applications by default. Trace data from
+//   other applications can be provided using this API. This library is used to
+//   interact with the Trace API directly. If you are looking to instrument your
+//   application for Stackdriver Trace, we recommend using OpenCensus.
 // Documentation:
 //   https://cloud.google.com/trace
 
@@ -42,11 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Sends new spans to Stackdriver Trace or updates existing traces. If the
- *  name of a trace that you send matches that of an existing trace, new spans
- *  are added to the existing trace. Attempt to update existing spans results
- *  undefined behavior. If the name does not match, a new trace is created
- *  with given set of spans.
+ *  Sends new spans to new or existing traces. You cannot update
+ *  existing spans.
  *
  *  Method: cloudtrace.projects.traces.batchWrite
  *
@@ -59,27 +57,24 @@ NS_ASSUME_NONNULL_BEGIN
 //   +[GTLQueryCloudTrace queryForProjectsTracesBatchWriteWithObject:name:]
 
 /**
- *  Required. Name of the project where the spans belong. The format is
- *  `projects/PROJECT_ID`.
+ *  Required. The name of the project where the spans belong. The format is
+ *  `projects/[PROJECT_ID]`.
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
  *  Fetches a @c GTLRCloudTrace_Empty.
  *
- *  Sends new spans to Stackdriver Trace or updates existing traces. If the
- *  name of a trace that you send matches that of an existing trace, new spans
- *  are added to the existing trace. Attempt to update existing spans results
- *  undefined behavior. If the name does not match, a new trace is created
- *  with given set of spans.
+ *  Sends new spans to new or existing traces. You cannot update
+ *  existing spans.
  *
  *  @param object The @c GTLRCloudTrace_BatchWriteSpansRequest to include in the
  *    query.
- *  @param name Required. Name of the project where the spans belong. The format
- *    is
- *    `projects/PROJECT_ID`.
+ *  @param name Required. The name of the project where the spans belong. The
+ *    format is
+ *    `projects/[PROJECT_ID]`.
  *
- *  @returns GTLRCloudTraceQuery_ProjectsTracesBatchWrite
+ *  @return GTLRCloudTraceQuery_ProjectsTracesBatchWrite
  */
 + (instancetype)queryWithObject:(GTLRCloudTrace_BatchWriteSpansRequest *)object
                            name:(NSString *)name;
@@ -87,170 +82,42 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- *  Returns of a list of traces that match the specified filter conditions.
+ *  Creates a new span.
  *
- *  Method: cloudtrace.projects.traces.list
- *
- *  Authorization scope(s):
- *    @c kGTLRAuthScopeCloudTraceCloudPlatform
- *    @c kGTLRAuthScopeCloudTraceTraceReadonly
- */
-@interface GTLRCloudTraceQuery_ProjectsTracesList : GTLRCloudTraceQuery
-// Previous library name was
-//   +[GTLQueryCloudTrace queryForProjectsTracesListWithparent:]
-
-/**
- *  Optional. Do not return traces whose start time is later than this time.
- */
-@property(nonatomic, strong, nullable) GTLRDateTime *endTime;
-
-/**
- *  Opional. Return only traces that match this
- *  [trace filter](/trace/docs/trace-filters). Example:
- *  "label:/http/url root:/_ah/background my_label:17"
- */
-@property(nonatomic, copy, nullable) NSString *filter;
-
-/**
- *  Optional. A single field used to sort the returned traces.
- *  Only the following field names can be used:
- *  * `trace_id`: the trace's ID field
- *  * `name`: the root span's resource name
- *  * `duration`: the difference between the root span's start time and end time
- *  * `start`: the start time of the root span
- *  Sorting is in ascending order unless `desc` is appended to the sort field
- *  name.
- *  Example: `"name desc"`).
- */
-@property(nonatomic, copy, nullable) NSString *orderBy;
-
-/**
- *  Optional. The maximum number of results to return from this request.
- *  Non-positive values are ignored. The presence of `next_page_token` in the
- *  response indicates that more results might be available, even if fewer than
- *  the maximum number of results is returned by this request.
- */
-@property(nonatomic, assign) NSInteger pageSize;
-
-/**
- *  Optional. If present, then retrieve the next batch of results from the
- *  preceding call to this method. `page_token` must be the value of
- *  `next_page_token` from the previous response. The values of other method
- *  parameters should be identical to those in the previous call.
- */
-@property(nonatomic, copy, nullable) NSString *pageToken;
-
-/**
- *  Required. The project where the trace data is stored. The format
- *  is `projects/PROJECT_ID`.
- */
-@property(nonatomic, copy, nullable) NSString *parent;
-
-/**
- *  Optional. Do not return traces whose end time is earlier than this time.
- */
-@property(nonatomic, strong, nullable) GTLRDateTime *startTime;
-
-/**
- *  Fetches a @c GTLRCloudTrace_ListTracesResponse.
- *
- *  Returns of a list of traces that match the specified filter conditions.
- *
- *  @param parent Required. The project where the trace data is stored. The
- *    format
- *    is `projects/PROJECT_ID`.
- *
- *  @returns GTLRCloudTraceQuery_ProjectsTracesList
- *
- *  @note Automatic pagination will be done when @c shouldFetchNextPages is
- *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
- *        information.
- */
-+ (instancetype)queryWithParent:(NSString *)parent;
-
-@end
-
-/**
- *  Returns a list of spans within a trace.
- *
- *  Method: cloudtrace.projects.traces.listSpans
- *
- *  Authorization scope(s):
- *    @c kGTLRAuthScopeCloudTraceCloudPlatform
- *    @c kGTLRAuthScopeCloudTraceTraceReadonly
- */
-@interface GTLRCloudTraceQuery_ProjectsTracesListSpans : GTLRCloudTraceQuery
-// Previous library name was
-//   +[GTLQueryCloudTrace queryForProjectsTracesListSpansWithparent:]
-
-/**
- *  Optional. If present, then retrieve the next batch of results from the
- *  preceding call to this method. `page_token` must be the value of
- *  `next_page_token` from the previous response. The values of other method
- *  parameters should be identical to those in the previous call.
- */
-@property(nonatomic, copy, nullable) NSString *pageToken;
-
-/**
- *  Required: The resource name of the trace containing the spans to list.
- *  The format is `projects/PROJECT_ID/traces/TRACE_ID`.
- */
-@property(nonatomic, copy, nullable) NSString *parent;
-
-/**
- *  Fetches a @c GTLRCloudTrace_ListSpansResponse.
- *
- *  Returns a list of spans within a trace.
- *
- *  @param parent Required: The resource name of the trace containing the spans
- *    to list.
- *    The format is `projects/PROJECT_ID/traces/TRACE_ID`.
- *
- *  @returns GTLRCloudTraceQuery_ProjectsTracesListSpans
- *
- *  @note Automatic pagination will be done when @c shouldFetchNextPages is
- *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
- *        information.
- */
-+ (instancetype)queryWithParent:(NSString *)parent;
-
-@end
-
-/**
- *  Creates a new Span.
- *
- *  Method: cloudtrace.projects.traces.spans.create
+ *  Method: cloudtrace.projects.traces.spans.createSpan
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeCloudTraceCloudPlatform
  *    @c kGTLRAuthScopeCloudTraceTraceAppend
  */
-@interface GTLRCloudTraceQuery_ProjectsTracesSpansCreate : GTLRCloudTraceQuery
+@interface GTLRCloudTraceQuery_ProjectsTracesSpansCreateSpan : GTLRCloudTraceQuery
 // Previous library name was
-//   +[GTLQueryCloudTrace queryForProjectsTracesSpansCreateWithObject:name:]
+//   +[GTLQueryCloudTrace queryForProjectsTracesSpansCreateSpanWithObject:name:]
 
 /**
  *  The resource name of the span in the following format:
- *  projects/[PROJECT_ID]traces/[TRACE_ID]/spans/SPAN_ID is a unique identifier
- *  for a trace within a project.
- *  [SPAN_ID] is a unique identifier for a span within a trace,
- *  assigned when the span is created.
+ *  projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/SPAN_ID is a unique identifier
+ *  for a trace within a project;
+ *  it is a 32-character hexadecimal encoding of a 16-byte array.
+ *  [SPAN_ID] is a unique identifier for a span within a trace; it
+ *  is a 16-character hexadecimal encoding of an 8-byte array.
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
  *  Fetches a @c GTLRCloudTrace_Span.
  *
- *  Creates a new Span.
+ *  Creates a new span.
  *
  *  @param object The @c GTLRCloudTrace_Span to include in the query.
  *  @param name The resource name of the span in the following format:
- *    projects/[PROJECT_ID]traces/[TRACE_ID]/spans/SPAN_ID is a unique
- *    identifier for a trace within a project.
- *    [SPAN_ID] is a unique identifier for a span within a trace,
- *    assigned when the span is created.
+ *    projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/SPAN_ID is a unique
+ *    identifier for a trace within a project;
+ *    it is a 32-character hexadecimal encoding of a 16-byte array.
+ *    [SPAN_ID] is a unique identifier for a span within a trace; it
+ *    is a 16-character hexadecimal encoding of an 8-byte array.
  *
- *  @returns GTLRCloudTraceQuery_ProjectsTracesSpansCreate
+ *  @return GTLRCloudTraceQuery_ProjectsTracesSpansCreateSpan
  */
 + (instancetype)queryWithObject:(GTLRCloudTrace_Span *)object
                            name:(NSString *)name;

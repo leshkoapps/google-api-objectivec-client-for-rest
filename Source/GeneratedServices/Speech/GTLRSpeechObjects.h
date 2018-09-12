@@ -2,11 +2,11 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Speech API (speech/v1)
+//   Cloud Speech API (speech/v1)
 // Description:
 //   Converts audio to text by applying powerful neural network models.
 // Documentation:
-//   https://cloud.google.com/speech/
+//   https://cloud.google.com/speech-to-text/docs/quickstart-protocol
 
 #if GTLR_BUILT_AS_FRAMEWORK
   #import "GTLR/GTLRObject.h"
@@ -19,7 +19,6 @@
 #endif
 
 @class GTLRSpeech_Context;
-@class GTLRSpeech_Operation;
 @class GTLRSpeech_Operation_Metadata;
 @class GTLRSpeech_Operation_Response;
 @class GTLRSpeech_RecognitionAlternative;
@@ -56,13 +55,13 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_Amr;
  */
 GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_AmrWb;
 /**
- *  Not specified. Will return result google.rpc.Code.INVALID_ARGUMENT.
+ *  Not specified.
  *
  *  Value: "ENCODING_UNSPECIFIED"
  */
 GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_EncodingUnspecified;
 /**
- *  [`FLAC`](https://xiph.org/flac/documentation.html) (Free Lossless Audio
+ *  `FLAC` (Free Lossless Audio
  *  Codec) is the recommended encoding because it is
  *  lossless--therefore recognition is not compromised--and
  *  requires only about half the bandwidth of `LINEAR16`. `FLAC` stream
@@ -87,7 +86,7 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_Mulaw;
 /**
  *  Opus encoded audio frames in Ogg container
  *  ([OggOpus](https://wiki.xiph.org/OggOpus)).
- *  `sample_rate_hertz` must be 16000.
+ *  `sample_rate_hertz` must be one of 8000, 12000, 16000, 24000, or 48000.
  *
  *  Value: "OGG_OPUS"
  */
@@ -112,13 +111,6 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_OggOpus;
 GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHeaderByte;
 
 /**
- *  The request message for Operations.CancelOperation.
- */
-@interface GTLRSpeech_CancelOperationRequest : GTLRObject
-@end
-
-
-/**
  *  Provides "hints" to the speech recognizer to favor specific words and
  *  phrases
  *  in the results.
@@ -134,43 +126,6 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
  *  [usage limits](https://cloud.google.com/speech/limits#content).
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *phrases;
-
-@end
-
-
-/**
- *  A generic empty message that you can re-use to avoid defining duplicated
- *  empty messages in your APIs. A typical example is to use it as the request
- *  or the response type of an API method. For instance:
- *  service Foo {
- *  rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
- *  }
- *  The JSON representation for `Empty` is empty JSON object `{}`.
- */
-@interface GTLRSpeech_Empty : GTLRObject
-@end
-
-
-/**
- *  The response message for Operations.ListOperations.
- *
- *  @note This class supports NSFastEnumeration and indexed subscripting over
- *        its "operations" property. If returned as the result of a query, it
- *        should support automatic pagination (when @c shouldFetchNextPages is
- *        enabled).
- */
-@interface GTLRSpeech_ListOperationsResponse : GTLRCollectionObject
-
-/** The standard List next-page token. */
-@property(nonatomic, copy, nullable) NSString *nextPageToken;
-
-/**
- *  A list of operations that matches the specified filter in the request.
- *
- *  @note This property is used to support NSFastEnumeration and indexed
- *        subscripting on this class.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRSpeech_Operation *> *operations;
 
 @end
 
@@ -201,7 +156,7 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 
 /**
  *  If the value is `false`, it means the operation is still in progress.
- *  If true, the operation is completed, and either `error` or `response` is
+ *  If `true`, the operation is completed, and either `error` or `response` is
  *  available.
  *
  *  Uses NSNumber of boolValue.
@@ -281,11 +236,12 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @interface GTLRSpeech_RecognitionAlternative : GTLRObject
 
 /**
- *  *Output-only* The confidence estimate between 0.0 and 1.0. A higher number
+ *  Output only. The confidence estimate between 0.0 and 1.0. A higher number
  *  indicates an estimated greater likelihood that the recognized words are
- *  correct. This field is typically provided only for the top hypothesis, and
- *  only for `is_final=true` results. Clients should not rely on the
- *  `confidence` field as it is not guaranteed to be accurate or consistent.
+ *  correct. This field is set only for the top alternative of a non-streaming
+ *  result or, of a streaming result where `is_final=true`.
+ *  This field is not guaranteed to be accurate and users should not rely on it
+ *  to be always provided.
  *  The default of 0.0 is a sentinel value indicating `confidence` was not set.
  *
  *  Uses NSNumber of floatValue.
@@ -293,12 +249,14 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @property(nonatomic, strong, nullable) NSNumber *confidence;
 
 /**
- *  *Output-only* Transcript text representing the words that the user spoke.
+ *  Output only. Transcript text representing the words that the user spoke.
  */
 @property(nonatomic, copy, nullable) NSString *transcript;
 
 /**
- *  *Output-only* A list of word-specific information for each recognized word.
+ *  Output only. A list of word-specific information for each recognized word.
+ *  Note: When enable_speaker_diarization is true, you will see all the words
+ *  from the beginning of the audio.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRSpeech_WordInfo *> *words;
 
@@ -353,7 +311,9 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @property(nonatomic, strong, nullable) NSNumber *enableWordTimeOffsets;
 
 /**
- *  *Required* Encoding of audio data sent in all `RecognitionAudio` messages.
+ *  Encoding of audio data sent in all `RecognitionAudio` messages.
+ *  This field is optional for `FLAC` and `WAV` audio files and required
+ *  for all other audio formats. For details, see AudioEncoding.
  *
  *  Likely values:
  *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_Amr Adaptive Multi-Rate
@@ -361,10 +321,8 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
  *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_AmrWb Adaptive Multi-Rate
  *        Wideband codec. `sample_rate_hertz` must be 16000. (Value: "AMR_WB")
  *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_EncodingUnspecified Not
- *        specified. Will return result google.rpc.Code.INVALID_ARGUMENT.
- *        (Value: "ENCODING_UNSPECIFIED")
- *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_Flac
- *        [`FLAC`](https://xiph.org/flac/documentation.html) (Free Lossless
+ *        specified. (Value: "ENCODING_UNSPECIFIED")
+ *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_Flac `FLAC` (Free Lossless
  *        Audio
  *        Codec) is the recommended encoding because it is
  *        lossless--therefore recognition is not compromised--and
@@ -379,7 +337,8 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
  *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_OggOpus Opus encoded audio
  *        frames in Ogg container
  *        ([OggOpus](https://wiki.xiph.org/OggOpus)).
- *        `sample_rate_hertz` must be 16000. (Value: "OGG_OPUS")
+ *        `sample_rate_hertz` must be one of 8000, 12000, 16000, 24000, or
+ *        48000. (Value: "OGG_OPUS")
  *    @arg @c kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHeaderByte
  *        Although the use of lossy encodings is not recommended, if a very low
  *        bitrate encoding is required, `OGG_OPUS` is highly preferred over
@@ -433,11 +392,13 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @property(nonatomic, strong, nullable) NSNumber *profanityFilter;
 
 /**
- *  *Required* Sample rate in Hertz of the audio data sent in all
+ *  Sample rate in Hertz of the audio data sent in all
  *  `RecognitionAudio` messages. Valid values are: 8000-48000.
  *  16000 is optimal. For best results, set the sampling rate of the audio
  *  source to 16000 Hz. If that's not possible, use the native sample rate of
  *  the audio source (instead of re-sampling).
+ *  This field is optional for `FLAC` and `WAV` audio files and required
+ *  for all other audio formats. For details, see AudioEncoding.
  *
  *  Uses NSNumber of intValue.
  */
@@ -455,7 +416,7 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @interface GTLRSpeech_RecognitionResult : GTLRObject
 
 /**
- *  *Output-only* May contain one or more recognition hypotheses (up to the
+ *  Output only. May contain one or more recognition hypotheses (up to the
  *  maximum specified in `max_alternatives`).
  *  These alternatives are ordered in terms of accuracy, with the top (first)
  *  alternative being the most probable, as ranked by the recognizer.
@@ -490,7 +451,7 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @interface GTLRSpeech_RecognizeResponse : GTLRObject
 
 /**
- *  *Output-only* Sequential list of transcription results corresponding to
+ *  Output only. Sequential list of transcription results corresponding to
  *  sequential portions of audio.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRSpeech_RecognitionResult *> *results;
@@ -581,14 +542,12 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 
 
 /**
- *  Word-specific information for recognized words. Word information is only
- *  included in the response when certain request parameters are set, such
- *  as `enable_word_time_offsets`.
+ *  Word-specific information for recognized words.
  */
 @interface GTLRSpeech_WordInfo : GTLRObject
 
 /**
- *  *Output-only* Time offset relative to the beginning of the audio,
+ *  Output only. Time offset relative to the beginning of the audio,
  *  and corresponding to the end of the spoken word.
  *  This field is only set if `enable_word_time_offsets=true` and only
  *  in the top hypothesis.
@@ -598,7 +557,18 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
 @property(nonatomic, strong, nullable) GTLRDuration *endTime;
 
 /**
- *  *Output-only* Time offset relative to the beginning of the audio,
+ *  Output only. A distinct integer value is assigned for every speaker within
+ *  the audio. This field specifies which one of those speakers was detected to
+ *  have spoken this word. Value ranges from '1' to diarization_speaker_count.
+ *  speaker_tag is set if enable_speaker_diarization = 'true' and only in the
+ *  top alternative.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *speakerTag;
+
+/**
+ *  Output only. Time offset relative to the beginning of the audio,
  *  and corresponding to the start of the spoken word.
  *  This field is only set if `enable_word_time_offsets=true` and only
  *  in the top hypothesis.
@@ -607,7 +577,7 @@ GTLR_EXTERN NSString * const kGTLRSpeech_RecognitionConfig_Encoding_SpeexWithHea
  */
 @property(nonatomic, strong, nullable) GTLRDuration *startTime;
 
-/** *Output-only* The word corresponding to this set of information. */
+/** Output only. The word corresponding to this set of information. */
 @property(nonatomic, copy, nullable) NSString *word;
 
 @end

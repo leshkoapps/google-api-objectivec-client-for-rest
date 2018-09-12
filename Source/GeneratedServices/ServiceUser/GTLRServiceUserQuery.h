@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Service User API (serviceuser/v1)
+//   Service User API (serviceuser/v1)
 // Description:
 //   Enables services that service consumers want to use on Google Cloud
 //   Platform, lists the available or enabled services, or disables services
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  The Service User implementation accepts the following forms for consumer:
  *  - "project:<project_id>"
  *  A valid path would be:
- *  - /v1/projects/my-project/services/servicemanagement.googleapis.com:disable
+ *  - projects/my-project/services/servicemanagement.googleapis.com
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
@@ -80,10 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
  *    The Service User implementation accepts the following forms for consumer:
  *    - "project:<project_id>"
  *    A valid path would be:
- *    -
- *    /v1/projects/my-project/services/servicemanagement.googleapis.com:disable
+ *    - projects/my-project/services/servicemanagement.googleapis.com
  *
- *  @returns GTLRServiceUserQuery_ProjectsServicesDisable
+ *  @return GTLRServiceUserQuery_ProjectsServicesDisable
  */
 + (instancetype)queryWithObject:(GTLRServiceUser_DisableServiceRequest *)object
                            name:(NSString *)name;
@@ -109,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Name of the consumer and the service to enable for that consumer.
  *  A valid path would be:
- *  - /v1/projects/my-project/services/servicemanagement.googleapis.com:enable
+ *  - projects/my-project/services/servicemanagement.googleapis.com
  */
 @property(nonatomic, copy, nullable) NSString *name;
 
@@ -126,9 +125,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param name Name of the consumer and the service to enable for that
  *    consumer.
  *    A valid path would be:
- *    - /v1/projects/my-project/services/servicemanagement.googleapis.com:enable
+ *    - projects/my-project/services/servicemanagement.googleapis.com
  *
- *  @returns GTLRServiceUserQuery_ProjectsServicesEnable
+ *  @return GTLRServiceUserQuery_ProjectsServicesEnable
  */
 + (instancetype)queryWithObject:(GTLRServiceUser_EnableServiceRequest *)object
                            name:(NSString *)name;
@@ -173,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
  *    An example valid parent would be:
  *    - projects/my-project
  *
- *  @returns GTLRServiceUserQuery_ProjectsServicesList
+ *  @return GTLRServiceUserQuery_ProjectsServicesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -216,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  authenticated users, also returns all services the calling user has
  *  "servicemanagement.services.bind" permission for.
  *
- *  @returns GTLRServiceUserQuery_ServicesSearch
+ *  @return GTLRServiceUserQuery_ServicesSearch
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more

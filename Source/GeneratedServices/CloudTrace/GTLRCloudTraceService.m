@@ -4,10 +4,11 @@
 // API:
 //   Stackdriver Trace API (cloudtrace/v2)
 // Description:
-//   Send and retrieve trace data from Stackdriver Trace. Data is generated and
-//   available by default for all App Engine applications. Data from other
-//   applications can be written to Stackdriver Trace for display, reporting,
-//   and analysis.
+//   Sends application trace data to Stackdriver Trace for viewing. Trace data
+//   is collected for all App Engine applications by default. Trace data from
+//   other applications can be provided using this API. This library is used to
+//   interact with the Trace API directly. If you are looking to instrument your
+//   application for Stackdriver Trace, we recommend using OpenCensus.
 // Documentation:
 //   https://cloud.google.com/trace
 
@@ -18,7 +19,6 @@
 
 NSString * const kGTLRAuthScopeCloudTraceCloudPlatform = @"https://www.googleapis.com/auth/cloud-platform";
 NSString * const kGTLRAuthScopeCloudTraceTraceAppend   = @"https://www.googleapis.com/auth/trace.append";
-NSString * const kGTLRAuthScopeCloudTraceTraceReadonly = @"https://www.googleapis.com/auth/trace.readonly";
 
 // ----------------------------------------------------------------------------
 //   GTLRCloudTraceService
@@ -32,7 +32,7 @@ NSString * const kGTLRAuthScopeCloudTraceTraceReadonly = @"https://www.googleapi
     // From discovery.
     self.rootURLString = @"https://cloudtrace.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

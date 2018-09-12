@@ -30,6 +30,8 @@
 @class GTLRToolResults_Execution;
 @class GTLRToolResults_FailureDetail;
 @class GTLRToolResults_FileReference;
+@class GTLRToolResults_GraphicsStats;
+@class GTLRToolResults_GraphicsStatsBucket;
 @class GTLRToolResults_History;
 @class GTLRToolResults_Image;
 @class GTLRToolResults_InconclusiveDetail;
@@ -183,12 +185,24 @@ GTLR_EXTERN NSString * const kGTLRToolResults_Step_State_Pending;
 GTLR_EXTERN NSString * const kGTLRToolResults_Step_State_UnknownState;
 
 // ----------------------------------------------------------------------------
+// GTLRToolResults_TestIssue.category
+
+/** Value: "common" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Category_Common;
+/** Value: "robo" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Category_Robo;
+/** Value: "unspecifiedCategory" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Category_UnspecifiedCategory;
+
+// ----------------------------------------------------------------------------
 // GTLRToolResults_TestIssue.severity
 
 /** Value: "info" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Severity_Info;
 /** Value: "severe" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Severity_Severe;
+/** Value: "suggestion" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Severity_Suggestion;
 /** Value: "unspecifiedSeverity" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Severity_UnspecifiedSeverity;
 /** Value: "warning" */
@@ -199,12 +213,40 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Severity_Warning;
 
 /** Value: "anr" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_Anr;
+/** Value: "availableDeepLinks" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_AvailableDeepLinks;
+/** Value: "compatibleWithOrchestrator" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_CompatibleWithOrchestrator;
+/** Value: "completeRoboScriptExecution" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_CompleteRoboScriptExecution;
+/** Value: "encounteredLoginScreen" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_EncounteredLoginScreen;
+/** Value: "encounteredNonAndroidUiWidgetScreen" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_EncounteredNonAndroidUiWidgetScreen;
+/** Value: "failedToInstall" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_FailedToInstall;
 /** Value: "fatalException" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_FatalException;
+/** Value: "incompleteRoboScriptExecution" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_IncompleteRoboScriptExecution;
+/** Value: "iosCrash" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_IosCrash;
+/** Value: "iosException" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_IosException;
+/** Value: "launcherActivityNotFound" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_LauncherActivityNotFound;
 /** Value: "nativeCrash" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_NativeCrash;
+/** Value: "nonSdkApiUsageViolation" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_NonSdkApiUsageViolation;
+/** Value: "performedGoogleLogin" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_PerformedGoogleLogin;
+/** Value: "startActivityNotFound" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_StartActivityNotFound;
 /** Value: "unspecifiedType" */
 GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
+/** Value: "unusedRoboDirective" */
+GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnusedRoboDirective;
 
 /**
  *  Android app information.
@@ -249,11 +291,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 
 /**
  *  The flag indicates whether Android Test Orchestrator will be used to run
- *  test or not. Test orchestrator is used if either: - orchestrator_option
- *  field is USE_ORCHESTRATOR, and test runner is compatible with orchestrator.
- *  Or - orchestrator_option field is unspecified or
- *  ORCHESTRATOR_OPTION_UNSPECIFIED, and test runner is compatible with
- *  orchestrator.
+ *  test or not.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -300,7 +338,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  */
 @interface GTLRToolResults_AndroidTest : GTLRObject
 
-/** Infomation about the application under test. */
+/** Information about the application under test. */
 @property(nonatomic, strong, nullable) GTLRToolResults_AndroidAppInfo *androidAppInfo;
 
 /** An Android instrumentation test. */
@@ -353,19 +391,24 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 @interface GTLRToolResults_Any : GTLRObject
 
 /**
- *  A URL/resource name whose content describes the type of the serialized
- *  protocol buffer message.
- *  For URLs which use the scheme `http`, `https`, or no scheme, the following
- *  restrictions and interpretations apply:
- *  * If no scheme is provided, `https` is assumed. * The last segment of the
- *  URL's path must represent the fully qualified name of the type (as in
+ *  A URL/resource name that uniquely identifies the type of the serialized
+ *  protocol buffer message. The last segment of the URL's path must represent
+ *  the fully qualified name of the type (as in
  *  `path/google.protobuf.Duration`). The name should be in a canonical form
- *  (e.g., leading "." is not accepted). * An HTTP GET on the URL must yield a
- *  [google.protobuf.Type][] value in binary format, or produce an error. *
- *  Applications are allowed to cache lookup results based on the URL, or have
- *  them precompiled into a binary to avoid any lookup. Therefore, binary
- *  compatibility needs to be preserved on changes to types. (Use versioned type
- *  names to manage breaking changes.)
+ *  (e.g., leading "." is not accepted).
+ *  In practice, teams usually precompile into the binary all types that they
+ *  expect it to use in the context of Any. However, for URLs which use the
+ *  scheme `http`, `https`, or no scheme, one can optionally set up a type
+ *  server that maps type URLs to message definitions as follows:
+ *  * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL
+ *  must yield a [google.protobuf.Type][] value in binary format, or produce an
+ *  error. * Applications are allowed to cache lookup results based on the URL,
+ *  or have them precompiled into a binary to avoid any lookup. Therefore,
+ *  binary compatibility needs to be preserved on changes to types. (Use
+ *  versioned type names to manage breaking changes.)
+ *  Note: this functionality is not currently available in the official protobuf
+ *  release, and it is not used for type URLs beginning with
+ *  type.googleapis.com.
  *  Schemes other than `http`, `https` (or the empty scheme) might be used with
  *  implementation specific semantics.
  */
@@ -670,7 +713,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 @interface GTLRToolResults_FailureDetail : GTLRObject
 
 /**
- *  If the failure was severe because the system under test crashed.
+ *  If the failure was severe because the system (app) under test crashed.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -685,7 +728,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 @property(nonatomic, strong, nullable) NSNumber *notInstalled;
 
 /**
- *  If a native process other than the app crashed.
+ *  If a native process (including any other than the app) crashed.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -729,6 +772,122 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 
 
 /**
+ *  Graphics statistics for the App. The information is collected from 'adb
+ *  shell dumpsys graphicsstats'. For more info see:
+ *  https://developer.android.com/training/testing/performance.html Statistics
+ *  will only be present for API 23+.
+ */
+@interface GTLRToolResults_GraphicsStats : GTLRObject
+
+/**
+ *  Histogram of frame render times. There should be 154 buckets ranging from
+ *  [5ms, 6ms) to [4950ms, infinity)
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRToolResults_GraphicsStatsBucket *> *buckets;
+
+/**
+ *  Total "high input latency" events.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *highInputLatencyCount;
+
+/**
+ *  Total frames with slow render time. Should be <= total_frames.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *jankyFrames;
+
+/**
+ *  Total "missed vsync" events.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *missedVsyncCount;
+
+/**
+ *  50th percentile frame render time in milliseconds.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *p50Millis;
+
+/**
+ *  90th percentile frame render time in milliseconds.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *p90Millis;
+
+/**
+ *  95th percentile frame render time in milliseconds.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *p95Millis;
+
+/**
+ *  99th percentile frame render time in milliseconds.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *p99Millis;
+
+/**
+ *  Total "slow bitmap upload" events.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *slowBitmapUploadCount;
+
+/**
+ *  Total "slow draw" events.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *slowDrawCount;
+
+/**
+ *  Total "slow UI thread" events.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *slowUiThreadCount;
+
+/**
+ *  Total frames rendered by package.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *totalFrames;
+
+@end
+
+
+/**
+ *  GTLRToolResults_GraphicsStatsBucket
+ */
+@interface GTLRToolResults_GraphicsStatsBucket : GTLRObject
+
+/**
+ *  Number of frames in the bucket.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *frameCount;
+
+/**
+ *  Lower bound of render time in milliseconds.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *renderMillis;
+
+@end
+
+
+/**
  *  A History represents a sorted list of Executions ordered by the
  *  start_timestamp_millis field (descending). It can be used to group all the
  *  Executions of a continuous build.
@@ -753,7 +912,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 @property(nonatomic, copy, nullable) NSString *historyId;
 
 /**
- *  A name to uniquely identify a history within a project. Maximum of 100
+ *  A name to uniquely identify a history within a project. Maximum of 200
  *  characters.
  *  - In response always set - In create request: always set
  */
@@ -919,7 +1078,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  */
 @interface GTLRToolResults_ListScreenshotClustersResponse : GTLRObject
 
-/** The set of clustres associated with an execution Always set */
+/** The set of clusters associated with an execution Always set */
 @property(nonatomic, strong, nullable) NSArray<GTLRToolResults_ScreenshotCluster *> *clusters;
 
 @end
@@ -1085,6 +1244,12 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
 
 /** A tool results execution ID. */
 @property(nonatomic, copy, nullable) NSString *executionId;
+
+/**
+ *  Graphics statistics for the entire run. Statistics are reset at the
+ *  beginning of the run and collected at the end of the run.
+ */
+@property(nonatomic, strong, nullable) GTLRToolResults_GraphicsStats *graphicsStats;
 
 /** A tool results history ID. */
 @property(nonatomic, copy, nullable) NSString *historyId;
@@ -1277,17 +1442,11 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  */
 @interface GTLRToolResults_StackTrace : GTLRObject
 
-/** Exception cluster ID */
-@property(nonatomic, copy, nullable) NSString *clusterId;
-
 /**
  *  The stack trace message.
  *  Required
  */
 @property(nonatomic, copy, nullable) NSString *exception;
-
-/** Exception report ID */
-@property(nonatomic, copy, nullable) NSString *reportId;
 
 @end
 
@@ -1642,6 +1801,17 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  */
 @interface GTLRToolResults_TestIssue : GTLRObject
 
+/**
+ *  Category of issue. Required.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRToolResults_TestIssue_Category_Common Value "common"
+ *    @arg @c kGTLRToolResults_TestIssue_Category_Robo Value "robo"
+ *    @arg @c kGTLRToolResults_TestIssue_Category_UnspecifiedCategory Value
+ *        "unspecifiedCategory"
+ */
+@property(nonatomic, copy, nullable) NSString *category;
+
 /** A brief human-readable message describing the issue. Required. */
 @property(nonatomic, copy, nullable) NSString *errorMessage;
 
@@ -1651,6 +1821,7 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  *  Likely values:
  *    @arg @c kGTLRToolResults_TestIssue_Severity_Info Value "info"
  *    @arg @c kGTLRToolResults_TestIssue_Severity_Severe Value "severe"
+ *    @arg @c kGTLRToolResults_TestIssue_Severity_Suggestion Value "suggestion"
  *    @arg @c kGTLRToolResults_TestIssue_Severity_UnspecifiedSeverity Value
  *        "unspecifiedSeverity"
  *    @arg @c kGTLRToolResults_TestIssue_Severity_Warning Value "warning"
@@ -1665,17 +1836,43 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  *
  *  Likely values:
  *    @arg @c kGTLRToolResults_TestIssue_Type_Anr Value "anr"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_AvailableDeepLinks Value
+ *        "availableDeepLinks"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_CompatibleWithOrchestrator Value
+ *        "compatibleWithOrchestrator"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_CompleteRoboScriptExecution Value
+ *        "completeRoboScriptExecution"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_EncounteredLoginScreen Value
+ *        "encounteredLoginScreen"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_EncounteredNonAndroidUiWidgetScreen
+ *        Value "encounteredNonAndroidUiWidgetScreen"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_FailedToInstall Value
+ *        "failedToInstall"
  *    @arg @c kGTLRToolResults_TestIssue_Type_FatalException Value
  *        "fatalException"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_IncompleteRoboScriptExecution
+ *        Value "incompleteRoboScriptExecution"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_IosCrash Value "iosCrash"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_IosException Value "iosException"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_LauncherActivityNotFound Value
+ *        "launcherActivityNotFound"
  *    @arg @c kGTLRToolResults_TestIssue_Type_NativeCrash Value "nativeCrash"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_NonSdkApiUsageViolation Value
+ *        "nonSdkApiUsageViolation"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_PerformedGoogleLogin Value
+ *        "performedGoogleLogin"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_StartActivityNotFound Value
+ *        "startActivityNotFound"
  *    @arg @c kGTLRToolResults_TestIssue_Type_UnspecifiedType Value
  *        "unspecifiedType"
+ *    @arg @c kGTLRToolResults_TestIssue_Type_UnusedRoboDirective Value
+ *        "unusedRoboDirective"
  */
 @property(nonatomic, copy, nullable) NSString *type;
 
 /**
  *  Warning message with additional details of the issue. Should always be a
- *  message from com.google.devtools.toolresults.v1.warnings Required.
+ *  message from com.google.devtools.toolresults.v1.warnings
  */
 @property(nonatomic, strong, nullable) GTLRToolResults_Any *warning;
 
@@ -1841,8 +2038,10 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  *  always expressed using four digits while {month}, {day}, {hour}, {min}, and
  *  {sec} are zero-padded to two digits each. The fractional seconds, which can
  *  go up to 9 digits (i.e. up to 1 nanosecond resolution), are optional. The
- *  "Z" suffix indicates the timezone ("UTC"); the timezone is required, though
- *  only UTC (as indicated by "Z") is presently supported.
+ *  "Z" suffix indicates the timezone ("UTC"); the timezone is required. A
+ *  proto3 JSON serializer should always use UTC (as indicated by "Z") when
+ *  printing the Timestamp type and a proto3 JSON parser should be able to
+ *  accept both UTC and other timezones (as indicated by an offset).
  *  For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past 01:30 UTC
  *  on January 15, 2017.
  *  In JavaScript, one can convert a Date object to this format using the
@@ -1853,8 +2052,8 @@ GTLR_EXTERN NSString * const kGTLRToolResults_TestIssue_Type_UnspecifiedType;
  *  [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with
  *  the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use
  *  the Joda Time's [`ISODateTimeFormat.dateTime()`](
- *  http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime())
- *  to obtain a formatter capable of generating timestamps in this format.
+ *  http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime--
+ *  ) to obtain a formatter capable of generating timestamps in this format.
  */
 @interface GTLRToolResults_Timestamp : GTLRObject
 

@@ -116,7 +116,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param siteUrl The site's URL, including protocol. For example:
  *    http://www.example.com/
  *
- *  @returns GTLRWebmastersQuery_SearchanalyticsQuery
+ *  @return GTLRWebmastersQuery_SearchanalyticsQuery
  */
 + (instancetype)queryWithObject:(GTLRWebmasters_SearchAnalyticsQueryRequest *)object
                         siteUrl:(NSString *)siteUrl;
@@ -157,7 +157,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param feedpath The URL of the actual sitemap. For example:
  *    http://www.example.com/sitemap.xml
  *
- *  @returns GTLRWebmastersQuery_SitemapsDelete
+ *  @return GTLRWebmastersQuery_SitemapsDelete
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                         feedpath:(NSString *)feedpath;
@@ -198,7 +198,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param feedpath The URL of the actual sitemap. For example:
  *    http://www.example.com/sitemap.xml
  *
- *  @returns GTLRWebmastersQuery_SitemapsGet
+ *  @return GTLRWebmastersQuery_SitemapsGet
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                         feedpath:(NSString *)feedpath;
@@ -239,7 +239,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param siteUrl The site's URL, including protocol. For example:
  *    http://www.example.com/
  *
- *  @returns GTLRWebmastersQuery_SitemapsList
+ *  @return GTLRWebmastersQuery_SitemapsList
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl;
 
@@ -279,7 +279,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param feedpath The URL of the sitemap to add. For example:
  *    http://www.example.com/sitemap.xml
  *
- *  @returns GTLRWebmastersQuery_SitemapsSubmit
+ *  @return GTLRWebmastersQuery_SitemapsSubmit
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                         feedpath:(NSString *)feedpath;
@@ -309,7 +309,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *
  *  @param siteUrl The URL of the site to add.
  *
- *  @returns GTLRWebmastersQuery_SitesAdd
+ *  @return GTLRWebmastersQuery_SitesAdd
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl;
 
@@ -329,7 +329,9 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
 
 /**
  *  The URI of the property as defined in Search Console. Examples:
- *  http://www.example.com/ or android-app://com.example/
+ *  http://www.example.com/ or android-app://com.example/ Note: for
+ *  property-sets, use the URI that starts with sc-set: which is used in Search
+ *  Console URLs.
  */
 @property(nonatomic, copy, nullable) NSString *siteUrl;
 
@@ -340,9 +342,11 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  Removes a site from the set of the user's Search Console sites.
  *
  *  @param siteUrl The URI of the property as defined in Search Console.
- *    Examples: http://www.example.com/ or android-app://com.example/
+ *    Examples: http://www.example.com/ or android-app://com.example/ Note: for
+ *    property-sets, use the URI that starts with sc-set: which is used in
+ *    Search Console URLs.
  *
- *  @returns GTLRWebmastersQuery_SitesDelete
+ *  @return GTLRWebmastersQuery_SitesDelete
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl;
 
@@ -363,7 +367,9 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
 
 /**
  *  The URI of the property as defined in Search Console. Examples:
- *  http://www.example.com/ or android-app://com.example/
+ *  http://www.example.com/ or android-app://com.example/ Note: for
+ *  property-sets, use the URI that starts with sc-set: which is used in Search
+ *  Console URLs.
  */
 @property(nonatomic, copy, nullable) NSString *siteUrl;
 
@@ -373,9 +379,11 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  Retrieves information about specific site.
  *
  *  @param siteUrl The URI of the property as defined in Search Console.
- *    Examples: http://www.example.com/ or android-app://com.example/
+ *    Examples: http://www.example.com/ or android-app://com.example/ Note: for
+ *    property-sets, use the URI that starts with sc-set: which is used in
+ *    Search Console URLs.
  *
- *  @returns GTLRWebmastersQuery_SitesGet
+ *  @return GTLRWebmastersQuery_SitesGet
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl;
 
@@ -399,7 +407,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *
  *  Lists the user's Search Console sites.
  *
- *  @returns GTLRWebmastersQuery_SitesList
+ *  @return GTLRWebmastersQuery_SitesList
  */
 + (instancetype)query;
 
@@ -468,7 +476,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *  @param siteUrl The site's URL, including protocol. For example:
  *    http://www.example.com/
  *
- *  @returns GTLRWebmastersQuery_UrlcrawlerrorscountsQuery
+ *  @return GTLRWebmastersQuery_UrlcrawlerrorscountsQuery
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl;
 
@@ -557,7 +565,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *    @arg @c kGTLRWebmastersPlatformSmartphoneOnly Value "smartphoneOnly"
  *    @arg @c kGTLRWebmastersPlatformWeb Value "web"
  *
- *  @returns GTLRWebmastersQuery_UrlcrawlerrorssamplesGet
+ *  @return GTLRWebmastersQuery_UrlcrawlerrorssamplesGet
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                              url:(NSString *)url
@@ -639,7 +647,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *    @arg @c kGTLRWebmastersPlatformSmartphoneOnly Value "smartphoneOnly"
  *    @arg @c kGTLRWebmastersPlatformWeb Value "web"
  *
- *  @returns GTLRWebmastersQuery_UrlcrawlerrorssamplesList
+ *  @return GTLRWebmastersQuery_UrlcrawlerrorssamplesList
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                         category:(NSString *)category
@@ -732,7 +740,7 @@ GTLR_EXTERN NSString * const kGTLRWebmastersPlatformWeb;
  *    @arg @c kGTLRWebmastersPlatformSmartphoneOnly Value "smartphoneOnly"
  *    @arg @c kGTLRWebmastersPlatformWeb Value "web"
  *
- *  @returns GTLRWebmastersQuery_UrlcrawlerrorssamplesMarkAsFixed
+ *  @return GTLRWebmastersQuery_UrlcrawlerrorssamplesMarkAsFixed
  */
 + (instancetype)queryWithSiteUrl:(NSString *)siteUrl
                              url:(NSString *)url

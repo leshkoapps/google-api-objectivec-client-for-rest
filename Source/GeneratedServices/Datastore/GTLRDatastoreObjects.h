@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Datastore API (datastore/v1)
+//   Cloud Datastore API (datastore/v1)
 // Description:
 //   Accesses the schemaless NoSQL database to provide fully managed, robust,
 //   scalable storage for your application.
@@ -29,6 +29,14 @@
 @class GTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_Labels;
 @class GTLRDatastore_GoogleDatastoreAdminV1beta1EntityFilter;
 @class GTLRDatastore_GoogleDatastoreAdminV1beta1Progress;
+@class GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata;
+@class GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_Labels;
+@class GTLRDatastore_GoogleDatastoreAdminV1EntityFilter;
+@class GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesRequest_Labels;
+@class GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesRequest_Labels;
+@class GTLRDatastore_GoogleDatastoreAdminV1Index;
+@class GTLRDatastore_GoogleDatastoreAdminV1IndexedProperty;
+@class GTLRDatastore_GoogleDatastoreAdminV1Progress;
 @class GTLRDatastore_GoogleLongrunningOperation;
 @class GTLRDatastore_GoogleLongrunningOperation_Metadata;
 @class GTLRDatastore_GoogleLongrunningOperation_Response;
@@ -110,18 +118,6 @@ GTLR_EXTERN NSString * const kGTLRDatastore_CompositeFilter_Op_OperatorUnspecifi
 // GTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata.operationType
 
 /**
- *  Build an index.
- *
- *  Value: "BUILD_INDEX"
- */
-GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_BuildIndex;
-/**
- *  Clear an index.
- *
- *  Value: "CLEAR_INDEX"
- */
-GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_ClearIndex;
-/**
  *  ExportEntities.
  *
  *  Value: "EXPORT_ENTITIES"
@@ -145,14 +141,14 @@ GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMet
 
 /**
  *  Request has finished being cancelled after user called
- *  longrunning.Operations.CancelOperation.
+ *  google.longrunning.Operations.CancelOperation.
  *
  *  Value: "CANCELLED"
  */
 GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_State_Cancelled;
 /**
  *  Request is in the process of being cancelled after user called
- *  longrunning.Operations.CancelOperation on the operation.
+ *  google.longrunning.Operations.CancelOperation on the operation.
  *
  *  Value: "CANCELLING"
  */
@@ -193,6 +189,187 @@ GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMet
  *  Value: "SUCCESSFUL"
  */
 GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_State_Successful;
+
+// ----------------------------------------------------------------------------
+// GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata.operationType
+
+/**
+ *  CreateIndex.
+ *
+ *  Value: "CREATE_INDEX"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_CreateIndex;
+/**
+ *  DeleteIndex.
+ *
+ *  Value: "DELETE_INDEX"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_DeleteIndex;
+/**
+ *  ExportEntities.
+ *
+ *  Value: "EXPORT_ENTITIES"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_ExportEntities;
+/**
+ *  ImportEntities.
+ *
+ *  Value: "IMPORT_ENTITIES"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_ImportEntities;
+/**
+ *  Unspecified.
+ *
+ *  Value: "OPERATION_TYPE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_OperationTypeUnspecified;
+
+// ----------------------------------------------------------------------------
+// GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata.state
+
+/**
+ *  Request has finished being cancelled after user called
+ *  google.longrunning.Operations.CancelOperation.
+ *
+ *  Value: "CANCELLED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Cancelled;
+/**
+ *  Request is in the process of being cancelled after user called
+ *  google.longrunning.Operations.CancelOperation on the operation.
+ *
+ *  Value: "CANCELLING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Cancelling;
+/**
+ *  Request has finished being processed, but encountered an error.
+ *
+ *  Value: "FAILED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Failed;
+/**
+ *  Request has been processed and is in its finalization stage.
+ *
+ *  Value: "FINALIZING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Finalizing;
+/**
+ *  Request is being prepared for processing.
+ *
+ *  Value: "INITIALIZING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Initializing;
+/**
+ *  Request is actively being processed.
+ *
+ *  Value: "PROCESSING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Processing;
+/**
+ *  Unspecified.
+ *
+ *  Value: "STATE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_StateUnspecified;
+/**
+ *  Request has completed successfully.
+ *
+ *  Value: "SUCCESSFUL"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Successful;
+
+// ----------------------------------------------------------------------------
+// GTLRDatastore_GoogleDatastoreAdminV1Index.ancestor
+
+/**
+ *  Include all the entity's ancestors in the index.
+ *
+ *  Value: "ALL_ANCESTORS"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_AllAncestors;
+/**
+ *  The ancestor mode is unspecified.
+ *
+ *  Value: "ANCESTOR_MODE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_AncestorModeUnspecified;
+/**
+ *  Do not include the entity's ancestors in the index.
+ *
+ *  Value: "NONE"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_None;
+
+// ----------------------------------------------------------------------------
+// GTLRDatastore_GoogleDatastoreAdminV1Index.state
+
+/**
+ *  The index is being created, and cannot be used by queries.
+ *  There is an active long-running operation for the index.
+ *  The index is updated when writing an entity.
+ *  Some index data may exist.
+ *
+ *  Value: "CREATING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Creating;
+/**
+ *  The index is being deleted, and cannot be used by queries.
+ *  There is an active long-running operation for the index.
+ *  The index is not updated when writing an entity.
+ *  Some index data may exist.
+ *
+ *  Value: "DELETING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Deleting;
+/**
+ *  The index was being created or deleted, but something went wrong.
+ *  The index cannot by used by queries.
+ *  There is no active long-running operation for the index,
+ *  and the most recently finished long-running operation failed.
+ *  The index is not updated when writing an entity.
+ *  Some index data may exist.
+ *
+ *  Value: "ERROR"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Error;
+/**
+ *  The index is ready to be used.
+ *  The index is updated when writing an entity.
+ *  The index is fully populated from all stored entities it applies to.
+ *
+ *  Value: "READY"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Ready;
+/**
+ *  The state is unspecified.
+ *
+ *  Value: "STATE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1Index_State_StateUnspecified;
+
+// ----------------------------------------------------------------------------
+// GTLRDatastore_GoogleDatastoreAdminV1IndexedProperty.direction
+
+/**
+ *  The property's values are indexed so as to support sequencing in
+ *  ascending order and also query by <, >, <=, >=, and =.
+ *
+ *  Value: "ASCENDING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_Ascending;
+/**
+ *  The property's values are indexed so as to support sequencing in
+ *  descending order and also query by <, >, <=, >=, and =.
+ *
+ *  Value: "DESCENDING"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_Descending;
+/**
+ *  The direction is unspecified.
+ *
+ *  Value: "DIRECTION_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_DirectionUnspecified;
 
 // ----------------------------------------------------------------------------
 // GTLRDatastore_PropertyFilter.op
@@ -649,10 +826,6 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
  *  ListOperationsRequest.
  *
  *  Likely values:
- *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_BuildIndex
- *        Build an index. (Value: "BUILD_INDEX")
- *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_ClearIndex
- *        Clear an index. (Value: "CLEAR_INDEX")
  *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_ExportEntities
  *        ExportEntities. (Value: "EXPORT_ENTITIES")
  *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_OperationType_ImportEntities
@@ -671,11 +844,11 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
  *  Likely values:
  *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_State_Cancelled
  *        Request has finished being cancelled after user called
- *        longrunning.Operations.CancelOperation. (Value: "CANCELLED")
+ *        google.longrunning.Operations.CancelOperation. (Value: "CANCELLED")
  *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_State_Cancelling
  *        Request is in the process of being cancelled after user called
- *        longrunning.Operations.CancelOperation on the operation. (Value:
- *        "CANCELLING")
+ *        google.longrunning.Operations.CancelOperation on the operation.
+ *        (Value: "CANCELLING")
  *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1beta1CommonMetadata_State_Failed
  *        Request has finished being processed, but encountered an error.
  *        (Value: "FAILED")
@@ -711,7 +884,7 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
 
 /**
  *  Identifies a subset of entities in a project. This is specified as
- *  combinations of kind + namespace (either or both of which may be all, as
+ *  combinations of kinds and namespaces (either or both of which may be all, as
  *  described in the following examples).
  *  Example usage:
  *  Entire project:
@@ -822,7 +995,465 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
 @interface GTLRDatastore_GoogleDatastoreAdminV1beta1Progress : GTLRObject
 
 /**
- *  Note that this may be greater than work_estimated.
+ *  The amount of work that has been completed. Note that this may be greater
+ *  than work_estimated.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *workCompleted;
+
+/**
+ *  An estimate of how much work needs to be performed. May be zero if the
+ *  work estimate is unavailable.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *workEstimated;
+
+@end
+
+
+/**
+ *  Metadata common to all Datastore Admin operations.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata : GTLRObject
+
+/** The time the operation ended, either successfully or otherwise. */
+@property(nonatomic, strong, nullable) GTLRDateTime *endTime;
+
+/**
+ *  The client-assigned labels which were provided when the operation was
+ *  created. May also include additional labels.
+ */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_Labels *labels;
+
+/**
+ *  The type of the operation. Can be used as a filter in
+ *  ListOperationsRequest.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_CreateIndex
+ *        CreateIndex. (Value: "CREATE_INDEX")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_DeleteIndex
+ *        DeleteIndex. (Value: "DELETE_INDEX")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_ExportEntities
+ *        ExportEntities. (Value: "EXPORT_ENTITIES")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_ImportEntities
+ *        ImportEntities. (Value: "IMPORT_ENTITIES")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_OperationType_OperationTypeUnspecified
+ *        Unspecified. (Value: "OPERATION_TYPE_UNSPECIFIED")
+ */
+@property(nonatomic, copy, nullable) NSString *operationType;
+
+/** The time that work began on the operation. */
+@property(nonatomic, strong, nullable) GTLRDateTime *startTime;
+
+/**
+ *  The current state of the Operation.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Cancelled
+ *        Request has finished being cancelled after user called
+ *        google.longrunning.Operations.CancelOperation. (Value: "CANCELLED")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Cancelling
+ *        Request is in the process of being cancelled after user called
+ *        google.longrunning.Operations.CancelOperation on the operation.
+ *        (Value: "CANCELLING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Failed
+ *        Request has finished being processed, but encountered an error.
+ *        (Value: "FAILED")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Finalizing
+ *        Request has been processed and is in its finalization stage. (Value:
+ *        "FINALIZING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Initializing
+ *        Request is being prepared for processing. (Value: "INITIALIZING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Processing
+ *        Request is actively being processed. (Value: "PROCESSING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_StateUnspecified
+ *        Unspecified. (Value: "STATE_UNSPECIFIED")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_State_Successful
+ *        Request has completed successfully. (Value: "SUCCESSFUL")
+ */
+@property(nonatomic, copy, nullable) NSString *state;
+
+@end
+
+
+/**
+ *  The client-assigned labels which were provided when the operation was
+ *  created. May also include additional labels.
+ *
+ *  @note This class is documented as having more properties of NSString. Use @c
+ *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
+ *        of properties and then fetch them; or @c -additionalProperties to
+ *        fetch them all at once.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata_Labels : GTLRObject
+@end
+
+
+/**
+ *  Identifies a subset of entities in a project. This is specified as
+ *  combinations of kinds and namespaces (either or both of which may be all, as
+ *  described in the following examples).
+ *  Example usage:
+ *  Entire project:
+ *  kinds=[], namespace_ids=[]
+ *  Kinds Foo and Bar in all namespaces:
+ *  kinds=['Foo', 'Bar'], namespace_ids=[]
+ *  Kinds Foo and Bar only in the default namespace:
+ *  kinds=['Foo', 'Bar'], namespace_ids=['']
+ *  Kinds Foo and Bar in both the default and Baz namespaces:
+ *  kinds=['Foo', 'Bar'], namespace_ids=['', 'Baz']
+ *  The entire Baz namespace:
+ *  kinds=[], namespace_ids=['Baz']
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1EntityFilter : GTLRObject
+
+/** If empty, then this represents all kinds. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *kinds;
+
+/**
+ *  An empty list represents all namespaces. This is the preferred
+ *  usage for projects that don't use namespaces.
+ *  An empty string element represents the default namespace. This should be
+ *  used if the project has data in non-default namespaces, but doesn't want to
+ *  include them.
+ *  Each namespace in this list must be unique.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *namespaceIds;
+
+@end
+
+
+/**
+ *  Metadata for ExportEntities operations.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesMetadata : GTLRObject
+
+/** Metadata common to all Datastore Admin operations. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata *common;
+
+/** Description of which entities are being exported. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1EntityFilter *entityFilter;
+
+/**
+ *  Location for the export metadata and data files. This will be the same
+ *  value as the
+ *  google.datastore.admin.v1.ExportEntitiesRequest.output_url_prefix
+ *  field. The final output location is provided in
+ *  google.datastore.admin.v1.ExportEntitiesResponse.output_url.
+ */
+@property(nonatomic, copy, nullable) NSString *outputUrlPrefix;
+
+/** An estimate of the number of bytes processed. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1Progress *progressBytes;
+
+/** An estimate of the number of entities processed. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1Progress *progressEntities;
+
+@end
+
+
+/**
+ *  The request for
+ *  google.datastore.admin.v1.DatastoreAdmin.ExportEntities.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesRequest : GTLRObject
+
+/** Description of what data from the project is included in the export. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1EntityFilter *entityFilter;
+
+/** Client-assigned labels. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesRequest_Labels *labels;
+
+/**
+ *  Location for the export metadata and data files.
+ *  The full resource URL of the external storage location. Currently, only
+ *  Google Cloud Storage is supported. So output_url_prefix should be of the
+ *  form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the
+ *  name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud
+ *  Storage namespace path (this is not a Cloud Datastore namespace). For more
+ *  information about Cloud Storage namespace paths, see
+ *  [Object name
+ *  considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+ *  The resulting files will be nested deeper than the specified URL prefix.
+ *  The final output URL will be provided in the
+ *  google.datastore.admin.v1.ExportEntitiesResponse.output_url field. That
+ *  value should be used for subsequent ImportEntities operations.
+ *  By nesting the data files deeper, the same Cloud Storage bucket can be used
+ *  in multiple ExportEntities operations without conflict.
+ */
+@property(nonatomic, copy, nullable) NSString *outputUrlPrefix;
+
+@end
+
+
+/**
+ *  Client-assigned labels.
+ *
+ *  @note This class is documented as having more properties of NSString. Use @c
+ *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
+ *        of properties and then fetch them; or @c -additionalProperties to
+ *        fetch them all at once.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesRequest_Labels : GTLRObject
+@end
+
+
+/**
+ *  The response for
+ *  google.datastore.admin.v1.DatastoreAdmin.ExportEntities.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ExportEntitiesResponse : GTLRObject
+
+/**
+ *  Location of the output metadata file. This can be used to begin an import
+ *  into Cloud Datastore (this project or another project). See
+ *  google.datastore.admin.v1.ImportEntitiesRequest.input_url.
+ *  Only present if the operation completed successfully.
+ */
+@property(nonatomic, copy, nullable) NSString *outputUrl;
+
+@end
+
+
+/**
+ *  Metadata for ImportEntities operations.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesMetadata : GTLRObject
+
+/** Metadata common to all Datastore Admin operations. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata *common;
+
+/** Description of which entities are being imported. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1EntityFilter *entityFilter;
+
+/**
+ *  The location of the import metadata file. This will be the same value as
+ *  the google.datastore.admin.v1.ExportEntitiesResponse.output_url field.
+ */
+@property(nonatomic, copy, nullable) NSString *inputUrl;
+
+/** An estimate of the number of bytes processed. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1Progress *progressBytes;
+
+/** An estimate of the number of entities processed. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1Progress *progressEntities;
+
+@end
+
+
+/**
+ *  The request for
+ *  google.datastore.admin.v1.DatastoreAdmin.ImportEntities.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesRequest : GTLRObject
+
+/**
+ *  Optionally specify which kinds/namespaces are to be imported. If provided,
+ *  the list must be a subset of the EntityFilter used in creating the export,
+ *  otherwise a FAILED_PRECONDITION error will be returned. If no filter is
+ *  specified then all entities from the export are imported.
+ */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1EntityFilter *entityFilter;
+
+/**
+ *  The full resource URL of the external storage location. Currently, only
+ *  Google Cloud Storage is supported. So input_url should be of the form:
+ *  `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
+ *  `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
+ *  an optional Cloud Storage namespace path (this is not a Cloud Datastore
+ *  namespace), and `OVERALL_EXPORT_METADATA_FILE` is the metadata file written
+ *  by the ExportEntities operation. For more information about Cloud Storage
+ *  namespace paths, see
+ *  [Object name
+ *  considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+ *  For more information, see
+ *  google.datastore.admin.v1.ExportEntitiesResponse.output_url.
+ */
+@property(nonatomic, copy, nullable) NSString *inputUrl;
+
+/** Client-assigned labels. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesRequest_Labels *labels;
+
+@end
+
+
+/**
+ *  Client-assigned labels.
+ *
+ *  @note This class is documented as having more properties of NSString. Use @c
+ *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
+ *        of properties and then fetch them; or @c -additionalProperties to
+ *        fetch them all at once.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ImportEntitiesRequest_Labels : GTLRObject
+@end
+
+
+/**
+ *  A minimal index definition.
+ *  Next tag: 8
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1Index : GTLRObject
+
+/**
+ *  The index's ancestor mode. Must not be ANCESTOR_MODE_UNSPECIFIED.
+ *  Required.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_AllAncestors
+ *        Include all the entity's ancestors in the index. (Value:
+ *        "ALL_ANCESTORS")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_AncestorModeUnspecified
+ *        The ancestor mode is unspecified. (Value: "ANCESTOR_MODE_UNSPECIFIED")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_Ancestor_None Do not
+ *        include the entity's ancestors in the index. (Value: "NONE")
+ */
+@property(nonatomic, copy, nullable) NSString *ancestor;
+
+/**
+ *  The resource ID of the index.
+ *  Output only.
+ */
+@property(nonatomic, copy, nullable) NSString *indexId;
+
+/**
+ *  The entity kind to which this index applies.
+ *  Required.
+ */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/**
+ *  Project ID.
+ *  Output only.
+ */
+@property(nonatomic, copy, nullable) NSString *projectId;
+
+/**
+ *  An ordered sequence of property names and their index attributes.
+ *  Required.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRDatastore_GoogleDatastoreAdminV1IndexedProperty *> *properties;
+
+/**
+ *  The state of the index.
+ *  Output only.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Creating The
+ *        index is being created, and cannot be used by queries.
+ *        There is an active long-running operation for the index.
+ *        The index is updated when writing an entity.
+ *        Some index data may exist. (Value: "CREATING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Deleting The
+ *        index is being deleted, and cannot be used by queries.
+ *        There is an active long-running operation for the index.
+ *        The index is not updated when writing an entity.
+ *        Some index data may exist. (Value: "DELETING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Error The index
+ *        was being created or deleted, but something went wrong.
+ *        The index cannot by used by queries.
+ *        There is no active long-running operation for the index,
+ *        and the most recently finished long-running operation failed.
+ *        The index is not updated when writing an entity.
+ *        Some index data may exist. (Value: "ERROR")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_State_Ready The index
+ *        is ready to be used.
+ *        The index is updated when writing an entity.
+ *        The index is fully populated from all stored entities it applies to.
+ *        (Value: "READY")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1Index_State_StateUnspecified
+ *        The state is unspecified. (Value: "STATE_UNSPECIFIED")
+ */
+@property(nonatomic, copy, nullable) NSString *state;
+
+@end
+
+
+/**
+ *  Next tag: 3
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1IndexedProperty : GTLRObject
+
+/**
+ *  The indexed property's direction. Must not be DIRECTION_UNSPECIFIED.
+ *  Required.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_Ascending
+ *        The property's values are indexed so as to support sequencing in
+ *        ascending order and also query by <, >, <=, >=, and =. (Value:
+ *        "ASCENDING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_Descending
+ *        The property's values are indexed so as to support sequencing in
+ *        descending order and also query by <, >, <=, >=, and =. (Value:
+ *        "DESCENDING")
+ *    @arg @c kGTLRDatastore_GoogleDatastoreAdminV1IndexedProperty_Direction_DirectionUnspecified
+ *        The direction is unspecified. (Value: "DIRECTION_UNSPECIFIED")
+ */
+@property(nonatomic, copy, nullable) NSString *direction;
+
+/**
+ *  The property name to index.
+ *  Required.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+@end
+
+
+/**
+ *  Metadata for Index operations.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1IndexOperationMetadata : GTLRObject
+
+/** Metadata common to all Datastore Admin operations. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1CommonMetadata *common;
+
+/** The index resource ID that this operation is acting on. */
+@property(nonatomic, copy, nullable) NSString *indexId;
+
+/** An estimate of the number of entities processed. */
+@property(nonatomic, strong, nullable) GTLRDatastore_GoogleDatastoreAdminV1Progress *progressEntities;
+
+@end
+
+
+/**
+ *  The response for
+ *  google.datastore.admin.v1.DatastoreAdmin.ListIndexes.
+ *
+ *  @note This class supports NSFastEnumeration and indexed subscripting over
+ *        its "indexes" property. If returned as the result of a query, it
+ *        should support automatic pagination (when @c shouldFetchNextPages is
+ *        enabled).
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1ListIndexesResponse : GTLRCollectionObject
+
+/**
+ *  The indexes.
+ *
+ *  @note This property is used to support NSFastEnumeration and indexed
+ *        subscripting on this class.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRDatastore_GoogleDatastoreAdminV1Index *> *indexes;
+
+/** The standard List next-page token. */
+@property(nonatomic, copy, nullable) NSString *nextPageToken;
+
+@end
+
+
+/**
+ *  Measures the progress of a particular metric.
+ */
+@interface GTLRDatastore_GoogleDatastoreAdminV1Progress : GTLRObject
+
+/**
+ *  The amount of work that has been completed. Note that this may be greater
+ *  than work_estimated.
  *
  *  Uses NSNumber of longLongValue.
  */
@@ -871,7 +1502,7 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
 
 /**
  *  If the value is `false`, it means the operation is still in progress.
- *  If true, the operation is completed, and either `error` or `response` is
+ *  If `true`, the operation is completed, and either `error` or `response` is
  *  available.
  *
  *  Uses NSNumber of boolValue.
@@ -1075,36 +1706,6 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
  *  specified otherwise, this must conform to the
  *  <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84
  *  standard</a>. Values must be within normalized ranges.
- *  Example of normalization code in Python:
- *  def NormalizeLongitude(longitude):
- *  """Wraps decimal degrees longitude to [-180.0, 180.0]."""
- *  q, r = divmod(longitude, 360.0)
- *  if r > 180.0 or (r == 180.0 and q <= -1.0):
- *  return r - 360.0
- *  return r
- *  def NormalizeLatLng(latitude, longitude):
- *  """Wraps decimal degrees latitude and longitude to
- *  [-90.0, 90.0] and [-180.0, 180.0], respectively."""
- *  r = latitude % 360.0
- *  if r <= 90.0:
- *  return r, NormalizeLongitude(longitude)
- *  elif r >= 270.0:
- *  return r - 360, NormalizeLongitude(longitude)
- *  else:
- *  return 180 - r, NormalizeLongitude(longitude + 180.0)
- *  assert 180.0 == NormalizeLongitude(180.0)
- *  assert -180.0 == NormalizeLongitude(-180.0)
- *  assert -179.0 == NormalizeLongitude(181.0)
- *  assert (0.0, 0.0) == NormalizeLatLng(360.0, 0.0)
- *  assert (0.0, 0.0) == NormalizeLatLng(-360.0, 0.0)
- *  assert (85.0, 180.0) == NormalizeLatLng(95.0, 0.0)
- *  assert (-85.0, -170.0) == NormalizeLatLng(-95.0, 10.0)
- *  assert (90.0, 10.0) == NormalizeLatLng(90.0, 10.0)
- *  assert (-90.0, -10.0) == NormalizeLatLng(-90.0, -10.0)
- *  assert (0.0, -170.0) == NormalizeLatLng(-180.0, 10.0)
- *  assert (0.0, -170.0) == NormalizeLatLng(180.0, 10.0)
- *  assert (-90.0, 10.0) == NormalizeLatLng(270.0, 10.0)
- *  assert (90.0, 10.0) == NormalizeLatLng(-270.0, 10.0)
  */
 @interface GTLRDatastore_LatLng : GTLRObject
 
@@ -1606,6 +2207,30 @@ GTLR_EXTERN NSString * const kGTLRDatastore_Value_NullValue_NullValue;
  */
 @property(nonatomic, copy, nullable) NSString *previousTransaction;
 
+@end
+
+
+/**
+ *  The request for Datastore.ReserveIds.
+ */
+@interface GTLRDatastore_ReserveIdsRequest : GTLRObject
+
+/** If not empty, the ID of the database against which to make the request. */
+@property(nonatomic, copy, nullable) NSString *databaseId;
+
+/**
+ *  A list of keys with complete key paths whose numeric IDs should not be
+ *  auto-allocated.
+ */
+@property(nonatomic, strong, nullable) NSArray<GTLRDatastore_Key *> *keys;
+
+@end
+
+
+/**
+ *  The response for Datastore.ReserveIds.
+ */
+@interface GTLRDatastore_ReserveIdsResponse : GTLRObject
 @end
 
 

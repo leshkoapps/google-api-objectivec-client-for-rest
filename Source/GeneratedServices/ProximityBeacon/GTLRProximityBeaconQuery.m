@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Proximity Beacon API (proximitybeacon/v1beta1)
+//   Proximity Beacon API (proximitybeacon/v1beta1)
 // Description:
 //   Registers, manages, indexes, and searches beacons.
 // Documentation:
@@ -17,6 +17,7 @@
 
 // alertFilter
 NSString * const kGTLRProximityBeaconAlertFilterAlertUnspecified = @"ALERT_UNSPECIFIED";
+NSString * const kGTLRProximityBeaconAlertFilterLowActivity    = @"LOW_ACTIVITY";
 NSString * const kGTLRProximityBeaconAlertFilterLowBattery     = @"LOW_BATTERY";
 NSString * const kGTLRProximityBeaconAlertFilterWrongLocation  = @"WRONG_LOCATION";
 

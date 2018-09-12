@@ -4,9 +4,8 @@
 // API:
 //   Admin Directory API (admin/directory_v1)
 // Description:
-//   The Admin SDK Directory API lets you view and manage enterprise resources
-//   such as users and groups, administrative notifications, security features,
-//   and more.
+//   Manages enterprise resources such as users and groups, administrative
+//   notifications, security features, and more.
 // Documentation:
 //   https://developers.google.com/admin-sdk/directory/
 
@@ -55,6 +54,29 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDirectory_AppAccessCollections
+//
+
+@implementation GTLRDirectory_AppAccessCollections
+@dynamic blockedApiAccessBuckets, enforceSettingsForAndroidDrive, errorMessage,
+         ETag, kind, resourceId, resourceName, trustDomainOwnedApps;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"ETag" : @"etag" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"blockedApiAccessBuckets" : [NSString class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDirectory_Asp
 //
 
@@ -92,12 +114,73 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDirectory_Building
+//
+
+@implementation GTLRDirectory_Building
+@dynamic buildingId, buildingName, coordinates, descriptionProperty, etags,
+         floorNames, kind;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"descriptionProperty" : @"description" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"floorNames" : [NSString class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_BuildingCoordinates
+//
+
+@implementation GTLRDirectory_BuildingCoordinates
+@dynamic latitude, longitude;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_Buildings
+//
+
+@implementation GTLRDirectory_Buildings
+@dynamic buildings, ETag, kind, nextPageToken;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"ETag" : @"etag" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"buildings" : [GTLRDirectory_Building class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"buildings";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDirectory_CalendarResource
 //
 
 @implementation GTLRDirectory_CalendarResource
-@dynamic etags, kind, resourceDescription, resourceEmail, resourceId,
-         resourceName, resourceType;
+@dynamic buildingId, capacity, etags, featureInstances, floorName, floorSection,
+         generatedResourceName, kind, resourceCategory, resourceDescription,
+         resourceEmail, resourceId, resourceName, resourceType,
+         userVisibleDescription;
 @end
 
 
@@ -160,10 +243,11 @@
 
 @implementation GTLRDirectory_ChromeOsDevice
 @dynamic activeTimeRanges, annotatedAssetId, annotatedLocation, annotatedUser,
-         bootMode, deviceId, ETag, ethernetMacAddress, firmwareVersion, kind,
-         lastEnrollmentTime, lastSync, macAddress, meid, model, notes,
-         orderNumber, orgUnitPath, osVersion, platformVersion, recentUsers,
-         serialNumber, status, supportEndDate, willAutoRenew;
+         bootMode, deviceFiles, deviceId, ETag, ethernetMacAddress,
+         firmwareVersion, kind, lastEnrollmentTime, lastSync, macAddress, meid,
+         model, notes, orderNumber, orgUnitPath, osVersion, platformVersion,
+         recentUsers, serialNumber, status, supportEndDate, tpmVersionInfo,
+         willAutoRenew;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"ETag" : @"etag" };
@@ -172,6 +256,7 @@
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"activeTimeRanges" : [GTLRDirectory_ChromeOsDevice_ActiveTimeRanges_Item class],
+    @"deviceFiles" : [GTLRDirectory_ChromeOsDevice_DeviceFiles_Item class],
     @"recentUsers" : [GTLRDirectory_ChromeOsDevice_RecentUsers_Item class]
   };
   return map;
@@ -192,11 +277,32 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDirectory_ChromeOsDevice_DeviceFiles_Item
+//
+
+@implementation GTLRDirectory_ChromeOsDevice_DeviceFiles_Item
+@dynamic createTime, downloadUrl, name, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDirectory_ChromeOsDevice_RecentUsers_Item
 //
 
 @implementation GTLRDirectory_ChromeOsDevice_RecentUsers_Item
 @dynamic email, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_ChromeOsDevice_TpmVersionInfo
+//
+
+@implementation GTLRDirectory_ChromeOsDevice_TpmVersionInfo
+@dynamic family, firmwareVersion, manufacturer, specLevel, tpmModel,
+         vendorSpecific;
 @end
 
 
@@ -369,6 +475,62 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDirectory_Feature
+//
+
+@implementation GTLRDirectory_Feature
+@dynamic etags, kind, name;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_FeatureInstance
+//
+
+@implementation GTLRDirectory_FeatureInstance
+@dynamic feature;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_FeatureRename
+//
+
+@implementation GTLRDirectory_FeatureRename
+@dynamic newName;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_Features
+//
+
+@implementation GTLRDirectory_Features
+@dynamic ETag, features, kind, nextPageToken;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"ETag" : @"etag" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"features" : [GTLRDirectory_Feature class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"features";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDirectory_Group
 //
 
@@ -464,6 +626,16 @@
   return @"members";
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_MembersHasMember
+//
+
+@implementation GTLRDirectory_MembersHasMember
+@dynamic isMember;
 @end
 
 
@@ -777,7 +949,7 @@
 //
 
 @implementation GTLRDirectory_Schema
-@dynamic ETag, fields, kind, schemaId, schemaName;
+@dynamic displayName, ETag, fields, kind, schemaId, schemaName;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"ETag" : @"etag" };
@@ -799,8 +971,8 @@
 //
 
 @implementation GTLRDirectory_SchemaFieldSpec
-@dynamic ETag, fieldId, fieldName, fieldType, indexed, kind, multiValued,
-         numericIndexingSpec, readAccessType;
+@dynamic displayName, ETag, fieldId, fieldName, fieldType, indexed, kind,
+         multiValued, numericIndexingSpec, readAccessType;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"ETag" : @"etag" };
@@ -888,16 +1060,58 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDirectory_TrustedAppId
+//
+
+@implementation GTLRDirectory_TrustedAppId
+@dynamic androidPackageName, certificateHashSHA1, certificateHashSHA256, ETag,
+         kind;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"ETag" : @"etag" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_TrustedApps
+//
+
+@implementation GTLRDirectory_TrustedApps
+@dynamic ETag, kind, nextPageToken, trustedApps;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"ETag" : @"etag" };
+}
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"trustedApps" : [GTLRDirectory_TrustedAppId class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"trustedApps";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDirectory_User
 //
 
 @implementation GTLRDirectory_User
-@dynamic addresses, agreedToTerms, aliases, changePasswordAtNextLogin,
+@dynamic addresses, agreedToTerms, aliases, archived, changePasswordAtNextLogin,
          creationTime, customerId, customSchemas, deletionTime, emails, ETag,
-         externalIds, hashFunction, identifier, ims, includeInGlobalAddressList,
-         ipWhitelisted, isAdmin, isDelegatedAdmin, isEnforcedIn2Sv,
-         isEnrolledIn2Sv, isMailboxSetup, keywords, kind, languages,
-         lastLoginTime, locations, name, nonEditableAliases, notes,
+         externalIds, gender, hashFunction, identifier, ims,
+         includeInGlobalAddressList, ipWhitelisted, isAdmin, isDelegatedAdmin,
+         isEnforcedIn2Sv, isEnrolledIn2Sv, isMailboxSetup, keywords, kind,
+         languages, lastLoginTime, locations, name, nonEditableAliases, notes,
          organizations, orgUnitPath, password, phones, posixAccounts,
          primaryEmail, relations, sshPublicKeys, suspended, suspensionReason,
          thumbnailPhotoEtag, thumbnailPhotoUrl, websites;
@@ -988,6 +1202,16 @@
 
 @implementation GTLRDirectory_UserExternalId
 @dynamic customType, type, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDirectory_UserGender
+//
+
+@implementation GTLRDirectory_UserGender
+@dynamic addressMeAs, customGender, type;
 @end
 
 
@@ -1103,7 +1327,8 @@
 //
 
 @implementation GTLRDirectory_UserPosixAccount
-@dynamic gecos, gid, homeDirectory, primary, shell, systemId, uid, username;
+@dynamic accountId, gecos, gid, homeDirectory, operatingSystemType, primary,
+         shell, systemId, uid, username;
 @end
 
 

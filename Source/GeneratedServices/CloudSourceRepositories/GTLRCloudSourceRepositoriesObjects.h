@@ -21,15 +21,14 @@
 @class GTLRCloudSourceRepositories_AuditConfig;
 @class GTLRCloudSourceRepositories_AuditLogConfig;
 @class GTLRCloudSourceRepositories_Binding;
-@class GTLRCloudSourceRepositories_CloudAuditOptions;
-@class GTLRCloudSourceRepositories_Condition;
-@class GTLRCloudSourceRepositories_CounterOptions;
-@class GTLRCloudSourceRepositories_DataAccessOptions;
-@class GTLRCloudSourceRepositories_LogConfig;
+@class GTLRCloudSourceRepositories_Expr;
 @class GTLRCloudSourceRepositories_MirrorConfig;
 @class GTLRCloudSourceRepositories_Policy;
+@class GTLRCloudSourceRepositories_ProjectConfig;
+@class GTLRCloudSourceRepositories_ProjectConfig_PubsubConfigs;
+@class GTLRCloudSourceRepositories_PubsubConfig;
 @class GTLRCloudSourceRepositories_Repo;
-@class GTLRCloudSourceRepositories_Rule;
+@class GTLRCloudSourceRepositories_Repo_PubsubConfigs;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -70,192 +69,26 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_AuditLogConfig_LogType
 GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_AuditLogConfig_LogType_LogTypeUnspecified;
 
 // ----------------------------------------------------------------------------
-// GTLRCloudSourceRepositories_CloudAuditOptions.logName
+// GTLRCloudSourceRepositories_PubsubConfig.messageFormat
 
 /**
- *  Corresponds to "cloudaudit.googleapis.com/activity"
+ *  The message payload is a JSON string of SourceRepoEvent.
  *
- *  Value: "ADMIN_ACTIVITY"
+ *  Value: "JSON"
  */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_AdminActivity;
+GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_Json;
 /**
- *  Corresponds to "cloudaudit.googleapis.com/data_access"
+ *  Unspecified.
  *
- *  Value: "DATA_ACCESS"
+ *  Value: "MESSAGE_FORMAT_UNSPECIFIED"
  */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_DataAccess;
+GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_MessageFormatUnspecified;
 /**
- *  Default. Should not be used.
+ *  The message payload is a serialized protocol buffer of SourceRepoEvent.
  *
- *  Value: "UNSPECIFIED_LOG_NAME"
+ *  Value: "PROTOBUF"
  */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_UnspecifiedLogName;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudSourceRepositories_Condition.iam
-
-/**
- *  An approver (distinct from the requester) that has authorized this
- *  request.
- *  When used with IN, the condition indicates that one of the approvers
- *  associated with the request matches the specified principal, or is a
- *  member of the specified group. Approvers can only grant additional
- *  access, and are thus only used in a strictly positive context
- *  (e.g. ALLOW/IN or DENY/NOT_IN).
- *  See: go/rpc-security-policy-dynamicauth.
- *
- *  Value: "APPROVER"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Iam_Approver;
-/**
- *  The principal (even if an authority selector is present), which
- *  must only be used for attribution, not authorization.
- *
- *  Value: "ATTRIBUTION"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Iam_Attribution;
-/**
- *  Either principal or (if present) authority selector.
- *
- *  Value: "AUTHORITY"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Iam_Authority;
-/**
- *  What types of justifications have been supplied with this request.
- *  String values should match enum names from tech.iam.JustificationType,
- *  e.g. "MANUAL_STRING". It is not permitted to grant access based on
- *  the *absence* of a justification, so justification conditions can only
- *  be used in a "positive" context (e.g., ALLOW/IN or DENY/NOT_IN).
- *  Multiple justifications, e.g., a Buganizer ID and a manually-entered
- *  reason, are normal and supported.
- *
- *  Value: "JUSTIFICATION_TYPE"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Iam_JustificationType;
-/**
- *  Default non-attribute.
- *
- *  Value: "NO_ATTR"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Iam_NoAttr;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudSourceRepositories_Condition.op
-
-/**
- *  Subject is discharged
- *
- *  Value: "DISCHARGED"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_Discharged;
-/**
- *  DEPRECATED. Use IN instead.
- *
- *  Value: "EQUALS"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_Equals;
-/**
- *  The condition is true if the subject (or any element of it if it is
- *  a set) matches any of the supplied values.
- *
- *  Value: "IN"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_In;
-/**
- *  Default no-op.
- *
- *  Value: "NO_OP"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_NoOp;
-/**
- *  DEPRECATED. Use NOT_IN instead.
- *
- *  Value: "NOT_EQUALS"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_NotEquals;
-/**
- *  The condition is true if the subject (or every element of it if it is
- *  a set) matches none of the supplied values.
- *
- *  Value: "NOT_IN"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Op_NotIn;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudSourceRepositories_Condition.sys
-
-/**
- *  IP address of the caller
- *
- *  Value: "IP"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Sys_Ip;
-/**
- *  Resource name
- *
- *  Value: "NAME"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Sys_Name;
-/**
- *  Default non-attribute type
- *
- *  Value: "NO_ATTR"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Sys_NoAttr;
-/**
- *  Region of the resource
- *
- *  Value: "REGION"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Sys_Region;
-/**
- *  Service name
- *
- *  Value: "SERVICE"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Condition_Sys_Service;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudSourceRepositories_Rule.action
-
-/**
- *  Matching 'Entries' grant access.
- *
- *  Value: "ALLOW"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_Allow;
-/**
- *  Matching 'Entries' grant access and the caller promises to log
- *  the request per the returned log_configs.
- *
- *  Value: "ALLOW_WITH_LOG"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_AllowWithLog;
-/**
- *  Matching 'Entries' deny access.
- *
- *  Value: "DENY"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_Deny;
-/**
- *  Matching 'Entries' deny access and the caller promises to log
- *  the request per the returned log_configs.
- *
- *  Value: "DENY_WITH_LOG"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_DenyWithLog;
-/**
- *  Matching 'Entries' tell IAM.Check callers to generate logs.
- *
- *  Value: "LOG"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_Log;
-/**
- *  Default no action.
- *
- *  Value: "NO_ACTION"
- */
-GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
+GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_Protobuf;
 
 /**
  *  Specifies the audit configuration for a service.
@@ -265,7 +98,7 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  If there are AuditConfigs for both `allServices` and a specific service,
  *  the union of the two AuditConfigs is used for that service: the log_types
  *  specified in each AuditConfig are enabled, and the exempted_members in each
- *  AuditConfig are exempted.
+ *  AuditLogConfig are exempted.
  *  Example Policy with multiple AuditConfigs:
  *  {
  *  "audit_configs": [
@@ -308,13 +141,8 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  */
 @interface GTLRCloudSourceRepositories_AuditConfig : GTLRObject
 
-/**
- *  The configuration for logging of each type of permission.
- *  Next ID: 4
- */
+/** The configuration for logging of each type of permission. */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudSourceRepositories_AuditLogConfig *> *auditLogConfigs;
-
-@property(nonatomic, strong, nullable) NSArray<NSString *> *exemptedMembers;
 
 /**
  *  Specifies a service that will be enabled for audit logging.
@@ -378,6 +206,14 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 @interface GTLRCloudSourceRepositories_Binding : GTLRObject
 
 /**
+ *  Unimplemented. The condition that is associated with this binding.
+ *  NOTE: an unsatisfied condition will not allow user access via current
+ *  binding. Different bindings, including their conditions, are examined
+ *  independently.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_Expr *condition;
+
+/**
  *  Specifies the identities requesting access for a Cloud Platform resource.
  *  `members` can have the following values:
  *  * `allUsers`: A special identifier that represents anyone who is
@@ -385,7 +221,7 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  * `allAuthenticatedUsers`: A special identifier that represents anyone
  *  who is authenticated with a Google account or a service account.
  *  * `user:{emailid}`: An email address that represents a specific Google
- *  account. For example, `alice\@gmail.com` or `joe\@example.com`.
+ *  account. For example, `alice\@gmail.com` .
  *  * `serviceAccount:{emailid}`: An email address that represents a service
  *  account. For example, `my-other-app\@appspot.gserviceaccount.com`.
  *  * `group:{emailid}`: An email address that represents a Google group.
@@ -398,142 +234,9 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 /**
  *  Role that is assigned to `members`.
  *  For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
- *  Required
  */
 @property(nonatomic, copy, nullable) NSString *role;
 
-@end
-
-
-/**
- *  Write a Cloud Audit log
- */
-@interface GTLRCloudSourceRepositories_CloudAuditOptions : GTLRObject
-
-/**
- *  The log_name to populate in the Cloud Audit Record.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_AdminActivity
- *        Corresponds to "cloudaudit.googleapis.com/activity" (Value:
- *        "ADMIN_ACTIVITY")
- *    @arg @c kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_DataAccess
- *        Corresponds to "cloudaudit.googleapis.com/data_access" (Value:
- *        "DATA_ACCESS")
- *    @arg @c kGTLRCloudSourceRepositories_CloudAuditOptions_LogName_UnspecifiedLogName
- *        Default. Should not be used. (Value: "UNSPECIFIED_LOG_NAME")
- */
-@property(nonatomic, copy, nullable) NSString *logName;
-
-@end
-
-
-/**
- *  A condition to be met.
- */
-@interface GTLRCloudSourceRepositories_Condition : GTLRObject
-
-/**
- *  Trusted attributes supplied by the IAM system.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Iam_Approver An approver
- *        (distinct from the requester) that has authorized this
- *        request.
- *        When used with IN, the condition indicates that one of the approvers
- *        associated with the request matches the specified principal, or is a
- *        member of the specified group. Approvers can only grant additional
- *        access, and are thus only used in a strictly positive context
- *        (e.g. ALLOW/IN or DENY/NOT_IN).
- *        See: go/rpc-security-policy-dynamicauth. (Value: "APPROVER")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Iam_Attribution The
- *        principal (even if an authority selector is present), which
- *        must only be used for attribution, not authorization. (Value:
- *        "ATTRIBUTION")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Iam_Authority Either
- *        principal or (if present) authority selector. (Value: "AUTHORITY")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Iam_JustificationType What
- *        types of justifications have been supplied with this request.
- *        String values should match enum names from tech.iam.JustificationType,
- *        e.g. "MANUAL_STRING". It is not permitted to grant access based on
- *        the *absence* of a justification, so justification conditions can only
- *        be used in a "positive" context (e.g., ALLOW/IN or DENY/NOT_IN).
- *        Multiple justifications, e.g., a Buganizer ID and a manually-entered
- *        reason, are normal and supported. (Value: "JUSTIFICATION_TYPE")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Iam_NoAttr Default
- *        non-attribute. (Value: "NO_ATTR")
- */
-@property(nonatomic, copy, nullable) NSString *iam;
-
-/**
- *  An operator to apply the subject with.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_Discharged Subject is
- *        discharged (Value: "DISCHARGED")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_Equals DEPRECATED. Use
- *        IN instead. (Value: "EQUALS")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_In The condition is true
- *        if the subject (or any element of it if it is
- *        a set) matches any of the supplied values. (Value: "IN")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_NoOp Default no-op.
- *        (Value: "NO_OP")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_NotEquals DEPRECATED.
- *        Use NOT_IN instead. (Value: "NOT_EQUALS")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Op_NotIn The condition is
- *        true if the subject (or every element of it if it is
- *        a set) matches none of the supplied values. (Value: "NOT_IN")
- */
-@property(nonatomic, copy, nullable) NSString *op;
-
-/** Trusted attributes discharged by the service. */
-@property(nonatomic, copy, nullable) NSString *svc;
-
-/**
- *  Trusted attributes supplied by any service that owns resources and uses
- *  the IAM system for access control.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Sys_Ip IP address of the
- *        caller (Value: "IP")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Sys_Name Resource name
- *        (Value: "NAME")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Sys_NoAttr Default
- *        non-attribute type (Value: "NO_ATTR")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Sys_Region Region of the
- *        resource (Value: "REGION")
- *    @arg @c kGTLRCloudSourceRepositories_Condition_Sys_Service Service name
- *        (Value: "SERVICE")
- */
-@property(nonatomic, copy, nullable) NSString *sys;
-
-/** DEPRECATED. Use 'values' instead. */
-@property(nonatomic, copy, nullable) NSString *value;
-
-/** The objects of the condition. This is mutually exclusive with 'value'. */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *values;
-
-@end
-
-
-/**
- *  Options for counters
- */
-@interface GTLRCloudSourceRepositories_CounterOptions : GTLRObject
-
-/** The field value to attribute. */
-@property(nonatomic, copy, nullable) NSString *field;
-
-/** The metric to update. */
-@property(nonatomic, copy, nullable) NSString *metric;
-
-@end
-
-
-/**
- *  Write a Data Access (Gin) log
- */
-@interface GTLRCloudSourceRepositories_DataAccessOptions : GTLRObject
 @end
 
 
@@ -547,6 +250,46 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  The JSON representation for `Empty` is empty JSON object `{}`.
  */
 @interface GTLRCloudSourceRepositories_Empty : GTLRObject
+@end
+
+
+/**
+ *  Represents an expression text. Example:
+ *  title: "User account presence"
+ *  description: "Determines whether the request has a user account"
+ *  expression: "size(request.user) > 0"
+ */
+@interface GTLRCloudSourceRepositories_Expr : GTLRObject
+
+/**
+ *  An optional description of the expression. This is a longer text which
+ *  describes the expression, e.g. when hovered over it in a UI.
+ *
+ *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
+ */
+@property(nonatomic, copy, nullable) NSString *descriptionProperty;
+
+/**
+ *  Textual representation of an expression in
+ *  Common Expression Language syntax.
+ *  The application context of the containing message determines which
+ *  well-known feature set of CEL is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *expression;
+
+/**
+ *  An optional string indicating the location of the expression for error
+ *  reporting, e.g. a file name and a position in the file.
+ */
+@property(nonatomic, copy, nullable) NSString *location;
+
+/**
+ *  An optional title for the expression, i.e. a short string describing
+ *  its purpose. This can be used e.g. in UIs which allow to enter the
+ *  expression.
+ */
+@property(nonatomic, copy, nullable) NSString *title;
+
 @end
 
 
@@ -579,25 +322,8 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 
 
 /**
- *  Specifies what kind of log the caller must write
- */
-@interface GTLRCloudSourceRepositories_LogConfig : GTLRObject
-
-/** Cloud audit options. */
-@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_CloudAuditOptions *cloudAudit;
-
-/** Counter options. */
-@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_CounterOptions *counter;
-
-/** Data access options. */
-@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_DataAccessOptions *dataAccess;
-
-@end
-
-
-/**
  *  Configuration to automatically mirror a repository from another
- *  hosting service, for example GitHub or BitBucket.
+ *  hosting service, for example GitHub or Bitbucket.
  */
 @interface GTLRCloudSourceRepositories_MirrorConfig : GTLRObject
 
@@ -613,7 +339,7 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 
 /**
  *  ID of the webhook listening to updates to trigger mirroring.
- *  Removing this webook from the other hosting service will stop
+ *  Removing this webhook from the other hosting service will stop
  *  Google Cloud Source Repositories from receiving notifications,
  *  and thereby disabling mirroring.
  */
@@ -625,13 +351,13 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 /**
  *  Defines an Identity and Access Management (IAM) policy. It is used to
  *  specify access control policies for Cloud Platform resources.
- *  A `Policy` consists of a list of `bindings`. A `Binding` binds a list of
+ *  A `Policy` consists of a list of `bindings`. A `binding` binds a list of
  *  `members` to a `role`, where the members can be user accounts, Google
  *  groups,
  *  Google domains, and service accounts. A `role` is a named list of
  *  permissions
  *  defined by IAM.
- *  **Example**
+ *  **JSON Example**
  *  {
  *  "bindings": [
  *  {
@@ -640,7 +366,7 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  "user:mike\@example.com",
  *  "group:admins\@example.com",
  *  "domain:google.com",
- *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com",
+ *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com"
  *  ]
  *  },
  *  {
@@ -649,8 +375,19 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  }
  *  ]
  *  }
+ *  **YAML Example**
+ *  bindings:
+ *  - members:
+ *  - user:mike\@example.com
+ *  - group:admins\@example.com
+ *  - domain:google.com
+ *  - serviceAccount:my-other-app\@appspot.gserviceaccount.com
+ *  role: roles/owner
+ *  - members:
+ *  - user:sean\@example.com
+ *  role: roles/viewer
  *  For a description of IAM and its features, see the
- *  [IAM developer's guide](https://cloud.google.com/iam).
+ *  [IAM developer's guide](https://cloud.google.com/iam/docs).
  */
 @interface GTLRCloudSourceRepositories_Policy : GTLRObject
 
@@ -659,7 +396,6 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 
 /**
  *  Associates a list of `members` to a `role`.
- *  Multiple `bindings` must not be specified for the same `role`.
  *  `bindings` with no members will result in an error.
  */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudSourceRepositories_Binding *> *bindings;
@@ -681,27 +417,7 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 @property(nonatomic, copy, nullable) NSString *ETag;
 
 /**
- *  iamOwned
- *
- *  Uses NSNumber of boolValue.
- */
-@property(nonatomic, strong, nullable) NSNumber *iamOwned;
-
-/**
- *  If more than one rule is specified, the rules are applied in the following
- *  manner:
- *  - All matching LOG rules are always applied.
- *  - If any DENY/DENY_WITH_LOG rule matches, permission is denied.
- *  Logging will be applied if one or more matching rule requires logging.
- *  - Otherwise, if any ALLOW/ALLOW_WITH_LOG rule matches, permission is
- *  granted.
- *  Logging will be applied if one or more matching rule requires logging.
- *  - Otherwise, if no rule applies, permission is denied.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudSourceRepositories_Rule *> *rules;
-
-/**
- *  Version of the `Policy`. The default version is 0.
+ *  Deprecated.
  *
  *  Uses NSNumber of intValue.
  */
@@ -711,11 +427,90 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 
 
 /**
+ *  Cloud Source Repositories configuration of a project.
+ */
+@interface GTLRCloudSourceRepositories_ProjectConfig : GTLRObject
+
+/**
+ *  Reject a Git push that contains a private key.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *enablePrivateKeyCheck;
+
+/** The name of the project. Values are of the form `projects/<project>`. */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  How this project publishes a change in the repositories through Cloud
+ *  Pub/Sub. Keyed by the topic names.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_ProjectConfig_PubsubConfigs *pubsubConfigs;
+
+@end
+
+
+/**
+ *  How this project publishes a change in the repositories through Cloud
+ *  Pub/Sub. Keyed by the topic names.
+ *
+ *  @note This class is documented as having more properties of
+ *        GTLRCloudSourceRepositories_PubsubConfig. Use @c -additionalJSONKeys
+ *        and @c -additionalPropertyForName: to get the list of properties and
+ *        then fetch them; or @c -additionalProperties to fetch them all at
+ *        once.
+ */
+@interface GTLRCloudSourceRepositories_ProjectConfig_PubsubConfigs : GTLRObject
+@end
+
+
+/**
+ *  Configuration to publish a Cloud Pub/Sub message.
+ */
+@interface GTLRCloudSourceRepositories_PubsubConfig : GTLRObject
+
+/**
+ *  The format of the Cloud Pub/Sub messages.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_Json The
+ *        message payload is a JSON string of SourceRepoEvent. (Value: "JSON")
+ *    @arg @c kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_MessageFormatUnspecified
+ *        Unspecified. (Value: "MESSAGE_FORMAT_UNSPECIFIED")
+ *    @arg @c kGTLRCloudSourceRepositories_PubsubConfig_MessageFormat_Protobuf
+ *        The message payload is a serialized protocol buffer of
+ *        SourceRepoEvent. (Value: "PROTOBUF")
+ */
+@property(nonatomic, copy, nullable) NSString *messageFormat;
+
+/**
+ *  Email address of the service account used for publishing Cloud Pub/Sub
+ *  messages. This service account needs to be in the same project as the
+ *  PubsubConfig. When added, the caller needs to have
+ *  iam.serviceAccounts.actAs permission on this service account. If
+ *  unspecified, it defaults to the compute engine default service account.
+ */
+@property(nonatomic, copy, nullable) NSString *serviceAccountEmail;
+
+/**
+ *  A topic of Cloud Pub/Sub. Values are of the form
+ *  `projects/<project>/topics/<topic>`. The project needs to be the same
+ *  project as this config is in.
+ */
+@property(nonatomic, copy, nullable) NSString *topic;
+
+@end
+
+
+/**
  *  A repository (or repo) is a Git repository storing versioned source content.
  */
 @interface GTLRCloudSourceRepositories_Repo : GTLRObject
 
-/** How this repository mirrors a repository managed by another service. */
+/**
+ *  How this repository mirrors a repository managed by another service.
+ *  Read-only field.
+ */
 @property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_MirrorConfig *mirrorConfig;
 
 /**
@@ -726,84 +521,39 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
 @property(nonatomic, copy, nullable) NSString *name;
 
 /**
- *  The disk usage of the repo, in bytes.
- *  Only returned by GetRepo.
+ *  How this repository publishes a change in the repository through Cloud
+ *  Pub/Sub. Keyed by the topic names.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_Repo_PubsubConfigs *pubsubConfigs;
+
+/**
+ *  The disk usage of the repo, in bytes. Read-only field. Size is only
+ *  returned by GetRepo.
  *
  *  Uses NSNumber of longLongValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *size;
 
-/** URL to clone the repository from Google Cloud Source Repositories. */
+/**
+ *  URL to clone the repository from Google Cloud Source Repositories.
+ *  Read-only field.
+ */
 @property(nonatomic, copy, nullable) NSString *url;
 
 @end
 
 
 /**
- *  A rule to be applied in a Policy.
- */
-@interface GTLRCloudSourceRepositories_Rule : GTLRObject
-
-/**
- *  Required
+ *  How this repository publishes a change in the repository through Cloud
+ *  Pub/Sub. Keyed by the topic names.
  *
- *  Likely values:
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_Allow Matching 'Entries'
- *        grant access. (Value: "ALLOW")
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_AllowWithLog Matching
- *        'Entries' grant access and the caller promises to log
- *        the request per the returned log_configs. (Value: "ALLOW_WITH_LOG")
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_Deny Matching 'Entries'
- *        deny access. (Value: "DENY")
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_DenyWithLog Matching
- *        'Entries' deny access and the caller promises to log
- *        the request per the returned log_configs. (Value: "DENY_WITH_LOG")
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_Log Matching 'Entries'
- *        tell IAM.Check callers to generate logs. (Value: "LOG")
- *    @arg @c kGTLRCloudSourceRepositories_Rule_Action_NoAction Default no
- *        action. (Value: "NO_ACTION")
+ *  @note This class is documented as having more properties of
+ *        GTLRCloudSourceRepositories_PubsubConfig. Use @c -additionalJSONKeys
+ *        and @c -additionalPropertyForName: to get the list of properties and
+ *        then fetch them; or @c -additionalProperties to fetch them all at
+ *        once.
  */
-@property(nonatomic, copy, nullable) NSString *action;
-
-/** Additional restrictions that must be met */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudSourceRepositories_Condition *> *conditions;
-
-/**
- *  Human-readable description of the rule.
- *
- *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
- */
-@property(nonatomic, copy, nullable) NSString *descriptionProperty;
-
-/**
- *  If one or more 'in' clauses are specified, the rule matches if
- *  the PRINCIPAL/AUTHORITY_SELECTOR is in at least one of these entries.
- *
- *  Remapped to 'inProperty' to avoid language reserved word 'in'.
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *inProperty;
-
-/**
- *  The config returned to callers of tech.iam.IAM.CheckPolicy for any entries
- *  that match the LOG action.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudSourceRepositories_LogConfig *> *logConfig;
-
-/**
- *  If one or more 'not_in' clauses are specified, the rule matches
- *  if the PRINCIPAL/AUTHORITY_SELECTOR is in none of the entries.
- *  The format for in and not_in entries is the same as for members in a
- *  Binding (see google/iam/v1/policy.proto).
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *notIn;
-
-/**
- *  A permission is a string of form '<service>.<resource type>.<verb>'
- *  (e.g., 'storage.buckets.list'). A value of '*' matches all permissions,
- *  and a verb part of '*' (e.g., 'storage.buckets.*') matches all verbs.
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *permissions;
-
+@interface GTLRCloudSourceRepositories_Repo_PubsubConfigs : GTLRObject
 @end
 
 
@@ -860,6 +610,46 @@ GTLR_EXTERN NSString * const kGTLRCloudSourceRepositories_Rule_Action_NoAction;
  *  allowed.
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *permissions;
+
+@end
+
+
+/**
+ *  Request for UpdateProjectConfig.
+ */
+@interface GTLRCloudSourceRepositories_UpdateProjectConfigRequest : GTLRObject
+
+/** The new configuration for the project. */
+@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_ProjectConfig *projectConfig;
+
+/**
+ *  A FieldMask specifying which fields of the project_config to modify. Only
+ *  the fields in the mask will be modified. If no mask is provided, this
+ *  request is no-op.
+ *
+ *  String format is a comma-separated list of fields.
+ */
+@property(nonatomic, copy, nullable) NSString *updateMask;
+
+@end
+
+
+/**
+ *  Request for UpdateRepo.
+ */
+@interface GTLRCloudSourceRepositories_UpdateRepoRequest : GTLRObject
+
+/** The new configuration for the repository. */
+@property(nonatomic, strong, nullable) GTLRCloudSourceRepositories_Repo *repo;
+
+/**
+ *  A FieldMask specifying which fields of the repo to modify. Only the fields
+ *  in the mask will be modified. If no mask is provided, this request is
+ *  no-op.
+ *
+ *  String format is a comma-separated list of fields.
+ */
+@property(nonatomic, copy, nullable) NSString *updateMask;
 
 @end
 

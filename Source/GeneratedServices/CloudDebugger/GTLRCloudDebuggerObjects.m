@@ -7,7 +7,7 @@
 //   Examines the call stack and variables of a running application without
 //   stopping or slowing it down.
 // Documentation:
-//   http://cloud.google.com/debugger
+//   https://cloud.google.com/debugger
 
 #import "GTLRCloudDebuggerObjects.h"
 
@@ -370,7 +370,7 @@ NSString * const kGTLRCloudDebugger_StatusMessage_RefersTo_VariableValue = @"VAR
 //
 
 @implementation GTLRCloudDebugger_SourceLocation
-@dynamic line, path;
+@dynamic column, line, path;
 @end
 
 

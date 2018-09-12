@@ -2,10 +2,10 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Cloud SQL Administration API (sqladmin/v1beta4)
+//   Cloud SQL Admin API (sqladmin/v1beta4)
 // Description:
-//   Creates and configures Cloud SQL instances, which provide fully-managed
-//   MySQL databases.
+//   Cloud SQL provides the Cloud SQL Admin API, a REST API for administering
+//   your instances programmatically.
 // Documentation:
 //   https://cloud.google.com/sql/docs/reference/latest
 
@@ -27,7 +27,8 @@
 //
 
 @implementation GTLRSQLAdmin_BackupConfiguration
-@dynamic binaryLogEnabled, enabled, kind, startTime;
+@dynamic binaryLogEnabled, enabled, kind, replicationLogArchivingEnabled,
+         startTime;
 @end
 
 
@@ -85,7 +86,7 @@
 //
 
 @implementation GTLRSQLAdmin_CloneContext
-@dynamic binLogCoordinates, destinationInstanceName, kind;
+@dynamic binLogCoordinates, destinationInstanceName, kind, pitrTimestampMs;
 @end
 
 
@@ -168,6 +169,36 @@
   return map;
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRSQLAdmin_DemoteMasterConfiguration
+//
+
+@implementation GTLRSQLAdmin_DemoteMasterConfiguration
+@dynamic kind, mysqlReplicaConfiguration;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRSQLAdmin_DemoteMasterContext
+//
+
+@implementation GTLRSQLAdmin_DemoteMasterContext
+@dynamic kind, masterInstanceName, replicaConfiguration, verifyGtidConsistency;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRSQLAdmin_DemoteMasterMySqlReplicaConfiguration
+//
+
+@implementation GTLRSQLAdmin_DemoteMasterMySqlReplicaConfiguration
+@dynamic caCertificate, clientCertificate, clientKey, kind, password, username;
 @end
 
 
@@ -305,6 +336,16 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRSQLAdmin_InstancesDemoteMasterRequest
+//
+
+@implementation GTLRSQLAdmin_InstancesDemoteMasterRequest
+@dynamic demoteMasterContext;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRSQLAdmin_InstancesExportRequest
 //
 
@@ -353,11 +394,39 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRSQLAdmin_InstancesListServerCasResponse
+//
+
+@implementation GTLRSQLAdmin_InstancesListServerCasResponse
+@dynamic activeVersion, certs, kind;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"certs" : [GTLRSQLAdmin_SslCert class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRSQLAdmin_InstancesRestoreBackupRequest
 //
 
 @implementation GTLRSQLAdmin_InstancesRestoreBackupRequest
 @dynamic restoreBackupContext;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRSQLAdmin_InstancesRotateServerCaRequest
+//
+
+@implementation GTLRSQLAdmin_InstancesRotateServerCaRequest
+@dynamic rotateServerCaContext;
 @end
 
 
@@ -377,7 +446,7 @@
 //
 
 @implementation GTLRSQLAdmin_IpConfiguration
-@dynamic authorizedNetworks, ipv4Enabled, requireSsl;
+@dynamic authorizedNetworks, ipv4Enabled, privateNetwork, requireSsl;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -521,6 +590,16 @@
 
 @implementation GTLRSQLAdmin_RestoreBackupContext
 @dynamic backupRunId, instanceId, kind;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRSQLAdmin_RotateServerCaContext
+//
+
+@implementation GTLRSQLAdmin_RotateServerCaContext
+@dynamic kind, nextVersion;
 @end
 
 

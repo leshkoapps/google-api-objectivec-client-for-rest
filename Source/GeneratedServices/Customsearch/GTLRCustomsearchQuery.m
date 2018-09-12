@@ -30,8 +30,10 @@ NSString * const kGTLRCustomsearchImgDominantColorBlue   = @"blue";
 NSString * const kGTLRCustomsearchImgDominantColorBrown  = @"brown";
 NSString * const kGTLRCustomsearchImgDominantColorGray   = @"gray";
 NSString * const kGTLRCustomsearchImgDominantColorGreen  = @"green";
+NSString * const kGTLRCustomsearchImgDominantColorOrange = @"orange";
 NSString * const kGTLRCustomsearchImgDominantColorPink   = @"pink";
 NSString * const kGTLRCustomsearchImgDominantColorPurple = @"purple";
+NSString * const kGTLRCustomsearchImgDominantColorRed    = @"red";
 NSString * const kGTLRCustomsearchImgDominantColorTeal   = @"teal";
 NSString * const kGTLRCustomsearchImgDominantColorWhite  = @"white";
 NSString * const kGTLRCustomsearchImgDominantColorYellow = @"yellow";
@@ -90,6 +92,7 @@ NSString * const kGTLRCustomsearchLrLangZhCN = @"lang_zh-CN";
 NSString * const kGTLRCustomsearchLrLangZhTW = @"lang_zh-TW";
 
 // safe
+NSString * const kGTLRCustomsearchSafeActive = @"active";
 NSString * const kGTLRCustomsearchSafeHigh   = @"high";
 NSString * const kGTLRCustomsearchSafeMedium = @"medium";
 NSString * const kGTLRCustomsearchSafeOff    = @"off";
@@ -128,6 +131,28 @@ NSString * const kGTLRCustomsearchSiteSearchFilterI = @"i";
   query.q = q;
   query.expectedObjectClass = [GTLRCustomsearch_Search class];
   query.loggingName = @"search.cse.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRCustomsearchQuery_CseSiterestrictList
+
+@dynamic c2coff, cr, cx, dateRestrict, exactTerms, excludeTerms, fileType,
+         filter, gl, googlehost, highRange, hl, hq, imgColorType,
+         imgDominantColor, imgSize, imgType, linkSite, lowRange, lr, num,
+         orTerms, q, relatedSite, rights, safe, searchType, siteSearch,
+         siteSearchFilter, sort, start;
+
++ (instancetype)queryWithQ:(NSString *)q {
+  NSString *pathURITemplate = @"v1/siterestrict";
+  GTLRCustomsearchQuery_CseSiterestrictList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:nil];
+  query.q = q;
+  query.expectedObjectClass = [GTLRCustomsearch_Search class];
+  query.loggingName = @"search.cse.siterestrict.list";
   return query;
 }
 

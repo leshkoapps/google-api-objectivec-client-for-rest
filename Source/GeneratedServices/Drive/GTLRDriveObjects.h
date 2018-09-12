@@ -44,6 +44,7 @@
 @class GTLRDrive_TeamDrive;
 @class GTLRDrive_TeamDrive_BackgroundImageFile;
 @class GTLRDrive_TeamDrive_Capabilities;
+@class GTLRDrive_TeamDrive_Restrictions;
 @class GTLRDrive_User;
 
 // Generated comments include content from the discovery document; avoid them
@@ -64,6 +65,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *appInstalled;
+
+/**
+ *  Whether the user can create Team Drives.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canCreateTeamDrives;
 
 /**
  *  A map of source MIME type to possible targets for all supported exports.
@@ -514,6 +522,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, strong, nullable) GTLRDrive_File_ContentHints *contentHints;
 
+/**
+ *  Whether the options to copy, print, or download this file, should be
+ *  disabled for readers and commenters.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *copyRequiresWriterPermission NS_RETURNS_NOT_RETAINED;
+
 /** The time at which the file was created (RFC 3339 date-time). */
 @property(nonatomic, strong, nullable) GTLRDateTime *createdTime;
 
@@ -671,10 +687,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The IDs of the parent folders which contain the file.
  *  If not specified as part of a create request, the file will be placed
- *  directly in the My Drive folder. Update requests must use the addParents and
- *  removeParents parameters to modify the values.
+ *  directly in the user's My Drive folder. If not specified as part of a copy
+ *  request, the file will inherit any discoverable parents of the source file.
+ *  Update requests must use the addParents and removeParents parameters to
+ *  modify the parents list.
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *parents;
+
+/** List of permission IDs for users with access to this file. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *permissionIds;
 
 /**
  *  The full list of permissions for the file. This is only available if the
@@ -796,8 +817,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) GTLRDateTime *viewedByMeTime;
 
 /**
- *  Whether users with only reader or commenter permission can copy the file's
- *  content. This affects copy, download, and print operations.
+ *  Deprecated - use copyRequiresWriterPermission instead.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -855,8 +875,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canAddChildren;
 
 /**
- *  Whether the current user can change whether viewers can copy the contents of
- *  this file.
+ *  Whether the current user can change the copyRequiresWriterPermission
+ *  restriction of this file.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canChangeCopyRequiresWriterPermission;
+
+/**
+ *  Deprecated
  *
  *  Uses NSNumber of boolValue.
  */
@@ -886,6 +913,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canDelete;
 
 /**
+ *  Whether the current user can delete children of this folder. This is false
+ *  when the item is not a folder. Only populated for Team Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canDeleteChildren;
+
+/**
  *  Whether the current user can download this file.
  *
  *  Uses NSNumber of boolValue.
@@ -908,6 +943,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canListChildren;
 
 /**
+ *  Whether the current user can move children of this folder outside of the
+ *  Team Drive. This is false when the item is not a folder. Only populated for
+ *  Team Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canMoveChildrenOutOfTeamDrive;
+
+/**
+ *  Whether the current user can move children of this folder within the Team
+ *  Drive. This is false when the item is not a folder. Only populated for Team
+ *  Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canMoveChildrenWithinTeamDrive;
+
+/**
  *  Whether the current user can move this item into a Team Drive. If the item
  *  is in a Team Drive, this field is equivalent to canMoveTeamDriveItem.
  *
@@ -916,10 +969,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canMoveItemIntoTeamDrive;
 
 /**
- *  Whether the current user can move this Team Drive item by changing its
- *  parent. Note that a request to change the parent for this item may still
- *  fail depending on the new parent that is being added. Only populated for
- *  Team Drive files.
+ *  Whether the current user can move this Team Drive item outside of this Team
+ *  Drive by changing its parent. Note that a request to change the parent of
+ *  the item may still fail depending on the new parent that is being added.
+ *  Only populated for Team Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canMoveItemOutOfTeamDrive;
+
+/**
+ *  Whether the current user can move this Team Drive item within this Team
+ *  Drive. Note that a request to change the parent of the item may still fail
+ *  depending on the new parent that is being added. Only populated for Team
+ *  Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canMoveItemWithinTeamDrive;
+
+/**
+ *  Deprecated - use canMoveItemWithinTeamDrive or canMoveItemOutOfTeamDrive
+ *  instead.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -944,7 +1015,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Whether the current user can remove children from this folder. This is
- *  always false when the item is not a folder.
+ *  always false when the item is not a folder. For Team Drive items, use
+ *  canDeleteChildren or canTrashChildren instead.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -970,6 +1042,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *canTrash;
+
+/**
+ *  Whether the current user can trash children of this folder. This is false
+ *  when the item is not a folder. Only populated for Team Drive items.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canTrashChildren;
 
 /**
  *  Whether the current user can restore this file from trash.
@@ -1693,8 +1773,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy, nullable) NSString *colorRgb;
 
+/** The time at which the Team Drive was created (RFC 3339 date-time). */
+@property(nonatomic, strong, nullable) GTLRDateTime *createdTime;
+
 /**
- *  The ID of this Team Drive which is also the ID of the top level folder for
+ *  The ID of this Team Drive which is also the ID of the top level folder of
  *  this Team Drive.
  *
  *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
@@ -1709,6 +1792,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** The name of this Team Drive. */
 @property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  A set of restrictions that apply to this Team Drive or items inside this
+ *  Team Drive.
+ */
+@property(nonatomic, strong, nullable) GTLRDrive_TeamDrive_Restrictions *restrictions;
 
 /**
  *  The ID of the theme from which the background image and color will be set.
@@ -1785,11 +1874,35 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canAddChildren;
 
 /**
+ *  Whether the current user can change the copyRequiresWriterPermission
+ *  restriction of this Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canChangeCopyRequiresWriterPermissionRestriction;
+
+/**
+ *  Whether the current user can change the domainUsersOnly restriction of this
+ *  Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canChangeDomainUsersOnlyRestriction;
+
+/**
  *  Whether the current user can change the background of this Team Drive.
  *
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *canChangeTeamDriveBackground;
+
+/**
+ *  Whether the current user can change the teamMembersOnly restriction of this
+ *  Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canChangeTeamMembersOnlyRestriction;
 
 /**
  *  Whether the current user can comment on files in this Team Drive.
@@ -1804,6 +1917,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *canCopy;
+
+/**
+ *  Whether the current user can delete children from folders in this Team
+ *  Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canDeleteChildren;
 
 /**
  *  Whether the current user can delete this Team Drive. Attempting to delete
@@ -1853,8 +1974,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber *canReadRevisions;
 
 /**
- *  Whether the current user can remove children from folders in this Team
- *  Drive.
+ *  Deprecated - use canDeleteChildren or canTrashChildren instead.
  *
  *  Uses NSNumber of boolValue.
  */
@@ -1880,6 +2000,58 @@ NS_ASSUME_NONNULL_BEGIN
  *  Uses NSNumber of boolValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *canShare;
+
+/**
+ *  Whether the current user can trash children from folders in this Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *canTrashChildren;
+
+@end
+
+
+/**
+ *  A set of restrictions that apply to this Team Drive or items inside this
+ *  Team Drive.
+ */
+@interface GTLRDrive_TeamDrive_Restrictions : GTLRObject
+
+/**
+ *  Whether administrative privileges on this Team Drive are required to modify
+ *  restrictions.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *adminManagedRestrictions;
+
+/**
+ *  Whether the options to copy, print, or download files inside this Team
+ *  Drive, should be disabled for readers and commenters. When this restriction
+ *  is set to true, it will override the similarly named field to true for any
+ *  file inside this Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *copyRequiresWriterPermission NS_RETURNS_NOT_RETAINED;
+
+/**
+ *  Whether access to this Team Drive and items inside this Team Drive is
+ *  restricted to users of the domain to which this Team Drive belongs. This
+ *  restriction may be overridden by other sharing policies controlled outside
+ *  of this Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *domainUsersOnly;
+
+/**
+ *  Whether access to items inside this Team Drive is restricted to members of
+ *  this Team Drive.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *teamMembersOnly;
 
 @end
 

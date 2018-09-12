@@ -29,11 +29,14 @@
 @class GTLRGenomics_ClinicalCondition;
 @class GTLRGenomics_CodingSequence;
 @class GTLRGenomics_ComputeEngine;
+@class GTLRGenomics_ContainerStartedEvent_PortMappings;
 @class GTLRGenomics_CoverageBucket;
 @class GTLRGenomics_Dataset;
 @class GTLRGenomics_Entry;
+@class GTLRGenomics_Event_Details;
 @class GTLRGenomics_Exon;
 @class GTLRGenomics_Experiment;
+@class GTLRGenomics_Expr;
 @class GTLRGenomics_ExternalId;
 @class GTLRGenomics_ImportVariantsRequest_InfoMergeConfig;
 @class GTLRGenomics_LinearAlignment;
@@ -249,6 +252,191 @@ GTLR_EXTERN NSString * const kGTLRGenomics_CigarUnit_Operation_Skip;
 GTLR_EXTERN NSString * const kGTLRGenomics_ExportVariantSetRequest_Format_FormatBigquery;
 /** Value: "FORMAT_UNSPECIFIED" */
 GTLR_EXTERN NSString * const kGTLRGenomics_ExportVariantSetRequest_Format_FormatUnspecified;
+
+// ----------------------------------------------------------------------------
+// GTLRGenomics_FailedEvent.code
+
+/**
+ *  The operation was aborted, typically due to a concurrency issue such as
+ *  a sequencer check failure or transaction abort.
+ *  See the guidelines above for deciding between `FAILED_PRECONDITION`,
+ *  `ABORTED`, and `UNAVAILABLE`.
+ *  HTTP Mapping: 409 Conflict
+ *
+ *  Value: "ABORTED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Aborted;
+/**
+ *  The entity that a client attempted to create (e.g., file or directory)
+ *  already exists.
+ *  HTTP Mapping: 409 Conflict
+ *
+ *  Value: "ALREADY_EXISTS"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_AlreadyExists;
+/**
+ *  The operation was cancelled, typically by the caller.
+ *  HTTP Mapping: 499 Client Closed Request
+ *
+ *  Value: "CANCELLED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Cancelled;
+/**
+ *  Unrecoverable data loss or corruption.
+ *  HTTP Mapping: 500 Internal Server Error
+ *
+ *  Value: "DATA_LOSS"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_DataLoss;
+/**
+ *  The deadline expired before the operation could complete. For operations
+ *  that change the state of the system, this error may be returned
+ *  even if the operation has completed successfully. For example, a
+ *  successful response from a server could have been delayed long
+ *  enough for the deadline to expire.
+ *  HTTP Mapping: 504 Gateway Timeout
+ *
+ *  Value: "DEADLINE_EXCEEDED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_DeadlineExceeded;
+/**
+ *  The operation was rejected because the system is not in a state
+ *  required for the operation's execution. For example, the directory
+ *  to be deleted is non-empty, an rmdir operation is applied to
+ *  a non-directory, etc.
+ *  Service implementors can use the following guidelines to decide
+ *  between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:
+ *  (a) Use `UNAVAILABLE` if the client can retry just the failing call.
+ *  (b) Use `ABORTED` if the client should retry at a higher level
+ *  (e.g., when a client-specified test-and-set fails, indicating the
+ *  client should restart a read-modify-write sequence).
+ *  (c) Use `FAILED_PRECONDITION` if the client should not retry until
+ *  the system state has been explicitly fixed. E.g., if an "rmdir"
+ *  fails because the directory is non-empty, `FAILED_PRECONDITION`
+ *  should be returned since the client should not retry unless
+ *  the files are deleted from the directory.
+ *  HTTP Mapping: 400 Bad Request
+ *
+ *  Value: "FAILED_PRECONDITION"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_FailedPrecondition;
+/**
+ *  Internal errors. This means that some invariants expected by the
+ *  underlying system have been broken. This error code is reserved
+ *  for serious errors.
+ *  HTTP Mapping: 500 Internal Server Error
+ *
+ *  Value: "INTERNAL"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Internal;
+/**
+ *  The client specified an invalid argument. Note that this differs
+ *  from `FAILED_PRECONDITION`. `INVALID_ARGUMENT` indicates arguments
+ *  that are problematic regardless of the state of the system
+ *  (e.g., a malformed file name).
+ *  HTTP Mapping: 400 Bad Request
+ *
+ *  Value: "INVALID_ARGUMENT"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_InvalidArgument;
+/**
+ *  Some requested entity (e.g., file or directory) was not found.
+ *  Note to server developers: if a request is denied for an entire class
+ *  of users, such as gradual feature rollout or undocumented whitelist,
+ *  `NOT_FOUND` may be used. If a request is denied for some users within
+ *  a class of users, such as user-based access control, `PERMISSION_DENIED`
+ *  must be used.
+ *  HTTP Mapping: 404 Not Found
+ *
+ *  Value: "NOT_FOUND"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_NotFound;
+/**
+ *  Not an error; returned on success
+ *  HTTP Mapping: 200 OK
+ *
+ *  Value: "OK"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Ok;
+/**
+ *  The operation was attempted past the valid range. E.g., seeking or
+ *  reading past end-of-file.
+ *  Unlike `INVALID_ARGUMENT`, this error indicates a problem that may
+ *  be fixed if the system state changes. For example, a 32-bit file
+ *  system will generate `INVALID_ARGUMENT` if asked to read at an
+ *  offset that is not in the range [0,2^32-1], but it will generate
+ *  `OUT_OF_RANGE` if asked to read from an offset past the current
+ *  file size.
+ *  There is a fair bit of overlap between `FAILED_PRECONDITION` and
+ *  `OUT_OF_RANGE`. We recommend using `OUT_OF_RANGE` (the more specific
+ *  error) when it applies so that callers who are iterating through
+ *  a space can easily look for an `OUT_OF_RANGE` error to detect when
+ *  they are done.
+ *  HTTP Mapping: 400 Bad Request
+ *
+ *  Value: "OUT_OF_RANGE"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_OutOfRange;
+/**
+ *  The caller does not have permission to execute the specified
+ *  operation. `PERMISSION_DENIED` must not be used for rejections
+ *  caused by exhausting some resource (use `RESOURCE_EXHAUSTED`
+ *  instead for those errors). `PERMISSION_DENIED` must not be
+ *  used if the caller can not be identified (use `UNAUTHENTICATED`
+ *  instead for those errors). This error code does not imply the
+ *  request is valid or the requested entity exists or satisfies
+ *  other pre-conditions.
+ *  HTTP Mapping: 403 Forbidden
+ *
+ *  Value: "PERMISSION_DENIED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_PermissionDenied;
+/**
+ *  Some resource has been exhausted, perhaps a per-user quota, or
+ *  perhaps the entire file system is out of space.
+ *  HTTP Mapping: 429 Too Many Requests
+ *
+ *  Value: "RESOURCE_EXHAUSTED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_ResourceExhausted;
+/**
+ *  The request does not have valid authentication credentials for the
+ *  operation.
+ *  HTTP Mapping: 401 Unauthorized
+ *
+ *  Value: "UNAUTHENTICATED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Unauthenticated;
+/**
+ *  The service is currently unavailable. This is most likely a
+ *  transient condition, which can be corrected by retrying with
+ *  a backoff.
+ *  See the guidelines above for deciding between `FAILED_PRECONDITION`,
+ *  `ABORTED`, and `UNAVAILABLE`.
+ *  HTTP Mapping: 503 Service Unavailable
+ *
+ *  Value: "UNAVAILABLE"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Unavailable;
+/**
+ *  The operation is not implemented or is not supported/enabled in this
+ *  service.
+ *  HTTP Mapping: 501 Not Implemented
+ *
+ *  Value: "UNIMPLEMENTED"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Unimplemented;
+/**
+ *  Unknown error. For example, this error may be returned when
+ *  a `Status` value received from another address space belongs to
+ *  an error space that is not known in this address space. Also
+ *  errors raised by APIs that do not return enough error information
+ *  may be converted to this error.
+ *  HTTP Mapping: 500 Internal Server Error
+ *
+ *  Value: "UNKNOWN"
+ */
+GTLR_EXTERN NSString * const kGTLRGenomics_FailedEvent_Code_Unknown;
 
 // ----------------------------------------------------------------------------
 // GTLRGenomics_ImportReadGroupSetsRequest.partitionStrategy
@@ -756,6 +944,14 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 @interface GTLRGenomics_Binding : GTLRObject
 
 /**
+ *  Unimplemented. The condition that is associated with this binding.
+ *  NOTE: an unsatisfied condition will not allow user access via current
+ *  binding. Different bindings, including their conditions, are examined
+ *  independently.
+ */
+@property(nonatomic, strong, nullable) GTLRGenomics_Expr *condition;
+
+/**
  *  Specifies the identities requesting access for a Cloud Platform resource.
  *  `members` can have the following values:
  *  * `allUsers`: A special identifier that represents anyone who is
@@ -763,7 +959,7 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  * `allAuthenticatedUsers`: A special identifier that represents anyone
  *  who is authenticated with a Google account or a service account.
  *  * `user:{emailid}`: An email address that represents a specific Google
- *  account. For example, `alice\@gmail.com` or `joe\@example.com`.
+ *  account. For example, `alice\@gmail.com` .
  *  * `serviceAccount:{emailid}`: An email address that represents a service
  *  account. For example, `my-other-app\@appspot.gserviceaccount.com`.
  *  * `group:{emailid}`: An email address that represents a Google group.
@@ -776,7 +972,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  Role that is assigned to `members`.
  *  For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
- *  Required
  */
 @property(nonatomic, copy, nullable) NSString *role;
 
@@ -786,8 +981,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  A call set is a collection of variant calls, typically for one sample. It
  *  belongs to a variant set.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_CallSet : GTLRObject
 
@@ -1011,6 +1204,100 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 
 /**
+ *  An event generated when a container is forcibly terminated by the
+ *  worker. Currently, this only occurs when the container outlives the
+ *  timeout specified by the user.
+ */
+@interface GTLRGenomics_ContainerKilledEvent : GTLRObject
+
+/**
+ *  The numeric ID of the action that started the container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *actionId;
+
+@end
+
+
+/**
+ *  An event generated when a container starts.
+ */
+@interface GTLRGenomics_ContainerStartedEvent : GTLRObject
+
+/**
+ *  The numeric ID of the action that started this container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *actionId;
+
+/**
+ *  The public IP address that can be used to connect to the container. This
+ *  field is only populated when at least one port mapping is present. If the
+ *  instance was created with a private address, this field will be empty even
+ *  if port mappings exist.
+ */
+@property(nonatomic, copy, nullable) NSString *ipAddress;
+
+/**
+ *  The container-to-host port mappings installed for this container. This
+ *  set will contain any ports exposed using the `PUBLISH_EXPOSED_PORTS` flag
+ *  as well as any specified in the `Action` definition.
+ */
+@property(nonatomic, strong, nullable) GTLRGenomics_ContainerStartedEvent_PortMappings *portMappings;
+
+@end
+
+
+/**
+ *  The container-to-host port mappings installed for this container. This
+ *  set will contain any ports exposed using the `PUBLISH_EXPOSED_PORTS` flag
+ *  as well as any specified in the `Action` definition.
+ *
+ *  @note This class is documented as having more properties of NSNumber (Uses
+ *        NSNumber of intValue.). Use @c -additionalJSONKeys and @c
+ *        -additionalPropertyForName: to get the list of properties and then
+ *        fetch them; or @c -additionalProperties to fetch them all at once.
+ */
+@interface GTLRGenomics_ContainerStartedEvent_PortMappings : GTLRObject
+@end
+
+
+/**
+ *  An event generated when a container exits.
+ */
+@interface GTLRGenomics_ContainerStoppedEvent : GTLRObject
+
+/**
+ *  The numeric ID of the action that started this container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *actionId;
+
+/**
+ *  The exit status of the container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *exitStatus;
+
+/**
+ *  The tail end of any content written to standard error by the container.
+ *  If the content emits large amounts of debugging noise or contains
+ *  sensitive information, you can prevent the content from being printed by
+ *  setting the `DISABLE_STANDARD_ERROR_CAPTURE` flag.
+ *  Note that only a small amount of the end of the stream is captured here.
+ *  The entire stream is stored in the `/google/logs` directory mounted into
+ *  each action, and can be copied off the machine as described elsewhere.
+ */
+@property(nonatomic, copy, nullable) NSString *stderr;
+
+@end
+
+
+/**
  *  A bucket over which read coverage has been precomputed. A bucket corresponds
  *  to a specific range of the reference sequence.
  */
@@ -1032,8 +1319,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 /**
  *  A Dataset is a collection of genomic data.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_Dataset : GTLRObject
 
@@ -1052,6 +1337,30 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 /** The Google Cloud project ID that this dataset belongs to. */
 @property(nonatomic, copy, nullable) NSString *projectId;
+
+@end
+
+
+/**
+ *  An event generated whenever a resource limitation or transient error
+ *  delays execution of a pipeline that was otherwise ready to run.
+ */
+@interface GTLRGenomics_DelayedEvent : GTLRObject
+
+/**
+ *  A textual description of the cause of the delay. The string can change
+ *  without notice because it is often generated by another service (such as
+ *  Compute Engine).
+ */
+@property(nonatomic, copy, nullable) NSString *cause;
+
+/**
+ *  If the delay was caused by a resource shortage, this field lists the
+ *  Compute Engine metrics that are preventing this operation from running
+ *  (for example, `CPUS` or `INSTANCES`). If the particular metric is not
+ *  known, a single `UNKNOWN` metric will be present.
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *metrics;
 
 @end
 
@@ -1080,6 +1389,41 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /** The creation status. */
 @property(nonatomic, strong, nullable) GTLRGenomics_Status *status;
 
+@end
+
+
+/**
+ *  Carries information about events that occur during pipeline execution.
+ */
+@interface GTLRGenomics_Event : GTLRObject
+
+/**
+ *  A human-readable description of the event. Note that these strings can
+ *  change at any time without notice. Any application logic must use the
+ *  information in the `details` field.
+ *
+ *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
+ */
+@property(nonatomic, copy, nullable) NSString *descriptionProperty;
+
+/** Machine-readable details about the event. */
+@property(nonatomic, strong, nullable) GTLRGenomics_Event_Details *details;
+
+/** The time at which the event occurred. */
+@property(nonatomic, strong, nullable) GTLRDateTime *timestamp;
+
+@end
+
+
+/**
+ *  Machine-readable details about the event.
+ *
+ *  @note This class is documented as having more properties of any valid JSON
+ *        type. Use @c -additionalJSONKeys and @c -additionalPropertyForName: to
+ *        get the list of properties and then fetch them; or @c
+ *        -additionalProperties to fetch them all at once.
+ */
+@interface GTLRGenomics_Event_Details : GTLRObject
 @end
 
 
@@ -1233,6 +1577,46 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 
 /**
+ *  Represents an expression text. Example:
+ *  title: "User account presence"
+ *  description: "Determines whether the request has a user account"
+ *  expression: "size(request.user) > 0"
+ */
+@interface GTLRGenomics_Expr : GTLRObject
+
+/**
+ *  An optional description of the expression. This is a longer text which
+ *  describes the expression, e.g. when hovered over it in a UI.
+ *
+ *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
+ */
+@property(nonatomic, copy, nullable) NSString *descriptionProperty;
+
+/**
+ *  Textual representation of an expression in
+ *  Common Expression Language syntax.
+ *  The application context of the containing message determines which
+ *  well-known feature set of CEL is supported.
+ */
+@property(nonatomic, copy, nullable) NSString *expression;
+
+/**
+ *  An optional string indicating the location of the expression for error
+ *  reporting, e.g. a file name and a position in the file.
+ */
+@property(nonatomic, copy, nullable) NSString *location;
+
+/**
+ *  An optional title for the expression, i.e. a short string describing
+ *  its purpose. This can be used e.g. in UIs which allow to enter the
+ *  expression.
+ */
+@property(nonatomic, copy, nullable) NSString *title;
+
+@end
+
+
+/**
  *  GTLRGenomics_ExternalId
  */
 @interface GTLRGenomics_ExternalId : GTLRObject
@@ -1246,6 +1630,139 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 /** The name of the source of this data. */
 @property(nonatomic, copy, nullable) NSString *sourceName;
+
+@end
+
+
+/**
+ *  An event generated when the execution of a pipeline has failed. Note
+ *  that other events can continue to occur after this event.
+ */
+@interface GTLRGenomics_FailedEvent : GTLRObject
+
+/** The human-readable description of the cause of the failure. */
+@property(nonatomic, copy, nullable) NSString *cause;
+
+/**
+ *  The Google standard error code that best describes this failure.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Aborted The operation was aborted,
+ *        typically due to a concurrency issue such as
+ *        a sequencer check failure or transaction abort.
+ *        See the guidelines above for deciding between `FAILED_PRECONDITION`,
+ *        `ABORTED`, and `UNAVAILABLE`.
+ *        HTTP Mapping: 409 Conflict (Value: "ABORTED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_AlreadyExists The entity that a
+ *        client attempted to create (e.g., file or directory)
+ *        already exists.
+ *        HTTP Mapping: 409 Conflict (Value: "ALREADY_EXISTS")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Cancelled The operation was
+ *        cancelled, typically by the caller.
+ *        HTTP Mapping: 499 Client Closed Request (Value: "CANCELLED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_DataLoss Unrecoverable data loss or
+ *        corruption.
+ *        HTTP Mapping: 500 Internal Server Error (Value: "DATA_LOSS")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_DeadlineExceeded The deadline
+ *        expired before the operation could complete. For operations
+ *        that change the state of the system, this error may be returned
+ *        even if the operation has completed successfully. For example, a
+ *        successful response from a server could have been delayed long
+ *        enough for the deadline to expire.
+ *        HTTP Mapping: 504 Gateway Timeout (Value: "DEADLINE_EXCEEDED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_FailedPrecondition The operation
+ *        was rejected because the system is not in a state
+ *        required for the operation's execution. For example, the directory
+ *        to be deleted is non-empty, an rmdir operation is applied to
+ *        a non-directory, etc.
+ *        Service implementors can use the following guidelines to decide
+ *        between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:
+ *        (a) Use `UNAVAILABLE` if the client can retry just the failing call.
+ *        (b) Use `ABORTED` if the client should retry at a higher level
+ *        (e.g., when a client-specified test-and-set fails, indicating the
+ *        client should restart a read-modify-write sequence).
+ *        (c) Use `FAILED_PRECONDITION` if the client should not retry until
+ *        the system state has been explicitly fixed. E.g., if an "rmdir"
+ *        fails because the directory is non-empty, `FAILED_PRECONDITION`
+ *        should be returned since the client should not retry unless
+ *        the files are deleted from the directory.
+ *        HTTP Mapping: 400 Bad Request (Value: "FAILED_PRECONDITION")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Internal Internal errors. This
+ *        means that some invariants expected by the
+ *        underlying system have been broken. This error code is reserved
+ *        for serious errors.
+ *        HTTP Mapping: 500 Internal Server Error (Value: "INTERNAL")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_InvalidArgument The client
+ *        specified an invalid argument. Note that this differs
+ *        from `FAILED_PRECONDITION`. `INVALID_ARGUMENT` indicates arguments
+ *        that are problematic regardless of the state of the system
+ *        (e.g., a malformed file name).
+ *        HTTP Mapping: 400 Bad Request (Value: "INVALID_ARGUMENT")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_NotFound Some requested entity
+ *        (e.g., file or directory) was not found.
+ *        Note to server developers: if a request is denied for an entire class
+ *        of users, such as gradual feature rollout or undocumented whitelist,
+ *        `NOT_FOUND` may be used. If a request is denied for some users within
+ *        a class of users, such as user-based access control,
+ *        `PERMISSION_DENIED`
+ *        must be used.
+ *        HTTP Mapping: 404 Not Found (Value: "NOT_FOUND")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Ok Not an error; returned on
+ *        success
+ *        HTTP Mapping: 200 OK (Value: "OK")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_OutOfRange The operation was
+ *        attempted past the valid range. E.g., seeking or
+ *        reading past end-of-file.
+ *        Unlike `INVALID_ARGUMENT`, this error indicates a problem that may
+ *        be fixed if the system state changes. For example, a 32-bit file
+ *        system will generate `INVALID_ARGUMENT` if asked to read at an
+ *        offset that is not in the range [0,2^32-1], but it will generate
+ *        `OUT_OF_RANGE` if asked to read from an offset past the current
+ *        file size.
+ *        There is a fair bit of overlap between `FAILED_PRECONDITION` and
+ *        `OUT_OF_RANGE`. We recommend using `OUT_OF_RANGE` (the more specific
+ *        error) when it applies so that callers who are iterating through
+ *        a space can easily look for an `OUT_OF_RANGE` error to detect when
+ *        they are done.
+ *        HTTP Mapping: 400 Bad Request (Value: "OUT_OF_RANGE")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_PermissionDenied The caller does
+ *        not have permission to execute the specified
+ *        operation. `PERMISSION_DENIED` must not be used for rejections
+ *        caused by exhausting some resource (use `RESOURCE_EXHAUSTED`
+ *        instead for those errors). `PERMISSION_DENIED` must not be
+ *        used if the caller can not be identified (use `UNAUTHENTICATED`
+ *        instead for those errors). This error code does not imply the
+ *        request is valid or the requested entity exists or satisfies
+ *        other pre-conditions.
+ *        HTTP Mapping: 403 Forbidden (Value: "PERMISSION_DENIED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_ResourceExhausted Some resource has
+ *        been exhausted, perhaps a per-user quota, or
+ *        perhaps the entire file system is out of space.
+ *        HTTP Mapping: 429 Too Many Requests (Value: "RESOURCE_EXHAUSTED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Unauthenticated The request does
+ *        not have valid authentication credentials for the
+ *        operation.
+ *        HTTP Mapping: 401 Unauthorized (Value: "UNAUTHENTICATED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Unavailable The service is
+ *        currently unavailable. This is most likely a
+ *        transient condition, which can be corrected by retrying with
+ *        a backoff.
+ *        See the guidelines above for deciding between `FAILED_PRECONDITION`,
+ *        `ABORTED`, and `UNAVAILABLE`.
+ *        HTTP Mapping: 503 Service Unavailable (Value: "UNAVAILABLE")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Unimplemented The operation is not
+ *        implemented or is not supported/enabled in this
+ *        service.
+ *        HTTP Mapping: 501 Not Implemented (Value: "UNIMPLEMENTED")
+ *    @arg @c kGTLRGenomics_FailedEvent_Code_Unknown Unknown error. For example,
+ *        this error may be returned when
+ *        a `Status` value received from another address space belongs to
+ *        an error space that is not known in this address space. Also
+ *        errors raised by APIs that do not return enough error information
+ *        may be converted to this error.
+ *        HTTP Mapping: 500 Internal Server Error (Value: "UNKNOWN")
+ */
+@property(nonatomic, copy, nullable) NSString *code;
 
 @end
 
@@ -1617,8 +2134,8 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 @property(nonatomic, strong, nullable) GTLRGenomics_Status *error;
 
 /**
- *  An OperationMetadata object. This will always be returned with the
- *  Operation.
+ *  An OperationMetadata or Metadata object. This will always be returned with
+ *  the Operation.
  */
 @property(nonatomic, strong, nullable) GTLRGenomics_Operation_Metadata *metadata;
 
@@ -1632,7 +2149,7 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  If importing ReadGroupSets, an ImportReadGroupSetsResponse is returned. If
  *  importing Variants, an ImportVariantsResponse is returned. For pipelines and
- *  exports, an empty response is returned.
+ *  exports, an Empty response is returned.
  */
 @property(nonatomic, strong, nullable) GTLRGenomics_Operation_Response *response;
 
@@ -1640,8 +2157,8 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 
 /**
- *  An OperationMetadata object. This will always be returned with the
- *  Operation.
+ *  An OperationMetadata or Metadata object. This will always be returned with
+ *  the Operation.
  *
  *  @note This class is documented as having more properties of any valid JSON
  *        type. Use @c -additionalJSONKeys and @c -additionalPropertyForName: to
@@ -1655,7 +2172,7 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  If importing ReadGroupSets, an ImportReadGroupSetsResponse is returned. If
  *  importing Variants, an ImportVariantsResponse is returned. For pipelines and
- *  exports, an empty response is returned.
+ *  exports, an Empty response is returned.
  *
  *  @note This class is documented as having more properties of any valid JSON
  *        type. Use @c -additionalJSONKeys and @c -additionalPropertyForName: to
@@ -1781,13 +2298,13 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  Defines an Identity and Access Management (IAM) policy. It is used to
  *  specify access control policies for Cloud Platform resources.
- *  A `Policy` consists of a list of `bindings`. A `Binding` binds a list of
+ *  A `Policy` consists of a list of `bindings`. A `binding` binds a list of
  *  `members` to a `role`, where the members can be user accounts, Google
  *  groups,
  *  Google domains, and service accounts. A `role` is a named list of
  *  permissions
  *  defined by IAM.
- *  **Example**
+ *  **JSON Example**
  *  {
  *  "bindings": [
  *  {
@@ -1796,7 +2313,7 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  "user:mike\@example.com",
  *  "group:admins\@example.com",
  *  "domain:google.com",
- *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com",
+ *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com"
  *  ]
  *  },
  *  {
@@ -1805,8 +2322,19 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  }
  *  ]
  *  }
+ *  **YAML Example**
+ *  bindings:
+ *  - members:
+ *  - user:mike\@example.com
+ *  - group:admins\@example.com
+ *  - domain:google.com
+ *  - serviceAccount:my-other-app\@appspot.gserviceaccount.com
+ *  role: roles/owner
+ *  - members:
+ *  - user:sean\@example.com
+ *  role: roles/viewer
  *  For a description of IAM and its features, see the
- *  [IAM developer's guide](https://cloud.google.com/iam).
+ *  [IAM developer's guide](https://cloud.google.com/iam/docs).
  */
 @interface GTLRGenomics_Policy : GTLRObject
 
@@ -1833,7 +2361,7 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 @property(nonatomic, copy, nullable) NSString *ETag;
 
 /**
- *  Version of the `Policy`. The default version is 0.
+ *  Deprecated.
  *
  *  Uses NSNumber of intValue.
  */
@@ -1903,6 +2431,28 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 
 /**
+ *  An event generated when the worker starts pulling an image.
+ */
+@interface GTLRGenomics_PullStartedEvent : GTLRObject
+
+/** The URI of the image that was pulled. */
+@property(nonatomic, copy, nullable) NSString *imageUri;
+
+@end
+
+
+/**
+ *  An event generated when the worker stops pulling an image.
+ */
+@interface GTLRGenomics_PullStoppedEvent : GTLRObject
+
+/** The URI of the image that was pulled. */
+@property(nonatomic, copy, nullable) NSString *imageUri;
+
+@end
+
+
+/**
  *  A 0-based half-open genomic coordinate range for search requests.
  */
 @interface GTLRGenomics_Range : GTLRObject
@@ -1937,8 +2487,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  which were read by the sequencer). A read is equivalent to a line in a SAM
  *  file. A read belongs to exactly one read group and exactly one
  *  read group set.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  *  ### Reverse-stranded reads
  *  Mapped reads (reads having a non-null `alignment`) can be aligned to either
  *  the forward or the reverse strand of their associated reference.
@@ -2250,8 +2798,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  * A read group set belongs to one dataset.
  *  * A read group belongs to one read group set.
  *  * A read belongs to one read group.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_ReadGroupSet : GTLRObject
 
@@ -2310,8 +2856,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  reference coordinate space for other genomic annotations. A single reference
  *  might represent the human chromosome 1 or mitochandrial DNA, for instance. A
  *  reference belongs to one or more reference sets.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_Reference : GTLRObject
 
@@ -2387,8 +2931,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *  of the human genome. A reference set defines a common coordinate space for
  *  comparing reference-aligned experimental data. A reference set contains 1 or
  *  more references.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_ReferenceSet : GTLRObject
 
@@ -3321,11 +3863,34 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 
 
 /**
+ *  An event generated when the execution of a container results in a
+ *  non-zero exit status that was not otherwise ignored. Execution will
+ *  continue, but only actions that are flagged as `ALWAYS_RUN` will be
+ *  executed. Other actions will be skipped.
+ */
+@interface GTLRGenomics_UnexpectedExitStatusEvent : GTLRObject
+
+/**
+ *  The numeric ID of the action that started the container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *actionId;
+
+/**
+ *  The exit status of the container.
+ *
+ *  Uses NSNumber of intValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *exitStatus;
+
+@end
+
+
+/**
  *  A variant represents a change in DNA sequence relative to a reference
  *  sequence. For example, a variant could represent a SNP or an insertion.
  *  Variants belong to a variant set.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  *  Each of the calls on a variant represent a determination of genotype with
  *  respect to that variant. For example, a call might assign probability of
  *  0.32
@@ -3651,8 +4216,6 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
 /**
  *  A variant set is a collection of call sets and variants. It contains summary
  *  statistics of those contents. A variant set belongs to a dataset.
- *  For more genomics resource definitions, see [Fundamentals of Google
- *  Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
  */
 @interface GTLRGenomics_VariantSet : GTLRObject
 
@@ -3771,6 +4334,44 @@ GTLR_EXTERN NSString * const kGTLRGenomics_VariantSetMetadata_Type_TypeUnspecifi
  *        fetch them; or @c -additionalProperties to fetch them all at once.
  */
 @interface GTLRGenomics_VariantSetMetadata_Info : GTLRObject
+@end
+
+
+/**
+ *  An event generated after a worker VM has been assigned to run the
+ *  pipeline.
+ */
+@interface GTLRGenomics_WorkerAssignedEvent : GTLRObject
+
+/** The worker's instance name. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/**
+ *  The zone the worker is running in.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
+@end
+
+
+/**
+ *  An event generated when the worker VM that was assigned to the pipeline
+ *  has been released (deleted).
+ */
+@interface GTLRGenomics_WorkerReleasedEvent : GTLRObject
+
+/** The worker's instance name. */
+@property(nonatomic, copy, nullable) NSString *instance;
+
+/**
+ *  The zone the worker was running in.
+ *
+ *  Remapped to 'zoneProperty' to avoid NSObject's 'zone'.
+ */
+@property(nonatomic, copy, nullable) NSString *zoneProperty;
+
 @end
 
 NS_ASSUME_NONNULL_END

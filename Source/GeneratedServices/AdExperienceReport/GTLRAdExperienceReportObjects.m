@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Ad Experience Report API (adexperiencereport/v1)
+//   Ad Experience Report API (adexperiencereport/v1)
 // Description:
 //   View Ad Experience Report data, and get a list of sites that have a
 //   significant number of annoying ads.
@@ -13,11 +13,6 @@
 
 // ----------------------------------------------------------------------------
 // Constants
-
-// GTLRAdExperienceReport_PlatformSummary.abusiveStatus
-NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Failing = @"FAILING";
-NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Passing = @"PASSING";
-NSString * const kGTLRAdExperienceReport_PlatformSummary_AbusiveStatus_Unknown = @"UNKNOWN";
 
 // GTLRAdExperienceReport_PlatformSummary.betterAdsStatus
 NSString * const kGTLRAdExperienceReport_PlatformSummary_BetterAdsStatus_Failing = @"FAILING";
@@ -35,6 +30,7 @@ NSString * const kGTLRAdExperienceReport_PlatformSummary_FilterStatus_Unknown = 
 // GTLRAdExperienceReport_PlatformSummary.region
 NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionA = @"REGION_A";
 NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionB = @"REGION_B";
+NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionC = @"REGION_C";
 NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionUnknown = @"REGION_UNKNOWN";
 
 // ----------------------------------------------------------------------------
@@ -43,8 +39,8 @@ NSString * const kGTLRAdExperienceReport_PlatformSummary_Region_RegionUnknown = 
 //
 
 @implementation GTLRAdExperienceReport_PlatformSummary
-@dynamic abusiveStatus, betterAdsStatus, enforcementTime, filterStatus,
-         lastChangeTime, region, reportUrl, underReview;
+@dynamic betterAdsStatus, enforcementTime, filterStatus, lastChangeTime, region,
+         reportUrl, underReview;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{

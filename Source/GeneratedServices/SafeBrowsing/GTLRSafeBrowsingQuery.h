@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Safe Browsing API (safebrowsing/v4)
+//   Safe Browsing API (safebrowsing/v4)
 // Description:
 //   Enables client applications to check web resources (most commonly URLs)
 //   against Google-generated lists of unsafe web resources.
@@ -22,6 +22,7 @@
 @class GTLRSafeBrowsing_FetchThreatListUpdatesRequest;
 @class GTLRSafeBrowsing_FindFullHashesRequest;
 @class GTLRSafeBrowsing_FindThreatMatchesRequest;
+@class GTLRSafeBrowsing_ThreatHit;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param encodedRequest A serialized FindFullHashesRequest proto.
  *
- *  @returns GTLRSafeBrowsingQuery_EncodedFullHashesGet
+ *  @return GTLRSafeBrowsingQuery_EncodedFullHashesGet
  */
 + (instancetype)queryWithEncodedRequest:(NSString *)encodedRequest;
 
@@ -108,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param encodedRequest A serialized FetchThreatListUpdatesRequest proto.
  *
- *  @returns GTLRSafeBrowsingQuery_EncodedUpdatesGet
+ *  @return GTLRSafeBrowsingQuery_EncodedUpdatesGet
  */
 + (instancetype)queryWithEncodedRequest:(NSString *)encodedRequest;
 
@@ -131,9 +132,33 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRSafeBrowsing_FindFullHashesRequest to include in
  *    the query.
  *
- *  @returns GTLRSafeBrowsingQuery_FullHashesFind
+ *  @return GTLRSafeBrowsingQuery_FullHashesFind
  */
 + (instancetype)queryWithObject:(GTLRSafeBrowsing_FindFullHashesRequest *)object;
+
+@end
+
+/**
+ *  Reports a Safe Browsing threat list hit to Google. Only projects with
+ *  TRUSTED_REPORTER visibility can use this method.
+ *
+ *  Method: safebrowsing.threatHits.create
+ */
+@interface GTLRSafeBrowsingQuery_ThreatHitsCreate : GTLRSafeBrowsingQuery
+// Previous library name was
+//   +[GTLQuerySafeBrowsing queryForThreatHitsCreateWithObject:]
+
+/**
+ *  Fetches a @c GTLRSafeBrowsing_Empty.
+ *
+ *  Reports a Safe Browsing threat list hit to Google. Only projects with
+ *  TRUSTED_REPORTER visibility can use this method.
+ *
+ *  @param object The @c GTLRSafeBrowsing_ThreatHit to include in the query.
+ *
+ *  @return GTLRSafeBrowsingQuery_ThreatHitsCreate
+ */
++ (instancetype)queryWithObject:(GTLRSafeBrowsing_ThreatHit *)object;
 
 @end
 
@@ -151,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Lists the Safe Browsing threat lists available for download.
  *
- *  @returns GTLRSafeBrowsingQuery_ThreatListsList
+ *  @return GTLRSafeBrowsingQuery_ThreatListsList
  */
 + (instancetype)query;
 
@@ -176,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRSafeBrowsing_FetchThreatListUpdatesRequest to
  *    include in the query.
  *
- *  @returns GTLRSafeBrowsingQuery_ThreatListUpdatesFetch
+ *  @return GTLRSafeBrowsingQuery_ThreatListUpdatesFetch
  */
 + (instancetype)queryWithObject:(GTLRSafeBrowsing_FetchThreatListUpdatesRequest *)object;
 
@@ -199,7 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param object The @c GTLRSafeBrowsing_FindThreatMatchesRequest to include in
  *    the query.
  *
- *  @returns GTLRSafeBrowsingQuery_ThreatMatchesFind
+ *  @return GTLRSafeBrowsingQuery_ThreatMatchesFind
  */
 + (instancetype)queryWithObject:(GTLRSafeBrowsing_FindThreatMatchesRequest *)object;
 

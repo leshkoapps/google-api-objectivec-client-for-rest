@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Storage Transfer API (storagetransfer/v1)
+//   Storage Transfer API (storagetransfer/v1)
 // Description:
 //   Transfers data from external data sources to a Google Cloud Storage bucket
 //   or between Google Cloud Storage buckets.
@@ -28,7 +28,7 @@ NSString * const kGTLRAuthScopeStorageTransferCloudPlatform = @"https://www.goog
     // From discovery.
     self.rootURLString = @"https://storagetransfer.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

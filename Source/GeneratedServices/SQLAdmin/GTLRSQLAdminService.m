@@ -2,10 +2,10 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Cloud SQL Administration API (sqladmin/v1beta4)
+//   Cloud SQL Admin API (sqladmin/v1beta4)
 // Description:
-//   Creates and configures Cloud SQL instances, which provide fully-managed
-//   MySQL databases.
+//   Cloud SQL provides the Cloud SQL Admin API, a REST API for administering
+//   your instances programmatically.
 // Documentation:
 //   https://cloud.google.com/sql/docs/reference/latest
 
@@ -29,7 +29,7 @@ NSString * const kGTLRAuthScopeSQLAdminSqlserviceAdmin = @"https://www.googleapi
     // From discovery.
     self.rootURLString = @"https://www.googleapis.com/";
     self.servicePath = @"sql/v1beta4/";
-    self.batchPath = @"batch";
+    self.batchPath = @"batch/sqladmin/v1beta4";
     self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
@@ -45,6 +45,9 @@ NSString * const kGTLRAuthScopeSQLAdminSqlserviceAdmin = @"https://www.googleapi
     @"sql#cloneContext" : [GTLRSQLAdmin_CloneContext class],
     @"sql#database" : [GTLRSQLAdmin_Database class],
     @"sql#databasesList" : [GTLRSQLAdmin_DatabasesListResponse class],
+    @"sql#demoteMasterConfiguration" : [GTLRSQLAdmin_DemoteMasterConfiguration class],
+    @"sql#demoteMasterContext" : [GTLRSQLAdmin_DemoteMasterContext class],
+    @"sql#demoteMasterMysqlReplicaConfiguration" : [GTLRSQLAdmin_DemoteMasterMySqlReplicaConfiguration class],
     @"sql#exportContext" : [GTLRSQLAdmin_ExportContext class],
     @"sql#failoverContext" : [GTLRSQLAdmin_FailoverContext class],
     @"sql#flag" : [GTLRSQLAdmin_Flag class],
@@ -52,6 +55,7 @@ NSString * const kGTLRAuthScopeSQLAdminSqlserviceAdmin = @"https://www.googleapi
     @"sql#importContext" : [GTLRSQLAdmin_ImportContext class],
     @"sql#instance" : [GTLRSQLAdmin_DatabaseInstance class],
     @"sql#instancesList" : [GTLRSQLAdmin_InstancesListResponse class],
+    @"sql#instancesListServerCas" : [GTLRSQLAdmin_InstancesListServerCasResponse class],
     @"sql#locationPreference" : [GTLRSQLAdmin_LocationPreference class],
     @"sql#maintenanceWindow" : [GTLRSQLAdmin_MaintenanceWindow class],
     @"sql#mysqlReplicaConfiguration" : [GTLRSQLAdmin_MySqlReplicaConfiguration class],
@@ -62,6 +66,7 @@ NSString * const kGTLRAuthScopeSQLAdminSqlserviceAdmin = @"https://www.googleapi
     @"sql#operationsList" : [GTLRSQLAdmin_OperationsListResponse class],
     @"sql#replicaConfiguration" : [GTLRSQLAdmin_ReplicaConfiguration class],
     @"sql#restoreBackupContext" : [GTLRSQLAdmin_RestoreBackupContext class],
+    @"sql#rotateServerCaContext" : [GTLRSQLAdmin_RotateServerCaContext class],
     @"sql#settings" : [GTLRSQLAdmin_Settings class],
     @"sql#sslCert" : [GTLRSQLAdmin_SslCert class],
     @"sql#sslCertsInsert" : [GTLRSQLAdmin_SslCertsInsertResponse class],

@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google App Engine Admin API (appengine/v1)
+//   App Engine Admin API (appengine/v1)
 // Description:
 //   The App Engine Admin API enables developers to provision and manage their
 //   App Engine applications.
@@ -16,9 +16,16 @@
 // ----------------------------------------------------------------------------
 // Constants
 
+// overrideStrategy
+NSString * const kGTLRAppengineOverrideStrategyOverride        = @"OVERRIDE";
+NSString * const kGTLRAppengineOverrideStrategyStrict          = @"STRICT";
+NSString * const kGTLRAppengineOverrideStrategyUnspecifiedDomainOverrideStrategy = @"UNSPECIFIED_DOMAIN_OVERRIDE_STRATEGY";
+
 // view
-NSString * const kGTLRAppengineViewBasic = @"BASIC";
-NSString * const kGTLRAppengineViewFull  = @"FULL";
+NSString * const kGTLRAppengineViewBasic            = @"BASIC";
+NSString * const kGTLRAppengineViewBasicCertificate = @"BASIC_CERTIFICATE";
+NSString * const kGTLRAppengineViewFull             = @"FULL";
+NSString * const kGTLRAppengineViewFullCertificate  = @"FULL_CERTIFICATE";
 
 // ----------------------------------------------------------------------------
 // Query Classes
@@ -27,6 +34,144 @@ NSString * const kGTLRAppengineViewFull  = @"FULL";
 @implementation GTLRAppengineQuery
 
 @dynamic fields;
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedCertificatesCreate
+
+@dynamic appsId;
+
++ (instancetype)queryWithObject:(GTLRAppengine_AuthorizedCertificate *)object
+                         appsId:(NSString *)appsId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedCertificates";
+  GTLRAppengineQuery_AppsAuthorizedCertificatesCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_AuthorizedCertificate class];
+  query.loggingName = @"appengine.apps.authorizedCertificates.create";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedCertificatesDelete
+
+@dynamic appsId, authorizedCertificatesId;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+       authorizedCertificatesId:(NSString *)authorizedCertificatesId {
+  NSArray *pathParams = @[
+    @"appsId", @"authorizedCertificatesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}";
+  GTLRAppengineQuery_AppsAuthorizedCertificatesDelete *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.authorizedCertificatesId = authorizedCertificatesId;
+  query.expectedObjectClass = [GTLRAppengine_Empty class];
+  query.loggingName = @"appengine.apps.authorizedCertificates.delete";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedCertificatesGet
+
+@dynamic appsId, authorizedCertificatesId, view;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+       authorizedCertificatesId:(NSString *)authorizedCertificatesId {
+  NSArray *pathParams = @[
+    @"appsId", @"authorizedCertificatesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}";
+  GTLRAppengineQuery_AppsAuthorizedCertificatesGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.authorizedCertificatesId = authorizedCertificatesId;
+  query.expectedObjectClass = [GTLRAppengine_AuthorizedCertificate class];
+  query.loggingName = @"appengine.apps.authorizedCertificates.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedCertificatesList
+
+@dynamic appsId, pageSize, pageToken, view;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId {
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedCertificates";
+  GTLRAppengineQuery_AppsAuthorizedCertificatesList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_ListAuthorizedCertificatesResponse class];
+  query.loggingName = @"appengine.apps.authorizedCertificates.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedCertificatesPatch
+
+@dynamic appsId, authorizedCertificatesId, updateMask;
+
++ (instancetype)queryWithObject:(GTLRAppengine_AuthorizedCertificate *)object
+                         appsId:(NSString *)appsId
+       authorizedCertificatesId:(NSString *)authorizedCertificatesId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[
+    @"appsId", @"authorizedCertificatesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedCertificates/{authorizedCertificatesId}";
+  GTLRAppengineQuery_AppsAuthorizedCertificatesPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.authorizedCertificatesId = authorizedCertificatesId;
+  query.expectedObjectClass = [GTLRAppengine_AuthorizedCertificate class];
+  query.loggingName = @"appengine.apps.authorizedCertificates.patch";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsAuthorizedDomainsList
+
+@dynamic appsId, pageSize, pageToken;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId {
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/authorizedDomains";
+  GTLRAppengineQuery_AppsAuthorizedDomainsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_ListAuthorizedDomainsResponse class];
+  query.loggingName = @"appengine.apps.authorizedDomains.list";
+  return query;
+}
 
 @end
 
@@ -45,6 +190,269 @@ NSString * const kGTLRAppengineViewFull  = @"FULL";
   query.bodyObject = object;
   query.expectedObjectClass = [GTLRAppengine_Operation class];
   query.loggingName = @"appengine.apps.create";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsDomainMappingsCreate
+
+@dynamic appsId, overrideStrategy;
+
++ (instancetype)queryWithObject:(GTLRAppengine_DomainMapping *)object
+                         appsId:(NSString *)appsId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/domainMappings";
+  GTLRAppengineQuery_AppsDomainMappingsCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_Operation class];
+  query.loggingName = @"appengine.apps.domainMappings.create";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsDomainMappingsDelete
+
+@dynamic appsId, domainMappingsId;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+               domainMappingsId:(NSString *)domainMappingsId {
+  NSArray *pathParams = @[
+    @"appsId", @"domainMappingsId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/domainMappings/{domainMappingsId}";
+  GTLRAppengineQuery_AppsDomainMappingsDelete *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.domainMappingsId = domainMappingsId;
+  query.expectedObjectClass = [GTLRAppengine_Operation class];
+  query.loggingName = @"appengine.apps.domainMappings.delete";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsDomainMappingsGet
+
+@dynamic appsId, domainMappingsId;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+               domainMappingsId:(NSString *)domainMappingsId {
+  NSArray *pathParams = @[
+    @"appsId", @"domainMappingsId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/domainMappings/{domainMappingsId}";
+  GTLRAppengineQuery_AppsDomainMappingsGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.domainMappingsId = domainMappingsId;
+  query.expectedObjectClass = [GTLRAppengine_DomainMapping class];
+  query.loggingName = @"appengine.apps.domainMappings.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsDomainMappingsList
+
+@dynamic appsId, pageSize, pageToken;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId {
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/domainMappings";
+  GTLRAppengineQuery_AppsDomainMappingsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_ListDomainMappingsResponse class];
+  query.loggingName = @"appengine.apps.domainMappings.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsDomainMappingsPatch
+
+@dynamic appsId, domainMappingsId, updateMask;
+
++ (instancetype)queryWithObject:(GTLRAppengine_DomainMapping *)object
+                         appsId:(NSString *)appsId
+               domainMappingsId:(NSString *)domainMappingsId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[
+    @"appsId", @"domainMappingsId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/domainMappings/{domainMappingsId}";
+  GTLRAppengineQuery_AppsDomainMappingsPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.domainMappingsId = domainMappingsId;
+  query.expectedObjectClass = [GTLRAppengine_Operation class];
+  query.loggingName = @"appengine.apps.domainMappings.patch";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesBatchUpdate
+
+@dynamic appsId;
+
++ (instancetype)queryWithObject:(GTLRAppengine_BatchUpdateIngressRulesRequest *)object
+                         appsId:(NSString *)appsId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules:batchUpdate";
+  GTLRAppengineQuery_AppsFirewallIngressRulesBatchUpdate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_BatchUpdateIngressRulesResponse class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.batchUpdate";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesCreate
+
+@dynamic appsId;
+
++ (instancetype)queryWithObject:(GTLRAppengine_FirewallRule *)object
+                         appsId:(NSString *)appsId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules";
+  GTLRAppengineQuery_AppsFirewallIngressRulesCreate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_FirewallRule class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.create";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesDelete
+
+@dynamic appsId, ingressRulesId;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+                 ingressRulesId:(NSString *)ingressRulesId {
+  NSArray *pathParams = @[
+    @"appsId", @"ingressRulesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules/{ingressRulesId}";
+  GTLRAppengineQuery_AppsFirewallIngressRulesDelete *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.ingressRulesId = ingressRulesId;
+  query.expectedObjectClass = [GTLRAppengine_Empty class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.delete";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesGet
+
+@dynamic appsId, ingressRulesId;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId
+                 ingressRulesId:(NSString *)ingressRulesId {
+  NSArray *pathParams = @[
+    @"appsId", @"ingressRulesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules/{ingressRulesId}";
+  GTLRAppengineQuery_AppsFirewallIngressRulesGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.ingressRulesId = ingressRulesId;
+  query.expectedObjectClass = [GTLRAppengine_FirewallRule class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesList
+
+@dynamic appsId, matchingAddress, pageSize, pageToken;
+
++ (instancetype)queryWithAppsId:(NSString *)appsId {
+  NSArray *pathParams = @[ @"appsId" ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules";
+  GTLRAppengineQuery_AppsFirewallIngressRulesList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.appsId = appsId;
+  query.expectedObjectClass = [GTLRAppengine_ListIngressRulesResponse class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRAppengineQuery_AppsFirewallIngressRulesPatch
+
+@dynamic appsId, ingressRulesId, updateMask;
+
++ (instancetype)queryWithObject:(GTLRAppengine_FirewallRule *)object
+                         appsId:(NSString *)appsId
+                 ingressRulesId:(NSString *)ingressRulesId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[
+    @"appsId", @"ingressRulesId"
+  ];
+  NSString *pathURITemplate = @"v1/apps/{appsId}/firewall/ingressRules/{ingressRulesId}";
+  GTLRAppengineQuery_AppsFirewallIngressRulesPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.appsId = appsId;
+  query.ingressRulesId = ingressRulesId;
+  query.expectedObjectClass = [GTLRAppengine_FirewallRule class];
+  query.loggingName = @"appengine.apps.firewall.ingressRules.patch";
   return query;
 }
 

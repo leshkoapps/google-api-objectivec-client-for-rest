@@ -4,10 +4,11 @@
 // API:
 //   Stackdriver Trace API (cloudtrace/v2)
 // Description:
-//   Send and retrieve trace data from Stackdriver Trace. Data is generated and
-//   available by default for all App Engine applications. Data from other
-//   applications can be written to Stackdriver Trace for display, reporting,
-//   and analysis.
+//   Sends application trace data to Stackdriver Trace for viewing. Trace data
+//   is collected for all App Engine applications by default. Trace data from
+//   other applications can be provided using this API. This library is used to
+//   interact with the Trace API directly. If you are looking to instrument your
+//   application for Stackdriver Trace, we recommend using OpenCensus.
 // Documentation:
 //   https://cloud.google.com/trace
 
@@ -21,10 +22,10 @@ NSString * const kGTLRCloudTrace_Link_Type_ChildLinkedSpan  = @"CHILD_LINKED_SPA
 NSString * const kGTLRCloudTrace_Link_Type_ParentLinkedSpan = @"PARENT_LINKED_SPAN";
 NSString * const kGTLRCloudTrace_Link_Type_TypeUnspecified  = @"TYPE_UNSPECIFIED";
 
-// GTLRCloudTrace_NetworkEvent.type
-NSString * const kGTLRCloudTrace_NetworkEvent_Type_Recv        = @"RECV";
-NSString * const kGTLRCloudTrace_NetworkEvent_Type_Sent        = @"SENT";
-NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSPECIFIED";
+// GTLRCloudTrace_MessageEvent.type
+NSString * const kGTLRCloudTrace_MessageEvent_Type_Received    = @"RECEIVED";
+NSString * const kGTLRCloudTrace_MessageEvent_Type_Sent        = @"SENT";
+NSString * const kGTLRCloudTrace_MessageEvent_Type_TypeUnspecified = @"TYPE_UNSPECIFIED";
 
 // ----------------------------------------------------------------------------
 //
@@ -132,43 +133,14 @@ NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSP
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRCloudTrace_ListSpansResponse
+//   GTLRCloudTrace_MessageEvent
 //
 
-@implementation GTLRCloudTrace_ListSpansResponse
-@dynamic nextPageToken, spans;
+@implementation GTLRCloudTrace_MessageEvent
+@dynamic compressedSizeBytes, identifier, type, uncompressedSizeBytes;
 
-+ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
-  NSDictionary<NSString *, Class> *map = @{
-    @"spans" : [GTLRCloudTrace_Span class]
-  };
-  return map;
-}
-
-+ (NSString *)collectionItemsKey {
-  return @"spans";
-}
-
-@end
-
-
-// ----------------------------------------------------------------------------
-//
-//   GTLRCloudTrace_ListTracesResponse
-//
-
-@implementation GTLRCloudTrace_ListTracesResponse
-@dynamic nextPageToken, traces;
-
-+ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
-  NSDictionary<NSString *, Class> *map = @{
-    @"traces" : [GTLRCloudTrace_Trace class]
-  };
-  return map;
-}
-
-+ (NSString *)collectionItemsKey {
-  return @"traces";
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
 }
 
 @end
@@ -181,16 +153,6 @@ NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSP
 
 @implementation GTLRCloudTrace_Module
 @dynamic buildId, module;
-@end
-
-
-// ----------------------------------------------------------------------------
-//
-//   GTLRCloudTrace_NetworkEvent
-//
-
-@implementation GTLRCloudTrace_NetworkEvent
-@dynamic messageId, messageSize, time, type;
 @end
 
 
@@ -283,7 +245,7 @@ NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSP
 //
 
 @implementation GTLRCloudTrace_TimeEvent
-@dynamic annotation, networkEvent, time;
+@dynamic annotation, messageEvent, time;
 @end
 
 
@@ -293,7 +255,7 @@ NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSP
 //
 
 @implementation GTLRCloudTrace_TimeEvents
-@dynamic droppedAnnotationsCount, droppedNetworkEventsCount, timeEvent;
+@dynamic droppedAnnotationsCount, droppedMessageEventsCount, timeEvent;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -302,16 +264,6 @@ NSString * const kGTLRCloudTrace_NetworkEvent_Type_TypeUnspecified = @"TYPE_UNSP
   return map;
 }
 
-@end
-
-
-// ----------------------------------------------------------------------------
-//
-//   GTLRCloudTrace_Trace
-//
-
-@implementation GTLRCloudTrace_Trace
-@dynamic name;
 @end
 
 

@@ -42,6 +42,10 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesMimeTypePng;
 
 /** Value: "LARGE" */
 GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeLarge;
+/** Value: "MEDIUM" */
+GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeMedium;
+/** Value: "SMALL" */
+GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeSmall;
 /** Value: "THUMBNAIL_SIZE_UNSPECIFIED" */
 GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnailSizeUnspecified;
 
@@ -82,6 +86,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeSlidesDrive
+ *    @c kGTLRAuthScopeSlidesDriveFile
  *    @c kGTLRAuthScopeSlidesDriveReadonly
  *    @c kGTLRAuthScopeSlidesPresentations
  *    @c kGTLRAuthScopeSlidesSpreadsheets
@@ -119,7 +124,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *    the query.
  *  @param presentationId The presentation to apply the updates to.
  *
- *  @returns GTLRSlidesQuery_PresentationsBatchUpdate
+ *  @return GTLRSlidesQuery_PresentationsBatchUpdate
  */
 + (instancetype)queryWithObject:(GTLRSlides_BatchUpdatePresentationRequest *)object
                  presentationId:(NSString *)presentationId;
@@ -127,14 +132,16 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
 @end
 
 /**
- *  Creates a new presentation using the title given in the request. Other
- *  fields in the request are ignored.
+ *  Creates a new presentation using the title given in the request. If a
+ *  presentationId is provided, uses it as the ID of the new presentation.
+ *  Otherwise, a new presentationId is generated.
  *  Returns the created presentation.
  *
  *  Method: slides.presentations.create
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeSlidesDrive
+ *    @c kGTLRAuthScopeSlidesDriveFile
  *    @c kGTLRAuthScopeSlidesPresentations
  */
 @interface GTLRSlidesQuery_PresentationsCreate : GTLRSlidesQuery
@@ -144,13 +151,14 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
 /**
  *  Fetches a @c GTLRSlides_Presentation.
  *
- *  Creates a new presentation using the title given in the request. Other
- *  fields in the request are ignored.
+ *  Creates a new presentation using the title given in the request. If a
+ *  presentationId is provided, uses it as the ID of the new presentation.
+ *  Otherwise, a new presentationId is generated.
  *  Returns the created presentation.
  *
  *  @param object The @c GTLRSlides_Presentation to include in the query.
  *
- *  @returns GTLRSlidesQuery_PresentationsCreate
+ *  @return GTLRSlidesQuery_PresentationsCreate
  */
 + (instancetype)queryWithObject:(GTLRSlides_Presentation *)object;
 
@@ -163,6 +171,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeSlidesDrive
+ *    @c kGTLRAuthScopeSlidesDriveFile
  *    @c kGTLRAuthScopeSlidesDriveReadonly
  *    @c kGTLRAuthScopeSlidesPresentations
  *    @c kGTLRAuthScopeSlidesPresentationsReadonly
@@ -181,7 +190,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *
  *  @param presentationId The ID of the presentation to retrieve.
  *
- *  @returns GTLRSlidesQuery_PresentationsGet
+ *  @return GTLRSlidesQuery_PresentationsGet
  */
 + (instancetype)queryWithPresentationId:(NSString *)presentationId;
 
@@ -194,6 +203,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeSlidesDrive
+ *    @c kGTLRAuthScopeSlidesDriveFile
  *    @c kGTLRAuthScopeSlidesDriveReadonly
  *    @c kGTLRAuthScopeSlidesPresentations
  *    @c kGTLRAuthScopeSlidesPresentationsReadonly
@@ -216,7 +226,7 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *  @param presentationId The ID of the presentation to retrieve.
  *  @param pageObjectId The object ID of the page to retrieve.
  *
- *  @returns GTLRSlidesQuery_PresentationsPagesGet
+ *  @return GTLRSlidesQuery_PresentationsPagesGet
  */
 + (instancetype)queryWithPresentationId:(NSString *)presentationId
                            pageObjectId:(NSString *)pageObjectId;
@@ -226,11 +236,14 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
 /**
  *  Generates a thumbnail of the latest version of the specified page in the
  *  presentation and returns a URL to the thumbnail image.
+ *  This request counts as an [expensive read request](/slides/limits) for
+ *  quota purposes.
  *
  *  Method: slides.presentations.pages.getThumbnail
  *
  *  Authorization scope(s):
  *    @c kGTLRAuthScopeSlidesDrive
+ *    @c kGTLRAuthScopeSlidesDriveFile
  *    @c kGTLRAuthScopeSlidesDriveReadonly
  *    @c kGTLRAuthScopeSlidesPresentations
  *    @c kGTLRAuthScopeSlidesPresentationsReadonly
@@ -263,6 +276,8 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *    @arg @c kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnailSizeUnspecified
  *        Value "THUMBNAIL_SIZE_UNSPECIFIED"
  *    @arg @c kGTLRSlidesThumbnailPropertiesThumbnailSizeLarge Value "LARGE"
+ *    @arg @c kGTLRSlidesThumbnailPropertiesThumbnailSizeMedium Value "MEDIUM"
+ *    @arg @c kGTLRSlidesThumbnailPropertiesThumbnailSizeSmall Value "SMALL"
  */
 @property(nonatomic, copy, nullable) NSString *thumbnailPropertiesThumbnailSize;
 
@@ -271,11 +286,13 @@ GTLR_EXTERN NSString * const kGTLRSlidesThumbnailPropertiesThumbnailSizeThumbnai
  *
  *  Generates a thumbnail of the latest version of the specified page in the
  *  presentation and returns a URL to the thumbnail image.
+ *  This request counts as an [expensive read request](/slides/limits) for
+ *  quota purposes.
  *
  *  @param presentationId The ID of the presentation to retrieve.
  *  @param pageObjectId The object ID of the page whose thumbnail to retrieve.
  *
- *  @returns GTLRSlidesQuery_PresentationsPagesGetThumbnail
+ *  @return GTLRSlidesQuery_PresentationsPagesGetThumbnail
  */
 + (instancetype)queryWithPresentationId:(NSString *)presentationId
                            pageObjectId:(NSString *)pageObjectId;

@@ -120,7 +120,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *    ID](https://support.google.com/cloud/answer/6158840).
  *    Example: `projects/my-project-123`.
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsDeleteEvents
+ *  @return GTLRClouderrorreportingQuery_ProjectsDeleteEvents
  */
 + (instancetype)queryWithProjectName:(NSString *)projectName;
 
@@ -205,7 +205,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *    ID](https://support.google.com/cloud/answer/6158840).
  *    Example: `projects/my-project-123`.
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsEventsList
+ *  @return GTLRClouderrorreportingQuery_ProjectsEventsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -217,13 +217,12 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
 
 /**
  *  Report an individual error event.
- *  This endpoint accepts <strong>either</strong> an OAuth token,
- *  <strong>or</strong> an
- *  <a href="https://support.google.com/cloud/answer/6158862">API key</a>
+ *  This endpoint accepts **either** an OAuth token,
+ *  **or** an [API key](https://support.google.com/cloud/answer/6158862)
  *  for authentication. To use an API key, append it to the URL as the value of
  *  a `key` parameter. For example:
- *  <pre>POST
- *  https://clouderrorreporting.googleapis.com/v1beta1/projects/example-project/events:report?key=123ABC456</pre>
+ *  `POST
+ *  https://clouderrorreporting.googleapis.com/v1beta1/projects/example-project/events:report?key=123ABC456`
  *
  *  Method: clouderrorreporting.projects.events.report
  *
@@ -247,13 +246,12 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *  Fetches a @c GTLRClouderrorreporting_ReportErrorEventResponse.
  *
  *  Report an individual error event.
- *  This endpoint accepts <strong>either</strong> an OAuth token,
- *  <strong>or</strong> an
- *  <a href="https://support.google.com/cloud/answer/6158862">API key</a>
+ *  This endpoint accepts **either** an OAuth token,
+ *  **or** an [API key](https://support.google.com/cloud/answer/6158862)
  *  for authentication. To use an API key, append it to the URL as the value of
  *  a `key` parameter. For example:
- *  <pre>POST
- *  https://clouderrorreporting.googleapis.com/v1beta1/projects/example-project/events:report?key=123ABC456</pre>
+ *  `POST
+ *  https://clouderrorreporting.googleapis.com/v1beta1/projects/example-project/events:report?key=123ABC456`
  *
  *  @param object The @c GTLRClouderrorreporting_ReportedErrorEvent to include
  *    in the query.
@@ -264,7 +262,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *    ID](https://support.google.com/cloud/answer/6158840).
  *    Example: `projects/my-project-123`.
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsEventsReport
+ *  @return GTLRClouderrorreportingQuery_ProjectsEventsReport
  */
 + (instancetype)queryWithObject:(GTLRClouderrorreporting_ReportedErrorEvent *)object
                     projectName:(NSString *)projectName;
@@ -307,7 +305,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *    this project.
  *    Example: <code>projects/my-project-123/groups/my-group</code>
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsGroupsGet
+ *  @return GTLRClouderrorreportingQuery_ProjectsGroupsGet
  */
 + (instancetype)queryWithGroupName:(NSString *)groupName;
 
@@ -440,7 +438,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *    Platform project ID</a>.
  *    Example: <code>projects/my-project-123</code>.
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsGroupStatsList
+ *  @return GTLRClouderrorreportingQuery_ProjectsGroupStatsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -480,7 +478,7 @@ GTLR_EXTERN NSString * const kGTLRClouderrorreportingTimeRangePeriodPeriodUnspec
  *  @param name The group resource name.
  *    Example: <code>projects/my-project-123/groups/my-groupid</code>
  *
- *  @returns GTLRClouderrorreportingQuery_ProjectsGroupsUpdate
+ *  @return GTLRClouderrorreportingQuery_ProjectsGroupsUpdate
  */
 + (instancetype)queryWithObject:(GTLRClouderrorreporting_ErrorGroup *)object
                            name:(NSString *)name;

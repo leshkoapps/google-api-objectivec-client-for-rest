@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google People API (people/v1)
+//   People API (people/v1)
 // Description:
 //   Provides access to information about profiles and contacts.
 // Documentation:
@@ -476,7 +476,7 @@ NSString * const kGTLRPeopleService_Source_Type_SourceTypeUnspecified = @"SOURCE
          interests, locales, memberships, metadata, names, nicknames,
          occupations, organizations, phoneNumbers, photos, relations,
          relationshipInterests, relationshipStatuses, residences, resourceName,
-         skills, taglines, urls;
+         sipAddresses, skills, taglines, urls, userDefined;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"ETag" : @"etag" };
@@ -507,9 +507,11 @@ NSString * const kGTLRPeopleService_Source_Type_SourceTypeUnspecified = @"SOURCE
     @"relationshipInterests" : [GTLRPeopleService_RelationshipInterest class],
     @"relationshipStatuses" : [GTLRPeopleService_RelationshipStatus class],
     @"residences" : [GTLRPeopleService_Residence class],
+    @"sipAddresses" : [GTLRPeopleService_SipAddress class],
     @"skills" : [GTLRPeopleService_Skill class],
     @"taglines" : [GTLRPeopleService_Tagline class],
-    @"urls" : [GTLRPeopleService_Url class]
+    @"urls" : [GTLRPeopleService_Url class],
+    @"userDefined" : [GTLRPeopleService_UserDefined class]
   };
   return map;
 }
@@ -564,7 +566,12 @@ NSString * const kGTLRPeopleService_Source_Type_SourceTypeUnspecified = @"SOURCE
 //
 
 @implementation GTLRPeopleService_Photo
-@dynamic metadata, url;
+@dynamic defaultProperty, metadata, url;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"defaultProperty" : @"default" };
+}
+
 @end
 
 
@@ -623,6 +630,16 @@ NSString * const kGTLRPeopleService_Source_Type_SourceTypeUnspecified = @"SOURCE
 
 @implementation GTLRPeopleService_Residence
 @dynamic current, metadata, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPeopleService_SipAddress
+//
+
+@implementation GTLRPeopleService_SipAddress
+@dynamic formattedType, metadata, type, value;
 @end
 
 
@@ -714,4 +731,14 @@ NSString * const kGTLRPeopleService_Source_Type_SourceTypeUnspecified = @"SOURCE
 
 @implementation GTLRPeopleService_Url
 @dynamic formattedType, metadata, type, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRPeopleService_UserDefined
+//
+
+@implementation GTLRPeopleService_UserDefined
+@dynamic key, metadata, value;
 @end

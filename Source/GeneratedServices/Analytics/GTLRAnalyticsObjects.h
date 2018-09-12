@@ -23,6 +23,8 @@
 @class GTLRAnalytics_Account_Permissions;
 @class GTLRAnalytics_AccountRef;
 @class GTLRAnalytics_AccountSummary;
+@class GTLRAnalytics_AccountTreeRequest_AccountSettings;
+@class GTLRAnalytics_AccountTreeResponse_AccountSettings;
 @class GTLRAnalytics_AdWordsAccount;
 @class GTLRAnalytics_Column;
 @class GTLRAnalytics_Column_Attributes;
@@ -93,6 +95,7 @@
 @class GTLRAnalytics_UnsampledReport_CloudStorageDownloadDetails;
 @class GTLRAnalytics_UnsampledReport_DriveDownloadDetails;
 @class GTLRAnalytics_Upload;
+@class GTLRAnalytics_UserDeletionRequest_Id;
 @class GTLRAnalytics_UserRef;
 @class GTLRAnalytics_Webproperty;
 @class GTLRAnalytics_Webproperty_ChildLink;
@@ -389,6 +392,124 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Web property for the account. */
 @property(nonatomic, strong, nullable) GTLRAnalytics_Webproperty *webproperty;
+
+@end
+
+
+/**
+ *  JSON template for an Analytics account tree requests. The account tree
+ *  request is used in the provisioning api to create an account, property, and
+ *  view (profile). It contains the basic information required to make these
+ *  fields.
+ */
+@interface GTLRAnalytics_AccountTreeRequest : GTLRObject
+
+@property(nonatomic, copy, nullable) NSString *accountName;
+@property(nonatomic, strong, nullable) GTLRAnalytics_AccountTreeRequest_AccountSettings *accountSettings;
+
+/** Resource type for account ticket. */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+@property(nonatomic, copy, nullable) NSString *profileName;
+@property(nonatomic, copy, nullable) NSString *timezone;
+@property(nonatomic, copy, nullable) NSString *webpropertyName;
+@property(nonatomic, copy, nullable) NSString *websiteUrl;
+
+@end
+
+
+/**
+ *  GTLRAnalytics_AccountTreeRequest_AccountSettings
+ */
+@interface GTLRAnalytics_AccountTreeRequest_AccountSettings : GTLRObject
+
+/**
+ *  shareAnonymouslyWithOthers
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareAnonymouslyWithOthers;
+
+/**
+ *  shareWithGoogleProducts
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithGoogleProducts;
+
+/**
+ *  shareWithSpecialists
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithSpecialists;
+
+/**
+ *  shareWithSupport
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithSupport;
+
+@end
+
+
+/**
+ *  JSON template for an Analytics account tree response. The account tree
+ *  response is used in the provisioning api to return the result of creating an
+ *  account, property, and view (profile).
+ */
+@interface GTLRAnalytics_AccountTreeResponse : GTLRObject
+
+/** The account created. */
+@property(nonatomic, strong, nullable) GTLRAnalytics_Account *account;
+
+@property(nonatomic, strong, nullable) GTLRAnalytics_AccountTreeResponse_AccountSettings *accountSettings;
+
+/** Resource type for account ticket. */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/** View (Profile) for the account. */
+@property(nonatomic, strong, nullable) GTLRAnalytics_Profile *profile;
+
+/** Web property for the account. */
+@property(nonatomic, strong, nullable) GTLRAnalytics_Webproperty *webproperty;
+
+@end
+
+
+/**
+ *  GTLRAnalytics_AccountTreeResponse_AccountSettings
+ */
+@interface GTLRAnalytics_AccountTreeResponse_AccountSettings : GTLRObject
+
+/**
+ *  shareAnonymouslyWithOthers
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareAnonymouslyWithOthers;
+
+/**
+ *  shareWithGoogleProducts
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithGoogleProducts;
+
+/**
+ *  shareWithSpecialists
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithSpecialists;
+
+/**
+ *  shareWithSupport
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *shareWithSupport;
 
 @end
 
@@ -2496,6 +2617,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  JSON template for a hash Client Id request resource.
+ */
+@interface GTLRAnalytics_HashClientIdRequest : GTLRObject
+
+@property(nonatomic, copy, nullable) NSString *clientId;
+@property(nonatomic, copy, nullable) NSString *kind;
+@property(nonatomic, copy, nullable) NSString *webPropertyId;
+
+@end
+
+
+/**
+ *  JSON template for a hash Client Id response resource.
+ */
+@interface GTLRAnalytics_HashClientIdResponse : GTLRObject
+
+@property(nonatomic, copy, nullable) NSString *clientId;
+@property(nonatomic, copy, nullable) NSString *hashedClientId;
+@property(nonatomic, copy, nullable) NSString *kind;
+@property(nonatomic, copy, nullable) NSString *webPropertyId;
+
+@end
+
+
+/**
  *  JSON template for an Analytics Remarketing Include Conditions.
  */
 @interface GTLRAnalytics_IncludeConditions : GTLRObject
@@ -3934,6 +4080,50 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ *  JSON template for a user deletion request resource.
+ */
+@interface GTLRAnalytics_UserDeletionRequest : GTLRObject
+
+/**
+ *  This marks the point in time for which all user data before should be
+ *  deleted
+ */
+@property(nonatomic, strong, nullable) GTLRDateTime *deletionRequestTime;
+
+/** Firebase Project Id */
+@property(nonatomic, copy, nullable) NSString *firebaseProjectId;
+
+/**
+ *  User ID.
+ *
+ *  identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
+ */
+@property(nonatomic, strong, nullable) GTLRAnalytics_UserDeletionRequest_Id *identifier;
+
+/** Value is "analytics#userDeletionRequest". */
+@property(nonatomic, copy, nullable) NSString *kind;
+
+/** Web property ID of the form UA-XXXXX-YY. */
+@property(nonatomic, copy, nullable) NSString *webPropertyId;
+
+@end
+
+
+/**
+ *  User ID.
+ */
+@interface GTLRAnalytics_UserDeletionRequest_Id : GTLRObject
+
+/** Type of user */
+@property(nonatomic, copy, nullable) NSString *type;
+
+/** The User's id */
+@property(nonatomic, copy, nullable) NSString *userId;
+
+@end
+
+
+/**
  *  JSON template for a user reference.
  */
 @interface GTLRAnalytics_UserRef : GTLRObject
@@ -4028,6 +4218,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Time this web property was created. */
 @property(nonatomic, strong, nullable) GTLRDateTime *created;
+
+/**
+ *  Set to true to reset the retention period of the user identifier with each
+ *  new event from that user (thus setting the expiration date to current time
+ *  plus retention period).
+ *  Set to false to delete data associated with the user identifer automatically
+ *  after the rentention period.
+ *  This property cannot be set on insert.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *dataRetentionResetOnNewActivity;
+
+/**
+ *  The length of time for which user and event data is retained.
+ *  This property cannot be set on insert.
+ */
+@property(nonatomic, copy, nullable) NSString *dataRetentionTtl;
 
 /**
  *  Default view (profile) ID.

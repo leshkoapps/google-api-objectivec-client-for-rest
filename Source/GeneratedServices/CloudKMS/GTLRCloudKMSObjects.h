@@ -2,10 +2,13 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Key Management Service (KMS) API (cloudkms/v1)
+//   Cloud Key Management Service (KMS) API (cloudkms/v1)
 // Description:
-//   Manages encryption for your cloud services the same way you do on-premises.
-//   You can generate, use, rotate, and destroy AES256 encryption keys.
+//   Cloud KMS allows you to keep cryptographic keys in one central cloud
+//   service, for direct use by other cloud resources and applications. With
+//   Cloud KMS you are the ultimate custodian of your data, you can manage
+//   encryption in the cloud the same way you do on-premises, and you have a
+//   provable and monitorable root of trust over your data.
 // Documentation:
 //   https://cloud.google.com/kms/
 
@@ -22,20 +25,18 @@
 @class GTLRCloudKMS_AuditConfig;
 @class GTLRCloudKMS_AuditLogConfig;
 @class GTLRCloudKMS_Binding;
-@class GTLRCloudKMS_CloudAuditOptions;
-@class GTLRCloudKMS_Condition;
-@class GTLRCloudKMS_CounterOptions;
 @class GTLRCloudKMS_CryptoKey;
+@class GTLRCloudKMS_CryptoKey_Labels;
 @class GTLRCloudKMS_CryptoKeyVersion;
-@class GTLRCloudKMS_DataAccessOptions;
+@class GTLRCloudKMS_CryptoKeyVersionTemplate;
+@class GTLRCloudKMS_Digest;
 @class GTLRCloudKMS_Expr;
+@class GTLRCloudKMS_KeyOperationAttestation;
 @class GTLRCloudKMS_KeyRing;
 @class GTLRCloudKMS_Location;
 @class GTLRCloudKMS_Location_Labels;
 @class GTLRCloudKMS_Location_Metadata;
-@class GTLRCloudKMS_LogConfig;
 @class GTLRCloudKMS_Policy;
-@class GTLRCloudKMS_Rule;
 
 // Generated comments include content from the discovery document; avoid them
 // causing warnings since clang's checks are some what arbitrary.
@@ -76,153 +77,24 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_AuditLogConfig_LogType_DataWrite;
 GTLR_EXTERN NSString * const kGTLRCloudKMS_AuditLogConfig_LogType_LogTypeUnspecified;
 
 // ----------------------------------------------------------------------------
-// GTLRCloudKMS_CloudAuditOptions.logName
-
-/**
- *  Corresponds to "cloudaudit.googleapis.com/activity"
- *
- *  Value: "ADMIN_ACTIVITY"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_CloudAuditOptions_LogName_AdminActivity;
-/**
- *  Corresponds to "cloudaudit.googleapis.com/data_access"
- *
- *  Value: "DATA_ACCESS"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_CloudAuditOptions_LogName_DataAccess;
-/**
- *  Default. Should not be used.
- *
- *  Value: "UNSPECIFIED_LOG_NAME"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_CloudAuditOptions_LogName_UnspecifiedLogName;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudKMS_Condition.iam
-
-/**
- *  An approver (distinct from the requester) that has authorized this
- *  request.
- *  When used with IN, the condition indicates that one of the approvers
- *  associated with the request matches the specified principal, or is a
- *  member of the specified group. Approvers can only grant additional
- *  access, and are thus only used in a strictly positive context
- *  (e.g. ALLOW/IN or DENY/NOT_IN).
- *
- *  Value: "APPROVER"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Iam_Approver;
-/**
- *  The principal (even if an authority selector is present), which
- *  must only be used for attribution, not authorization.
- *
- *  Value: "ATTRIBUTION"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Iam_Attribution;
-/**
- *  Either principal or (if present) authority selector.
- *
- *  Value: "AUTHORITY"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Iam_Authority;
-/**
- *  What types of justifications have been supplied with this request.
- *  String values should match enum names from tech.iam.JustificationType,
- *  e.g. "MANUAL_STRING". It is not permitted to grant access based on
- *  the *absence* of a justification, so justification conditions can only
- *  be used in a "positive" context (e.g., ALLOW/IN or DENY/NOT_IN).
- *  Multiple justifications, e.g., a Buganizer ID and a manually-entered
- *  reason, are normal and supported.
- *
- *  Value: "JUSTIFICATION_TYPE"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Iam_JustificationType;
-/**
- *  Default non-attribute.
- *
- *  Value: "NO_ATTR"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Iam_NoAttr;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudKMS_Condition.op
-
-/**
- *  Subject is discharged
- *
- *  Value: "DISCHARGED"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_Discharged;
-/**
- *  DEPRECATED. Use IN instead.
- *
- *  Value: "EQUALS"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_Equals;
-/**
- *  The condition is true if the subject (or any element of it if it is
- *  a set) matches any of the supplied values.
- *
- *  Value: "IN"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_In;
-/**
- *  Default no-op.
- *
- *  Value: "NO_OP"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_NoOp;
-/**
- *  DEPRECATED. Use NOT_IN instead.
- *
- *  Value: "NOT_EQUALS"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_NotEquals;
-/**
- *  The condition is true if the subject (or every element of it if it is
- *  a set) matches none of the supplied values.
- *
- *  Value: "NOT_IN"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Op_NotIn;
-
-// ----------------------------------------------------------------------------
-// GTLRCloudKMS_Condition.sys
-
-/**
- *  IP address of the caller
- *
- *  Value: "IP"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Sys_Ip;
-/**
- *  Resource name
- *
- *  Value: "NAME"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Sys_Name;
-/**
- *  Default non-attribute type
- *
- *  Value: "NO_ATTR"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Sys_NoAttr;
-/**
- *  Region of the resource
- *
- *  Value: "REGION"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Sys_Region;
-/**
- *  Service name
- *
- *  Value: "SERVICE"
- */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Condition_Sys_Service;
-
-// ----------------------------------------------------------------------------
 // GTLRCloudKMS_CryptoKey.purpose
 
+/**
+ *  CryptoKeys with this purpose may be used with
+ *  AsymmetricDecrypt and
+ *  GetPublicKey.
+ *
+ *  Value: "ASYMMETRIC_DECRYPT"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKey_Purpose_AsymmetricDecrypt;
+/**
+ *  CryptoKeys with this purpose may be used with
+ *  AsymmetricSign and
+ *  GetPublicKey.
+ *
+ *  Value: "ASYMMETRIC_SIGN"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKey_Purpose_AsymmetricSign;
 /**
  *  Not specified.
  *
@@ -237,6 +109,104 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKey_Purpose_CryptoKeyPurposeUns
  *  Value: "ENCRYPT_DECRYPT"
  */
 GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKey_Purpose_EncryptDecrypt;
+
+// ----------------------------------------------------------------------------
+// GTLRCloudKMS_CryptoKeyVersion.algorithm
+
+/**
+ *  Not specified.
+ *
+ *  Value: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_CryptoKeyVersionAlgorithmUnspecified;
+/**
+ *  ECDSA on the NIST P-256 curve with a SHA256 digest.
+ *
+ *  Value: "EC_SIGN_P256_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_EcSignP256Sha256;
+/**
+ *  ECDSA on the NIST P-384 curve with a SHA384 digest.
+ *
+ *  Value: "EC_SIGN_P384_SHA384"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_EcSignP384Sha384;
+/**
+ *  Creates symmetric encryption keys.
+ *
+ *  Value: "GOOGLE_SYMMETRIC_ENCRYPTION"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_GoogleSymmetricEncryption;
+/**
+ *  RSAES-OAEP 2048 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_DECRYPT_OAEP_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaDecryptOaep2048Sha256;
+/**
+ *  RSAES-OAEP 3072 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_DECRYPT_OAEP_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaDecryptOaep3072Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 2048 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs12048Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 3072 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs13072Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 4096 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_4096_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs14096Sha256;
+/**
+ *  RSASSA-PSS 2048 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss2048Sha256;
+/**
+ *  RSASSA-PSS 3072 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss3072Sha256;
+/**
+ *  RSASSA-PSS 4096 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_4096_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss4096Sha256;
+
+// ----------------------------------------------------------------------------
+// GTLRCloudKMS_CryptoKeyVersion.protectionLevel
+
+/**
+ *  Crypto operations are performed in a Hardware Security Module.
+ *
+ *  Value: "HSM"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_Hsm;
+/**
+ *  Not specified.
+ *
+ *  Value: "PROTECTION_LEVEL_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_ProtectionLevelUnspecified;
+/**
+ *  Crypto operations are performed in software.
+ *
+ *  Value: "SOFTWARE"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_Software;
 
 // ----------------------------------------------------------------------------
 // GTLRCloudKMS_CryptoKeyVersion.state
@@ -271,80 +241,194 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_State_DestroySchedul
  */
 GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_State_Disabled;
 /**
- *  This version may be used in Encrypt and
- *  Decrypt requests.
+ *  This version may be used for cryptographic operations.
  *
  *  Value: "ENABLED"
  */
 GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_State_Enabled;
+/**
+ *  This version is still being generated. It may not be used, enabled,
+ *  disabled, or destroyed yet. Cloud KMS will automatically mark this
+ *  version ENABLED as soon as the version is ready.
+ *
+ *  Value: "PENDING_GENERATION"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersion_State_PendingGeneration;
 
 // ----------------------------------------------------------------------------
-// GTLRCloudKMS_DataAccessOptions.logMode
+// GTLRCloudKMS_CryptoKeyVersionTemplate.algorithm
 
 /**
- *  The application's operation in the context of which this authorization
- *  check is being made may only be performed if it is successfully logged
- *  to Gin. For instance, the authorization library may satisfy this
- *  obligation by emitting a partial log entry at authorization check time
- *  and only returning ALLOW to the application if it succeeds.
- *  If a matching Rule has this directive, but the client has not indicated
- *  that it will honor such requirements, then the IAM check will result in
- *  authorization failure by setting CheckPolicyResponse.success=false.
+ *  Not specified.
  *
- *  Value: "LOG_FAIL_CLOSED"
+ *  Value: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_DataAccessOptions_LogMode_LogFailClosed;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_CryptoKeyVersionAlgorithmUnspecified;
 /**
- *  Client is not required to write a partial Gin log immediately after
- *  the authorization check. If client chooses to write one and it fails,
- *  client may either fail open (allow the operation to continue) or
- *  fail closed (handle as a DENY outcome).
+ *  ECDSA on the NIST P-256 curve with a SHA256 digest.
  *
- *  Value: "LOG_MODE_UNSPECIFIED"
+ *  Value: "EC_SIGN_P256_SHA256"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_DataAccessOptions_LogMode_LogModeUnspecified;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_EcSignP256Sha256;
+/**
+ *  ECDSA on the NIST P-384 curve with a SHA384 digest.
+ *
+ *  Value: "EC_SIGN_P384_SHA384"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_EcSignP384Sha384;
+/**
+ *  Creates symmetric encryption keys.
+ *
+ *  Value: "GOOGLE_SYMMETRIC_ENCRYPTION"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_GoogleSymmetricEncryption;
+/**
+ *  RSAES-OAEP 2048 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_DECRYPT_OAEP_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaDecryptOaep2048Sha256;
+/**
+ *  RSAES-OAEP 3072 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_DECRYPT_OAEP_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaDecryptOaep3072Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 2048 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs12048Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 3072 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs13072Sha256;
+/**
+ *  RSASSA-PKCS1-v1_5 with a 4096 bit key and a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PKCS1_4096_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs14096Sha256;
+/**
+ *  RSASSA-PSS 2048 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_2048_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss2048Sha256;
+/**
+ *  RSASSA-PSS 3072 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_3072_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss3072Sha256;
+/**
+ *  RSASSA-PSS 4096 bit key with a SHA256 digest.
+ *
+ *  Value: "RSA_SIGN_PSS_4096_SHA256"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss4096Sha256;
 
 // ----------------------------------------------------------------------------
-// GTLRCloudKMS_Rule.action
+// GTLRCloudKMS_CryptoKeyVersionTemplate.protectionLevel
 
 /**
- *  Matching 'Entries' grant access.
+ *  Crypto operations are performed in a Hardware Security Module.
  *
- *  Value: "ALLOW"
+ *  Value: "HSM"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_Allow;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_Hsm;
 /**
- *  Matching 'Entries' grant access and the caller promises to log
- *  the request per the returned log_configs.
+ *  Not specified.
  *
- *  Value: "ALLOW_WITH_LOG"
+ *  Value: "PROTECTION_LEVEL_UNSPECIFIED"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_AllowWithLog;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_ProtectionLevelUnspecified;
 /**
- *  Matching 'Entries' deny access.
+ *  Crypto operations are performed in software.
  *
- *  Value: "DENY"
+ *  Value: "SOFTWARE"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_Deny;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_Software;
+
+// ----------------------------------------------------------------------------
+// GTLRCloudKMS_KeyOperationAttestation.format
+
+/** Value: "ATTESTATION_FORMAT_UNSPECIFIED" */
+GTLR_EXTERN NSString * const kGTLRCloudKMS_KeyOperationAttestation_Format_AttestationFormatUnspecified;
 /**
- *  Matching 'Entries' deny access and the caller promises to log
- *  the request per the returned log_configs.
+ *  Cavium HSM attestation compressed with gzip. Note that this format is
+ *  defined by Cavium and subject to change at any time.
  *
- *  Value: "DENY_WITH_LOG"
+ *  Value: "CAVIUM_V1_COMPRESSED"
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_DenyWithLog;
+GTLR_EXTERN NSString * const kGTLRCloudKMS_KeyOperationAttestation_Format_CaviumV1Compressed;
+
 /**
- *  Matching 'Entries' tell IAM.Check callers to generate logs.
- *
- *  Value: "LOG"
+ *  Request message for KeyManagementService.AsymmetricDecrypt.
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_Log;
+@interface GTLRCloudKMS_AsymmetricDecryptRequest : GTLRObject
+
 /**
- *  Default no action.
+ *  Required. The data encrypted with the named CryptoKeyVersion's public
+ *  key using OAEP.
  *
- *  Value: "NO_ACTION"
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
  */
-GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
+@property(nonatomic, copy, nullable) NSString *ciphertext;
+
+@end
+
+
+/**
+ *  Response message for KeyManagementService.AsymmetricDecrypt.
+ */
+@interface GTLRCloudKMS_AsymmetricDecryptResponse : GTLRObject
+
+/**
+ *  The decrypted data originally encrypted with the matching public key.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *plaintext;
+
+@end
+
+
+/**
+ *  Request message for KeyManagementService.AsymmetricSign.
+ */
+@interface GTLRCloudKMS_AsymmetricSignRequest : GTLRObject
+
+/**
+ *  Required. The digest of the data to sign. The digest must be produced with
+ *  the same digest algorithm as specified by the key version's
+ *  algorithm.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudKMS_Digest *digest;
+
+@end
+
+
+/**
+ *  Response message for KeyManagementService.AsymmetricSign.
+ */
+@interface GTLRCloudKMS_AsymmetricSignResponse : GTLRObject
+
+/**
+ *  The created signature.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *signature;
+
+@end
+
 
 /**
  *  Specifies the audit configuration for a service.
@@ -354,7 +438,7 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  If there are AuditConfigs for both `allServices` and a specific service,
  *  the union of the two AuditConfigs is used for that service: the log_types
  *  specified in each AuditConfig are enabled, and the exempted_members in each
- *  AuditConfig are exempted.
+ *  AuditLogConfig are exempted.
  *  Example Policy with multiple AuditConfigs:
  *  {
  *  "audit_configs": [
@@ -397,13 +481,8 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  */
 @interface GTLRCloudKMS_AuditConfig : GTLRObject
 
-/**
- *  The configuration for logging of each type of permission.
- *  Next ID: 4
- */
+/** The configuration for logging of each type of permission. */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudKMS_AuditLogConfig *> *auditLogConfigs;
-
-@property(nonatomic, strong, nullable) NSArray<NSString *> *exemptedMembers;
 
 /**
  *  Specifies a service that will be enabled for audit logging.
@@ -467,11 +546,10 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 @interface GTLRCloudKMS_Binding : GTLRObject
 
 /**
- *  The condition that is associated with this binding.
+ *  Unimplemented. The condition that is associated with this binding.
  *  NOTE: an unsatisfied condition will not allow user access via current
  *  binding. Different bindings, including their conditions, are examined
  *  independently.
- *  This field is GOOGLE_INTERNAL.
  */
 @property(nonatomic, strong, nullable) GTLRCloudKMS_Expr *condition;
 
@@ -483,7 +561,7 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  * `allAuthenticatedUsers`: A special identifier that represents anyone
  *  who is authenticated with a Google account or a service account.
  *  * `user:{emailid}`: An email address that represents a specific Google
- *  account. For example, `alice\@gmail.com` or `joe\@example.com`.
+ *  account. For example, `alice\@gmail.com` .
  *  * `serviceAccount:{emailid}`: An email address that represents a service
  *  account. For example, `my-other-app\@appspot.gserviceaccount.com`.
  *  * `group:{emailid}`: An email address that represents a Google group.
@@ -496,145 +574,8 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 /**
  *  Role that is assigned to `members`.
  *  For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
- *  Required
  */
 @property(nonatomic, copy, nullable) NSString *role;
-
-@end
-
-
-/**
- *  Write a Cloud Audit log
- */
-@interface GTLRCloudKMS_CloudAuditOptions : GTLRObject
-
-/**
- *  The log_name to populate in the Cloud Audit Record.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudKMS_CloudAuditOptions_LogName_AdminActivity Corresponds
- *        to "cloudaudit.googleapis.com/activity" (Value: "ADMIN_ACTIVITY")
- *    @arg @c kGTLRCloudKMS_CloudAuditOptions_LogName_DataAccess Corresponds to
- *        "cloudaudit.googleapis.com/data_access" (Value: "DATA_ACCESS")
- *    @arg @c kGTLRCloudKMS_CloudAuditOptions_LogName_UnspecifiedLogName
- *        Default. Should not be used. (Value: "UNSPECIFIED_LOG_NAME")
- */
-@property(nonatomic, copy, nullable) NSString *logName;
-
-@end
-
-
-/**
- *  A condition to be met.
- */
-@interface GTLRCloudKMS_Condition : GTLRObject
-
-/**
- *  Trusted attributes supplied by the IAM system.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudKMS_Condition_Iam_Approver An approver (distinct from
- *        the requester) that has authorized this
- *        request.
- *        When used with IN, the condition indicates that one of the approvers
- *        associated with the request matches the specified principal, or is a
- *        member of the specified group. Approvers can only grant additional
- *        access, and are thus only used in a strictly positive context
- *        (e.g. ALLOW/IN or DENY/NOT_IN). (Value: "APPROVER")
- *    @arg @c kGTLRCloudKMS_Condition_Iam_Attribution The principal (even if an
- *        authority selector is present), which
- *        must only be used for attribution, not authorization. (Value:
- *        "ATTRIBUTION")
- *    @arg @c kGTLRCloudKMS_Condition_Iam_Authority Either principal or (if
- *        present) authority selector. (Value: "AUTHORITY")
- *    @arg @c kGTLRCloudKMS_Condition_Iam_JustificationType What types of
- *        justifications have been supplied with this request.
- *        String values should match enum names from tech.iam.JustificationType,
- *        e.g. "MANUAL_STRING". It is not permitted to grant access based on
- *        the *absence* of a justification, so justification conditions can only
- *        be used in a "positive" context (e.g., ALLOW/IN or DENY/NOT_IN).
- *        Multiple justifications, e.g., a Buganizer ID and a manually-entered
- *        reason, are normal and supported. (Value: "JUSTIFICATION_TYPE")
- *    @arg @c kGTLRCloudKMS_Condition_Iam_NoAttr Default non-attribute. (Value:
- *        "NO_ATTR")
- */
-@property(nonatomic, copy, nullable) NSString *iam;
-
-/**
- *  An operator to apply the subject with.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudKMS_Condition_Op_Discharged Subject is discharged
- *        (Value: "DISCHARGED")
- *    @arg @c kGTLRCloudKMS_Condition_Op_Equals DEPRECATED. Use IN instead.
- *        (Value: "EQUALS")
- *    @arg @c kGTLRCloudKMS_Condition_Op_In The condition is true if the subject
- *        (or any element of it if it is
- *        a set) matches any of the supplied values. (Value: "IN")
- *    @arg @c kGTLRCloudKMS_Condition_Op_NoOp Default no-op. (Value: "NO_OP")
- *    @arg @c kGTLRCloudKMS_Condition_Op_NotEquals DEPRECATED. Use NOT_IN
- *        instead. (Value: "NOT_EQUALS")
- *    @arg @c kGTLRCloudKMS_Condition_Op_NotIn The condition is true if the
- *        subject (or every element of it if it is
- *        a set) matches none of the supplied values. (Value: "NOT_IN")
- */
-@property(nonatomic, copy, nullable) NSString *op;
-
-/** Trusted attributes discharged by the service. */
-@property(nonatomic, copy, nullable) NSString *svc;
-
-/**
- *  Trusted attributes supplied by any service that owns resources and uses
- *  the IAM system for access control.
- *
- *  Likely values:
- *    @arg @c kGTLRCloudKMS_Condition_Sys_Ip IP address of the caller (Value:
- *        "IP")
- *    @arg @c kGTLRCloudKMS_Condition_Sys_Name Resource name (Value: "NAME")
- *    @arg @c kGTLRCloudKMS_Condition_Sys_NoAttr Default non-attribute type
- *        (Value: "NO_ATTR")
- *    @arg @c kGTLRCloudKMS_Condition_Sys_Region Region of the resource (Value:
- *        "REGION")
- *    @arg @c kGTLRCloudKMS_Condition_Sys_Service Service name (Value:
- *        "SERVICE")
- */
-@property(nonatomic, copy, nullable) NSString *sys;
-
-/** DEPRECATED. Use 'values' instead. */
-@property(nonatomic, copy, nullable) NSString *value;
-
-/** The objects of the condition. This is mutually exclusive with 'value'. */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *values;
-
-@end
-
-
-/**
- *  Increment a streamz counter with the specified metric and field names.
- *  Metric names should start with a '/', generally be lowercase-only,
- *  and end in "_count". Field names should not contain an initial slash.
- *  The actual exported metric names will have "/iam/policy" prepended.
- *  Field names correspond to IAM request parameters and field values are
- *  their respective values.
- *  At present the only supported field names are
- *  - "iam_principal", corresponding to IAMContext.principal;
- *  - "" (empty string), resulting in one aggretated counter with no field.
- *  Examples:
- *  counter { metric: "/debug_access_count" field: "iam_principal" }
- *  ==> increment counter /iam/policy/backend_debug_access_count
- *  {iam_principal=[value of IAMContext.principal]}
- *  At this time we do not support:
- *  * multiple field names (though this may be supported in the future)
- *  * decrementing the counter
- *  * incrementing it by anything other than 1
- */
-@interface GTLRCloudKMS_CounterOptions : GTLRObject
-
-/** The field value to attribute. */
-@property(nonatomic, copy, nullable) NSString *field;
-
-/** The metric to update. */
-@property(nonatomic, copy, nullable) NSString *metric;
 
 @end
 
@@ -651,6 +592,12 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 @property(nonatomic, strong, nullable) GTLRDateTime *createTime;
 
 /**
+ *  Labels with user-defined metadata. For more information, see
+ *  [Labeling Keys](/kms/docs/labeling-keys).
+ */
+@property(nonatomic, strong, nullable) GTLRCloudKMS_CryptoKey_Labels *labels;
+
+/**
  *  Output only. The resource name for this CryptoKey in the format
  *  `projects/ * /locations/ * /keyRings/ * /cryptoKeys/ *`.
  */
@@ -664,6 +611,9 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  CreateCryptoKeyVersion and
  *  UpdateCryptoKeyPrimaryVersion
  *  do not affect next_rotation_time.
+ *  Keys with purpose
+ *  ENCRYPT_DECRYPT support
+ *  automatic rotation. For other keys, this field must be omitted.
  */
 @property(nonatomic, strong, nullable) GTLRDateTime *nextRotationTime;
 
@@ -673,14 +623,24 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  in EncryptRequest.name.
  *  The CryptoKey's primary version can be updated via
  *  UpdateCryptoKeyPrimaryVersion.
+ *  All keys with purpose
+ *  ENCRYPT_DECRYPT have a
+ *  primary. For other keys, this field will be omitted.
  */
 @property(nonatomic, strong, nullable) GTLRCloudKMS_CryptoKeyVersion *primary;
 
 /**
- *  The immutable purpose of this CryptoKey. Currently, the only acceptable
- *  purpose is ENCRYPT_DECRYPT.
+ *  The immutable purpose of this CryptoKey.
  *
  *  Likely values:
+ *    @arg @c kGTLRCloudKMS_CryptoKey_Purpose_AsymmetricDecrypt CryptoKeys with
+ *        this purpose may be used with
+ *        AsymmetricDecrypt and
+ *        GetPublicKey. (Value: "ASYMMETRIC_DECRYPT")
+ *    @arg @c kGTLRCloudKMS_CryptoKey_Purpose_AsymmetricSign CryptoKeys with
+ *        this purpose may be used with
+ *        AsymmetricSign and
+ *        GetPublicKey. (Value: "ASYMMETRIC_SIGN")
  *    @arg @c kGTLRCloudKMS_CryptoKey_Purpose_CryptoKeyPurposeUnspecified Not
  *        specified. (Value: "CRYPTO_KEY_PURPOSE_UNSPECIFIED")
  *    @arg @c kGTLRCloudKMS_CryptoKey_Purpose_EncryptDecrypt CryptoKeys with
@@ -694,24 +654,99 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  next_rotation_time will be advanced by this period when the service
  *  automatically rotates a key. Must be at least one day.
  *  If rotation_period is set, next_rotation_time must also be set.
+ *  Keys with purpose
+ *  ENCRYPT_DECRYPT support
+ *  automatic rotation. For other keys, this field must be omitted.
  */
 @property(nonatomic, strong, nullable) GTLRDuration *rotationPeriod;
 
+/**
+ *  A template describing settings for new CryptoKeyVersion instances.
+ *  The properties of new CryptoKeyVersion instances created by either
+ *  CreateCryptoKeyVersion or
+ *  auto-rotation are controlled by this template.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudKMS_CryptoKeyVersionTemplate *versionTemplate;
+
+@end
+
+
+/**
+ *  Labels with user-defined metadata. For more information, see
+ *  [Labeling Keys](/kms/docs/labeling-keys).
+ *
+ *  @note This class is documented as having more properties of NSString. Use @c
+ *        -additionalJSONKeys and @c -additionalPropertyForName: to get the list
+ *        of properties and then fetch them; or @c -additionalProperties to
+ *        fetch them all at once.
+ */
+@interface GTLRCloudKMS_CryptoKey_Labels : GTLRObject
 @end
 
 
 /**
  *  A CryptoKeyVersion represents an individual cryptographic key, and the
  *  associated key material.
- *  It can be used for cryptographic operations either directly, or via its
- *  parent CryptoKey, in which case the server will choose the appropriate
- *  version for the operation.
+ *  An ENABLED version can be
+ *  used for cryptographic operations.
  *  For security reasons, the raw cryptographic key material represented by a
  *  CryptoKeyVersion can never be viewed or exported. It can only be used to
- *  encrypt or decrypt data when an authorized user or application invokes Cloud
- *  KMS.
+ *  encrypt, decrypt, or sign data when an authorized user or application
+ *  invokes
+ *  Cloud KMS.
  */
 @interface GTLRCloudKMS_CryptoKeyVersion : GTLRObject
+
+/**
+ *  Output only. The CryptoKeyVersionAlgorithm that this
+ *  CryptoKeyVersion supports.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_CryptoKeyVersionAlgorithmUnspecified
+ *        Not specified. (Value: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_EcSignP256Sha256 ECDSA on
+ *        the NIST P-256 curve with a SHA256 digest. (Value:
+ *        "EC_SIGN_P256_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_EcSignP384Sha384 ECDSA on
+ *        the NIST P-384 curve with a SHA384 digest. (Value:
+ *        "EC_SIGN_P384_SHA384")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_GoogleSymmetricEncryption
+ *        Creates symmetric encryption keys. (Value:
+ *        "GOOGLE_SYMMETRIC_ENCRYPTION")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaDecryptOaep2048Sha256
+ *        RSAES-OAEP 2048 bit key with a SHA256 digest. (Value:
+ *        "RSA_DECRYPT_OAEP_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaDecryptOaep3072Sha256
+ *        RSAES-OAEP 3072 bit key with a SHA256 digest. (Value:
+ *        "RSA_DECRYPT_OAEP_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs12048Sha256
+ *        RSASSA-PKCS1-v1_5 with a 2048 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs13072Sha256
+ *        RSASSA-PKCS1-v1_5 with a 3072 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPkcs14096Sha256
+ *        RSASSA-PKCS1-v1_5 with a 4096 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_4096_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss2048Sha256
+ *        RSASSA-PSS 2048 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss3072Sha256
+ *        RSASSA-PSS 3072 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_Algorithm_RsaSignPss4096Sha256
+ *        RSASSA-PSS 4096 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_4096_SHA256")
+ */
+@property(nonatomic, copy, nullable) NSString *algorithm;
+
+/**
+ *  Output only. Statement that was generated and signed by the HSM at key
+ *  creation time. Use this statement to verify attributes of the key as stored
+ *  on the HSM, independently of Google. Only provided for key versions with
+ *  protection_level HSM.
+ */
+@property(nonatomic, strong, nullable) GTLRCloudKMS_KeyOperationAttestation *attestation;
 
 /** Output only. The time at which this CryptoKeyVersion was created. */
 @property(nonatomic, strong, nullable) GTLRDateTime *createTime;
@@ -731,11 +766,31 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 @property(nonatomic, strong, nullable) GTLRDateTime *destroyTime;
 
 /**
+ *  Output only. The time this CryptoKeyVersion's key material was
+ *  generated.
+ */
+@property(nonatomic, strong, nullable) GTLRDateTime *generateTime;
+
+/**
  *  Output only. The resource name for this CryptoKeyVersion in the format
  *  `projects/ * /locations/ * /keyRings/ * /cryptoKeys/ * /cryptoKeyVersions/
  *  *`.
  */
 @property(nonatomic, copy, nullable) NSString *name;
+
+/**
+ *  Output only. The ProtectionLevel describing how crypto operations are
+ *  performed with this CryptoKeyVersion.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_Hsm Crypto
+ *        operations are performed in a Hardware Security Module. (Value: "HSM")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_ProtectionLevelUnspecified
+ *        Not specified. (Value: "PROTECTION_LEVEL_UNSPECIFIED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_ProtectionLevel_Software Crypto
+ *        operations are performed in software. (Value: "SOFTWARE")
+ */
+@property(nonatomic, copy, nullable) NSString *protectionLevel;
 
 /**
  *  The current state of the CryptoKeyVersion.
@@ -756,8 +811,12 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *        and the version can be placed back into the ENABLED state. (Value:
  *        "DISABLED")
  *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_State_Enabled This version may be
- *        used in Encrypt and
- *        Decrypt requests. (Value: "ENABLED")
+ *        used for cryptographic operations. (Value: "ENABLED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersion_State_PendingGeneration This
+ *        version is still being generated. It may not be used, enabled,
+ *        disabled, or destroyed yet. Cloud KMS will automatically mark this
+ *        version ENABLED as soon as the version is ready. (Value:
+ *        "PENDING_GENERATION")
  */
 @property(nonatomic, copy, nullable) NSString *state;
 
@@ -765,35 +824,72 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 
 
 /**
- *  Write a Data Access (Gin) log
+ *  A CryptoKeyVersionTemplate specifies the properties to use when creating
+ *  a new CryptoKeyVersion, either manually with
+ *  CreateCryptoKeyVersion or
+ *  automatically as a result of auto-rotation.
  */
-@interface GTLRCloudKMS_DataAccessOptions : GTLRObject
+@interface GTLRCloudKMS_CryptoKeyVersionTemplate : GTLRObject
 
 /**
- *  Whether Gin logging should happen in a fail-closed manner at the caller.
- *  This is relevant only in the LocalIAM implementation, for now.
+ *  Required. Algorithm to use
+ *  when creating a CryptoKeyVersion based on this template.
+ *  For backwards compatibility, GOOGLE_SYMMETRIC_ENCRYPTION is implied if both
+ *  this field is omitted and CryptoKey.purpose is
+ *  ENCRYPT_DECRYPT.
  *
  *  Likely values:
- *    @arg @c kGTLRCloudKMS_DataAccessOptions_LogMode_LogFailClosed The
- *        application's operation in the context of which this authorization
- *        check is being made may only be performed if it is successfully logged
- *        to Gin. For instance, the authorization library may satisfy this
- *        obligation by emitting a partial log entry at authorization check time
- *        and only returning ALLOW to the application if it succeeds.
- *        If a matching Rule has this directive, but the client has not
- *        indicated
- *        that it will honor such requirements, then the IAM check will result
- *        in
- *        authorization failure by setting CheckPolicyResponse.success=false.
- *        (Value: "LOG_FAIL_CLOSED")
- *    @arg @c kGTLRCloudKMS_DataAccessOptions_LogMode_LogModeUnspecified Client
- *        is not required to write a partial Gin log immediately after
- *        the authorization check. If client chooses to write one and it fails,
- *        client may either fail open (allow the operation to continue) or
- *        fail closed (handle as a DENY outcome). (Value:
- *        "LOG_MODE_UNSPECIFIED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_CryptoKeyVersionAlgorithmUnspecified
+ *        Not specified. (Value: "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_EcSignP256Sha256
+ *        ECDSA on the NIST P-256 curve with a SHA256 digest. (Value:
+ *        "EC_SIGN_P256_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_EcSignP384Sha384
+ *        ECDSA on the NIST P-384 curve with a SHA384 digest. (Value:
+ *        "EC_SIGN_P384_SHA384")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_GoogleSymmetricEncryption
+ *        Creates symmetric encryption keys. (Value:
+ *        "GOOGLE_SYMMETRIC_ENCRYPTION")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaDecryptOaep2048Sha256
+ *        RSAES-OAEP 2048 bit key with a SHA256 digest. (Value:
+ *        "RSA_DECRYPT_OAEP_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaDecryptOaep3072Sha256
+ *        RSAES-OAEP 3072 bit key with a SHA256 digest. (Value:
+ *        "RSA_DECRYPT_OAEP_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs12048Sha256
+ *        RSASSA-PKCS1-v1_5 with a 2048 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs13072Sha256
+ *        RSASSA-PKCS1-v1_5 with a 3072 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPkcs14096Sha256
+ *        RSASSA-PKCS1-v1_5 with a 4096 bit key and a SHA256 digest. (Value:
+ *        "RSA_SIGN_PKCS1_4096_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss2048Sha256
+ *        RSASSA-PSS 2048 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_2048_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss3072Sha256
+ *        RSASSA-PSS 3072 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_3072_SHA256")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_Algorithm_RsaSignPss4096Sha256
+ *        RSASSA-PSS 4096 bit key with a SHA256 digest. (Value:
+ *        "RSA_SIGN_PSS_4096_SHA256")
  */
-@property(nonatomic, copy, nullable) NSString *logMode;
+@property(nonatomic, copy, nullable) NSString *algorithm;
+
+/**
+ *  ProtectionLevel to use when creating a CryptoKeyVersion based on
+ *  this template. Immutable. Defaults to SOFTWARE.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_Hsm Crypto
+ *        operations are performed in a Hardware Security Module. (Value: "HSM")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_ProtectionLevelUnspecified
+ *        Not specified. (Value: "PROTECTION_LEVEL_UNSPECIFIED")
+ *    @arg @c kGTLRCloudKMS_CryptoKeyVersionTemplate_ProtectionLevel_Software
+ *        Crypto operations are performed in software. (Value: "SOFTWARE")
+ */
+@property(nonatomic, copy, nullable) NSString *protectionLevel;
 
 @end
 
@@ -848,14 +944,51 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 
 
 /**
+ *  A Digest holds a cryptographic message digest.
+ */
+@interface GTLRCloudKMS_Digest : GTLRObject
+
+/**
+ *  A message digest produced with the SHA-256 algorithm.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *sha256;
+
+/**
+ *  A message digest produced with the SHA-384 algorithm.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *sha384;
+
+/**
+ *  A message digest produced with the SHA-512 algorithm.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *sha512;
+
+@end
+
+
+/**
  *  Request message for KeyManagementService.Encrypt.
  */
 @interface GTLRCloudKMS_EncryptRequest : GTLRObject
 
 /**
  *  Optional data that, if specified, must also be provided during decryption
- *  through DecryptRequest.additional_authenticated_data. Must be no
- *  larger than 64KiB.
+ *  through DecryptRequest.additional_authenticated_data.
+ *  The maximum size depends on the key version's
+ *  protection_level. For
+ *  SOFTWARE keys, the AAD must be no larger than
+ *  64KiB. For HSM keys, the combined length of the
+ *  plaintext and additional_authenticated_data fields must be no larger than
+ *  8KiB.
  *
  *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
  *  web-safe format).
@@ -864,6 +997,12 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 
 /**
  *  Required. The data to encrypt. Must be no larger than 64KiB.
+ *  The maximum size depends on the key version's
+ *  protection_level. For
+ *  SOFTWARE keys, the plaintext must be no larger
+ *  than 64KiB. For HSM keys, the combined length of the
+ *  plaintext and additional_authenticated_data fields must be no larger than
+ *  8KiB.
  *
  *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
  *  web-safe format).
@@ -928,6 +1067,36 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  expression.
  */
 @property(nonatomic, copy, nullable) NSString *title;
+
+@end
+
+
+/**
+ *  Contains an HSM-generated attestation about a key operation.
+ */
+@interface GTLRCloudKMS_KeyOperationAttestation : GTLRObject
+
+/**
+ *  Output only. The attestation data provided by the HSM when the key
+ *  operation was performed.
+ *
+ *  Contains encoded binary data; GTLRBase64 can encode/decode (probably
+ *  web-safe format).
+ */
+@property(nonatomic, copy, nullable) NSString *content;
+
+/**
+ *  Output only. The format of the attestation data.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudKMS_KeyOperationAttestation_Format_AttestationFormatUnspecified
+ *        Value "ATTESTATION_FORMAT_UNSPECIFIED"
+ *    @arg @c kGTLRCloudKMS_KeyOperationAttestation_Format_CaviumV1Compressed
+ *        Cavium HSM attestation compressed with gzip. Note that this format is
+ *        defined by Cavium and subject to change at any time. (Value:
+ *        "CAVIUM_V1_COMPRESSED")
+ */
+@property(nonatomic, copy, nullable) NSString *format;
 
 @end
 
@@ -1083,6 +1252,12 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 @interface GTLRCloudKMS_Location : GTLRObject
 
 /**
+ *  The friendly name for this location, typically a nearby city name.
+ *  For example, "Tokyo".
+ */
+@property(nonatomic, copy, nullable) NSString *displayName;
+
+/**
  *  Cross-service attributes for the location. For example
  *  {"cloud.googleapis.com/region": "us-east1"}
  */
@@ -1133,18 +1308,18 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 
 
 /**
- *  Specifies what kind of log the caller must write
+ *  Cloud KMS metadata for the given google.cloud.location.Location.
  */
-@interface GTLRCloudKMS_LogConfig : GTLRObject
+@interface GTLRCloudKMS_LocationMetadata : GTLRObject
 
-/** Cloud audit options. */
-@property(nonatomic, strong, nullable) GTLRCloudKMS_CloudAuditOptions *cloudAudit;
-
-/** Counter options. */
-@property(nonatomic, strong, nullable) GTLRCloudKMS_CounterOptions *counter;
-
-/** Data access options. */
-@property(nonatomic, strong, nullable) GTLRCloudKMS_DataAccessOptions *dataAccess;
+/**
+ *  Indicates whether CryptoKeys with
+ *  protection_level
+ *  HSM can be created in this location.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *hsmAvailable;
 
 @end
 
@@ -1152,13 +1327,13 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 /**
  *  Defines an Identity and Access Management (IAM) policy. It is used to
  *  specify access control policies for Cloud Platform resources.
- *  A `Policy` consists of a list of `bindings`. A `Binding` binds a list of
+ *  A `Policy` consists of a list of `bindings`. A `binding` binds a list of
  *  `members` to a `role`, where the members can be user accounts, Google
  *  groups,
  *  Google domains, and service accounts. A `role` is a named list of
  *  permissions
  *  defined by IAM.
- *  **Example**
+ *  **JSON Example**
  *  {
  *  "bindings": [
  *  {
@@ -1167,7 +1342,7 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  "user:mike\@example.com",
  *  "group:admins\@example.com",
  *  "domain:google.com",
- *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com",
+ *  "serviceAccount:my-other-app\@appspot.gserviceaccount.com"
  *  ]
  *  },
  *  {
@@ -1176,8 +1351,19 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
  *  }
  *  ]
  *  }
+ *  **YAML Example**
+ *  bindings:
+ *  - members:
+ *  - user:mike\@example.com
+ *  - group:admins\@example.com
+ *  - domain:google.com
+ *  - serviceAccount:my-other-app\@appspot.gserviceaccount.com
+ *  role: roles/owner
+ *  - members:
+ *  - user:sean\@example.com
+ *  role: roles/viewer
  *  For a description of IAM and its features, see the
- *  [IAM developer's guide](https://cloud.google.com/iam).
+ *  [IAM developer's guide](https://cloud.google.com/iam/docs).
  */
 @interface GTLRCloudKMS_Policy : GTLRObject
 
@@ -1207,27 +1393,7 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 @property(nonatomic, copy, nullable) NSString *ETag;
 
 /**
- *  iamOwned
- *
- *  Uses NSNumber of boolValue.
- */
-@property(nonatomic, strong, nullable) NSNumber *iamOwned;
-
-/**
- *  If more than one rule is specified, the rules are applied in the following
- *  manner:
- *  - All matching LOG rules are always applied.
- *  - If any DENY/DENY_WITH_LOG rule matches, permission is denied.
- *  Logging will be applied if one or more matching rule requires logging.
- *  - Otherwise, if any ALLOW/ALLOW_WITH_LOG rule matches, permission is
- *  granted.
- *  Logging will be applied if one or more matching rule requires logging.
- *  - Otherwise, if no rule applies, permission is denied.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudKMS_Rule *> *rules;
-
-/**
- *  Version of the `Policy`. The default version is 0.
+ *  Deprecated.
  *
  *  Uses NSNumber of intValue.
  */
@@ -1237,77 +1403,27 @@ GTLR_EXTERN NSString * const kGTLRCloudKMS_Rule_Action_NoAction;
 
 
 /**
- *  Request message for KeyManagementService.RestoreCryptoKeyVersion.
+ *  The public key for a given CryptoKeyVersion. Obtained via
+ *  GetPublicKey.
  */
-@interface GTLRCloudKMS_RestoreCryptoKeyVersionRequest : GTLRObject
+@interface GTLRCloudKMS_PublicKey : GTLRObject
+
+/**
+ *  The public key, encoded in PEM format. For more information, see the
+ *  [RFC 7468](https://tools.ietf.org/html/rfc7468) sections for
+ *  [General Considerations](https://tools.ietf.org/html/rfc7468#section-2) and
+ *  [Textual Encoding of Subject Public Key Info]
+ *  (https://tools.ietf.org/html/rfc7468#section-13).
+ */
+@property(nonatomic, copy, nullable) NSString *pem;
+
 @end
 
 
 /**
- *  A rule to be applied in a Policy.
+ *  Request message for KeyManagementService.RestoreCryptoKeyVersion.
  */
-@interface GTLRCloudKMS_Rule : GTLRObject
-
-/**
- *  Required
- *
- *  Likely values:
- *    @arg @c kGTLRCloudKMS_Rule_Action_Allow Matching 'Entries' grant access.
- *        (Value: "ALLOW")
- *    @arg @c kGTLRCloudKMS_Rule_Action_AllowWithLog Matching 'Entries' grant
- *        access and the caller promises to log
- *        the request per the returned log_configs. (Value: "ALLOW_WITH_LOG")
- *    @arg @c kGTLRCloudKMS_Rule_Action_Deny Matching 'Entries' deny access.
- *        (Value: "DENY")
- *    @arg @c kGTLRCloudKMS_Rule_Action_DenyWithLog Matching 'Entries' deny
- *        access and the caller promises to log
- *        the request per the returned log_configs. (Value: "DENY_WITH_LOG")
- *    @arg @c kGTLRCloudKMS_Rule_Action_Log Matching 'Entries' tell IAM.Check
- *        callers to generate logs. (Value: "LOG")
- *    @arg @c kGTLRCloudKMS_Rule_Action_NoAction Default no action. (Value:
- *        "NO_ACTION")
- */
-@property(nonatomic, copy, nullable) NSString *action;
-
-/** Additional restrictions that must be met */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudKMS_Condition *> *conditions;
-
-/**
- *  Human-readable description of the rule.
- *
- *  Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
- */
-@property(nonatomic, copy, nullable) NSString *descriptionProperty;
-
-/**
- *  If one or more 'in' clauses are specified, the rule matches if
- *  the PRINCIPAL/AUTHORITY_SELECTOR is in at least one of these entries.
- *
- *  Remapped to 'inProperty' to avoid language reserved word 'in'.
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *inProperty;
-
-/**
- *  The config returned to callers of tech.iam.IAM.CheckPolicy for any entries
- *  that match the LOG action.
- */
-@property(nonatomic, strong, nullable) NSArray<GTLRCloudKMS_LogConfig *> *logConfig;
-
-/**
- *  If one or more 'not_in' clauses are specified, the rule matches
- *  if the PRINCIPAL/AUTHORITY_SELECTOR is in none of the entries.
- *  The format for in and not_in entries is the same as for members in a
- *  Binding (see google/iam/v1/policy.proto).
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *notIn;
-
-/**
- *  A permission is a string of form '<service>.<resource type>.<verb>'
- *  (e.g., 'storage.buckets.list'). A value of '*' matches all permissions,
- *  and a verb part of '*' (e.g., 'storage.buckets.*') matches all verbs.
- */
-@property(nonatomic, strong, nullable) NSArray<NSString *> *permissions;
-
+@interface GTLRCloudKMS_RestoreCryptoKeyVersionRequest : GTLRObject
 @end
 
 

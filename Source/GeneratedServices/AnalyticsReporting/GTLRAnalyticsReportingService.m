@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Analytics Reporting API (analyticsreporting/v4)
+//   Analytics Reporting API (analyticsreporting/v4)
 // Description:
 //   Accesses Analytics report data.
 // Documentation:
@@ -28,7 +28,7 @@ NSString * const kGTLRAuthScopeAnalyticsReportingAnalyticsReadonly = @"https://w
     // From discovery.
     self.rootURLString = @"https://analyticsreporting.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

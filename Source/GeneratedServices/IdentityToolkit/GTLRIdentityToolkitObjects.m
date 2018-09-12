@@ -17,11 +17,12 @@
 
 @implementation GTLRIdentityToolkit_CreateAuthUriResponse
 @dynamic allProviders, authUri, captchaRequired, forExistingProvider, kind,
-         providerId, registered, sessionId;
+         providerId, registered, sessionId, signinMethods;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
-    @"allProviders" : [NSString class]
+    @"allProviders" : [NSString class],
+    @"signinMethods" : [NSString class]
   };
   return map;
 }
@@ -58,6 +59,16 @@
   return @"users";
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIdentityToolkit_EmailLinkSigninResponse
+//
+
+@implementation GTLRIdentityToolkit_EmailLinkSigninResponse
+@dynamic email, expiresIn, idToken, isNewUser, kind, localId, refreshToken;
 @end
 
 
@@ -149,7 +160,8 @@
 @implementation GTLRIdentityToolkit_RelyingpartyCreateAuthUriRequest
 @dynamic appId, authFlowType, clientId, context, continueUri, customParameter,
          hostedDomain, identifierProperty, oauthConsumerKey, oauthScope,
-         openidRealm, otaApp, providerId, sessionId;
+         openidRealm, otaApp, providerId, sessionId, tenantId,
+         tenantProjectNumber;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifierProperty" : @"identifier" };
@@ -189,6 +201,16 @@
 
 @implementation GTLRIdentityToolkit_RelyingpartyDownloadAccountRequest
 @dynamic delegatedProjectNumber, maxResults, nextPageToken, targetProjectId;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIdentityToolkit_RelyingpartyEmailLinkSigninRequest
+//
+
+@implementation GTLRIdentityToolkit_RelyingpartyEmailLinkSigninRequest
+@dynamic email, idToken, oobCode;
 @end
 
 
@@ -362,7 +384,7 @@
 @implementation GTLRIdentityToolkit_RelyingpartySignupNewUserRequest
 @dynamic captchaChallenge, captchaResponse, disabled, displayName, email,
          emailVerified, idToken, instanceId, localId, password, phoneNumber,
-         photoUrl;
+         photoUrl, tenantId, tenantProjectNumber;
 @end
 
 
@@ -372,8 +394,9 @@
 //
 
 @implementation GTLRIdentityToolkit_RelyingpartyUploadAccountRequest
-@dynamic allowOverwrite, delegatedProjectNumber, hashAlgorithm, memoryCost,
-         rounds, saltSeparator, sanityCheck, signerKey, targetProjectId, users;
+@dynamic allowOverwrite, blockSize, cpuMemCost, delegatedProjectNumber, dkLen,
+         hashAlgorithm, memoryCost, parallelization, rounds, saltSeparator,
+         sanityCheck, signerKey, targetProjectId, users;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -393,7 +416,8 @@
 @implementation GTLRIdentityToolkit_RelyingpartyVerifyAssertionRequest
 @dynamic autoCreate, delegatedProjectNumber, idToken, instanceId,
          pendingIdToken, postBody, requestUri, returnIdpCredential,
-         returnRefreshToken, returnSecureToken, sessionId;
+         returnRefreshToken, returnSecureToken, sessionId, tenantId,
+         tenantProjectNumber;
 @end
 
 
@@ -414,7 +438,8 @@
 
 @implementation GTLRIdentityToolkit_RelyingpartyVerifyPasswordRequest
 @dynamic captchaChallenge, captchaResponse, delegatedProjectNumber, email,
-         idToken, instanceId, password, pendingIdToken, returnSecureToken;
+         idToken, instanceId, password, pendingIdToken, returnSecureToken,
+         tenantId, tenantProjectNumber;
 @end
 
 

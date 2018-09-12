@@ -120,6 +120,14 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeContainerVersion;
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeDebugMode;
 /** Value: "deviceName" */
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeDeviceName;
+/** Value: "elementVisibilityFirstTime" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeElementVisibilityFirstTime;
+/** Value: "elementVisibilityRatio" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeElementVisibilityRatio;
+/** Value: "elementVisibilityRecentTime" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeElementVisibilityRecentTime;
+/** Value: "elementVisibilityTime" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeElementVisibilityTime;
 /** Value: "environmentName" */
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeEnvironmentName;
 /** Value: "errorLine" */
@@ -220,8 +228,30 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeRandomNumber;
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeReferrer;
 /** Value: "resolution" */
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeResolution;
+/** Value: "scrollDepthDirection" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeScrollDepthDirection;
+/** Value: "scrollDepthThreshold" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeScrollDepthThreshold;
+/** Value: "scrollDepthUnits" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeScrollDepthUnits;
 /** Value: "sdkVersion" */
 GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
+/** Value: "videoCurrentTime" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoCurrentTime;
+/** Value: "videoDuration" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoDuration;
+/** Value: "videoPercent" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoPercent;
+/** Value: "videoProvider" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoProvider;
+/** Value: "videoStatus" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoStatus;
+/** Value: "videoTitle" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoTitle;
+/** Value: "videoUrl" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoUrl;
+/** Value: "videoVisible" */
+GTLR_EXTERN NSString * const kGTLRTagManagerTypeVideoVisible;
 
 // ----------------------------------------------------------------------------
 // Query Classes
@@ -261,7 +291,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Account's API relative path. Example:
  *    accounts/{account_id}.
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Container *)object
                          parent:(NSString *)parent;
@@ -295,7 +325,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -328,7 +358,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Environment *)object
                          parent:(NSString *)parent;
@@ -362,7 +392,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Environment's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/environments/{environment_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -395,7 +425,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Environment's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/environments/{environment_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsGet
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -431,7 +461,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsList
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -474,7 +504,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Environment's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/environments/{environment_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsPatch
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsPatch
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Environment *)object
                            path:(NSString *)path;
@@ -508,7 +538,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Environment's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/environments/{environment_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsReauthorize
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsReauthorize
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Environment *)object
                            path:(NSString *)path;
@@ -548,7 +578,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Environment's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/environments/{environment_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersEnvironmentsUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersEnvironmentsUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Environment *)object
                            path:(NSString *)path;
@@ -582,7 +612,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersGet
+ *  @return GTLRTagManagerQuery_AccountsContainersGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -615,7 +645,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Accounts's API relative path. Example:
  *    accounts/{account_id}.
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersList
+ *  @return GTLRTagManagerQuery_AccountsContainersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -658,7 +688,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Container *)object
                            path:(NSString *)path;
@@ -692,7 +722,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionHeadersLatest
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionHeadersLatest
  */
 + (instancetype)queryWithParent:(NSString *)parent;
 
@@ -732,7 +762,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionHeadersList
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionHeadersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -769,7 +799,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -809,7 +839,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsGet
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -842,7 +872,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsLive
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsLive
  */
 + (instancetype)queryWithParent:(NSString *)parent;
 
@@ -880,7 +910,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsPublish
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsPublish
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -914,7 +944,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsSetLatest
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsSetLatest
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -946,7 +976,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsUndelete
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsUndelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -986,7 +1016,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM ContainerVersion's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/versions/{version_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersVersionsUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersVersionsUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_ContainerVersion *)object
                            path:(NSString *)path;
@@ -1056,6 +1086,14 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeContainerVersion Value "containerVersion"
  *    @arg @c kGTLRTagManagerTypeDebugMode Value "debugMode"
  *    @arg @c kGTLRTagManagerTypeDeviceName Value "deviceName"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityFirstTime Value
+ *        "elementVisibilityFirstTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRatio Value
+ *        "elementVisibilityRatio"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRecentTime Value
+ *        "elementVisibilityRecentTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityTime Value
+ *        "elementVisibilityTime"
  *    @arg @c kGTLRTagManagerTypeEnvironmentName Value "environmentName"
  *    @arg @c kGTLRTagManagerTypeErrorLine Value "errorLine"
  *    @arg @c kGTLRTagManagerTypeErrorMessage Value "errorMessage"
@@ -1129,7 +1167,20 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeRandomNumber Value "randomNumber"
  *    @arg @c kGTLRTagManagerTypeReferrer Value "referrer"
  *    @arg @c kGTLRTagManagerTypeResolution Value "resolution"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthDirection Value
+ *        "scrollDepthDirection"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthThreshold Value
+ *        "scrollDepthThreshold"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthUnits Value "scrollDepthUnits"
  *    @arg @c kGTLRTagManagerTypeSdkVersion Value "sdkVersion"
+ *    @arg @c kGTLRTagManagerTypeVideoCurrentTime Value "videoCurrentTime"
+ *    @arg @c kGTLRTagManagerTypeVideoDuration Value "videoDuration"
+ *    @arg @c kGTLRTagManagerTypeVideoPercent Value "videoPercent"
+ *    @arg @c kGTLRTagManagerTypeVideoProvider Value "videoProvider"
+ *    @arg @c kGTLRTagManagerTypeVideoStatus Value "videoStatus"
+ *    @arg @c kGTLRTagManagerTypeVideoTitle Value "videoTitle"
+ *    @arg @c kGTLRTagManagerTypeVideoUrl Value "videoUrl"
+ *    @arg @c kGTLRTagManagerTypeVideoVisible Value "videoVisible"
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *type;
 
@@ -1141,7 +1192,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesCreate
  */
 + (instancetype)queryWithParent:(NSString *)parent;
 
@@ -1210,6 +1261,14 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeContainerVersion Value "containerVersion"
  *    @arg @c kGTLRTagManagerTypeDebugMode Value "debugMode"
  *    @arg @c kGTLRTagManagerTypeDeviceName Value "deviceName"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityFirstTime Value
+ *        "elementVisibilityFirstTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRatio Value
+ *        "elementVisibilityRatio"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRecentTime Value
+ *        "elementVisibilityRecentTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityTime Value
+ *        "elementVisibilityTime"
  *    @arg @c kGTLRTagManagerTypeEnvironmentName Value "environmentName"
  *    @arg @c kGTLRTagManagerTypeErrorLine Value "errorLine"
  *    @arg @c kGTLRTagManagerTypeErrorMessage Value "errorMessage"
@@ -1283,7 +1342,20 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeRandomNumber Value "randomNumber"
  *    @arg @c kGTLRTagManagerTypeReferrer Value "referrer"
  *    @arg @c kGTLRTagManagerTypeResolution Value "resolution"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthDirection Value
+ *        "scrollDepthDirection"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthThreshold Value
+ *        "scrollDepthThreshold"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthUnits Value "scrollDepthUnits"
  *    @arg @c kGTLRTagManagerTypeSdkVersion Value "sdkVersion"
+ *    @arg @c kGTLRTagManagerTypeVideoCurrentTime Value "videoCurrentTime"
+ *    @arg @c kGTLRTagManagerTypeVideoDuration Value "videoDuration"
+ *    @arg @c kGTLRTagManagerTypeVideoPercent Value "videoPercent"
+ *    @arg @c kGTLRTagManagerTypeVideoProvider Value "videoProvider"
+ *    @arg @c kGTLRTagManagerTypeVideoStatus Value "videoStatus"
+ *    @arg @c kGTLRTagManagerTypeVideoTitle Value "videoTitle"
+ *    @arg @c kGTLRTagManagerTypeVideoUrl Value "videoUrl"
+ *    @arg @c kGTLRTagManagerTypeVideoVisible Value "videoVisible"
  */
 @property(nonatomic, strong, nullable) NSArray<NSString *> *type;
 
@@ -1296,7 +1368,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM BuiltInVariable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/built_in_variables
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1332,7 +1404,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1405,6 +1477,14 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeContainerVersion Value "containerVersion"
  *    @arg @c kGTLRTagManagerTypeDebugMode Value "debugMode"
  *    @arg @c kGTLRTagManagerTypeDeviceName Value "deviceName"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityFirstTime Value
+ *        "elementVisibilityFirstTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRatio Value
+ *        "elementVisibilityRatio"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityRecentTime Value
+ *        "elementVisibilityRecentTime"
+ *    @arg @c kGTLRTagManagerTypeElementVisibilityTime Value
+ *        "elementVisibilityTime"
  *    @arg @c kGTLRTagManagerTypeEnvironmentName Value "environmentName"
  *    @arg @c kGTLRTagManagerTypeErrorLine Value "errorLine"
  *    @arg @c kGTLRTagManagerTypeErrorMessage Value "errorMessage"
@@ -1478,7 +1558,20 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *    @arg @c kGTLRTagManagerTypeRandomNumber Value "randomNumber"
  *    @arg @c kGTLRTagManagerTypeReferrer Value "referrer"
  *    @arg @c kGTLRTagManagerTypeResolution Value "resolution"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthDirection Value
+ *        "scrollDepthDirection"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthThreshold Value
+ *        "scrollDepthThreshold"
+ *    @arg @c kGTLRTagManagerTypeScrollDepthUnits Value "scrollDepthUnits"
  *    @arg @c kGTLRTagManagerTypeSdkVersion Value "sdkVersion"
+ *    @arg @c kGTLRTagManagerTypeVideoCurrentTime Value "videoCurrentTime"
+ *    @arg @c kGTLRTagManagerTypeVideoDuration Value "videoDuration"
+ *    @arg @c kGTLRTagManagerTypeVideoPercent Value "videoPercent"
+ *    @arg @c kGTLRTagManagerTypeVideoProvider Value "videoProvider"
+ *    @arg @c kGTLRTagManagerTypeVideoStatus Value "videoStatus"
+ *    @arg @c kGTLRTagManagerTypeVideoTitle Value "videoTitle"
+ *    @arg @c kGTLRTagManagerTypeVideoUrl Value "videoUrl"
+ *    @arg @c kGTLRTagManagerTypeVideoVisible Value "videoVisible"
  */
 @property(nonatomic, copy, nullable) NSString *type;
 
@@ -1490,7 +1583,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM BuiltInVariable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/built_in_variables
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesRevert
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesBuiltInVariablesRevert
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1523,7 +1616,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM parent Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Workspace *)object
                          parent:(NSString *)parent;
@@ -1563,7 +1656,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesCreateVersion
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesCreateVersion
  */
 + (instancetype)queryWithObject:(GTLRTagManager_CreateContainerVersionRequestVersionOptions *)object
                            path:(NSString *)path;
@@ -1597,7 +1690,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1630,7 +1723,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Folder *)object
                          parent:(NSString *)parent;
@@ -1664,7 +1757,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1700,7 +1793,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersEntities
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersEntities
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1733,7 +1826,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersGet
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1769,7 +1862,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -1816,7 +1909,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersMoveEntitiesToFolder
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersMoveEntitiesToFolder
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Folder *)object
                            path:(NSString *)path;
@@ -1855,7 +1948,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersRevert
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersRevert
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1894,7 +1987,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Folder's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/folders/{folder_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesFoldersUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Folder *)object
                            path:(NSString *)path;
@@ -1928,7 +2021,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesGet
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1957,7 +2050,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM workspace proposal's relative path: Example:
  *    accounts/{aid}/containers/{cid}/workspace/{wid}/workspace_proposal
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesGetProposal
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesGetProposal
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -1990,7 +2083,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesGetStatus
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesGetStatus
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2026,7 +2119,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM parent Container's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2061,7 +2154,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{aid}/containers/{cid}/workspace/{wid}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesProposalCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesProposalCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_CreateWorkspaceProposalRequest *)object
                          parent:(NSString *)parent;
@@ -2092,7 +2185,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM workspace proposal's relative path: Example:
  *    accounts/{aid}/containers/{cid}/workspace/{wid}/workspace_proposal
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesProposalDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesProposalDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2126,7 +2219,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesQuickPreview
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesQuickPreview
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2168,7 +2261,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesResolveConflict
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesResolveConflict
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Entity *)object
                            path:(NSString *)path;
@@ -2203,7 +2296,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesSync
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesSync
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2236,7 +2329,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Tag *)object
                          parent:(NSString *)parent;
@@ -2270,7 +2363,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Tag's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/tags/{tag_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2303,7 +2396,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Tag's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/tags/{tag_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsGet
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2339,7 +2432,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2381,7 +2474,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Tag's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/tags/{tag_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsRevert
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsRevert
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2420,7 +2513,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Tag's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/tags/{tag_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTagsUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTagsUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Tag *)object
                            path:(NSString *)path;
@@ -2454,7 +2547,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspaces's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Trigger *)object
                          parent:(NSString *)parent;
@@ -2488,7 +2581,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Trigger's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/triggers/{trigger_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2521,7 +2614,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Trigger's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/triggers/{trigger_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersGet
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2557,7 +2650,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspaces's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2599,7 +2692,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Trigger's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/triggers/{trigger_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersRevert
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersRevert
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2638,7 +2731,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Trigger's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/triggers/{trigger_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesTriggersUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Trigger *)object
                            path:(NSString *)path;
@@ -2678,7 +2771,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Workspace *)object
                            path:(NSString *)path;
@@ -2710,7 +2803,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM workspace proposal's relative path: Example:
  *    accounts/{aid}/containers/{cid}/workspace/{wid}/workspace_proposal
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesUpdateProposal
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesUpdateProposal
  */
 + (instancetype)queryWithObject:(GTLRTagManager_UpdateWorkspaceProposalRequest *)object
                            path:(NSString *)path;
@@ -2744,7 +2837,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesCreate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Variable *)object
                          parent:(NSString *)parent;
@@ -2778,7 +2871,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Variable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variable_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesDelete
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2811,7 +2904,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Variable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variable_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesGet
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2847,7 +2940,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Workspace's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesList
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -2889,7 +2982,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Variable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variable_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesRevert
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesRevert
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2928,7 +3021,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM Variable's API relative path. Example:
  *    accounts/{account_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variable_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesUpdate
+ *  @return GTLRTagManagerQuery_AccountsContainersWorkspacesVariablesUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Variable *)object
                            path:(NSString *)path;
@@ -2959,7 +3052,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *
  *  @param path GTM Accounts's API relative path. Example: accounts/{account_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsGet
+ *  @return GTLRTagManagerQuery_AccountsGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -2987,7 +3080,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *
  *  Lists all GTM Accounts that a user has access to.
  *
- *  @returns GTLRTagManagerQuery_AccountsList
+ *  @return GTLRTagManagerQuery_AccountsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -3026,7 +3119,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param object The @c GTLRTagManager_Account to include in the query.
  *  @param path GTM Accounts's API relative path. Example: accounts/{account_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUpdate
+ *  @return GTLRTagManagerQuery_AccountsUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_Account *)object
                            path:(NSString *)path;
@@ -3057,7 +3150,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Account's API relative path. Example:
  *    accounts/{account_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUserPermissionsCreate
+ *  @return GTLRTagManagerQuery_AccountsUserPermissionsCreate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_UserPermission *)object
                          parent:(NSString *)parent;
@@ -3093,7 +3186,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM UserPermission's API relative path. Example:
  *    accounts/{account_id}/user_permissions/{user_permission_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUserPermissionsDelete
+ *  @return GTLRTagManagerQuery_AccountsUserPermissionsDelete
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -3125,7 +3218,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM UserPermission's API relative path. Example:
  *    accounts/{account_id}/user_permissions/{user_permission_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUserPermissionsGet
+ *  @return GTLRTagManagerQuery_AccountsUserPermissionsGet
  */
 + (instancetype)queryWithPath:(NSString *)path;
 
@@ -3159,7 +3252,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param parent GTM Accounts's API relative path. Example:
  *    accounts/{account_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUserPermissionsList
+ *  @return GTLRTagManagerQuery_AccountsUserPermissionsList
  *
  *  @note Automatic pagination will be done when @c shouldFetchNextPages is
  *        enabled. See @c shouldFetchNextPages on @c GTLRService for more
@@ -3196,7 +3289,7 @@ GTLR_EXTERN NSString * const kGTLRTagManagerTypeSdkVersion;
  *  @param path GTM UserPermission's API relative path. Example:
  *    accounts/{account_id}/user_permissions/{user_permission_id}
  *
- *  @returns GTLRTagManagerQuery_AccountsUserPermissionsUpdate
+ *  @return GTLRTagManagerQuery_AccountsUserPermissionsUpdate
  */
 + (instancetype)queryWithObject:(GTLRTagManager_UserPermission *)object
                            path:(NSString *)path;

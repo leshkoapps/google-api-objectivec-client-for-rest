@@ -37,7 +37,7 @@ case "${BUILD_MODE}" in
     CMD_BUILDER+=(
       -project Source/GTLRCore.xcodeproj
       -scheme "tvOS Framework and Tests"
-      -destination "platform=tvOS Simulator,name=Apple TV 1080p,OS=latest"
+      -destination "platform=tvOS Simulator,name=Apple TV,OS=latest"
     )
     ;;
   watchOSCore)
@@ -56,8 +56,9 @@ case "${BUILD_MODE}" in
     ;;
   Example_*)
     EXAMPLE_NAME="${BUILD_MODE/Example_/}"
+    (cd "Examples/${EXAMPLE_NAME}" && pod install)
     CMD_BUILDER+=(
-      -project "Examples/${EXAMPLE_NAME}/${EXAMPLE_NAME}.xcodeproj"
+      -workspace "Examples/${EXAMPLE_NAME}/${EXAMPLE_NAME}.xcworkspace"
       -scheme "${EXAMPLE_NAME}"
     )
     XCODEBUILD_ACTION="build"

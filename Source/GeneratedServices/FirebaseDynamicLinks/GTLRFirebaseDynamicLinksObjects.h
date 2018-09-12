@@ -20,12 +20,15 @@
 
 @class GTLRFirebaseDynamicLinks_AnalyticsInfo;
 @class GTLRFirebaseDynamicLinks_AndroidInfo;
+@class GTLRFirebaseDynamicLinks_DesktopInfo;
+@class GTLRFirebaseDynamicLinks_DeviceInfo;
 @class GTLRFirebaseDynamicLinks_DynamicLinkEventStat;
 @class GTLRFirebaseDynamicLinks_DynamicLinkInfo;
 @class GTLRFirebaseDynamicLinks_DynamicLinkWarning;
 @class GTLRFirebaseDynamicLinks_GooglePlayAnalytics;
 @class GTLRFirebaseDynamicLinks_IosInfo;
 @class GTLRFirebaseDynamicLinks_ITunesConnectAnalytics;
+@class GTLRFirebaseDynamicLinks_ManagedShortLink;
 @class GTLRFirebaseDynamicLinks_NavigationInfo;
 @class GTLRFirebaseDynamicLinks_SocialMetaTagInfo;
 @class GTLRFirebaseDynamicLinks_Suffix;
@@ -94,8 +97,6 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Even
 GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Android;
 /**
  *  Represents desktop.
- *  Note: other platforms like Windows, Blackberry, Amazon fall into this
- *  category.
  *
  *  Value: "DESKTOP"
  */
@@ -113,6 +114,12 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Plat
  *  Value: "IOS"
  */
 GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Ios;
+/**
+ *  Platforms are not categorized as Android/iOS/Destop fall into here.
+ *
+ *  Value: "OTHER"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Other;
 
 // ----------------------------------------------------------------------------
 // GTLRFirebaseDynamicLinks_DynamicLinkWarning.warningCode
@@ -287,10 +294,160 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkWarning_Warnin
 GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_DynamicLinkWarning_WarningCode_UnrecognizedParam;
 
 // ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest.retrievalMethod
+
+/**
+ *  iSDK performs a strong match only if weak match is found upon a dev
+ *  API call.
+ *
+ *  Value: "EXPLICIT_STRONG_AFTER_WEAK_MATCH"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ExplicitStrongAfterWeakMatch;
+/**
+ *  iSDK performs a server lookup by device fingerprint upon a dev API call.
+ *
+ *  Value: "EXPLICIT_WEAK_MATCH"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ExplicitWeakMatch;
+/**
+ *  iSDK performs a server lookup by device fingerprint in the background
+ *  when app is first-opened; no API called by developer.
+ *
+ *  Value: "IMPLICIT_WEAK_MATCH"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ImplicitWeakMatch;
+/**
+ *  Unknown method.
+ *
+ *  Value: "UNKNOWN_PAYLOAD_RETRIEVAL_METHOD"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_UnknownPayloadRetrievalMethod;
+
+// ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest.visualStyle
+
+/**
+ *  Custom style.
+ *
+ *  Value: "CUSTOM_STYLE"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_CustomStyle;
+/**
+ *  Default style.
+ *
+ *  Value: "DEFAULT_STYLE"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_DefaultStyle;
+/**
+ *  Unknown style.
+ *
+ *  Value: "UNKNOWN_VISUAL_STYLE"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_UnknownVisualStyle;
+
+// ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse.attributionConfidence
+
+/**
+ *  Default confidence, match based on fingerprint
+ *
+ *  Value: "DEFAULT"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Default;
+/**
+ *  Unique confidence, match based on "unique match link to check" or other
+ *  means
+ *
+ *  Value: "UNIQUE"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Unique;
+/**
+ *  Unset.
+ *
+ *  Value: "UNKNOWN_ATTRIBUTION_CONFIDENCE"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_UnknownAttributionConfidence;
+/**
+ *  Weak confidence, more than one matching link found or link suspected to
+ *  be false positive
+ *
+ *  Value: "WEAK"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Weak;
+
+// ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse.requestIpVersion
+
+/**
+ *  Request made from an IPv4 IP address.
+ *
+ *  Value: "IP_V4"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_IpV4;
+/**
+ *  Request made from an IPv6 IP address.
+ *
+ *  Value: "IP_V6"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_IpV6;
+/**
+ *  Unset.
+ *
+ *  Value: "UNKNOWN_IP_VERSION"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_UnknownIpVersion;
+
+// ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_ManagedShortLink.flaggedAttribute
+
+/** Value: "SPAM" */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_FlaggedAttribute_Spam;
+/** Value: "UNSPECIFIED_ATTRIBUTE" */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_FlaggedAttribute_UnspecifiedAttribute;
+
+// ----------------------------------------------------------------------------
+// GTLRFirebaseDynamicLinks_ManagedShortLink.visibility
+
+/**
+ *  Link created in console and should not be shown in console (but can
+ *  be shown in the console again if it is unarchived).
+ *
+ *  Value: "ARCHIVED"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_Archived;
+/**
+ *  Link created outside of console and should never be shown in console.
+ *
+ *  Value: "NEVER_SHOWN"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_NeverShown;
+/**
+ *  Link created in console and should be shown in console.
+ *
+ *  Value: "UNARCHIVED"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_Unarchived;
+/**
+ *  Visibility of the link is not specified.
+ *
+ *  Value: "UNSPECIFIED_VISIBILITY"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_UnspecifiedVisibility;
+
+// ----------------------------------------------------------------------------
 // GTLRFirebaseDynamicLinks_Suffix.option
 
 /**
- *  The suffix option is not specified, performs as NOT_GUESSABLE .
+ *  Custom DDL suffix is a client specified string, for example,
+ *  "buy2get1free".
+ *  NOTE: custom suffix should only be available to managed short link
+ *  creation
+ *
+ *  Value: "CUSTOM"
+ */
+GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Custom;
+/**
+ *  The suffix option is not specified, performs as UNGUESSABLE .
  *
  *  Value: "OPTION_UNSPECIFIED"
  */
@@ -352,14 +509,14 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
 
 
 /**
- *  Request to create a short Dynamic Link.
+ *  Request to create a managed Short Dynamic Link.
  */
-@interface GTLRFirebaseDynamicLinks_CreateShortDynamicLinkRequest : GTLRObject
+@interface GTLRFirebaseDynamicLinks_CreateManagedShortLinkRequest : GTLRObject
 
 /**
  *  Information about the Dynamic Link to be shortened.
  *  [Learn
- *  more](https://firebase.google.com/docs/dynamic-links/android#create-a-dynamic-link-programmatically).
+ *  more](https://firebase.google.com/docs/reference/dynamic-links/link-shortener).
  */
 @property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_DynamicLinkInfo *dynamicLinkInfo;
 
@@ -368,7 +525,59 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
  *  For example,
  *  "https://sample.app.goo.gl/?link=http://www.google.com&apn=com.sample",
  *  [Learn
- *  more](https://firebase.google.com/docs/dynamic-links/android#create-a-dynamic-link-programmatically).
+ *  more](https://firebase.google.com/docs/reference/dynamic-links/link-shortener).
+ */
+@property(nonatomic, copy, nullable) NSString *longDynamicLink;
+
+/**
+ *  Link name to associate with the link. It's used for marketer to identify
+ *  manually-created links in the Firebase console
+ *  (https://console.firebase.google.com/).
+ *  Links must be named to be tracked.
+ */
+@property(nonatomic, copy, nullable) NSString *name;
+
+/** Short Dynamic Link suffix. Optional. */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_Suffix *suffix;
+
+@end
+
+
+/**
+ *  Response to create a short Dynamic Link.
+ */
+@interface GTLRFirebaseDynamicLinks_CreateManagedShortLinkResponse : GTLRObject
+
+/** Short Dynamic Link value. e.g. https://abcd.app.goo.gl/wxyz */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_ManagedShortLink *managedShortLink;
+
+/** Preview link to show the link flow chart. (debug info.) */
+@property(nonatomic, copy, nullable) NSString *previewLink;
+
+/** Information about potential warnings on link creation. */
+@property(nonatomic, strong, nullable) NSArray<GTLRFirebaseDynamicLinks_DynamicLinkWarning *> *warning;
+
+@end
+
+
+/**
+ *  Request to create a short Dynamic Link.
+ */
+@interface GTLRFirebaseDynamicLinks_CreateShortDynamicLinkRequest : GTLRObject
+
+/**
+ *  Information about the Dynamic Link to be shortened.
+ *  [Learn
+ *  more](https://firebase.google.com/docs/reference/dynamic-links/link-shortener).
+ */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_DynamicLinkInfo *dynamicLinkInfo;
+
+/**
+ *  Full long Dynamic Link URL with desired query parameters specified.
+ *  For example,
+ *  "https://sample.app.goo.gl/?link=http://www.google.com&apn=com.sample",
+ *  [Learn
+ *  more](https://firebase.google.com/docs/reference/dynamic-links/link-shortener).
  */
 @property(nonatomic, copy, nullable) NSString *longDynamicLink;
 
@@ -383,7 +592,7 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
  */
 @interface GTLRFirebaseDynamicLinks_CreateShortDynamicLinkResponse : GTLRObject
 
-/** Preivew link to show the link flow chart. */
+/** Preview link to show the link flow chart. (debug info.) */
 @property(nonatomic, copy, nullable) NSString *previewLink;
 
 /** Short Dynamic Link value. e.g. https://abcd.app.goo.gl/wxyz */
@@ -391,6 +600,62 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
 
 /** Information about potential warnings on link creation. */
 @property(nonatomic, strong, nullable) NSArray<GTLRFirebaseDynamicLinks_DynamicLinkWarning *> *warning;
+
+@end
+
+
+/**
+ *  Desktop related attributes to the Dynamic Link.
+ */
+@interface GTLRFirebaseDynamicLinks_DesktopInfo : GTLRObject
+
+/** Link to open on desktop. */
+@property(nonatomic, copy, nullable) NSString *desktopFallbackLink;
+
+@end
+
+
+/**
+ *  Signals associated with the device making the request.
+ */
+@interface GTLRFirebaseDynamicLinks_DeviceInfo : GTLRObject
+
+/** Device model name. */
+@property(nonatomic, copy, nullable) NSString *deviceModelName;
+
+/** Device language code setting. */
+@property(nonatomic, copy, nullable) NSString *languageCode;
+
+/**
+ *  Device language code setting obtained by executing JavaScript code in
+ *  WebView.
+ */
+@property(nonatomic, copy, nullable) NSString *languageCodeFromWebview;
+
+/**
+ *  Device language code raw setting.
+ *  iOS does returns language code in different format than iOS WebView.
+ *  For example WebView returns en_US, but iOS returns en-US.
+ *  Field below will return raw value returned by iOS.
+ */
+@property(nonatomic, copy, nullable) NSString *languageCodeRaw;
+
+/**
+ *  Device display resolution height.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *screenResolutionHeight;
+
+/**
+ *  Device display resolution width.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *screenResolutionWidth;
+
+/** Device timezone setting. */
+@property(nonatomic, copy, nullable) NSString *timezone;
 
 @end
 
@@ -440,15 +705,16 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
  *        All apps and browsers on Android are classfied in this category.
  *        (Value: "ANDROID")
  *    @arg @c kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Desktop
- *        Represents desktop.
- *        Note: other platforms like Windows, Blackberry, Amazon fall into this
- *        category. (Value: "DESKTOP")
+ *        Represents desktop. (Value: "DESKTOP")
  *    @arg @c kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_DynamicLinkPlatformUnspecified
  *        Unspecified platform. (Value: "DYNAMIC_LINK_PLATFORM_UNSPECIFIED")
  *    @arg @c kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Ios
  *        Represents iOS platform.
  *        All apps and browsers on iOS are classfied in this category. (Value:
  *        "IOS")
+ *    @arg @c kGTLRFirebaseDynamicLinks_DynamicLinkEventStat_Platform_Other
+ *        Platforms are not categorized as Android/iOS/Destop fall into here.
+ *        (Value: "OTHER")
  */
 @property(nonatomic, copy, nullable) NSString *platform;
 
@@ -471,6 +737,19 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
  *  [documentation](https://firebase.google.com/docs/dynamic-links/create-manually).
  */
 @property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_AndroidInfo *androidInfo;
+
+/**
+ *  Desktop related information. See desktop related parameters in the
+ *  [documentation](https://firebase.google.com/docs/dynamic-links/create-manually).
+ */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_DesktopInfo *desktopInfo;
+
+/**
+ *  E.g. https://maps.app.goo.gl, https://maps.page.link, https://g.co/maps
+ *  More examples can be found in description of getNormalizedUriPrefix in
+ *  j/c/g/firebase/dynamiclinks/uri/DdlDomain.java
+ */
+@property(nonatomic, copy, nullable) NSString *domainUriPrefix;
 
 /**
  *  Dynamic Links domain that the project owns, e.g. abcd.app.goo.gl
@@ -617,6 +896,196 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
 
 
 /**
+ *  Request for iSDK to execute strong match flow for post-install attribution.
+ *  This is meant for iOS requests only. Requests from other platforms will
+ *  not be honored.
+ */
+@interface GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest : GTLRObject
+
+/**
+ *  App installation epoch time (https://en.wikipedia.org/wiki/Unix_time).
+ *  This is a client signal for a more accurate weak match.
+ *
+ *  Uses NSNumber of longLongValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *appInstallationTime;
+
+/** APP bundle ID. */
+@property(nonatomic, copy, nullable) NSString *bundleId;
+
+/** Device information. */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_DeviceInfo *device;
+
+/**
+ *  iOS version, ie: 9.3.5.
+ *  Consider adding "build".
+ */
+@property(nonatomic, copy, nullable) NSString *iosVersion;
+
+/**
+ *  App post install attribution retrieval information. Disambiguates
+ *  mechanism (iSDK or developer invoked) to retrieve payload from
+ *  clicked link.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ExplicitStrongAfterWeakMatch
+ *        iSDK performs a strong match only if weak match is found upon a dev
+ *        API call. (Value: "EXPLICIT_STRONG_AFTER_WEAK_MATCH")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ExplicitWeakMatch
+ *        iSDK performs a server lookup by device fingerprint upon a dev API
+ *        call. (Value: "EXPLICIT_WEAK_MATCH")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_ImplicitWeakMatch
+ *        iSDK performs a server lookup by device fingerprint in the background
+ *        when app is first-opened; no API called by developer. (Value:
+ *        "IMPLICIT_WEAK_MATCH")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_RetrievalMethod_UnknownPayloadRetrievalMethod
+ *        Unknown method. (Value: "UNKNOWN_PAYLOAD_RETRIEVAL_METHOD")
+ */
+@property(nonatomic, copy, nullable) NSString *retrievalMethod;
+
+/** Google SDK version. */
+@property(nonatomic, copy, nullable) NSString *sdkVersion;
+
+/**
+ *  Possible unique matched link that server need to check before performing
+ *  fingerprint match. If passed link is short server need to expand the link.
+ *  If link is long server need to vslidate the link.
+ */
+@property(nonatomic, copy, nullable) NSString *uniqueMatchLinkToCheck;
+
+/**
+ *  Strong match page information. Disambiguates between default UI and
+ *  custom page to present when strong match succeeds/fails to find cookie.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_CustomStyle
+ *        Custom style. (Value: "CUSTOM_STYLE")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_DefaultStyle
+ *        Default style. (Value: "DEFAULT_STYLE")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionRequest_VisualStyle_UnknownVisualStyle
+ *        Unknown style. (Value: "UNKNOWN_VISUAL_STYLE")
+ */
+@property(nonatomic, copy, nullable) NSString *visualStyle;
+
+@end
+
+
+/**
+ *  Response for iSDK to execute strong match flow for post-install attribution.
+ */
+@interface GTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse : GTLRObject
+
+/**
+ *  The minimum version for app, specified by dev through ?imv= parameter.
+ *  Return to iSDK to allow app to evaluate if current version meets this.
+ */
+@property(nonatomic, copy, nullable) NSString *appMinimumVersion;
+
+/**
+ *  The confidence of the returned attribution.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Default
+ *        Default confidence, match based on fingerprint (Value: "DEFAULT")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Unique
+ *        Unique confidence, match based on "unique match link to check" or
+ *        other
+ *        means (Value: "UNIQUE")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_UnknownAttributionConfidence
+ *        Unset. (Value: "UNKNOWN_ATTRIBUTION_CONFIDENCE")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_AttributionConfidence_Weak
+ *        Weak confidence, more than one matching link found or link suspected
+ *        to
+ *        be false positive (Value: "WEAK")
+ */
+@property(nonatomic, copy, nullable) NSString *attributionConfidence;
+
+/**
+ *  The deep-link attributed post-install via one of several techniques
+ *  (fingerprint, copy unique).
+ */
+@property(nonatomic, copy, nullable) NSString *deepLink;
+
+/**
+ *  User-agent specific custom-scheme URIs for iSDK to open. This will be set
+ *  according to the user-agent tha the click was originally made in. There is
+ *  no Safari-equivalent custom-scheme open URLs.
+ *  ie: googlechrome://www.example.com
+ *  ie: firefox://open-url?url=http://www.example.com
+ *  ie: opera-http://example.com
+ */
+@property(nonatomic, copy, nullable) NSString *externalBrowserDestinationLink;
+
+/**
+ *  The link to navigate to update the app if min version is not met.
+ *  This is either (in order): 1) fallback link (from ?ifl= parameter, if
+ *  specified by developer) or 2) AppStore URL (from ?isi= parameter, if
+ *  specified), or 3) the payload link (from required link= parameter).
+ */
+@property(nonatomic, copy, nullable) NSString *fallbackLink;
+
+/**
+ *  Invitation ID attributed post-install via one of several techniques
+ *  (fingerprint, copy unique).
+ */
+@property(nonatomic, copy, nullable) NSString *invitationId;
+
+/**
+ *  Instruction for iSDK to attemmpt to perform strong match. For instance,
+ *  if browser does not support/allow cookie or outside of support browsers,
+ *  this will be false.
+ *
+ *  Uses NSNumber of boolValue.
+ */
+@property(nonatomic, strong, nullable) NSNumber *isStrongMatchExecutable;
+
+/**
+ *  Describes why match failed, ie: "discarded due to low confidence".
+ *  This message will be publicly visible.
+ */
+@property(nonatomic, copy, nullable) NSString *matchMessage;
+
+/**
+ *  Entire FDL (short or long) attributed post-install via one of several
+ *  techniques (fingerprint, copy unique).
+ */
+@property(nonatomic, copy, nullable) NSString *requestedLink;
+
+/**
+ *  Which IP version the request was made from.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_IpV4
+ *        Request made from an IPv4 IP address. (Value: "IP_V4")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_IpV6
+ *        Request made from an IPv6 IP address. (Value: "IP_V6")
+ *    @arg @c kGTLRFirebaseDynamicLinks_GetIosPostInstallAttributionResponse_RequestIpVersion_UnknownIpVersion
+ *        Unset. (Value: "UNKNOWN_IP_VERSION")
+ */
+@property(nonatomic, copy, nullable) NSString *requestIpVersion;
+
+/**
+ *  The entire FDL, expanded from a short link. It is the same as the
+ *  requested_link, if it is long. Parameters from this should not be
+ *  used directly (ie: server can default utm_[campaign|medium|source]
+ *  to a value when requested_link lack them, server determine the best
+ *  fallback_link when requested_link specifies >1 fallback links).
+ */
+@property(nonatomic, copy, nullable) NSString *resolvedLink;
+
+/** Scion campaign value to be propagated by iSDK to Scion at post-install. */
+@property(nonatomic, copy, nullable) NSString *utmCampaign;
+
+/** Scion medium value to be propagated by iSDK to Scion at post-install. */
+@property(nonatomic, copy, nullable) NSString *utmMedium;
+
+/** Scion source value to be propagated by iSDK to Scion at post-install. */
+@property(nonatomic, copy, nullable) NSString *utmSource;
+
+@end
+
+
+/**
  *  Parameters for Google Play Campaign Measurements.
  *  [Learn
  *  more](https://developers.google.com/analytics/devguides/collection/android/v4/campaigns#campaign-params)
@@ -717,6 +1186,55 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
 
 
 /**
+ *  Managed Short Link.
+ */
+@interface GTLRFirebaseDynamicLinks_ManagedShortLink : GTLRObject
+
+/** Creation timestamp of the short link. */
+@property(nonatomic, strong, nullable) GTLRDateTime *creationTime;
+
+/** Attributes that have been flagged about this short url. */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *flaggedAttribute;
+
+/** Full Dyamic Link info */
+@property(nonatomic, strong, nullable) GTLRFirebaseDynamicLinks_DynamicLinkInfo *info;
+
+/**
+ *  Short durable link url, for example, "https://sample.app.goo.gl/xyz123".
+ *  Required.
+ */
+@property(nonatomic, copy, nullable) NSString *link;
+
+/**
+ *  Link name defined by the creator.
+ *  Required.
+ */
+@property(nonatomic, copy, nullable) NSString *linkName;
+
+/**
+ *  Visibility status of link.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_Archived
+ *        Link created in console and should not be shown in console (but can
+ *        be shown in the console again if it is unarchived). (Value:
+ *        "ARCHIVED")
+ *    @arg @c kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_NeverShown
+ *        Link created outside of console and should never be shown in console.
+ *        (Value: "NEVER_SHOWN")
+ *    @arg @c kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_Unarchived
+ *        Link created in console and should be shown in console. (Value:
+ *        "UNARCHIVED")
+ *    @arg @c kGTLRFirebaseDynamicLinks_ManagedShortLink_Visibility_UnspecifiedVisibility
+ *        Visibility of the link is not specified. (Value:
+ *        "UNSPECIFIED_VISIBILITY")
+ */
+@property(nonatomic, copy, nullable) NSString *visibility;
+
+@end
+
+
+/**
  *  Information of navigation behavior.
  */
 @interface GTLRFirebaseDynamicLinks_NavigationInfo : GTLRObject
@@ -755,12 +1273,20 @@ GTLR_EXTERN NSString * const kGTLRFirebaseDynamicLinks_Suffix_Option_Unguessable
  */
 @interface GTLRFirebaseDynamicLinks_Suffix : GTLRObject
 
+/** Only applies to Option.CUSTOM. */
+@property(nonatomic, copy, nullable) NSString *customSuffix;
+
 /**
  *  Suffix option.
  *
  *  Likely values:
+ *    @arg @c kGTLRFirebaseDynamicLinks_Suffix_Option_Custom Custom DDL suffix
+ *        is a client specified string, for example,
+ *        "buy2get1free".
+ *        NOTE: custom suffix should only be available to managed short link
+ *        creation (Value: "CUSTOM")
  *    @arg @c kGTLRFirebaseDynamicLinks_Suffix_Option_OptionUnspecified The
- *        suffix option is not specified, performs as NOT_GUESSABLE . (Value:
+ *        suffix option is not specified, performs as UNGUESSABLE . (Value:
  *        "OPTION_UNSPECIFIED")
  *    @arg @c kGTLRFirebaseDynamicLinks_Suffix_Option_Short Short Dynamic Link
  *        suffix is a base62 [0-9A-Za-z] string starting with a

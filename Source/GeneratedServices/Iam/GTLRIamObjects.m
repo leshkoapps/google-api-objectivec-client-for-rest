@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Identity and Access Management (IAM) API (iam/v1)
+//   Identity and Access Management (IAM) API (iam/v1)
 // Description:
 //   Manages identity and access control for Google Cloud Platform resources,
 //   including the creation of service accounts, which you can use to
@@ -14,6 +14,12 @@
 
 // ----------------------------------------------------------------------------
 // Constants
+
+// GTLRIam_AuditLogConfig.logType
+NSString * const kGTLRIam_AuditLogConfig_LogType_AdminRead     = @"ADMIN_READ";
+NSString * const kGTLRIam_AuditLogConfig_LogType_DataRead      = @"DATA_READ";
+NSString * const kGTLRIam_AuditLogConfig_LogType_DataWrite     = @"DATA_WRITE";
+NSString * const kGTLRIam_AuditLogConfig_LogType_LogTypeUnspecified = @"LOG_TYPE_UNSPECIFIED";
 
 // GTLRIam_BindingDelta.action
 NSString * const kGTLRIam_BindingDelta_Action_ActionUnspecified = @"ACTION_UNSPECIFIED";
@@ -29,6 +35,20 @@ NSString * const kGTLRIam_CreateServiceAccountKeyRequest_KeyAlgorithm_KeyAlgUnsp
 NSString * const kGTLRIam_CreateServiceAccountKeyRequest_PrivateKeyType_TypeGoogleCredentialsFile = @"TYPE_GOOGLE_CREDENTIALS_FILE";
 NSString * const kGTLRIam_CreateServiceAccountKeyRequest_PrivateKeyType_TypePkcs12File = @"TYPE_PKCS12_FILE";
 NSString * const kGTLRIam_CreateServiceAccountKeyRequest_PrivateKeyType_TypeUnspecified = @"TYPE_UNSPECIFIED";
+
+// GTLRIam_LintResult.level
+NSString * const kGTLRIam_LintResult_Level_Binding          = @"BINDING";
+NSString * const kGTLRIam_LintResult_Level_Condition        = @"CONDITION";
+NSString * const kGTLRIam_LintResult_Level_LevelUnspecified = @"LEVEL_UNSPECIFIED";
+NSString * const kGTLRIam_LintResult_Level_Policy           = @"POLICY";
+
+// GTLRIam_LintResult.severity
+NSString * const kGTLRIam_LintResult_Severity_Deprecated       = @"DEPRECATED";
+NSString * const kGTLRIam_LintResult_Severity_Error            = @"ERROR";
+NSString * const kGTLRIam_LintResult_Severity_Info             = @"INFO";
+NSString * const kGTLRIam_LintResult_Severity_Notice           = @"NOTICE";
+NSString * const kGTLRIam_LintResult_Severity_SeverityUnspecified = @"SEVERITY_UNSPECIFIED";
+NSString * const kGTLRIam_LintResult_Severity_Warning          = @"WARNING";
 
 // GTLRIam_Permission.customRolesSupportLevel
 NSString * const kGTLRIam_Permission_CustomRolesSupportLevel_NotSupported = @"NOT_SUPPORTED";
@@ -65,6 +85,34 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRIam_AuditableService
+//
+
+@implementation GTLRIam_AuditableService
+@dynamic name;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_AuditConfig
+//
+
+@implementation GTLRIam_AuditConfig
+@dynamic auditLogConfigs, service;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"auditLogConfigs" : [GTLRIam_AuditLogConfig class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRIam_AuditData
 //
 
@@ -75,11 +123,29 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRIam_AuditLogConfig
+//
+
+@implementation GTLRIam_AuditLogConfig
+@dynamic exemptedMembers, logType;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"exemptedMembers" : [NSString class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRIam_Binding
 //
 
 @implementation GTLRIam_Binding
-@dynamic members, role;
+@dynamic condition, members, role;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -157,6 +223,59 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRIam_LintPolicyRequest
+//
+
+@implementation GTLRIam_LintPolicyRequest
+@dynamic binding, condition, context, fullResourceName, policy;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_LintPolicyRequest_Context
+//
+
+@implementation GTLRIam_LintPolicyRequest_Context
+
++ (Class)classForAdditionalProperties {
+  return [NSObject class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_LintPolicyResponse
+//
+
+@implementation GTLRIam_LintPolicyResponse
+@dynamic lintResults;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"lintResults" : [GTLRIam_LintResult class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_LintResult
+//
+
+@implementation GTLRIam_LintResult
+@dynamic bindingOrdinal, debugMessage, fieldName, level, locationOffset,
+         severity, validationUnitName;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRIam_ListRolesResponse
 //
 
@@ -223,7 +342,7 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 //
 
 @implementation GTLRIam_Permission
-@dynamic customRolesSupportLevel, descriptionProperty, name,
+@dynamic apiDisabled, customRolesSupportLevel, descriptionProperty, name,
          onlyInPredefinedRoles, stage, title;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
@@ -239,7 +358,7 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 //
 
 @implementation GTLRIam_Policy
-@dynamic bindings, ETag, version;
+@dynamic auditConfigs, bindings, ETag, version;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"ETag" : @"etag" };
@@ -247,6 +366,7 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"auditConfigs" : [GTLRIam_AuditConfig class],
     @"bindings" : [GTLRIam_Binding class]
   };
   return map;
@@ -266,6 +386,34 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"bindingDeltas" : [GTLRIam_BindingDelta class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_QueryAuditableServicesRequest
+//
+
+@implementation GTLRIam_QueryAuditableServicesRequest
+@dynamic fullResourceName;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRIam_QueryAuditableServicesResponse
+//
+
+@implementation GTLRIam_QueryAuditableServicesResponse
+@dynamic services;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"services" : [GTLRIam_AuditableService class]
   };
   return map;
 }
@@ -396,7 +544,7 @@ NSString * const kGTLRIam_ServiceAccountKey_PrivateKeyType_TypeUnspecified = @"T
 //
 
 @implementation GTLRIam_SetIamPolicyRequest
-@dynamic policy;
+@dynamic policy, updateMask;
 @end
 
 

@@ -106,6 +106,37 @@ NSString * const kGTLRAndroidEnterpriseRequestModeWaitForNotifications = @"waitF
 
 @end
 
+@implementation GTLRAndroidEnterpriseQuery_DevicesPatch
+
+@dynamic deviceId, enterpriseId, updateMask, userId;
+
++ (instancetype)queryWithObject:(GTLRAndroidEnterprise_Device *)object
+                   enterpriseId:(NSString *)enterpriseId
+                         userId:(NSString *)userId
+                       deviceId:(NSString *)deviceId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[
+    @"deviceId", @"enterpriseId", @"userId"
+  ];
+  NSString *pathURITemplate = @"enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}";
+  GTLRAndroidEnterpriseQuery_DevicesPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.enterpriseId = enterpriseId;
+  query.userId = userId;
+  query.deviceId = deviceId;
+  query.expectedObjectClass = [GTLRAndroidEnterprise_Device class];
+  query.loggingName = @"androidenterprise.devices.patch";
+  return query;
+}
+
+@end
+
 @implementation GTLRAndroidEnterpriseQuery_DevicesSetState
 
 @dynamic deviceId, enterpriseId, userId;
@@ -132,6 +163,37 @@ NSString * const kGTLRAndroidEnterpriseRequestModeWaitForNotifications = @"waitF
   query.deviceId = deviceId;
   query.expectedObjectClass = [GTLRAndroidEnterprise_DeviceState class];
   query.loggingName = @"androidenterprise.devices.setState";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidEnterpriseQuery_DevicesUpdate
+
+@dynamic deviceId, enterpriseId, updateMask, userId;
+
++ (instancetype)queryWithObject:(GTLRAndroidEnterprise_Device *)object
+                   enterpriseId:(NSString *)enterpriseId
+                         userId:(NSString *)userId
+                       deviceId:(NSString *)deviceId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[
+    @"deviceId", @"enterpriseId", @"userId"
+  ];
+  NSString *pathURITemplate = @"enterprises/{enterpriseId}/users/{userId}/devices/{deviceId}";
+  GTLRAndroidEnterpriseQuery_DevicesUpdate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PUT"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.enterpriseId = enterpriseId;
+  query.userId = userId;
+  query.deviceId = deviceId;
+  query.expectedObjectClass = [GTLRAndroidEnterprise_Device class];
+  query.loggingName = @"androidenterprise.devices.update";
   return query;
 }
 
@@ -190,24 +252,6 @@ NSString * const kGTLRAndroidEnterpriseRequestModeWaitForNotifications = @"waitF
   query.enterpriseId = enterpriseId;
   query.expectedObjectClass = [GTLRAndroidEnterprise_AdministratorWebToken class];
   query.loggingName = @"androidenterprise.enterprises.createWebToken";
-  return query;
-}
-
-@end
-
-@implementation GTLRAndroidEnterpriseQuery_EnterprisesDelete
-
-@dynamic enterpriseId;
-
-+ (instancetype)queryWithEnterpriseId:(NSString *)enterpriseId {
-  NSArray *pathParams = @[ @"enterpriseId" ];
-  NSString *pathURITemplate = @"enterprises/{enterpriseId}";
-  GTLRAndroidEnterpriseQuery_EnterprisesDelete *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"DELETE"
-                       pathParameterNames:pathParams];
-  query.enterpriseId = enterpriseId;
-  query.loggingName = @"androidenterprise.enterprises.delete";
   return query;
 }
 
@@ -325,30 +369,6 @@ NSString * const kGTLRAndroidEnterpriseRequestModeWaitForNotifications = @"waitF
   query.enterpriseId = enterpriseId;
   query.expectedObjectClass = [GTLRAndroidEnterprise_StoreLayout class];
   query.loggingName = @"androidenterprise.enterprises.getStoreLayout";
-  return query;
-}
-
-@end
-
-@implementation GTLRAndroidEnterpriseQuery_EnterprisesInsert
-
-@dynamic token;
-
-+ (instancetype)queryWithObject:(GTLRAndroidEnterprise_Enterprise *)object
-                          token:(NSString *)token {
-  if (object == nil) {
-    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
-    return nil;
-  }
-  NSString *pathURITemplate = @"enterprises";
-  GTLRAndroidEnterpriseQuery_EnterprisesInsert *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"POST"
-                       pathParameterNames:nil];
-  query.bodyObject = object;
-  query.token = token;
-  query.expectedObjectClass = [GTLRAndroidEnterprise_Enterprise class];
-  query.loggingName = @"androidenterprise.enterprises.insert";
   return query;
 }
 
@@ -1122,6 +1142,29 @@ managedConfigurationForDeviceId:(NSString *)managedConfigurationForDeviceId {
 
 @end
 
+@implementation GTLRAndroidEnterpriseQuery_ManagedconfigurationssettingsList
+
+@dynamic enterpriseId, productId;
+
++ (instancetype)queryWithEnterpriseId:(NSString *)enterpriseId
+                            productId:(NSString *)productId {
+  NSArray *pathParams = @[
+    @"enterpriseId", @"productId"
+  ];
+  NSString *pathURITemplate = @"enterprises/{enterpriseId}/products/{productId}/managedConfigurationsSettings";
+  GTLRAndroidEnterpriseQuery_ManagedconfigurationssettingsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.enterpriseId = enterpriseId;
+  query.productId = productId;
+  query.expectedObjectClass = [GTLRAndroidEnterprise_ManagedConfigurationsSettingsListResponse class];
+  query.loggingName = @"androidenterprise.managedconfigurationssettings.list";
+  return query;
+}
+
+@end
+
 @implementation GTLRAndroidEnterpriseQuery_PermissionsGet
 
 @dynamic language, permissionId;
@@ -1862,6 +1905,28 @@ managedConfigurationForDeviceId:(NSString *)managedConfigurationForDeviceId {
   query.userId = userId;
   query.expectedObjectClass = [GTLRAndroidEnterprise_User class];
   query.loggingName = @"androidenterprise.users.patch";
+  return query;
+}
+
+@end
+
+@implementation GTLRAndroidEnterpriseQuery_UsersRevokeDeviceAccess
+
+@dynamic enterpriseId, userId;
+
++ (instancetype)queryWithEnterpriseId:(NSString *)enterpriseId
+                               userId:(NSString *)userId {
+  NSArray *pathParams = @[
+    @"enterpriseId", @"userId"
+  ];
+  NSString *pathURITemplate = @"enterprises/{enterpriseId}/users/{userId}/deviceAccess";
+  GTLRAndroidEnterpriseQuery_UsersRevokeDeviceAccess *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"DELETE"
+                       pathParameterNames:pathParams];
+  query.enterpriseId = enterpriseId;
+  query.userId = userId;
+  query.loggingName = @"androidenterprise.users.revokeDeviceAccess";
   return query;
 }
 

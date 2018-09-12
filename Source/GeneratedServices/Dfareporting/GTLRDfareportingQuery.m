@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   DCM/DFA Reporting And Trafficking API (dfareporting/v2.8)
+//   DCM/DFA Reporting And Trafficking API (dfareporting/v3.2)
 // Description:
 //   Manages your DoubleClick Campaign Manager ad campaigns and reports.
 // Documentation:
@@ -39,6 +39,7 @@ NSString * const kGTLRDfareportingCompatibilitiesApp           = @"APP";
 NSString * const kGTLRDfareportingCompatibilitiesAppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareportingCompatibilitiesDisplay       = @"DISPLAY";
 NSString * const kGTLRDfareportingCompatibilitiesDisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareportingCompatibilitiesInStreamAudio = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareportingCompatibilitiesInStreamVideo = @"IN_STREAM_VIDEO";
 
 // compatibility
@@ -46,7 +47,13 @@ NSString * const kGTLRDfareportingCompatibilityApp             = @"APP";
 NSString * const kGTLRDfareportingCompatibilityAppInterstitial = @"APP_INTERSTITIAL";
 NSString * const kGTLRDfareportingCompatibilityDisplay         = @"DISPLAY";
 NSString * const kGTLRDfareportingCompatibilityDisplayInterstitial = @"DISPLAY_INTERSTITIAL";
+NSString * const kGTLRDfareportingCompatibilityInStreamAudio   = @"IN_STREAM_AUDIO";
 NSString * const kGTLRDfareportingCompatibilityInStreamVideo   = @"IN_STREAM_VIDEO";
+
+// directories
+NSString * const kGTLRDfareportingDirectoriesAppleAppStore   = @"APPLE_APP_STORE";
+NSString * const kGTLRDfareportingDirectoriesGooglePlayStore = @"GOOGLE_PLAY_STORE";
+NSString * const kGTLRDfareportingDirectoriesUnknown         = @"UNKNOWN";
 
 // eventTagTypes
 NSString * const kGTLRDfareportingEventTagTypesClickThroughEventTag = @"CLICK_THROUGH_EVENT_TAG";
@@ -174,6 +181,7 @@ NSString * const kGTLRDfareportingTypesDisplayRedirect         = @"DISPLAY_REDIR
 NSString * const kGTLRDfareportingTypesFlashInpage             = @"FLASH_INPAGE";
 NSString * const kGTLRDfareportingTypesHtml5Banner             = @"HTML5_BANNER";
 NSString * const kGTLRDfareportingTypesImage                   = @"IMAGE";
+NSString * const kGTLRDfareportingTypesInstreamAudio           = @"INSTREAM_AUDIO";
 NSString * const kGTLRDfareportingTypesInstreamVideo           = @"INSTREAM_VIDEO";
 NSString * const kGTLRDfareportingTypesInstreamVideoRedirect   = @"INSTREAM_VIDEO_REDIRECT";
 NSString * const kGTLRDfareportingTypesInternalRedirect        = @"INTERNAL_REDIRECT";
@@ -869,6 +877,142 @@ NSString * const kGTLRDfareportingTypesVpaidNonLinearVideo     = @"VPAID_NON_LIN
 
 @end
 
+@implementation GTLRDfareportingQuery_AdvertiserLandingPagesGet
+
+@dynamic identifier, profileId;
+
++ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
+  return @{ @"identifier" : @"id" };
+}
+
++ (instancetype)queryWithProfileId:(long long)profileId
+                        identifier:(long long)identifier {
+  NSArray *pathParams = @[
+    @"id", @"profileId"
+  ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/advertiserLandingPages/{id}";
+  GTLRDfareportingQuery_AdvertiserLandingPagesGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.profileId = profileId;
+  query.identifier = identifier;
+  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
+  query.loggingName = @"dfareporting.advertiserLandingPages.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_AdvertiserLandingPagesInsert
+
+@dynamic profileId;
+
++ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
+                      profileId:(long long)profileId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"profileId" ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/advertiserLandingPages";
+  GTLRDfareportingQuery_AdvertiserLandingPagesInsert *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"POST"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.profileId = profileId;
+  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
+  query.loggingName = @"dfareporting.advertiserLandingPages.insert";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_AdvertiserLandingPagesList
+
+@dynamic advertiserIds, archived, ids, maxResults, pageToken, profileId,
+         searchString, sortField, sortOrder, subaccountId;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"advertiserIds" : [NSNumber class],
+    @"ids" : [NSNumber class]
+  };
+  return map;
+}
+
++ (instancetype)queryWithProfileId:(long long)profileId {
+  NSArray *pathParams = @[ @"profileId" ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/advertiserLandingPages";
+  GTLRDfareportingQuery_AdvertiserLandingPagesList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.profileId = profileId;
+  query.expectedObjectClass = [GTLRDfareporting_AdvertiserLandingPagesListResponse class];
+  query.loggingName = @"dfareporting.advertiserLandingPages.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_AdvertiserLandingPagesPatch
+
+@dynamic identifier, profileId;
+
++ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
+  return @{ @"identifier" : @"id" };
+}
+
++ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
+                      profileId:(long long)profileId
+                     identifier:(long long)identifier {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"profileId" ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/advertiserLandingPages";
+  GTLRDfareportingQuery_AdvertiserLandingPagesPatch *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PATCH"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.profileId = profileId;
+  query.identifier = identifier;
+  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
+  query.loggingName = @"dfareporting.advertiserLandingPages.patch";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_AdvertiserLandingPagesUpdate
+
+@dynamic profileId;
+
++ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
+                      profileId:(long long)profileId {
+  if (object == nil) {
+    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
+    return nil;
+  }
+  NSArray *pathParams = @[ @"profileId" ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/advertiserLandingPages";
+  GTLRDfareportingQuery_AdvertiserLandingPagesUpdate *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:@"PUT"
+                       pathParameterNames:pathParams];
+  query.bodyObject = object;
+  query.profileId = profileId;
+  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
+  query.loggingName = @"dfareporting.advertiserLandingPages.update";
+  return query;
+}
+
+@end
+
 @implementation GTLRDfareportingQuery_AdvertisersGet
 
 @dynamic identifier, profileId;
@@ -1107,12 +1251,10 @@ NSString * const kGTLRDfareportingTypesVpaidNonLinearVideo     = @"VPAID_NON_LIN
 
 @implementation GTLRDfareportingQuery_CampaignsInsert
 
-@dynamic defaultLandingPageName, defaultLandingPageUrl, profileId;
+@dynamic profileId;
 
 + (instancetype)queryWithObject:(GTLRDfareporting_Campaign *)object
-                      profileId:(long long)profileId
-         defaultLandingPageName:(NSString *)defaultLandingPageName
-          defaultLandingPageUrl:(NSString *)defaultLandingPageUrl {
+                      profileId:(long long)profileId {
   if (object == nil) {
     GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
     return nil;
@@ -1125,8 +1267,6 @@ NSString * const kGTLRDfareportingTypesVpaidNonLinearVideo     = @"VPAID_NON_LIN
                        pathParameterNames:pathParams];
   query.bodyObject = object;
   query.profileId = profileId;
-  query.defaultLandingPageName = defaultLandingPageName;
-  query.defaultLandingPageUrl = defaultLandingPageUrl;
   query.expectedObjectClass = [GTLRDfareporting_Campaign class];
   query.loggingName = @"dfareporting.campaigns.insert";
   return query;
@@ -3197,179 +3337,6 @@ NSString * const kGTLRDfareportingTypesVpaidNonLinearVideo     = @"VPAID_NON_LIN
 
 @end
 
-@implementation GTLRDfareportingQuery_LandingPagesDelete
-
-@dynamic campaignId, identifier, profileId;
-
-+ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
-  return @{ @"identifier" : @"id" };
-}
-
-+ (instancetype)queryWithProfileId:(long long)profileId
-                        campaignId:(long long)campaignId
-                        identifier:(long long)identifier {
-  NSArray *pathParams = @[
-    @"campaignId", @"id", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages/{id}";
-  GTLRDfareportingQuery_LandingPagesDelete *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"DELETE"
-                       pathParameterNames:pathParams];
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.identifier = identifier;
-  query.loggingName = @"dfareporting.landingPages.delete";
-  return query;
-}
-
-@end
-
-@implementation GTLRDfareportingQuery_LandingPagesGet
-
-@dynamic campaignId, identifier, profileId;
-
-+ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
-  return @{ @"identifier" : @"id" };
-}
-
-+ (instancetype)queryWithProfileId:(long long)profileId
-                        campaignId:(long long)campaignId
-                        identifier:(long long)identifier {
-  NSArray *pathParams = @[
-    @"campaignId", @"id", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages/{id}";
-  GTLRDfareportingQuery_LandingPagesGet *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:nil
-                       pathParameterNames:pathParams];
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.identifier = identifier;
-  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
-  query.loggingName = @"dfareporting.landingPages.get";
-  return query;
-}
-
-@end
-
-@implementation GTLRDfareportingQuery_LandingPagesInsert
-
-@dynamic campaignId, profileId;
-
-+ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
-                      profileId:(long long)profileId
-                     campaignId:(long long)campaignId {
-  if (object == nil) {
-    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
-    return nil;
-  }
-  NSArray *pathParams = @[
-    @"campaignId", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages";
-  GTLRDfareportingQuery_LandingPagesInsert *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"POST"
-                       pathParameterNames:pathParams];
-  query.bodyObject = object;
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
-  query.loggingName = @"dfareporting.landingPages.insert";
-  return query;
-}
-
-@end
-
-@implementation GTLRDfareportingQuery_LandingPagesList
-
-@dynamic campaignId, profileId;
-
-+ (instancetype)queryWithProfileId:(long long)profileId
-                        campaignId:(long long)campaignId {
-  NSArray *pathParams = @[
-    @"campaignId", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages";
-  GTLRDfareportingQuery_LandingPagesList *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:nil
-                       pathParameterNames:pathParams];
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.expectedObjectClass = [GTLRDfareporting_LandingPagesListResponse class];
-  query.loggingName = @"dfareporting.landingPages.list";
-  return query;
-}
-
-@end
-
-@implementation GTLRDfareportingQuery_LandingPagesPatch
-
-@dynamic campaignId, identifier, profileId;
-
-+ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
-  return @{ @"identifier" : @"id" };
-}
-
-+ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
-                      profileId:(long long)profileId
-                     campaignId:(long long)campaignId
-                     identifier:(long long)identifier {
-  if (object == nil) {
-    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
-    return nil;
-  }
-  NSArray *pathParams = @[
-    @"campaignId", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages";
-  GTLRDfareportingQuery_LandingPagesPatch *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"PATCH"
-                       pathParameterNames:pathParams];
-  query.bodyObject = object;
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.identifier = identifier;
-  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
-  query.loggingName = @"dfareporting.landingPages.patch";
-  return query;
-}
-
-@end
-
-@implementation GTLRDfareportingQuery_LandingPagesUpdate
-
-@dynamic campaignId, profileId;
-
-+ (instancetype)queryWithObject:(GTLRDfareporting_LandingPage *)object
-                      profileId:(long long)profileId
-                     campaignId:(long long)campaignId {
-  if (object == nil) {
-    GTLR_DEBUG_ASSERT(object != nil, @"Got a nil object");
-    return nil;
-  }
-  NSArray *pathParams = @[
-    @"campaignId", @"profileId"
-  ];
-  NSString *pathURITemplate = @"userprofiles/{profileId}/campaigns/{campaignId}/landingPages";
-  GTLRDfareportingQuery_LandingPagesUpdate *query =
-    [[self alloc] initWithPathURITemplate:pathURITemplate
-                               HTTPMethod:@"PUT"
-                       pathParameterNames:pathParams];
-  query.bodyObject = object;
-  query.profileId = profileId;
-  query.campaignId = campaignId;
-  query.expectedObjectClass = [GTLRDfareporting_LandingPage class];
-  query.loggingName = @"dfareporting.landingPages.update";
-  return query;
-}
-
-@end
-
 @implementation GTLRDfareportingQuery_LanguagesList
 
 @dynamic profileId;
@@ -3403,6 +3370,60 @@ NSString * const kGTLRDfareportingTypesVpaidNonLinearVideo     = @"VPAID_NON_LIN
   query.profileId = profileId;
   query.expectedObjectClass = [GTLRDfareporting_MetrosListResponse class];
   query.loggingName = @"dfareporting.metros.list";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_MobileAppsGet
+
+@dynamic identifier, profileId;
+
++ (NSDictionary<NSString *, NSString *> *)parameterNameMap {
+  return @{ @"identifier" : @"id" };
+}
+
++ (instancetype)queryWithProfileId:(long long)profileId
+                        identifier:(NSString *)identifier {
+  NSArray *pathParams = @[
+    @"id", @"profileId"
+  ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/mobileApps/{id}";
+  GTLRDfareportingQuery_MobileAppsGet *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.profileId = profileId;
+  query.identifier = identifier;
+  query.expectedObjectClass = [GTLRDfareporting_MobileApp class];
+  query.loggingName = @"dfareporting.mobileApps.get";
+  return query;
+}
+
+@end
+
+@implementation GTLRDfareportingQuery_MobileAppsList
+
+@dynamic directories, ids, maxResults, pageToken, profileId, searchString;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"directories" : [NSString class],
+    @"ids" : [NSString class]
+  };
+  return map;
+}
+
++ (instancetype)queryWithProfileId:(long long)profileId {
+  NSArray *pathParams = @[ @"profileId" ];
+  NSString *pathURITemplate = @"userprofiles/{profileId}/mobileApps";
+  GTLRDfareportingQuery_MobileAppsList *query =
+    [[self alloc] initWithPathURITemplate:pathURITemplate
+                               HTTPMethod:nil
+                       pathParameterNames:pathParams];
+  query.profileId = profileId;
+  query.expectedObjectClass = [GTLRDfareporting_MobileAppsListResponse class];
+  query.loggingName = @"dfareporting.mobileApps.list";
   return query;
 }
 

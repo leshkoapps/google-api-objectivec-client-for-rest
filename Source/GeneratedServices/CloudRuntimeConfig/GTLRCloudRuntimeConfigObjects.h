@@ -2,7 +2,7 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Runtime Configuration API (runtimeconfig/v1)
+//   Cloud Runtime Configuration API (runtimeconfig/v1)
 // Description:
 //   The Runtime Configurator allows you to dynamically configure and expose
 //   variables through Google Cloud Platform. In addition, you can also set
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  If the value is `false`, it means the operation is still in progress.
- *  If true, the operation is completed, and either `error` or `response` is
+ *  If `true`, the operation is completed, and either `error` or `response` is
  *  available.
  *
  *  Uses NSNumber of boolValue.

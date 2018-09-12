@@ -123,7 +123,7 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
  *  @param object The @c GTLRCivicInfo_DivisionSearchRequest to include in the
  *    query.
  *
- *  @returns GTLRCivicInfoQuery_DivisionsSearch
+ *  @return GTLRCivicInfoQuery_DivisionsSearch
  */
 + (instancetype)queryWithObject:(GTLRCivicInfo_DivisionSearchRequest *)object;
 
@@ -146,7 +146,7 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
  *  @param object The @c GTLRCivicInfo_ElectionsQueryRequest to include in the
  *    query.
  *
- *  @returns GTLRCivicInfoQuery_ElectionsElectionQuery
+ *  @return GTLRCivicInfoQuery_ElectionsElectionQuery
  */
 + (instancetype)queryWithObject:(GTLRCivicInfo_ElectionsQueryRequest *)object;
 
@@ -167,7 +167,10 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
 
 /**
  *  The unique ID of the election to look up. A list of election IDs can be
- *  obtained at https://www.googleapis.com/civicinfo/{version}/elections
+ *  obtained at https://www.googleapis.com/civicinfo/{version}/electionsIf no
+ *  election ID is specified in the query and there is more than one election
+ *  with data for the given voter, the additional elections are provided in the
+ *  otherElections response field.
  *
  *  @note If not set, the documented server-side default will be 0.
  */
@@ -198,7 +201,7 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
  *  @param object The @c GTLRCivicInfo_VoterInfoRequest to include in the query.
  *  @param address The registered address of the voter to look up.
  *
- *  @returns GTLRCivicInfoQuery_ElectionsVoterInfoQuery
+ *  @return GTLRCivicInfoQuery_ElectionsVoterInfoQuery
  */
 + (instancetype)queryWithObject:(GTLRCivicInfo_VoterInfoRequest *)object
                         address:(NSString *)address;
@@ -280,7 +283,7 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
  *  @param object The @c GTLRCivicInfo_RepresentativeInfoRequest to include in
  *    the query.
  *
- *  @returns GTLRCivicInfoQuery_RepresentativesRepresentativeInfoByAddress
+ *  @return GTLRCivicInfoQuery_RepresentativesRepresentativeInfoByAddress
  */
 + (instancetype)queryWithObject:(GTLRCivicInfo_RepresentativeInfoRequest *)object;
 
@@ -358,7 +361,7 @@ GTLR_EXTERN NSString * const kGTLRCivicInfoRolesSpecialPurposeOfficer;
  *  @param ocdId The Open Civic Data division identifier of the division to look
  *    up.
  *
- *  @returns GTLRCivicInfoQuery_RepresentativesRepresentativeInfoByDivision
+ *  @return GTLRCivicInfoQuery_RepresentativesRepresentativeInfoByDivision
  */
 + (instancetype)queryWithObject:(GTLRCivicInfo_DivisionRepresentativeInfoRequest *)object
                           ocdId:(NSString *)ocdId;

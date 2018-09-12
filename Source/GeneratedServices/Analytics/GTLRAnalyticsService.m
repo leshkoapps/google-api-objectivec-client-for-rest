@@ -19,6 +19,7 @@ NSString * const kGTLRAuthScopeAnalyticsManageUsers         = @"https://www.goog
 NSString * const kGTLRAuthScopeAnalyticsManageUsersReadonly = @"https://www.googleapis.com/auth/analytics.manage.users.readonly";
 NSString * const kGTLRAuthScopeAnalyticsProvision           = @"https://www.googleapis.com/auth/analytics.provision";
 NSString * const kGTLRAuthScopeAnalyticsReadonly            = @"https://www.googleapis.com/auth/analytics.readonly";
+NSString * const kGTLRAuthScopeAnalyticsUserDeletion        = @"https://www.googleapis.com/auth/analytics.user.deletion";
 
 // ----------------------------------------------------------------------------
 //   GTLRAnalyticsService
@@ -34,7 +35,7 @@ NSString * const kGTLRAuthScopeAnalyticsReadonly            = @"https://www.goog
     self.servicePath = @"analytics/v3/";
     self.resumableUploadPath = @"resumable/upload/";
     self.simpleUploadPath = @"upload/";
-    self.batchPath = @"batch";
+    self.batchPath = @"batch/analytics/v3";
     self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
@@ -48,6 +49,8 @@ NSString * const kGTLRAuthScopeAnalyticsReadonly            = @"https://www.goog
     @"analytics#accountSummaries" : [GTLRAnalytics_AccountSummaries class],
     @"analytics#accountSummary" : [GTLRAnalytics_AccountSummary class],
     @"analytics#accountTicket" : [GTLRAnalytics_AccountTicket class],
+    @"analytics#accountTreeRequest" : [GTLRAnalytics_AccountTreeRequest class],
+    @"analytics#accountTreeResponse" : [GTLRAnalytics_AccountTreeResponse class],
     @"analytics#adWordsAccount" : [GTLRAnalytics_AdWordsAccount class],
     @"analytics#column" : [GTLRAnalytics_Column class],
     @"analytics#columns" : [GTLRAnalytics_Columns class],
@@ -70,6 +73,8 @@ NSString * const kGTLRAuthScopeAnalyticsReadonly            = @"https://www.goog
     @"analytics#gaData" : [GTLRAnalytics_GaData class],
     @"analytics#goal" : [GTLRAnalytics_Goal class],
     @"analytics#goals" : [GTLRAnalytics_Goals class],
+    @"analytics#hashClientIdRequest" : [GTLRAnalytics_HashClientIdRequest class],
+    @"analytics#hashClientIdResponse" : [GTLRAnalytics_HashClientIdResponse class],
     @"analytics#includeConditions" : [GTLRAnalytics_IncludeConditions class],
     @"analytics#linkedForeignAccount" : [GTLRAnalytics_LinkedForeignAccount class],
     @"analytics#mcfData" : [GTLRAnalytics_McfData class],
@@ -88,6 +93,7 @@ NSString * const kGTLRAuthScopeAnalyticsReadonly            = @"https://www.goog
     @"analytics#unsampledReports" : [GTLRAnalytics_UnsampledReports class],
     @"analytics#upload" : [GTLRAnalytics_Upload class],
     @"analytics#uploads" : [GTLRAnalytics_Uploads class],
+    @"analytics#userDeletionRequest" : [GTLRAnalytics_UserDeletionRequest class],
     @"analytics#userRef" : [GTLRAnalytics_UserRef class],
     @"analytics#webproperties" : [GTLRAnalytics_Webproperties class],
     @"analytics#webproperty" : [GTLRAnalytics_Webproperty class],

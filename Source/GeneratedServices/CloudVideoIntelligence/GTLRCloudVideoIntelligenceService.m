@@ -2,9 +2,9 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud Video Intelligence API (videointelligence/v1beta1)
+//   Cloud Video Intelligence API (videointelligence/v1)
 // Description:
-//   Google Cloud Video Intelligence API.
+//   Cloud Video Intelligence API.
 // Documentation:
 //   https://cloud.google.com/video-intelligence/docs/
 
@@ -27,7 +27,7 @@ NSString * const kGTLRAuthScopeCloudVideoIntelligenceCloudPlatform = @"https://w
     // From discovery.
     self.rootURLString = @"https://videointelligence.googleapis.com/";
     self.batchPath = @"batch";
-    self.prettyPrintQueryParameterNames = @[ @"prettyPrint", @"pp" ];
+    self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
 }

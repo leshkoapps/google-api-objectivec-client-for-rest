@@ -30,7 +30,7 @@ NSString * const kGTLRAuthScopeDnsNdevClouddnsReadwrite = @"https://www.googleap
     // From discovery.
     self.rootURLString = @"https://www.googleapis.com/";
     self.servicePath = @"dns/v1/projects/";
-    self.batchPath = @"batch";
+    self.batchPath = @"batch/dns/v1";
     self.prettyPrintQueryParameterNames = @[ @"prettyPrint" ];
   }
   return self;
@@ -40,8 +40,14 @@ NSString * const kGTLRAuthScopeDnsNdevClouddnsReadwrite = @"https://www.googleap
   return @{
     @"dns#change" : [GTLRDns_Change class],
     @"dns#changesListResponse" : [GTLRDns_ChangesListResponse class],
+    @"dns#dnsKey" : [GTLRDns_DnsKey class],
+    @"dns#dnsKeysListResponse" : [GTLRDns_DnsKeysListResponse class],
+    @"dns#dnsKeySpec" : [GTLRDns_DnsKeySpec class],
     @"dns#managedZone" : [GTLRDns_ManagedZone class],
+    @"dns#managedZoneDnsSecConfig" : [GTLRDns_ManagedZoneDnsSecConfig class],
+    @"dns#managedZoneOperationsListResponse" : [GTLRDns_ManagedZoneOperationsListResponse class],
     @"dns#managedZonesListResponse" : [GTLRDns_ManagedZonesListResponse class],
+    @"dns#operation" : [GTLRDns_Operation class],
     @"dns#project" : [GTLRDns_Project class],
     @"dns#quota" : [GTLRDns_Quota class],
     @"dns#resourceRecordSet" : [GTLRDns_ResourceRecordSet class],

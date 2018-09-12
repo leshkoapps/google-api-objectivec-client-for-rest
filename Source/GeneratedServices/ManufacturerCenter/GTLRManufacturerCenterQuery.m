@@ -12,6 +12,19 @@
 
 #import "GTLRManufacturerCenterObjects.h"
 
+// ----------------------------------------------------------------------------
+// Constants
+
+// include
+NSString * const kGTLRManufacturerCenterIncludeAttributes      = @"ATTRIBUTES";
+NSString * const kGTLRManufacturerCenterIncludeDestinationStatuses = @"DESTINATION_STATUSES";
+NSString * const kGTLRManufacturerCenterIncludeIssues          = @"ISSUES";
+NSString * const kGTLRManufacturerCenterIncludeUnknown         = @"UNKNOWN";
+
+// ----------------------------------------------------------------------------
+// Query Classes
+//
+
 @implementation GTLRManufacturerCenterQuery
 
 @dynamic fields;
@@ -43,7 +56,14 @@
 
 @implementation GTLRManufacturerCenterQuery_AccountsProductsGet
 
-@dynamic name, parent;
+@dynamic include, name, parent;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"include" : [NSString class]
+  };
+  return map;
+}
 
 + (instancetype)queryWithParent:(NSString *)parent
                            name:(NSString *)name {
@@ -66,7 +86,14 @@
 
 @implementation GTLRManufacturerCenterQuery_AccountsProductsList
 
-@dynamic pageSize, pageToken, parent;
+@dynamic include, pageSize, pageToken, parent;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"include" : [NSString class]
+  };
+  return map;
+}
 
 + (instancetype)queryWithParent:(NSString *)parent {
   NSArray *pathParams = @[ @"parent" ];
@@ -87,7 +114,7 @@
 
 @dynamic name, parent;
 
-+ (instancetype)queryWithObject:(GTLRManufacturerCenter_Product *)object
++ (instancetype)queryWithObject:(GTLRManufacturerCenter_Attributes *)object
                          parent:(NSString *)parent
                            name:(NSString *)name {
   if (object == nil) {
@@ -105,7 +132,7 @@
   query.bodyObject = object;
   query.parent = parent;
   query.name = name;
-  query.expectedObjectClass = [GTLRManufacturerCenter_Product class];
+  query.expectedObjectClass = [GTLRManufacturerCenter_Empty class];
   query.loggingName = @"manufacturers.accounts.products.update";
   return query;
 }

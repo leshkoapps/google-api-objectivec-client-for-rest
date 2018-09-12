@@ -2,9 +2,9 @@
 
 // ----------------------------------------------------------------------------
 // API:
-//   Google Cloud OS Login API (oslogin/v1alpha)
+//   Cloud OS Login API (oslogin/v1)
 // Description:
-//   Manages OS login configuration for Directory API users.
+//   Manages OS login configuration for Google account users.
 // Documentation:
 //   https://cloud.google.com/compute/docs/oslogin/rest/
 
@@ -29,6 +29,32 @@
 #pragma clang diagnostic ignored "-Wdocumentation"
 
 NS_ASSUME_NONNULL_BEGIN
+
+// ----------------------------------------------------------------------------
+// Constants - For some of the classes' properties below.
+
+// ----------------------------------------------------------------------------
+// GTLRCloudOSLogin_PosixAccount.operatingSystemType
+
+/**
+ *  Linux user account information.
+ *
+ *  Value: "LINUX"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Linux;
+/**
+ *  The operating system type associated with the user account information is
+ *  unspecified.
+ *
+ *  Value: "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_OperatingSystemTypeUnspecified;
+/**
+ *  Windows user account information.
+ *
+ *  Value: "WINDOWS"
+ */
+GTLR_EXTERN NSString * const kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Windows;
 
 /**
  *  A generic empty message that you can re-use to avoid defining duplicated
@@ -55,26 +81,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  The Directory API profile information used for logging in to a virtual
- *  machine on Google Compute Engine.
+ *  The user profile information used for logging in to a virtual machine on
+ *  Google Compute Engine.
  */
 @interface GTLRCloudOSLogin_LoginProfile : GTLRObject
 
-/** A unique user ID for identifying the user. */
+/** A unique user ID. */
 @property(nonatomic, copy, nullable) NSString *name;
 
-/** The list of POSIX accounts associated with the Directory API user. */
+/** The list of POSIX accounts associated with the user. */
 @property(nonatomic, strong, nullable) NSArray<GTLRCloudOSLogin_PosixAccount *> *posixAccounts;
 
 /** A map from SSH public key fingerprint to the associated key object. */
 @property(nonatomic, strong, nullable) GTLRCloudOSLogin_LoginProfile_SshPublicKeys *sshPublicKeys;
-
-/**
- *  Indicates if the user is suspended.
- *
- *  Uses NSNumber of boolValue.
- */
-@property(nonatomic, strong, nullable) NSNumber *suspended;
 
 @end
 
@@ -92,9 +111,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  The POSIX account information associated with a Directory API User.
+ *  The POSIX account information associated with a Google account.
  */
 @interface GTLRCloudOSLogin_PosixAccount : GTLRObject
+
+/** Output only. A POSIX account identifier. */
+@property(nonatomic, copy, nullable) NSString *accountId;
 
 /** The GECOS (user information) entry for this account. */
 @property(nonatomic, copy, nullable) NSString *gecos;
@@ -102,12 +124,27 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The default group ID.
  *
- *  Uses NSNumber of unsignedIntValue.
+ *  Uses NSNumber of longLongValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *gid;
 
 /** The path to the home directory for this account. */
 @property(nonatomic, copy, nullable) NSString *homeDirectory;
+
+/**
+ *  The operating system type where this account applies.
+ *
+ *  Likely values:
+ *    @arg @c kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Linux Linux
+ *        user account information. (Value: "LINUX")
+ *    @arg @c kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_OperatingSystemTypeUnspecified
+ *        The operating system type associated with the user account information
+ *        is
+ *        unspecified. (Value: "OPERATING_SYSTEM_TYPE_UNSPECIFIED")
+ *    @arg @c kGTLRCloudOSLogin_PosixAccount_OperatingSystemType_Windows Windows
+ *        user account information. (Value: "WINDOWS")
+ */
+@property(nonatomic, copy, nullable) NSString *operatingSystemType;
 
 /**
  *  Only one POSIX account can be marked as primary.
@@ -128,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The user ID.
  *
- *  Uses NSNumber of unsignedIntValue.
+ *  Uses NSNumber of longLongValue.
  */
 @property(nonatomic, strong, nullable) NSNumber *uid;
 
@@ -139,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- *  The SSH public key information associated with a Directory API User.
+ *  The SSH public key information associated with a Google account.
  */
 @interface GTLRCloudOSLogin_SshPublicKey : GTLRObject
 
@@ -150,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, strong, nullable) NSNumber *expirationTimeUsec;
 
-/** [Output Only] The SHA-256 fingerprint of the SSH public key. */
+/** Output only. The SHA-256 fingerprint of the SSH public key. */
 @property(nonatomic, copy, nullable) NSString *fingerprint;
 
 /**

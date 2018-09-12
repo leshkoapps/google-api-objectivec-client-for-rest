@@ -13,10 +13,18 @@
 // ----------------------------------------------------------------------------
 // Constants
 
+// GTLRManufacturerCenter_DestinationStatus.status
+NSString * const kGTLRManufacturerCenter_DestinationStatus_Status_Active = @"ACTIVE";
+NSString * const kGTLRManufacturerCenter_DestinationStatus_Status_Disapproved = @"DISAPPROVED";
+NSString * const kGTLRManufacturerCenter_DestinationStatus_Status_Pending = @"PENDING";
+NSString * const kGTLRManufacturerCenter_DestinationStatus_Status_Unknown = @"UNKNOWN";
+
 // GTLRManufacturerCenter_Image.status
 NSString * const kGTLRManufacturerCenter_Image_Status_CrawlError = @"CRAWL_ERROR";
 NSString * const kGTLRManufacturerCenter_Image_Status_CrawlSkipped = @"CRAWL_SKIPPED";
 NSString * const kGTLRManufacturerCenter_Image_Status_DecodingError = @"DECODING_ERROR";
+NSString * const kGTLRManufacturerCenter_Image_Status_Hostloaded = @"HOSTLOADED";
+NSString * const kGTLRManufacturerCenter_Image_Status_Http404  = @"HTTP_404";
 NSString * const kGTLRManufacturerCenter_Image_Status_Ok       = @"OK";
 NSString * const kGTLRManufacturerCenter_Image_Status_PendingCrawl = @"PENDING_CRAWL";
 NSString * const kGTLRManufacturerCenter_Image_Status_PendingProcessing = @"PENDING_PROCESSING";
@@ -31,6 +39,11 @@ NSString * const kGTLRManufacturerCenter_Image_Type_Crawled    = @"CRAWLED";
 NSString * const kGTLRManufacturerCenter_Image_Type_TypeUnspecified = @"TYPE_UNSPECIFIED";
 NSString * const kGTLRManufacturerCenter_Image_Type_Uploaded   = @"UPLOADED";
 
+// GTLRManufacturerCenter_Issue.resolution
+NSString * const kGTLRManufacturerCenter_Issue_Resolution_PendingProcessing = @"PENDING_PROCESSING";
+NSString * const kGTLRManufacturerCenter_Issue_Resolution_ResolutionUnspecified = @"RESOLUTION_UNSPECIFIED";
+NSString * const kGTLRManufacturerCenter_Issue_Resolution_UserAction = @"USER_ACTION";
+
 // GTLRManufacturerCenter_Issue.severity
 NSString * const kGTLRManufacturerCenter_Issue_Severity_Error  = @"ERROR";
 NSString * const kGTLRManufacturerCenter_Issue_Severity_Info   = @"INFO";
@@ -44,11 +57,12 @@ NSString * const kGTLRManufacturerCenter_Issue_Severity_Warning = @"WARNING";
 
 @implementation GTLRManufacturerCenter_Attributes
 @dynamic additionalImageLink, ageGroup, brand, capacity, color, count,
-         descriptionProperty, disclosureDate, featureDescription, flavor,
-         format, gender, gtin, imageLink, itemGroupId, material, mpn, pattern,
+         descriptionProperty, disclosureDate, excludedDestination,
+         featureDescription, flavor, format, gender, gtin, imageLink,
+         includedDestination, itemGroupId, material, mpn, pattern,
          productDetail, productLine, productName, productPageUrl, productType,
          releaseDate, scent, size, sizeSystem, sizeType, suggestedRetailPrice,
-         targetAccountId, theme, title, videoLink;
+         targetClientId, theme, title, videoLink;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"descriptionProperty" : @"description" };
@@ -57,8 +71,10 @@ NSString * const kGTLRManufacturerCenter_Issue_Severity_Warning = @"WARNING";
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"additionalImageLink" : [GTLRManufacturerCenter_Image class],
+    @"excludedDestination" : [NSString class],
     @"featureDescription" : [GTLRManufacturerCenter_FeatureDescription class],
     @"gtin" : [NSString class],
+    @"includedDestination" : [NSString class],
     @"productDetail" : [GTLRManufacturerCenter_ProductDetail class],
     @"productType" : [NSString class],
     @"videoLink" : [NSString class]
@@ -86,6 +102,16 @@ NSString * const kGTLRManufacturerCenter_Issue_Severity_Warning = @"WARNING";
 
 @implementation GTLRManufacturerCenter_Count
 @dynamic unit, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRManufacturerCenter_DestinationStatus
+//
+
+@implementation GTLRManufacturerCenter_DestinationStatus
+@dynamic destination, status;
 @end
 
 
@@ -124,7 +150,8 @@ NSString * const kGTLRManufacturerCenter_Issue_Severity_Warning = @"WARNING";
 //
 
 @implementation GTLRManufacturerCenter_Issue
-@dynamic attribute, descriptionProperty, severity, timestamp, type;
+@dynamic attribute, descriptionProperty, destination, resolution, severity,
+         timestamp, title, type;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"descriptionProperty" : @"description" };
@@ -171,12 +198,13 @@ NSString * const kGTLRManufacturerCenter_Issue_Severity_Warning = @"WARNING";
 //
 
 @implementation GTLRManufacturerCenter_Product
-@dynamic contentLanguage, finalAttributes, issues, manuallyDeletedAttributes,
-         manuallyProvidedAttributes, name, parent, productId, targetCountry,
-         uploadedAttributes;
+@dynamic attributes, contentLanguage, destinationStatuses, finalAttributes,
+         issues, manuallyDeletedAttributes, manuallyProvidedAttributes, name,
+         parent, productId, targetCountry, uploadedAttributes;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"destinationStatuses" : [GTLRManufacturerCenter_DestinationStatus class],
     @"issues" : [GTLRManufacturerCenter_Issue class],
     @"manuallyDeletedAttributes" : [NSString class]
   };
